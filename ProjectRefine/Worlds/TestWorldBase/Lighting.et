@@ -1,0 +1,16 @@
+GenericWorldLightEntity {
+ ID "59D52BDE46CB6327"
+ coords 114.399 0 106.482
+ angleX -45
+ angleY -155
+ DirectLightLV 15
+ DirectLightColor 1 1 1 0
+ IndirectLightLV 14
+ IndirectLightColor 1 1 1 0
+ ShadowFactor 1
+ PenumbraMultiplier 50
+ TargetEV 1.7
+ TargetEVLimitBright 1
+ TargetEVLimitDark 0
+ ManualHDRBrightnessLV 13
+}
