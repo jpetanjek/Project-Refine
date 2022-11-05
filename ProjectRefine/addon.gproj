@@ -1,0 +1,8 @@
+GameProject {
+ ID "ProjectRefine"
+ GUID "5ACAD731DF897924"
+ TITLE "Project Refine"
+ Dependencies {
+  "58D0FB3206B6F859"
+ }
+}
