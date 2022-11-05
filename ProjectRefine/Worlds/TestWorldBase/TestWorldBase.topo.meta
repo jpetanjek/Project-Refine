@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F41EE5C35BFFA009}Worlds/TestWorldBase/TestWorldBase.topo"
+ Configurations {
+  MapTopoResourceClass PC {
+  }
+  MapTopoResourceClass XBOX_ONE : PC {
+  }
+  MapTopoResourceClass XBOX_SERIES : PC {
+  }
+  MapTopoResourceClass PS4 : PC {
+  }
+  MapTopoResourceClass HEADLESS : PC {
+  }
+ }
+}
