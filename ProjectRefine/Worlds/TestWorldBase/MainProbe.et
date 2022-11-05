@@ -1,0 +1,14 @@
+EnvironmentProbeEntity {
+ ID "59D52BDE41D7F7CA"
+ coords 1448.462 39.705 2918.383
+ Type "Global placed"
+ ReflectionColor 1 1 1 1
+ DiffuseColor 1 1 1 1
+ TopColorEV 0.5
+ TopAngleMax 8
+ TopAngleMin 0
+ BottomColorEV -0.5
+ BottomColor 1 1 1 1
+ BottomAngleMax -5
+ BottomAngleMin 0
+}
