@@ -14,14 +14,14 @@ class SCR_ActiveMapIcon : SCR_Position
 	protected int m_iRefreshCounter;
 	
 	// some replicated vector in which we will store x,y,rot - repVec - add a OnRep
+	// TODO: Make a custom struct & codec with limited precision to save traffic
 	
-	// List of all active map icons
-	protected static ref map<SCR_ActiveMapIcon, RplId> s_mActiveMapIcons = new map<SCR_MapIcon, RplId>();
 	
 	//------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
+		
 		if (!GetGame().GetWorldEntity())
   			return;
 
@@ -29,26 +29,20 @@ class SCR_ActiveMapIcon : SCR_Position
 		if (rpl)
 		{
 			rpl.InsertToReplication();
-
 			RplId id = Replication.FindId(this);
-			s_mActiveMapIcons.Set(this, id);
 		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void SCR_SpawnPoint(IEntitySource src, IEntity parent)
+	void SCR_ActiveMapIcon(IEntitySource src, IEntity parent)
 	{
 		SetEventMask(EntityEvent.INIT);
 		SetFlags(EntityFlags.STATIC, true);
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void ~SCR_SpawnPoint()
+	void ~SCR_ActiveMapIcon()
 	{
-		if (s_mActiveMapIcons)
-		{
-			s_mActiveMapIcons.Remove(this);
-		}
 	}
 	
 	void SetTarget(IEntity target)
@@ -59,6 +53,7 @@ class SCR_ActiveMapIcon : SCR_Position
 	void SetIcon(SCR_UIInfo icon)
 	{
 		m_Icon = icon;
+		// Find SCR_MapDescriptorComponent and set icon I guess?
 	}
 	
 	override void EOnFixedFrame(IEntity owner, float timeSlice)
