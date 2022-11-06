@@ -1,0 +1,185 @@
+SizeLayoutWidgetClass {
+ Name "root"
+ components {
+  SCR_WidgetExportRuleRoot "{5ACB13C82AA80F28}" {
+   DestinationPath "{337ADEA6D947EB68}scripts/Game/ProjectRefine/Map"
+   ScriptAddon "$ProjectRefine:"
+   GenerateFullWidgetPath 0
+   ScriptClassNamePrefix "PR_"
+  }
+  PR_MapMarkerPlacementToolComponent "{5ACB13C9216F666C}" {
+  }
+ }
+ AllowWidthOverride 1
+ WidthOverride 300
+ AllowHeightOverride 1
+ HeightOverride 400
+ {
+  OverlayWidgetClass "{5ACB13D7D5EEC67E}" {
+   Name "Overlay0"
+   Slot AlignableSlot "{5ACB13D7D5EEC652}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   {
+    ImageWidgetClass "{5ACB13D67E3D49BC}" {
+     Name "Background"
+     Slot OverlayWidgetSlot "{5ACB13D7D5F963DC}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Opacity 0.8
+     Color 0 0 0 1
+    }
+    VerticalLayoutWidgetClass "{5ACB13D706CA8B45}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5ACB13D706CA8B51}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+      Padding 5 5 5 5
+     }
+     {
+      HorizontalLayoutWidgetClass "{5ACB398AC3C39AF9}" {
+       Name "MarkerTextEditBox"
+       Slot LayoutSlot "{5ACB398AC3C39AD1}" {
+        Padding 0 0 0 4
+       }
+       {
+        TextWidgetClass "{5ACB398AC524F2A8}" {
+         Name "Text0"
+         Slot LayoutSlot "{5ACB398AC524F280}" {
+         }
+         Text "Text:"
+         "Font Size" 22
+         "Min Font Size" 22
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5ACB398ACC5DAAEE}" {
+          Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+         }
+        }
+        OverlayWidgetClass "{5ACB398A25482F9F}" {
+         Name "Overlay0"
+         Slot LayoutSlot "{5ACB398A25482FF2}" {
+          Padding 4 0 0 0
+          SizeMode Fill
+         }
+         {
+          ImageWidgetClass "{5ACB398A0819F6DF}" {
+           Name "Background"
+           Slot OverlayWidgetSlot "{5ACB398A0819F728}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           Opacity 0.5
+           Color 0 0 0 1
+          }
+          EditBoxWidgetClass "{5ACB398A33008B70}" {
+           Name "m_MarkerTextEditbox"
+           Slot OverlayWidgetSlot "{5ACB398A33008B49}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+            Padding 4 0 4 0
+           }
+           "Font Size" 22
+           "Use placeholder text" 1
+           "Placeholder text" "..."
+           FontProperties FontProperties "{5ACB398A3ECB94EE}" {
+            Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+           }
+          }
+         }
+        }
+       }
+      }
+      HorizontalLayoutWidgetClass "{5ACB13D46E62340A}" {
+       Name "HorizontalLayout0"
+       Slot LayoutSlot "{5ACB13D46E62346D}" {
+       }
+       {
+        OverlayWidgetClass "{5ACB13CA33566561}" {
+         Name "padding"
+         Slot LayoutSlot "{5ACB13CA3356657D}" {
+          SizeMode Fill
+         }
+        }
+        ButtonWidgetClass "{5ACB13D477FAA92E}" : "{75C912A1C89BE6C2}UI/layouts/WidgetLibrary/Buttons/WLib_ButtonText.layout" {
+         Name "m_CancelButton"
+         Slot LayoutSlot "{5ACB13D477FAA934}" {
+         }
+         components {
+          SCR_ButtonTextComponent "{5548F0143AE99095}" {
+           m_sText "Cancel"
+          }
+         }
+         {
+          SizeLayoutWidgetClass "{5548EB41A8E48247}" {
+           Prefab "{5548EB41A8E48247}"
+           HeightOverride 20
+           {
+            OverlayWidgetClass "{5548EB41A8E48245}" {
+             Prefab "{5548EB41A8E48245}"
+             {
+              TextWidgetClass "{5548F014E72FB9DA}" {
+               Prefab "{5548F014E72FB9DA}"
+               Slot OverlayWidgetSlot "{55708DE55528756B}" {
+                Padding 10 0 10 0
+               }
+               "Font Size" 22
+               "Min Font Size" 22
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        OverlayWidgetClass "{5ACB13CA34AAF7E3}" {
+         Name "padding0"
+         Slot LayoutSlot "{5ACB13CA3356657D}" {
+          SizeMode Fill
+         }
+        }
+        ButtonWidgetClass "{5ACB13D449F7F5E4}" : "{75C912A1C89BE6C2}UI/layouts/WidgetLibrary/Buttons/WLib_ButtonText.layout" {
+         Name "m_OkButton"
+         Slot LayoutSlot "{5ACB13D477FAA934}" {
+         }
+         components {
+          SCR_ButtonTextComponent "{5548F0143AE99095}" {
+           m_sText "OK"
+          }
+         }
+         {
+          SizeLayoutWidgetClass "{5548EB41A8E48247}" {
+           Prefab "{5548EB41A8E48247}"
+           {
+            OverlayWidgetClass "{5548EB41A8E48245}" {
+             Prefab "{5548EB41A8E48245}"
+             {
+              TextWidgetClass "{5548F014E72FB9DA}" {
+               Prefab "{5548F014E72FB9DA}"
+               Slot OverlayWidgetSlot "{55708DE55528756B}" {
+                Padding 20 0 20 0
+               }
+               "Font Size" 22
+               "Min Font Size" 22
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        OverlayWidgetClass "{5ACB13CA3A8C3727}" {
+         Name "padding1"
+         Slot LayoutSlot "{5ACB13CA3356657D}" {
+          SizeMode Fill
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
