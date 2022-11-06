@@ -1,0 +1,12 @@
+PR_ActiveMapIcon {
+ ID "5ACCD3EED0C7C2A9"
+ components {
+  SCR_MapDescriptorComponent "{5ACCD3EF8C9F2E4F}" {
+   MainType Unit
+   UnitType Infantry
+  }
+  RplComponent "{5ACCD3EF847E4308}" {
+  }
+ }
+ coords 245.971 2.001 295.799
+}

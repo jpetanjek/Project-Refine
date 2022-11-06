@@ -1,24 +1,40 @@
 [ComponentEditorProps(category: "GameScripted/GameMode", description: "")]
-class SCR_ActiveMapIconManagerComponentClass: SCR_BaseGameModeComponentClass
+class PR_ActiveMapIconManagerComponentClass: SCR_BaseGameModeComponentClass
 {
 };
 
 //------------------------------------------------------------------------------------------------
 //! Manages streaming logic of all icons - for now stream everything registered to everyone
-class SCR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
+class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 {	
-	array<IEntity> m_AllRegisteredEntities;
-	array<IEntity> m_NewlyRegisteredEntities;
+	private ref array<PR_ActiveMapIcon> m_AllRegisteredEntities = new array<PR_ActiveMapIcon>;
+	private ref array<PR_ActiveMapIcon> m_NewlyRegisteredEntities = new array<PR_ActiveMapIcon>;
 	// TODO: Maybe map<IEntity, icon> and then unregister rather than nullchecking
-		
+	
+	void PR_ActiveMapIconManagerComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
+	{
+		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
+	}
+	
+	void ~PR_ActiveMapIconManagerComponent()
+	{
+		delete m_AllRegisteredEntities;
+		delete m_NewlyRegisteredEntities;
+	}
+	
 	void Register(IEntity target,ResourceName m_ActiveMapIconPrefab)
 	{
-		if(m_ActiveMapIconPrefab != null)
+		if(target != null)
 		{
-			SCR_ActiveMapIcon activeMapIcon = SCR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab), GetOwner().GetWorld()));
-			activeMapIcon.SetTarget(target);
-			m_AllRegisteredEntities.Insert(activeMapIcon);
-			m_NewlyRegisteredEntities.Insert(activeMapIcon);
+			Print(m_ActiveMapIconPrefab);
+			//PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab), GetOwner().GetWorld()));
+			PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab)));
+			if(activeMapIcon != null)
+			{
+				m_AllRegisteredEntities.Insert(activeMapIcon);
+				m_NewlyRegisteredEntities.Insert(activeMapIcon);
+				activeMapIcon.SetTarget(target);
+			}
 		}
 	}
 	
@@ -26,13 +42,17 @@ class SCR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	{
 		// TODO: Only runs on master/server
 		StreamingLogic();
-		m_NewlyRegisteredEntities.Clear();
+		if(m_NewlyRegisteredEntities != null)
+			m_NewlyRegisteredEntities.Clear();
 	}
 	
 	void StreamingLogic()
 	{
+		if(m_NewlyRegisteredEntities == null)
+			return;
+		
 		// Stream new ones in to everyone
-		array<int> indiciesToRemove;
+		array<int> indiciesToRemove = {};
 		
 		for(int i = 0; i < m_NewlyRegisteredEntities.Count(); i++)
 		{
@@ -42,13 +62,13 @@ class SCR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 				RplComponent rpl = RplComponent.Cast(m_NewlyRegisteredEntities[i].FindComponent(RplComponent));
 				if(rpl != null)
 				{
-					array<int> players;
+					array<int> players = {};
 					GetGame().GetPlayerManager().GetPlayers(players);
 					
 					for(int j = 0; j < players.Count(); j++)
 					{
-						RplIdentity identity = GetGame().GetPlayerManager.GetPlayerController(players[j]).GetRplIdentity();
-						if(identity != null)
+						RplIdentity identity = GetGame().GetPlayerManager().GetPlayerController(players[j]).GetRplIdentity();
+						if(identity.IsValid())
 						{
 							rpl.EnableStreamingConNode(identity, false);
 						}
@@ -70,8 +90,10 @@ class SCR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	override void OnPlayerConnected(int playerId)
 	{
-		m_Identities.Insert(playerId);
-		array<int> indiciesToRemove;
+		if(m_AllRegisteredEntities == null)
+			return;
+		
+		array<int> indiciesToRemove = {};
 		
 		for(int i = 0; i < m_AllRegisteredEntities.Count(); i++)
 		{
@@ -81,8 +103,8 @@ class SCR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 				RplComponent rpl = RplComponent.Cast(m_NewlyRegisteredEntities[i].FindComponent(RplComponent));
 				if(rpl != null)
 				{
-					RplIdentity identity = GetGame().GetPlayerManager.GetPlayerController(playerId).GetRplIdentity();
-					if(identity != null)
+					RplIdentity identity = GetGame().GetPlayerManager().GetPlayerController(playerId).GetRplIdentity();
+					if(identity.IsValid())
 					{
 						rpl.EnableStreamingConNode(identity, false);
 					}
@@ -98,10 +120,5 @@ class SCR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		{
 			m_AllRegisteredEntities.Remove(indiciesToRemove[j]);
 		}
-	}
-	
-	override void OnPlayerDisconnected(int playerId)
-	{		
-		m_Identities.Remove(playerId);
 	}
 };

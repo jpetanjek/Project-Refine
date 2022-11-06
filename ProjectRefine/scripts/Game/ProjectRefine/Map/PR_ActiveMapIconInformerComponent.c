@@ -1,13 +1,19 @@
 [ComponentEditorProps(category: "GameScripted/GameMode/Components", description: "Base for gamemode scripted component.")]
-class SCR_ActiveMapIconInformerComponentClass : ScriptComponentClass
+class PR_ActiveMapIconInformerComponentClass : ScriptComponentClass
 {
 };
 
 //------------------------------------------------------------------------------------------------
-class SCR_ActiveMapIconInformerComponent : ScriptComponent
+class PR_ActiveMapIconInformerComponent : ScriptComponent
 {
-	[Attribute(uiwidget: UIWidgets.ResourcePickerThumbnail, params: "ActiveMapIcon prefab")]
+	[Attribute(uiwidget: UIWidgets.ResourceNamePicker, params: "et")]
 	protected ResourceName m_IconPrefab;
+	
+	override void OnPostInit(IEntity owner)
+	{
+		super.OnPostInit(owner);
+		SetEventMask(owner, EntityEvent.INIT);
+	}
 	
 	override void EOnInit(IEntity owner)
 	{
@@ -16,13 +22,15 @@ class SCR_ActiveMapIconInformerComponent : ScriptComponent
   			return;
 
 		// inform game mode-> ActiveMapIconManagerComponent that we exist
-		SCR_ActiveMapIconManagerComponent mapManager = SCR_ActiveMapIconManagerComponent.Cast(GetGame().GetGameMode().FindComponent(SCR_ActiveMapIconManagerComponent));
-		if(m_Info != null && mapManager != null)
+		PR_ActiveMapIconManagerComponent mapManager = PR_ActiveMapIconManagerComponent.Cast(GetGame().GetGameMode().FindComponent(PR_ActiveMapIconManagerComponent));
+		if(mapManager != null)
 		{
 			mapManager.Register(owner, m_IconPrefab);
 		}
 		
 		GetGame().GetGameMode()
 	}
+	
+	
 	
 }

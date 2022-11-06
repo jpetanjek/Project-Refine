@@ -1,5 +1,7 @@
 SCR_BaseGameMode GameMode_TeamDeathmatch_Selection1 : "{1B6C9BC044DA3B21}Prefabs/MP/Modes/TeamDeathmatch/GameMode_TeamDeathmatch_Selection.et" {
  components {
+  PR_ActiveMapIconManagerComponent "{5ACCD3ED5A29F7DE}" {
+  }
   SCR_RespawnBriefingComponent "{5ACAE991D3BC898F}" {
    m_SimpleBriefingBackground "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
    m_aGameModeHints {
