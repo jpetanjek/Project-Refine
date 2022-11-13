@@ -2,8 +2,8 @@ PR_ActiveMapIcon {
  ID "5ACCD3EED0C7C2A9"
  components {
   SCR_MapDescriptorComponent "{5ACCD3EF8C9F2E4F}" {
-   MainType Unit
-   UnitType Infantry
+   MainType Cross
+   UnitType "Undetermined/ Unknown"
   }
   RplComponent "{5ACCD3EF847E4308}" {
   }

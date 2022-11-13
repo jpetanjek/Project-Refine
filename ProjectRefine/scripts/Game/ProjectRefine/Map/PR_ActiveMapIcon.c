@@ -23,8 +23,6 @@ class PR_ActiveMapIcon : SCR_Position
 	//------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
-		super.EOnInit(owner);
-		
 		if (!GetGame().GetWorldEntity())
   			return;
 
@@ -39,7 +37,8 @@ class PR_ActiveMapIcon : SCR_Position
 	//------------------------------------------------------------------------------------------------
 	void PR_ActiveMapIcon(IEntitySource src, IEntity parent)
 	{
-		SetEventMask(EntityEvent.INIT | EntityEvent.FIXEDFRAME | EntityEvent.FRAME);
+		SetEventMask(EntityEvent.INIT | EntityEvent.FIXEDFRAME);
+		SetFlags(EntityFlags.ACTIVE, true);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -60,11 +59,6 @@ class PR_ActiveMapIcon : SCR_Position
 	{
 		m_Icon = icon;
 		// Find SCR_MapDescriptorComponent and set icon I guess?
-	}
-	
-	override void EOnFrame(IEntity owner, float timeSlice)
-	{
-		bool wtf = 0;
 	}
 	
 	override void EOnFixedFrame(IEntity owner, float timeSlice)
