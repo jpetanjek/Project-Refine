@@ -57,4 +57,11 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	{
 		m_OnMarkerPlacementCanceled.Invoke();
 	}
+	
+	// Returns marker properties entered by user
+	void GetMarkerProperties(out vector outMarkerPos, out string outMarkerText)
+	{
+		outMarkerPos = m_vMarkerPosWorld;
+		outMarkerText = widgets.m_MarkerTextEditbox.GetText();
+	}
 }

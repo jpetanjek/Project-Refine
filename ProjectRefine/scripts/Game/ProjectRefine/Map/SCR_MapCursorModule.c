@@ -109,12 +109,18 @@ modded class SCR_MapCursorModule
 	
 	protected void OnMarkerPlacementConfirmed()
 	{
-		m_MarkerPlacementToolComponent.StopMarkerPlacement();
 		
 		m_bPlacingMarker = false;
 		
 		// Get data from marker tool
 		// Send request to server
+		vector markerPos;
+		string markerText;
+		m_MarkerPlacementToolComponent.GetMarkerProperties(markerPos, markerText);
+		
+		PR_ActiveMapIconPlayerControllerComponent.GetLocalInstance().AskAddMapMarker(markerPos, markerText);
+		
+		m_MarkerPlacementToolComponent.StopMarkerPlacement();
 	}
 	
 	protected void OnMarkerPlacementCanceled()

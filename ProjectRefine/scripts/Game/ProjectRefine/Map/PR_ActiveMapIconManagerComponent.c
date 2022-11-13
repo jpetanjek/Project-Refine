@@ -11,15 +11,23 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	private ref array<PR_ActiveMapIcon> m_NewlyRegisteredEntities = new array<PR_ActiveMapIcon>;
 	// TODO: Maybe map<IEntity, icon> and then unregister rather than nullchecking
 	
+	protected static PR_ActiveMapIconManagerComponent s_Instance;
+	
 	void PR_ActiveMapIconManagerComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
 		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
+		s_Instance = this;
 	}
 	
 	void ~PR_ActiveMapIconManagerComponent()
 	{
 		delete m_AllRegisteredEntities;
 		delete m_NewlyRegisteredEntities;
+	}
+	
+	static PR_ActiveMapIconManagerComponent GetInstance()
+	{
+		return s_Instance;
 	}
 	
 	void Register(IEntity target,ResourceName m_ActiveMapIconPrefab)
@@ -120,5 +128,11 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		{
 			m_AllRegisteredEntities.Remove(indiciesToRemove[j]);
 		}
+	}
+	
+	// Public inteface to add a map marker
+	void AddMapMarker(vector markerPos, string markerText, int fromPlayerId)
+	{
+		PrintFormat("Player %1 requests to add marker: %2 %3", fromPlayerId, markerPos, markerText);
 	}
 };
