@@ -24,9 +24,9 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		WorkspaceWidget workspace = GetGame().GetWorkspace();
 		
 		float worldX = m_vMarkerPosWorld[0];
-		float worldY = m_vMarkerPosWorld[1];
+		float worldZ = m_vMarkerPosWorld[2];
 		int screenXRef, screenYRef; // Screen position in reference coordinates
-		mapEntity.WorldToScreen(worldX, worldY, screenXRef, screenYRef, withPan: true);
+		mapEntity.WorldToScreen(worldX, worldZ, screenXRef, screenYRef, withPan: true);
 		
 		FrameSlot.SetPos(m_wRoot, workspace.DPIUnscale(screenXRef), workspace.DPIUnscale(screenYRef));
 		//mapEntity.pos

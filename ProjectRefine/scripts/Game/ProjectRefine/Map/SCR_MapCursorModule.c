@@ -2,7 +2,6 @@
 modded class SCR_MapCursorModule
 {
 	protected bool m_bPlacingMarker = false;
-	protected vector m_vMarkerWorldPos;
 	
 	protected PR_MapMarkerPlacementToolComponent m_MarkerPlacementToolComponent;
 	
@@ -94,9 +93,9 @@ modded class SCR_MapCursorModule
 		//if (m_bPlacingMarker)
 		//	return;
 		
-		float worldX, worldY;
-		m_MapEntity.GetMapCursorWorldPosition(worldX, worldY);
-		vector markerPosWorld = Vector(worldX, worldY, 0);
+		float worldX, worldZ;
+		m_MapEntity.GetMapCursorWorldPosition(worldX, worldZ);
+		vector markerPosWorld = Vector(worldX, 0, worldZ);
 		m_MarkerPlacementToolComponent.StartMarkerPlacement(markerPosWorld);
 		
 		m_bPlacingMarker = true;

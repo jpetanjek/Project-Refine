@@ -131,8 +131,14 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	}
 	
 	// Public inteface to add a map marker
-	void AddMapMarker(vector markerPos, string markerText, int fromPlayerId)
+	void AddMapMarker(vector markerPosWorld, string markerText, int fromPlayerId)
 	{
-		PrintFormat("Player %1 requests to add marker: %2 %3", fromPlayerId, markerPos, markerText);
+		PrintFormat("Player %1 requests to add marker: %2 %3", fromPlayerId, markerPosWorld, markerText);
+		
+		// Spawn a prefab with map marker
+		EntitySpawnParams p = new EntitySpawnParams();
+		p.Transform[3] = markerPosWorld;
+		Resource rsc = Resource.Load("{4A9BC00DAD6EBD6F}Prefabs/BaseMapMarkerPrefab.et");
+		GetGame().SpawnEntityPrefab(rsc, params: p);
 	}
 };
