@@ -2,12 +2,8 @@
 modded class SCR_MapCursorModule
 {
 	protected bool m_bPlacingMarker = false;
-	protected vector m_vMarkerWorldPos;
 	
 	protected PR_MapMarkerPlacementToolComponent m_MarkerPlacementToolComponent;
-	
-	protected ref array<ref CanvasWidgetCommand> m_MarkerPreviewCommands; 
-	protected ref ImageDrawCommand m_MarkerPreviewCommand;
 	
 	//------------------------------------------------------------------------------
 	// (De)Initialization
@@ -35,30 +31,7 @@ modded class SCR_MapCursorModule
 			m_MarkerPlacementToolComponent.m_OnMarkerPlacementConfirmed.Insert(OnMarkerPlacementConfirmed);
 			m_MarkerPlacementToolComponent.m_OnMarkerPlacementCanceled.Insert(OnMarkerPlacementCanceled);
 		}
-	}
-	
-	override void Init()
-	{
-		super.Init();
-		
-		if (!m_MarkerPreviewCommand)
-		{
-			// Init marker preview draw command
-			ImageDrawCommand c = new ImageDrawCommand();
-
-			c.m_iColor = 0xFFFFFFFF;
-			c.m_fRotation = 0;
-			c.m_Pivot = vector.Zero;
-			c.m_pTexture = m_MapWidget.LoadTexture("{69406E538F52D49A}UI/Textures/Map/topographicIcons/icons_topographic_map_atlas.edds");
-			c.m_Position = Vector(500, 500, 0);
-			c.m_Size = Vector(100, 100, 0);
-			c.m_iFlags = WidgetFlags.STRETCH;
-			
-			m_MarkerPreviewCommand = c;
-			m_MarkerPreviewCommands = {m_MarkerPreviewCommand};
-		}
-	}
-	
+	}	
 	
 	
 	//------------------------------------------------------------------------------
@@ -75,8 +48,6 @@ modded class SCR_MapCursorModule
 		if (m_bPlacingMarker)
 		{
 			m_MarkerPlacementToolComponent.Update(timeSlice, m_MapEntity);
-			
-			m_MapWidget.SetDrawCommands(m_MarkerPreviewCommands);
 		}
 	}
 	
@@ -94,9 +65,9 @@ modded class SCR_MapCursorModule
 		//if (m_bPlacingMarker)
 		//	return;
 		
-		float worldX, worldY;
-		m_MapEntity.GetMapCursorWorldPosition(worldX, worldY);
-		vector markerPosWorld = Vector(worldX, worldY, 0);
+		float worldX, worldZ;
+		m_MapEntity.GetMapCursorWorldPosition(worldX, worldZ);
+		vector markerPosWorld = Vector(worldX, 0, worldZ);
 		m_MarkerPlacementToolComponent.StartMarkerPlacement(markerPosWorld);
 		
 		m_bPlacingMarker = true;
@@ -109,12 +80,18 @@ modded class SCR_MapCursorModule
 	
 	protected void OnMarkerPlacementConfirmed()
 	{
-		m_MarkerPlacementToolComponent.StopMarkerPlacement();
 		
 		m_bPlacingMarker = false;
 		
 		// Get data from marker tool
 		// Send request to server
+		vector markerPos;
+		string markerText;
+		m_MarkerPlacementToolComponent.GetMarkerProperties(markerPos, markerText);
+		
+		PR_ActiveMapIconPlayerControllerComponent.GetLocalInstance().AskAddMapMarker(markerPos, markerText);
+		
+		m_MarkerPlacementToolComponent.StopMarkerPlacement();
 	}
 	
 	protected void OnMarkerPlacementCanceled()

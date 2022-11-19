@@ -24,9 +24,9 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		WorkspaceWidget workspace = GetGame().GetWorkspace();
 		
 		float worldX = m_vMarkerPosWorld[0];
-		float worldY = m_vMarkerPosWorld[1];
+		float worldZ = m_vMarkerPosWorld[2];
 		int screenXRef, screenYRef; // Screen position in reference coordinates
-		mapEntity.WorldToScreen(worldX, worldY, screenXRef, screenYRef, withPan: true);
+		mapEntity.WorldToScreen(worldX, worldZ, screenXRef, screenYRef, withPan: true);
 		
 		FrameSlot.SetPos(m_wRoot, workspace.DPIUnscale(screenXRef), workspace.DPIUnscale(screenYRef));
 		//mapEntity.pos
@@ -56,5 +56,12 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	protected void OnCancelButton()
 	{
 		m_OnMarkerPlacementCanceled.Invoke();
+	}
+	
+	// Returns marker properties entered by user
+	void GetMarkerProperties(out vector outMarkerPos, out string outMarkerText)
+	{
+		outMarkerPos = m_vMarkerPosWorld;
+		outMarkerText = widgets.m_MarkerTextEditbox.GetText();
 	}
 }

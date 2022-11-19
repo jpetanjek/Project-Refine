@@ -1,0 +1,11 @@
+FrameWidgetClass {
+ {
+  MapWidgetClass "{000000009C582FB6}" {
+   Prefab "{000000009C582FB6}"
+   Imagesets {
+    "{BCD5479864D1A79A}UI/Textures/Map/topographicIcons/icons_topographic_map.imageset" "{F7E8D4834A3AFF2F}UI/Imagesets/Conflict/conflict-icons-bw.imageset" "{9AF52DEEF08E7F74}UI/Imagesets/Editor/editor_icons_map.imageset"
+    "{D6BEE647C47E3E9E}UI/map/PR_MapIcons.imageset"
+   }
+  }
+ }
+}

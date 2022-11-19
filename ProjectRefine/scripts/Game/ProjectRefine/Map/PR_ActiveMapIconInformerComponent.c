@@ -22,8 +22,8 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
   			return;
 
 		// inform game mode-> ActiveMapIconManagerComponent that we exist
-		PR_ActiveMapIconManagerComponent mapManager = PR_ActiveMapIconManagerComponent.Cast(GetGame().GetGameMode().FindComponent(PR_ActiveMapIconManagerComponent));
-		if(mapManager != null)
+		PR_ActiveMapIconManagerComponent mapManager = PR_ActiveMapIconManagerComponent.GetInstance();
+		if(mapManager)
 		{
 			mapManager.Register(owner, m_IconPrefab);
 		}

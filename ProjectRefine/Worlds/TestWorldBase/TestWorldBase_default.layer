@@ -22,6 +22,8 @@ SCR_MapEntity MapEntity_Default1 : "{21C189074DAB7E90}Prefabs/World/DefaultWorld
 GenericWorldPPEffect : "{6245186CA82F5A2A}Worlds/TestWorldBase/PP_SSR.et" {
  coords 2.368 3.722 21.159
 }
+SCR_AIWorld : "{E0A05C76552E7F58}Prefabs/AI/SCR_AIWorld.et" {
+}
 TimeAndWeatherManagerEntity {
  coords 451.363 2.001 7.331
  WeatherStateMachine "{145430BBF1620448}Terrains/Common/WeatherPresets/StateMachine/WeatherStates.conf"
@@ -31,6 +33,16 @@ TimeAndWeatherManagerEntity {
  "Internal variant transition" 0
  "Internal subvariant 0" 0
  "Internal subvariant 1" 0
+ m_aOrderedDaytimeInfo {
+  SCR_DayTimeInfoStatic "{5AE6CB60174B297D}" {
+   m_UIInfo SCR_UIInfo "{5AE6CB601A08FE08}" {
+   }
+  }
+  SCR_DayTimeInfoStatic "{5AE6CB6015BB8530}" {
+   m_UIInfo SCR_UIInfo "{5AE6CB6018D6BC9E}" {
+   }
+  }
+ }
 }
 EnvironmentProbeEntity : "{AA57005900B46D12}Prefabs/Structures/Core/ProbeExterior_Base.et" {
  coords 295.876 0 262.495

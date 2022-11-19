@@ -9,4 +9,6 @@ PR_ActiveMapIcon {
   }
  }
  coords 245.971 2.001 295.799
+ m_Style PR_ActiveMapIconStyleMarker "{5AE55481D6453C02}" {
+ }
 }

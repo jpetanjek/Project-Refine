@@ -11,15 +11,22 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	private ref array<PR_ActiveMapIcon> m_NewlyRegisteredEntities = new array<PR_ActiveMapIcon>;
 	// TODO: Maybe map<IEntity, icon> and then unregister rather than nullchecking
 	
+	protected static PR_ActiveMapIconManagerComponent s_Instance;
+	
 	void PR_ActiveMapIconManagerComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
-		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
+		s_Instance = this;
 	}
 	
 	void ~PR_ActiveMapIconManagerComponent()
 	{
 		delete m_AllRegisteredEntities;
 		delete m_NewlyRegisteredEntities;
+	}
+	
+	static PR_ActiveMapIconManagerComponent GetInstance()
+	{
+		return s_Instance;
 	}
 	
 	void Register(IEntity target,ResourceName m_ActiveMapIconPrefab)
@@ -33,9 +40,14 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			{
 				m_AllRegisteredEntities.Insert(activeMapIcon);
 				m_NewlyRegisteredEntities.Insert(activeMapIcon);
-				activeMapIcon.SetTarget(target);
+				activeMapIcon.Init(target);
 			}
 		}
+	}
+	
+	override void OnPostInit(IEntity owner)
+	{
+		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
 	}
 	
 	override void EOnFixedFrame(IEntity owner, float timeSlice)
@@ -100,7 +112,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			if(m_AllRegisteredEntities[i] != null)
 			{
 				// Order its stream in to this player
-				RplComponent rpl = RplComponent.Cast(m_NewlyRegisteredEntities[i].FindComponent(RplComponent));
+				RplComponent rpl = RplComponent.Cast(m_AllRegisteredEntities[i].FindComponent(RplComponent));
 				if(rpl != null)
 				{
 					RplIdentity identity = GetGame().GetPlayerManager().GetPlayerController(playerId).GetRplIdentity();
@@ -120,5 +132,18 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		{
 			m_AllRegisteredEntities.Remove(indiciesToRemove[j]);
 		}
+	}
+	
+	// Public inteface to add a map marker
+	void AddMapMarker(vector markerPosWorld, string markerText, int fromPlayerId)
+	{
+		PrintFormat("Player %1 requests to add marker: %2 %3", fromPlayerId, markerPosWorld, markerText);
+		
+		// Spawn a prefab with map marker
+		EntitySpawnParams p = new EntitySpawnParams();
+		p.Transform[3] = markerPosWorld;
+		Resource rsc = Resource.Load("{6EF387F31DB53667}Prefabs/Map/MapMarkerBase.et");
+		PR_ActiveMapIcon mapIconEntity = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(rsc));
+		mapIconEntity.Init(null, pos: markerPosWorld);
 	}
 };
