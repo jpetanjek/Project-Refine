@@ -41,7 +41,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			{
 				m_AllRegisteredEntities.Insert(activeMapIcon);
 				m_NewlyRegisteredEntities.Insert(activeMapIcon);
-				activeMapIcon.SetTarget(target);
+				activeMapIcon.Init(target);
 			}
 		}
 	}
@@ -138,7 +138,8 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		// Spawn a prefab with map marker
 		EntitySpawnParams p = new EntitySpawnParams();
 		p.Transform[3] = markerPosWorld;
-		Resource rsc = Resource.Load("{4A9BC00DAD6EBD6F}Prefabs/BaseMapMarkerPrefab.et");
-		GetGame().SpawnEntityPrefab(rsc, params: p);
+		Resource rsc = Resource.Load("{6EF387F31DB53667}Prefabs/Map/MapMarkerBase.et");
+		PR_ActiveMapIcon mapIconEntity = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(rsc));
+		mapIconEntity.Init(null, pos: markerPosWorld);
 	}
 };

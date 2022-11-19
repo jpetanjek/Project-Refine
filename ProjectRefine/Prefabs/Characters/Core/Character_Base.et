@@ -2,7 +2,7 @@ SCR_ChimeraCharacter {
  ID "520EC961A090B1EE"
  components {
   PR_ActiveMapIconInformerComponent "{5AE310ECF3FFA091}" {
-   m_IconPrefab "{82F1BCEACEA5460F}Prefabs/BaseIconPrefab.et"
+   m_IconPrefab "{EDD9A364C3294216}Prefabs/Map/ActiveMapIconCharacter.et"
   }
  }
 }

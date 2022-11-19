@@ -12,6 +12,7 @@ class PR_ActiveMapIcon : SCR_Position
 	
 	// Target entity which we follow
 	protected IEntity m_Target;
+	protected bool m_bTargetAssigned = false;
 	
 	protected MapDescriptorComponent m_MapDescriptor;
 	
@@ -25,16 +26,16 @@ class PR_ActiveMapIcon : SCR_Position
 	// Replicated vector which stores position without vertical component and direction
 	// Format: [x pos, dir angle, z pos]
 	// TODO: Make a custom struct & codec with limited precision to save traffic
-	[RplProp(onRplName: "OnPosAndDirChange")]
+	[RplProp(onRplName: "OnLocalStateChanged")]
 	protected vector m_vPosAndDir;
 
 	
 	// Faction ID for which this icon is relevant. -1 means it's for all factions.
-	[RplProp()]
+	[RplProp(onRplName: "OnLocalStateChanged")]
 	protected int m_iFactionId;
 	
 	// Group ID for which this icon is relevant. -1 means it's for all groups.
-	[RplProp()]
+	[RplProp(onRplName: "OnLocalStateChanged")]
 	protected int m_iGroupId;
 	
 	//------------------------------------------------------------------------------------------------
@@ -49,17 +50,59 @@ class PR_ActiveMapIcon : SCR_Position
 	//------------------------------------------------------------------------------------------------
 	// PUBLIC
 	
-	void SetTarget(IEntity target)
+	// Initializes this icon
+	// If target is not null, we start tracking the target
+	// If target is null, we just set position explicitly
+	void Init(IEntity target, vector pos = vector.Zero, int factionId = -1, int groupId = -1)
 	{
 		m_Target = target;
-		UpdatePosAndDirPropFromTarget();
-		SetTransformFromPosAndDirProp();
+		
+		// We get position from target or set it explicitly
+		if (target)
+		{
+			UpdatePosAndDirPropFromTarget();
+			m_bTargetAssigned = true;
+		}
+		else
+		{
+			m_vPosAndDir[0] = pos[0];
+			m_vPosAndDir[1] = 0;
+			m_vPosAndDir[2] = pos[2];
+		}
+		
+		m_iFactionId = factionId;
+		m_iGroupId = groupId;
+		
+		OnLocalStateChanged();
+		Replication.BumpMe();
+		
+		// Master will track target's state
+		RplComponent rpl = RplComponent.Cast(FindComponent(RplComponent));
+		if (target && rpl.IsMaster())
+		{
+			// If we don't have a target to track then we don't need fixed frame
+			SetEventMask(EntityEvent.INIT | EntityEvent.FIXEDFRAME);
+		}
 	}
-	
-	
 	
 	//------------------------------------------------------------------------------------------------
 	// PROTECTED
+	
+	// Also called by replication when replicated state changes
+	// This function must implement update of local state from replicated properties
+	// Override this in inherited classes for custom functionality.
+	// But remember to call this method of parent class!
+	protected void OnLocalStateChanged()
+	{
+		SetTransformFromPosAndDirProp();
+	}
+	
+	// Updates RPL prop member variables from target.
+	// Override in inherited classes, but remember to call parent class method!
+	protected void UpdatePropsFromTarget()
+	{
+		UpdatePosAndDirPropFromTarget();
+	}
 	
 	
 	//------------------------------------------------------------------------------------------------
@@ -79,13 +122,6 @@ class PR_ActiveMapIcon : SCR_Position
 		
 		if (m_Style)
 			m_Style.Apply(this, m_MapDescriptor);
-		
-		
-		// Master will track target's state
-		if (rpl.IsMaster())
-		{
-			SetEventMask(EntityEvent.INIT | EntityEvent.FIXEDFRAME);
-		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -125,20 +161,22 @@ class PR_ActiveMapIcon : SCR_Position
 	
 	override protected void EOnFixedFrame(IEntity owner, float timeSlice)
 	{
-		if(m_iRefreshCounter++ > POSITION_UPDATE_INTERVAL && m_Target)
+		if(m_iRefreshCounter++ > POSITION_UPDATE_INTERVAL && m_bTargetAssigned)
 		{
-			UpdatePosAndDirPropFromTarget();
-			Replication.BumpMe();
-			if (!System.IsConsoleApp())
-				SetTransformFromPosAndDirProp(); // Makes no sense for headless
+			if (m_Target)
+			{
+				UpdatePropsFromTarget();
+				Replication.BumpMe();
+				if (!System.IsConsoleApp())
+					OnLocalStateChanged(); // Makes no sense if we have no UI
+			}
+			else
+			{
+				// Target was deleted
+				// TODO: delete ourselves			
+			}
 			
 			m_iRefreshCounter = 0;
-		}	
-	}
-	
-	// Called by replication on m_vPosAndDir change
-	protected void OnPosAndDirChange()
-	{
-		SetTransformFromPosAndDirProp();
+		}
 	}
 }

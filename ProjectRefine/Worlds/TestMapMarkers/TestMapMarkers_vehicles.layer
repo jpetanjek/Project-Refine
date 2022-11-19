@@ -23,13 +23,6 @@ Vehicle M1 : "{5674FAEB9AB7BDD0}Prefabs/Vehicles/Wheeled/M998/M998.et" {
  }
  coords 34.47 2 426.183
 }
-PR_ActiveMapIcon : "{82F1BCEACEA5460F}Prefabs/BaseIconPrefab.et" {
- components {
-  SCR_MapDescriptorComponent "{5ACCD3EF8C9F2E4F}" {
-   MapItemDescriptor 1
-   MainType "Small Tree"
-  }
- }
- coords 50.713 2.001 424.138
- m_sImageDef "character"
+PR_ActiveMapIcon : "{6EF387F31DB53667}Prefabs/Map/MapMarkerBase.et" {
+ coords 30.368 2.001 448.372
 }
