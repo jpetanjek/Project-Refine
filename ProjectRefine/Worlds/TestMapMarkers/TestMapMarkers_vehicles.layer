@@ -1,12 +1,3 @@
-GenericEntity {
- components {
-  SCR_MapDescriptorComponent "{5AE310E6724F5652}" {
-   DisplayName "Sea Major :D"
-   MainType "Name Sea Major"
-  }
- }
- coords 34.774 2.001 457.204
-}
 Vehicle UAZ1 : "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et" {
  components {
   SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
@@ -22,7 +13,4 @@ Vehicle M1 : "{5674FAEB9AB7BDD0}Prefabs/Vehicles/Wheeled/M998/M998.et" {
   }
  }
  coords 34.47 2 426.183
-}
-PR_ActiveMapIcon : "{6EF387F31DB53667}Prefabs/Map/MapMarkerBase.et" {
- coords 30.368 2.001 448.372
 }

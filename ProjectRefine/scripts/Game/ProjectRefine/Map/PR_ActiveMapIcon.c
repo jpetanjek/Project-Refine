@@ -26,16 +26,16 @@ class PR_ActiveMapIcon : SCR_Position
 	// Replicated vector which stores position without vertical component and direction
 	// Format: [x pos, dir angle, z pos]
 	// TODO: Make a custom struct & codec with limited precision to save traffic
-	[RplProp(onRplName: "OnLocalStateChanged")]
+	[RplProp(onRplName: "UpdateFromReplicatedState")]
 	protected vector m_vPosAndDir;
 
 	
 	// Faction ID for which this icon is relevant. -1 means it's for all factions.
-	[RplProp(onRplName: "OnLocalStateChanged")]
+	[RplProp(onRplName: "UpdateFromReplicatedState")]
 	protected int m_iFactionId;
 	
 	// Group ID for which this icon is relevant. -1 means it's for all groups.
-	[RplProp(onRplName: "OnLocalStateChanged")]
+	[RplProp(onRplName: "UpdateFromReplicatedState")]
 	protected int m_iGroupId;
 	
 	//------------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ class PR_ActiveMapIcon : SCR_Position
 		m_iFactionId = factionId;
 		m_iGroupId = groupId;
 		
-		OnLocalStateChanged();
+		UpdateFromReplicatedState();
 		Replication.BumpMe();
 		
 		// Master will track target's state
@@ -92,7 +92,7 @@ class PR_ActiveMapIcon : SCR_Position
 	// This function must implement update of local state from replicated properties
 	// Override this in inherited classes for custom functionality.
 	// But remember to call this method of parent class!
-	protected void OnLocalStateChanged()
+	protected void UpdateFromReplicatedState()
 	{
 		SetTransformFromPosAndDirProp();
 	}
@@ -168,7 +168,7 @@ class PR_ActiveMapIcon : SCR_Position
 				UpdatePropsFromTarget();
 				Replication.BumpMe();
 				if (!System.IsConsoleApp())
-					OnLocalStateChanged(); // Makes no sense if we have no UI
+					UpdateFromReplicatedState(); // Makes no sense if we have no UI
 			}
 			else
 			{

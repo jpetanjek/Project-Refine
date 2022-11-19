@@ -15,7 +15,6 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	void PR_ActiveMapIconManagerComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
-		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
 		s_Instance = this;
 	}
 	
@@ -44,6 +43,11 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 				activeMapIcon.Init(target);
 			}
 		}
+	}
+	
+	override void OnPostInit(IEntity owner)
+	{
+		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
 	}
 	
 	override void EOnFixedFrame(IEntity owner, float timeSlice)
@@ -108,7 +112,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			if(m_AllRegisteredEntities[i] != null)
 			{
 				// Order its stream in to this player
-				RplComponent rpl = RplComponent.Cast(m_NewlyRegisteredEntities[i].FindComponent(RplComponent));
+				RplComponent rpl = RplComponent.Cast(m_AllRegisteredEntities[i].FindComponent(RplComponent));
 				if(rpl != null)
 				{
 					RplIdentity identity = GetGame().GetPlayerManager().GetPlayerController(playerId).GetRplIdentity();
