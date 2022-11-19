@@ -9,6 +9,8 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 	[Attribute(uiwidget: UIWidgets.ResourceNamePicker, params: "et")]
 	protected ResourceName m_IconPrefab;
 	
+	protected PR_ActiveMapIconManagerComponent m_MapManager;
+	
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
@@ -22,15 +24,18 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
   			return;
 
 		// inform game mode-> ActiveMapIconManagerComponent that we exist
-		PR_ActiveMapIconManagerComponent mapManager = PR_ActiveMapIconManagerComponent.GetInstance();
-		if(mapManager)
+		m_MapManager = PR_ActiveMapIconManagerComponent.GetInstance();
+		if(m_MapManager)
 		{
-			mapManager.Register(owner, m_IconPrefab);
+			m_MapManager.Register(this, m_IconPrefab);
 		}
 		
 		GetGame().GetGameMode()
 	}
 	
-	
+	void ~PR_ActiveMapIconInformerComponent()
+	{
+		m_MapManager.Unregister(this);
+	}
 	
 }

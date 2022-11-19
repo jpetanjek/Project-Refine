@@ -18,8 +18,6 @@ class PR_ActiveMapIcon : SCR_Position
 	
 	protected int m_iRefreshCounter;
 	
-	
-	
 	//------------------------------------------------------------------------------------------------
 	// RPL PROPS
 	
@@ -112,7 +110,7 @@ class PR_ActiveMapIcon : SCR_Position
   			return;
 
 		m_MapDescriptor = MapDescriptorComponent.Cast(owner.FindComponent(MapDescriptorComponent));
-		
+				
 		RplComponent rpl = RplComponent.Cast(FindComponent(RplComponent));
 		if (rpl)
 		{
@@ -132,9 +130,10 @@ class PR_ActiveMapIcon : SCR_Position
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	//void ~PR_ActiveMapIcon()
-	//{
-	//}
+	void ~PR_ActiveMapIcon()
+	{
+		bool breakme = true;
+	}
 	
 	
 	// Converts target's XZ position and direction into one vector

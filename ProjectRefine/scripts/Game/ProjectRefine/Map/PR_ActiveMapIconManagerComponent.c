@@ -7,9 +7,8 @@ class PR_ActiveMapIconManagerComponentClass: SCR_BaseGameModeComponentClass
 //! Manages streaming logic of all icons - for now stream everything registered to everyone
 class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 {	
-	private ref array<PR_ActiveMapIcon> m_AllRegisteredEntities = new array<PR_ActiveMapIcon>;
-	private ref array<PR_ActiveMapIcon> m_NewlyRegisteredEntities = new array<PR_ActiveMapIcon>;
-	// TODO: Maybe map<IEntity, icon> and then unregister rather than nullchecking
+	private ref map<ScriptComponent, PR_ActiveMapIcon> m_AllRegistered = new map<ScriptComponent, PR_ActiveMapIcon>;
+	private ref map<ScriptComponent, PR_ActiveMapIcon> m_NewlyRegistered = new map<ScriptComponent, PR_ActiveMapIcon>;
 	
 	protected static PR_ActiveMapIconManagerComponent s_Instance;
 	
@@ -20,8 +19,6 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	void ~PR_ActiveMapIconManagerComponent()
 	{
-		delete m_AllRegisteredEntities;
-		delete m_NewlyRegisteredEntities;
 	}
 	
 	static PR_ActiveMapIconManagerComponent GetInstance()
@@ -29,7 +26,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		return s_Instance;
 	}
 	
-	void Register(IEntity target,ResourceName m_ActiveMapIconPrefab)
+	void Register(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
 	{
 		if(target != null)
 		{
@@ -38,11 +35,21 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab)));
 			if(activeMapIcon != null)
 			{
-				m_AllRegisteredEntities.Insert(activeMapIcon);
-				m_NewlyRegisteredEntities.Insert(activeMapIcon);
-				activeMapIcon.Init(target);
+				m_NewlyRegistered.Insert(target, activeMapIcon);
+				m_AllRegistered.Insert(target, activeMapIcon);
+				
+				activeMapIcon.Init(target.GetOwner());
 			}
 		}
+	}
+	
+	void Unregister(ScriptComponent target)
+	{
+		ref PR_ActiveMapIcon activeMapIcon = m_AllRegistered.Get(target);
+		m_AllRegistered.Remove(target);
+		m_NewlyRegistered.Remove(target);
+		
+		delete activeMapIcon;
 	}
 	
 	override void OnPostInit(IEntity owner)
@@ -54,24 +61,24 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	{
 		// TODO: Only runs on master/server
 		StreamingLogic();
-		if(m_NewlyRegisteredEntities != null)
-			m_NewlyRegisteredEntities.Clear();
+		if(m_NewlyRegistered != null)
+			m_NewlyRegistered.Clear();
 	}
 	
 	void StreamingLogic()
 	{
-		if(m_NewlyRegisteredEntities == null)
+		if(m_NewlyRegistered == null)
 			return;
 		
 		// Stream new ones in to everyone
 		array<int> indiciesToRemove = {};
 		
-		for(int i = 0; i < m_NewlyRegisteredEntities.Count(); i++)
+		for(int i = 0; i < m_NewlyRegistered.Count(); i++)
 		{
-			if(m_NewlyRegisteredEntities[i] != null)
+			if(m_NewlyRegistered.GetElement(i) != null)
 			{
 				// Order its stream in to every player
-				RplComponent rpl = RplComponent.Cast(m_NewlyRegisteredEntities[i].FindComponent(RplComponent));
+				RplComponent rpl = RplComponent.Cast(m_NewlyRegistered.GetElement(i).FindComponent(RplComponent));
 				if(rpl != null)
 				{
 					array<int> players = {};
@@ -95,24 +102,24 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		
 		for(int j = 0; j < indiciesToRemove.Count(); j++)
 		{
-			m_NewlyRegisteredEntities.Remove(indiciesToRemove[j]);
+			m_NewlyRegistered.RemoveElement(indiciesToRemove[j]);
 		}
 	}
 	
 	
 	override void OnPlayerConnected(int playerId)
 	{
-		if(m_AllRegisteredEntities == null)
+		if(m_AllRegistered == null)
 			return;
 		
 		array<int> indiciesToRemove = {};
 		
-		for(int i = 0; i < m_AllRegisteredEntities.Count(); i++)
+		for(int i = 0; i < m_AllRegistered.Count(); i++)
 		{
-			if(m_AllRegisteredEntities[i] != null)
+			if(m_AllRegistered.GetElement(i) != null)
 			{
 				// Order its stream in to this player
-				RplComponent rpl = RplComponent.Cast(m_AllRegisteredEntities[i].FindComponent(RplComponent));
+				RplComponent rpl = RplComponent.Cast(m_AllRegistered.GetElement(i).FindComponent(RplComponent));
 				if(rpl != null)
 				{
 					RplIdentity identity = GetGame().GetPlayerManager().GetPlayerController(playerId).GetRplIdentity();
@@ -130,7 +137,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		
 		for(int j = 0; j < indiciesToRemove.Count(); j++)
 		{
-			m_AllRegisteredEntities.Remove(indiciesToRemove[j]);
+			m_AllRegistered.RemoveElement(indiciesToRemove[j]);
 		}
 	}
 	
