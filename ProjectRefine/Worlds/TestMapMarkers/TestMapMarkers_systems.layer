@@ -8,8 +8,12 @@ SCR_BaseGameMode GameMode_TeamDeathmatch_Selection1 : "{1B6C9BC044DA3B21}Prefabs
     SCR_UIInfo "{5ACAE991479EC58C}" {
      Name "UAZ"
      Description "The UAZ-469 is an off-road military light utility vehicle manufactured by UAZ. It was used by Soviet and other Warsaw Pact armed forces, as well as paramilitary units in Eastern Bloc countries. In the Soviet Union, it also saw widespread service in state organizations that needed a robust and durable off-road vehicle. Standard military versions included seating for seven personnel."
+     Icon "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
     }
    }
+  }
+  SCR_RespawnMenuHandlerComponent "{56B49DB42115F9B0}" {
+   m_bAllowLoadoutSelection 0
   }
  }
 }
