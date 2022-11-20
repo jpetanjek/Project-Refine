@@ -1,0 +1,71 @@
+ImageSetClass {
+ RefSize 396 460
+ Textures {
+  ImageSetTextureClass {
+   mpix 1
+   path "UI/Map/Icons/MapIcons_atlas.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass character {
+   Name "character"
+   Pos 2 392
+   Size 64 64
+   Flags 0
+  }
+  ImageSetDefClass circle {
+   Name "circle"
+   Pos 132 262
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass circle_cross {
+   Name "circle_cross"
+   Pos 2 132
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass circle_info {
+   Name "circle_info"
+   Pos 132 132
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass circle_unknown {
+   Name "circle_unknown"
+   Pos 2 262
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass circle_warning {
+   Name "circle_warning"
+   Pos 132 2
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass cross {
+   Name "cross"
+   Pos 262 2
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass eye {
+   Name "eye"
+   Pos 262 132
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass small_dot {
+   Name "small_dot"
+   Pos 262 262
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass small_square {
+   Name "small_square"
+   Pos 2 2
+   Size 128 128
+   Flags 0
+  }
+ }
+}

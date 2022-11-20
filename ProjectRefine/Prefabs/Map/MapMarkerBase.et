@@ -1,9 +1,11 @@
-PR_ActiveMapIcon {
+PR_ActiveMapIconMarker {
  ID "5AE55486E065D8D1"
  components {
   SCR_MapDescriptorComponent "{5AE554868ED324FB}" {
   }
   RplComponent "{5AE5548684F23990}" {
   }
+ }
+ m_Style PR_ActiveMapIconStyleMarker "{5AE80D05AB0EDEFC}" {
  }
 }

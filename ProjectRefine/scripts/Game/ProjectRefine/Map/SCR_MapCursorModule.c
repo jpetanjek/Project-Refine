@@ -6,6 +6,14 @@ modded class SCR_MapCursorModule
 	protected PR_MapMarkerPlacementToolComponent m_MarkerPlacementToolComponent;
 	
 	//------------------------------------------------------------------------------
+	// Other
+	
+	bool CanOpenChat()
+	{
+		return !m_bPlacingMarker;
+	}
+	
+	//------------------------------------------------------------------------------
 	// (De)Initialization
 	
 	override protected void InitInputs()
@@ -30,8 +38,15 @@ modded class SCR_MapCursorModule
 			m_MarkerPlacementToolComponent = PR_MapMarkerPlacementToolComponent.Cast(markerPlacementToolWidget.FindHandler(PR_MapMarkerPlacementToolComponent));
 			m_MarkerPlacementToolComponent.m_OnMarkerPlacementConfirmed.Insert(OnMarkerPlacementConfirmed);
 			m_MarkerPlacementToolComponent.m_OnMarkerPlacementCanceled.Insert(OnMarkerPlacementCanceled);
+			m_MarkerPlacementToolComponent.StopMarkerPlacement();
 		}
-	}	
+	}
+	
+	override void OnMapOpen(MapConfiguration config)
+	{
+		super.OnMapOpen(config);
+		m_bPlacingMarker = false;
+	}
 	
 	
 	//------------------------------------------------------------------------------
@@ -87,9 +102,11 @@ modded class SCR_MapCursorModule
 		// Send request to server
 		vector markerPos;
 		string markerText;
-		m_MarkerPlacementToolComponent.GetMarkerProperties(markerPos, markerText);
+		string markerIconName;
+		int markerColor;
+		m_MarkerPlacementToolComponent.GetMarkerProperties(markerPos, markerText, markerIconName, markerColor);
 		
-		PR_ActiveMapIconPlayerControllerComponent.GetLocalInstance().AskAddMapMarker(markerPos, markerText);
+		PR_ActiveMapIconPlayerControllerComponent.GetLocalInstance().AskAddMapMarker(markerPos, markerText, markerIconName, markerColor);
 		
 		m_MarkerPlacementToolComponent.StopMarkerPlacement();
 	}

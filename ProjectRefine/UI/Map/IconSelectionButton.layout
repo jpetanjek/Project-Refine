@@ -1,0 +1,66 @@
+ButtonWidgetClass {
+ Name "IconSelectionButton"
+ Slot LayoutSlot "{5AE7758DE0F18D82}" {
+  Padding 2 2 2 2
+ }
+ Color 1 1 1 0
+ components {
+  SCR_ModularButtonComponent "{5AE75A8952C7C2AD}" {
+   m_aEffects {
+    SCR_ButtonEffectOpacity "{5AE75A8EA15A0684}" {
+     m_eEvents 15
+     m_sWidgetName "Background"
+     m_fAnimationTime 0
+     m_fDefault 0
+     m_fHovered 0.3
+     m_fActivated 0.8
+     m_fActivatedHovered 1
+    }
+   }
+   m_bCanBeToggled 1
+   m_bToggledOnlyThroughApi 1
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{5AE75A890E2F4314}" {
+   Name "SizeLayout"
+   Slot ButtonWidgetSlot "{5AE75A890E2F4371}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   AllowWidthOverride 1
+   WidthOverride 40
+   AllowHeightOverride 1
+   HeightOverride 40
+   {
+    OverlayWidgetClass "{5AE75A89F5F156C5}" {
+     Name "Overlay"
+     Slot AlignableSlot "{5AE75A890E3A890E}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      ImageWidgetClass "{5AE75A89F95CC888}" {
+       Name "Background"
+       Slot OverlayWidgetSlot "{5AE75A89F95CC8ED}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.539 0.196 0.002 1
+      }
+      ImageWidgetClass "{5AE75A89D1F68FCB}" {
+       Name "Image"
+       Slot OverlayWidgetSlot "{5AE75A89D1F6802C}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Texture "{D6BEE647C47E3E9E}UI/Map/Icons/MapIcons.imageset"
+       Image "circle_cross"
+       Size 1 1
+      }
+     }
+    }
+   }
+  }
+ }
+}

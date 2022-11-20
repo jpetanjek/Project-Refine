@@ -49,21 +49,21 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void AskAddMapMarker(vector markerPos, string markerText)
+	void AskAddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor)
 	{
-		Rpc(RpcAsk_AddMapMarker, markerPos, markerText);
+		Rpc(RpcAsk_AddMapMarker, markerPos, markerText, markerIconName, markerColor);
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void RpcAsk_AddMapMarker(vector markerPos, string markerText)
+	protected void RpcAsk_AddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor)
 	{
 		PlayerController pc = PlayerController.Cast(GetOwner());
 		PR_ActiveMapIconManagerComponent mgr = PR_ActiveMapIconManagerComponent.GetInstance();
 		
 		int fromPlayerId = pc.GetPlayerId();
 		
-		mgr.AddMapMarker(markerPos, markerText, fromPlayerId);
+		mgr.AddMapMarker(fromPlayerId, markerPos, markerText, markerIconName, markerColor);
 	}
 	
 };
