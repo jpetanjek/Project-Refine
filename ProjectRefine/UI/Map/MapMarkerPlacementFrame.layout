@@ -10,6 +10,7 @@ FrameWidgetClass {
     OffsetBottom -30
     SizeToContent 1
    }
+   AllowWidthOverride 0
    {
     OverlayWidgetClass "{5ACB13D7D5EEC67E}" {
      Prefab "{5ACB13D7D5EEC67E}"
@@ -17,11 +18,9 @@ FrameWidgetClass {
       VerticalLayoutWidgetClass "{5ACB13D706CA8B45}" {
        Prefab "{5ACB13D706CA8B45}"
        {
-        VerticalLayoutWidgetClass "{5AE75A89A4C0118E}" {
-         Prefab "{5AE75A89A4C0118E}"
-         Slot LayoutSlot "{5AE764929919F74F}" {
-          FillWeight 1
-         }
+        HorizontalLayoutWidgetClass "{5AE8C92A22D09821}" {
+         Prefab "{5AE8C92A22D09821}"
+         Clipping Inherit
         }
        }
       }

@@ -1,0 +1,85 @@
+ButtonWidgetClass {
+ Name "Button"
+ Slot LayoutSlot "{5AE8C92A437EC9E3}" {
+  Padding 2 2 2 2
+ }
+ Clipping True
+ Color 1 1 1 0
+ components {
+  SCR_ModularButtonComponent "{5AE8C92C8DF0EF68}" {
+   m_aEffects {
+    SCR_ButtonEffectOpacity "{5AE8C92C962E43DB}" {
+     m_eEvents 15
+     m_sWidgetName "Border"
+     m_fAnimationTime 0
+     m_fDefault 0
+     m_fHovered 0.3
+     m_fActivated 0.8
+     m_fActivatedHovered 1
+    }
+   }
+   m_bCanBeToggled 1
+   m_bToggledOnlyThroughApi 1
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{5AE8C92A401B36A0}" {
+   Name "SizeLayout"
+   Slot ButtonWidgetSlot "{5AE8C92A401B3685}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   AllowWidthOverride 1
+   WidthOverride 38
+   AllowHeightOverride 1
+   HeightOverride 38
+   {
+    OverlayWidgetClass "{5AE8C92A497A8813}" {
+     Name "Overlay"
+     Slot AlignableSlot "{5AE8C92A497A886D}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      ImageWidgetClass "{5AE8C92BA4AB8271}" {
+       Name "Image"
+       Slot OverlayWidgetSlot "{5AE8C92BA4AB8249}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.502 0 0 1
+      }
+      OverlayWidgetClass "{5AE8D259198994C8}" {
+       Name "Border"
+       Slot OverlayWidgetSlot "{5AE8D25919899520}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        PanelWidgetClass "{5AE8D2592064D1D0}" {
+         Name "BorderInner"
+         Slot OverlayWidgetSlot "{5AE8C92BD2F53F3C}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+          Padding 1 1 1 1
+         }
+         Color 0 0 0 1
+         style outline_4px
+        }
+        PanelWidgetClass "{5AE8C92BD2F53F24}" {
+         Name "BorderOuter"
+         Slot OverlayWidgetSlot "{5AE8C92BD2F53F3C}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+          Padding -2 -2 -2 -2
+         }
+         style outline_4px
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

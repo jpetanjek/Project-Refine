@@ -90,9 +90,31 @@ SizeLayoutWidgetClass {
         }
        }
       }
-      VerticalLayoutWidgetClass "{5AE75A89A4C0118E}" {
-       Name "m_IconSelectionVerticalLayout"
-       Slot LayoutSlot "{5AE764929919F74F}" {
+      HorizontalLayoutWidgetClass "{5AE8C92A22D09821}" {
+       Name "HorizontalLayout1"
+       Slot LayoutSlot "{5AE8C92A22D0980D}" {
+       }
+       Clipping False
+       {
+        VerticalLayoutWidgetClass "{5AE8C92A2B17D0D7}" {
+         Name "m_ColorSelectionVerticalLayout"
+         Slot LayoutSlot "{5AE8C92A2B17D12E}" {
+          Padding 0 2 0 0
+         }
+        }
+        ImageWidgetClass "{5AE8C92A3582C3E5}" {
+         Name "Separator"
+         Slot LayoutSlot "{5AE8C92A3582C3FB}" {
+          Padding 4 0 4 0
+         }
+         Color 1 1 1 0.098
+         Size 4 1
+        }
+        VerticalLayoutWidgetClass "{5AE75A89A4C0118E}" {
+         Name "m_IconSelectionVerticalLayout"
+         Slot LayoutSlot "{5AE764929919F74F}" {
+         }
+        }
        }
       }
       HorizontalLayoutWidgetClass "{5ACB13D46E62340A}" {

@@ -8,6 +8,8 @@ class PR_MapMarkerPlacementToolWidgets
 
 	EditBoxWidget m_MarkerTextEditbox;
 
+	VerticalLayoutWidget m_ColorSelectionVerticalLayout;
+
 	VerticalLayoutWidget m_IconSelectionVerticalLayout;
 
 	ButtonWidget m_CancelButton;
@@ -19,6 +21,8 @@ class PR_MapMarkerPlacementToolWidgets
 	bool Init(Widget root)
 	{
 		m_MarkerTextEditbox = EditBoxWidget.Cast(root.FindAnyWidget("m_MarkerTextEditbox"));
+
+		m_ColorSelectionVerticalLayout = VerticalLayoutWidget.Cast(root.FindAnyWidget("m_ColorSelectionVerticalLayout"));
 
 		m_IconSelectionVerticalLayout = VerticalLayoutWidget.Cast(root.FindAnyWidget("m_IconSelectionVerticalLayout"));
 

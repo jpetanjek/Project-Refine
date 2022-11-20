@@ -8,15 +8,28 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	ref ScriptInvoker m_OnMarkerPlacementConfirmed = new ScriptInvoker();
 	ref ScriptInvoker m_OnMarkerPlacementCanceled = new ScriptInvoker();
 	
-	// Icons which will be shown in the ToolSize
+	// Icons which will be shown in the Tool
 	protected static const ResourceName MAP_ICON_IMAGESET = "{D6BEE647C47E3E9E}UI/Map/Icons/MapIcons.imageset";
-	protected ref array<string> m_aMarkerIconNames = {
+	protected static ref array<string> s_aMarkerIconNames = {
 		"small_dot", "small_square", "cross",
 		"circle_cross", "circle_info", "circle_warning", "circle_unknown",
 		"circle", "eye"
 	};
 	protected ref array<SCR_ModularButtonComponent> m_aIconSelectionButtons = {};
 	protected static int s_iSelectedIconId = -1;
+	
+	// Colors which will be shown in the tool
+	protected static ref array<int> s_aMarkerColors = {
+		0xFFC20000,	// Red
+		0xff008000,	// Green
+		0xFF0003cf,	// Blue
+		0xff8000ff,	// Violet
+		Color.WHITE,
+		Color.BLACK,
+	};
+	protected ref array<SCR_ModularButtonComponent> m_aColorSelectionButtons = {};
+	protected static int s_iSelectedColorId = -1;
+	
 	
 	override void HandlerAttached(Widget w)
 	{
@@ -26,16 +39,28 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		widgets.m_OkButtonComponent.m_OnClicked.Insert(OnOkButton);
 		widgets.m_CancelButtonComponent.m_OnClicked.Insert(OnCancelButton);
 		
-		// Init icon grid
-		int nIcons = m_aMarkerIconNames.Count();
-		int nCols = 6;
+		InputManager im = GetGame().GetInputManager();
+		im.AddActionListener("MapConfirmAddMarker", EActionTrigger.UP, OnConfirmAction);
+		
+		
+		InitIconGrid();
+		InitColorGrid();
+	}
+	
+	override void HandlerDeattached(Widget w)
+	{
+		InputManager im = GetGame().GetInputManager();
+		im.RemoveActionListener("MapConfirmAddMarker", EActionTrigger.UP, OnConfirmAction);
+	}
+	
+	void InitIconGrid()
+	{
+		const int nCols = 6; // Columns
+		
+		int nIcons = s_aMarkerIconNames.Count();
 		int nRows = nIcons / nCols;
 		if (nRows * nCols < nIcons)
 			nRows++;
-		//for (int i = 0; i < nRows; i++)
-		//	grid.SetRowFillWeight(i, 1.0);
-		//for (int i = 0; i < nCols; i++)
-		//	grid.SetColumnFillWeight(i, 1.0);
 		
 		int rowId = 0;
 		int colId = 0;
@@ -46,11 +71,9 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		for (int iconId = 0; iconId < nIcons; iconId++)
 		{
 			Widget wIconButton = GetGame().GetWorkspace().CreateWidgets("{EBA716BC1344BDB6}UI/Map/IconSelectionButton.layout", rowWidget);
-			//GridSlot.SetRow(wIconButton, rowId);
-			//GridSlot.SetColumn(wIconButton, colId);
 			
 			ImageWidget wIconPreviewImage = ImageWidget.Cast(wIconButton.FindAnyWidget("Image"));
-			wIconPreviewImage.LoadImageFromSet(0, MAP_ICON_IMAGESET, m_aMarkerIconNames[iconId]);
+			wIconPreviewImage.LoadImageFromSet(0, MAP_ICON_IMAGESET, s_aMarkerIconNames[iconId]);
 			
 			SCR_ModularButtonComponent buttonComp = SCR_ModularButtonComponent.Cast(wIconButton.FindHandler(SCR_ModularButtonComponent));
 			m_aIconSelectionButtons.Insert(buttonComp);
@@ -72,6 +95,51 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 			m_aIconSelectionButtons[s_iSelectedIconId].SetToggled(true);
 		else
 			m_aIconSelectionButtons[0].SetToggled(true);
+	}
+	
+	void InitColorGrid()
+	{
+		const int nCols = 3; // Columns
+		
+		int nItems = s_aMarkerColors.Count();
+		int nRows = nItems / nCols;
+		if (nRows * nCols < nItems)
+			nRows++;
+		
+		int rowId = 0;
+		int colId = 0;
+		int widgetFlags = WidgetFlags.VISIBLE;
+		Widget rowWidget = GetGame().GetWorkspace().CreateWidget(
+			WidgetType.HorizontalLayoutWidgetTypeID, widgetFlags, Color.White, 0, widgets.m_ColorSelectionVerticalLayout);
+		
+		for (int i = 0; i < nItems; i++)
+		{
+			Widget wIconButton = GetGame().GetWorkspace().CreateWidgets("{116A6A70CEEB7CF7}UI/Map/ColorSelectionButton.layout", rowWidget);
+			
+			ImageWidget wImage = ImageWidget.Cast(wIconButton.FindAnyWidget("Image"));
+			Color color = Color.FromIntSRGB(s_aMarkerColors[i]);
+			wImage.SetColor(color);
+			
+			SCR_ModularButtonComponent buttonComp = SCR_ModularButtonComponent.Cast(wIconButton.FindHandler(SCR_ModularButtonComponent));
+			m_aColorSelectionButtons.Insert(buttonComp);
+			buttonComp.m_OnClicked.Insert(OnColorSelectionButton);
+			
+			colId++;
+			if (colId == nCols)
+			{
+				rowWidget = GetGame().GetWorkspace().CreateWidget(
+					WidgetType.HorizontalLayoutWidgetTypeID, widgetFlags, Color.White, 0, widgets.m_ColorSelectionVerticalLayout);
+								
+				colId = 0;
+				rowId++;
+			}
+		}
+		
+		// Select previously chosen icon, or first icon
+		if (s_iSelectedColorId != -1)
+			m_aColorSelectionButtons[s_iSelectedColorId].SetToggled(true);
+		else
+			m_aColorSelectionButtons[0].SetToggled(true);
 	}
 	
 	void Update(float timeSlice, SCR_MapEntity mapEntity)
@@ -114,14 +182,33 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		s_iSelectedIconId = id;
 	}
 	
+	protected void OnColorSelectionButton(SCR_ModularButtonComponent button)
+	{
+		int id = m_aColorSelectionButtons.Find(button);
+		
+		foreach (auto comp : m_aColorSelectionButtons)
+			comp.SetToggled(false);
+		
+		button.SetToggled(true);
+		s_iSelectedColorId = id;
+	}
+	
+	protected void OnConfirmAction()
+	{
+		m_OnMarkerPlacementConfirmed.Invoke();
+		GetGame().GetWorkspace().SetFocusedWidget(null); // Otherwise game focuses on invisible text edit box
+	}
+	
 	protected void OnOkButton()
 	{
 		m_OnMarkerPlacementConfirmed.Invoke();
+		GetGame().GetWorkspace().SetFocusedWidget(null);
 	}
 	
 	protected void OnCancelButton()
 	{
 		m_OnMarkerPlacementCanceled.Invoke();
+		GetGame().GetWorkspace().SetFocusedWidget(null);
 	}
 	
 	protected string GetSelectedIconName()
@@ -130,16 +217,28 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		for (int i = 0; i < nIcons; i++)
 		{
 			if (m_aIconSelectionButtons[i].GetToggled())
-				return m_aMarkerIconNames[i];
+				return s_aMarkerIconNames[i];
 		}
 		return string.Empty;
 	}
 	
+	protected int GetSelectedColor()
+	{
+		int n = m_aColorSelectionButtons.Count();
+		for (int i = 0; i < n; i++)
+		{
+			if (m_aColorSelectionButtons[i].GetToggled())
+				return s_aMarkerColors[i];
+		}
+		return Color.PINK;
+	}
+	
 	// Returns marker properties entered by user
-	void GetMarkerProperties(out vector outMarkerPos, out string outMarkerText, out string outMarkerIconName)
+	void GetMarkerProperties(out vector outMarkerPos, out string outMarkerText, out string outMarkerIconName, out int outMarkerColor)
 	{
 		outMarkerPos = m_vMarkerPosWorld;
 		outMarkerText = widgets.m_MarkerTextEditbox.GetText();
 		outMarkerIconName = GetSelectedIconName();
+		outMarkerColor = GetSelectedColor();
 	}
 }

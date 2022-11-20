@@ -29,9 +29,9 @@ ButtonWidgetClass {
     VerticalAlign 3
    }
    AllowWidthOverride 1
-   WidthOverride 44
+   WidthOverride 40
    AllowHeightOverride 1
-   HeightOverride 44
+   HeightOverride 40
    {
     OverlayWidgetClass "{5AE75A89F5F156C5}" {
      Name "Overlay"
