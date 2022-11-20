@@ -1,0 +1,33 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ {
+  SizeLayoutWidgetClass "{5ACB13D72B82B8C9}" : "{8D12ABB2B0743BF8}UI/Map/MapMarkerPlacementTool.layout" {
+   Name "MarkerPlacementTool"
+   Slot FrameWidgetSlot "{5ACB13D72B82B924}" {
+    OffsetLeft 0
+    OffsetTop 0
+    OffsetRight -100
+    OffsetBottom -30
+    SizeToContent 1
+   }
+   {
+    OverlayWidgetClass "{5ACB13D7D5EEC67E}" {
+     Prefab "{5ACB13D7D5EEC67E}"
+     {
+      VerticalLayoutWidgetClass "{5ACB13D706CA8B45}" {
+       Prefab "{5ACB13D706CA8B45}"
+       {
+        VerticalLayoutWidgetClass "{5AE75A89A4C0118E}" {
+         Prefab "{5AE75A89A4C0118E}"
+         Slot LayoutSlot "{5AE764929919F74F}" {
+          FillWeight 1
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

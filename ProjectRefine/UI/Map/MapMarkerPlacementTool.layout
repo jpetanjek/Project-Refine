@@ -7,12 +7,11 @@ SizeLayoutWidgetClass {
    GenerateFullWidgetPath 0
    ScriptClassNamePrefix "PR_"
   }
-  PR_MapMarkerPlacementToolComponent "{5ACB13C9216F666C}" {
+  PR_MapMarkerPlacementToolComponent "{5AE7758D8B9C9404}" {
   }
  }
  AllowWidthOverride 1
  WidthOverride 300
- AllowHeightOverride 1
  HeightOverride 400
  {
   OverlayWidgetClass "{5ACB13D7D5EEC67E}" {
@@ -89,6 +88,11 @@ SizeLayoutWidgetClass {
           }
          }
         }
+       }
+      }
+      VerticalLayoutWidgetClass "{5AE75A89A4C0118E}" {
+       Name "m_IconSelectionVerticalLayout"
+       Slot LayoutSlot "{5AE764929919F74F}" {
        }
       }
       HorizontalLayoutWidgetClass "{5ACB13D46E62340A}" {

@@ -30,6 +30,7 @@ modded class SCR_MapCursorModule
 			m_MarkerPlacementToolComponent = PR_MapMarkerPlacementToolComponent.Cast(markerPlacementToolWidget.FindHandler(PR_MapMarkerPlacementToolComponent));
 			m_MarkerPlacementToolComponent.m_OnMarkerPlacementConfirmed.Insert(OnMarkerPlacementConfirmed);
 			m_MarkerPlacementToolComponent.m_OnMarkerPlacementCanceled.Insert(OnMarkerPlacementCanceled);
+			m_MarkerPlacementToolComponent.StopMarkerPlacement();
 		}
 	}	
 	
@@ -87,9 +88,10 @@ modded class SCR_MapCursorModule
 		// Send request to server
 		vector markerPos;
 		string markerText;
-		m_MarkerPlacementToolComponent.GetMarkerProperties(markerPos, markerText);
+		string markerIconName;
+		m_MarkerPlacementToolComponent.GetMarkerProperties(markerPos, markerText, markerIconName);
 		
-		PR_ActiveMapIconPlayerControllerComponent.GetLocalInstance().AskAddMapMarker(markerPos, markerText);
+		PR_ActiveMapIconPlayerControllerComponent.GetLocalInstance().AskAddMapMarker(markerPos, markerText, markerIconName);
 		
 		m_MarkerPlacementToolComponent.StopMarkerPlacement();
 	}
