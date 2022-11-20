@@ -26,6 +26,19 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		return s_Instance;
 	}
 	
+	override void HandleOnFactionAssigned(int playerID, Faction assignedFaction)
+	{
+		// TODO remove this, its not needed
+		
+		if(Replication.IsClient())
+		{
+			Print("Client PR_ActiveMapIconManagerComponent::HandleOnFactionAssigned"); 
+			SCR_CampaignFaction faction = SCR_CampaignFaction.Cast(SCR_RespawnSystemComponent.GetLocalPlayerFaction());
+			if (!faction)
+				return;
+		}
+	}
+	
 	void Register(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
 	{
 		if(target != null)

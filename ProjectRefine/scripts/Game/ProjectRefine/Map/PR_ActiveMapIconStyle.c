@@ -3,6 +3,7 @@
 class PR_ActiveMapIconStyleBase : Managed
 {
 	void Apply(PR_ActiveMapIcon mapIcon, MapDescriptorComponent mapDescriptorComp);
+	void SetVisibility(bool visibility, MapDescriptorComponent mapDescriptorComp);
 }
 
 // Style of characters
@@ -36,8 +37,15 @@ class PR_ActiveMapIconStyleCharacter : PR_ActiveMapIconStyleBase
 		props.SetIconTextAlignH(1);
 		props.SetIconTextAlignV(1);
 		
+		//props.SetVisible(false);
+		
 		props.Activate(true);
 		mapItem.SetProps(props);
+	}
+	
+	override void SetVisibility(bool visibility, MapDescriptorComponent mapDescriptorComp)
+	{
+		mapDescriptorComp.Item().GetProps().SetVisible(visibility);
 	}
 }
 
@@ -69,6 +77,8 @@ class PR_ActiveMapIconStyleMarker : PR_ActiveMapIconStyleBase
 		props.SetTextOffsetY(30);
 		props.SetIconTextAlignH(1);
 		props.SetIconTextAlignV(1);
+		
+		//props.SetVisible(false);
 		
 		props.Activate(true);
 		mapItem.SetProps(props);

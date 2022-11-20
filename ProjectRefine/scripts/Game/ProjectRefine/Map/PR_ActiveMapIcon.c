@@ -119,8 +119,40 @@ class PR_ActiveMapIcon : SCR_Position
 		}
 		
 		if (m_Style)
+		{
 			m_Style.Apply(this, m_MapDescriptor);
+		}
+		
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		if (respawnSystem)
+			respawnSystem.GetOnPlayerFactionChanged().Insert(OnPlayerFactionChanged);
 	}
+	
+	// Client changed faction
+	void OnPlayerFactionChanged(int playerID, int factionIndex)
+	{
+		FactionManager factionManager = GetGame().GetFactionManager();
+		if (!factionManager)
+			return;
+		
+		Faction faction = factionManager.GetFactionByIndex(factionIndex);
+		if (!faction)
+			return;
+		
+		if(Replication.IsServer())
+			return;
+		
+		Print("Client PR_ActiveMapIcon::OnPlayerFactionChanged"); 	
+		
+		// TODO: Compare faction and unhide if it is the same
+		if (m_Style && factionIndex == m_iFactionId)
+		{
+			m_Style.SetVisibility(true, m_MapDescriptor);
+		}
+		
+	}
+	
+	// TODO: Target changed faction - do so by subscribing to the targets event
 	
 	//------------------------------------------------------------------------------------------------
 	void PR_ActiveMapIcon(IEntitySource src, IEntity parent)
@@ -132,7 +164,6 @@ class PR_ActiveMapIcon : SCR_Position
 	//------------------------------------------------------------------------------------------------
 	void ~PR_ActiveMapIcon()
 	{
-		bool breakme = true;
 	}
 	
 	
