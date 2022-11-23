@@ -152,7 +152,6 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		mapEntity.WorldToScreen(worldX, worldZ, screenXRef, screenYRef, withPan: true);
 		
 		FrameSlot.SetPos(m_wRoot, workspace.DPIUnscale(screenXRef), workspace.DPIUnscale(screenYRef));
-		//mapEntity.pos
 	}
 	
 	void StartMarkerPlacement(vector markerPosWorld)

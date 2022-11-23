@@ -1,5 +1,15 @@
 modded class SCR_MapMenuUI: ChimeraMenuBase
-{	
+{
+	//------------------------------------------------------------------------------------------------
+	override void OnMenuOpen()
+	{
+		super.OnMenuOpen();
+		
+		// Otherwise game auto focuses on the invisible edit box which intercepts controls >_<
+		GetGame().GetCallqueue().CallLater(GetGame().GetWorkspace().SetFocusedWidget, 0, false, null, false);
+	}
+	
+	
 	//------------------------------------------------------------------------------------------------
 	override void Callback_OnChatToggleAction()
 	{
