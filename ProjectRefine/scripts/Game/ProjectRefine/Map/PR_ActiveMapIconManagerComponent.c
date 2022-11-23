@@ -142,9 +142,9 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	}
 	
 	// Public inteface to add a map marker
-	void AddMapMarker(int fromPlayerId, vector markerPosWorld, string markerText, string markerIconName, int markerColor)
+	PR_ActiveMapIconMarker AddMapMarker(int fromPlayerId, vector markerPosWorld, string markerText, string markerIconName, int markerColor)
 	{
-		PrintFormat("Player %1 requests to add marker: %2 %3", fromPlayerId, markerPosWorld, markerText);
+		//PrintFormat("Player %1 requests to add marker: %2 %3", fromPlayerId, markerPosWorld, markerText);
 		
 		// Spawn a prefab with map marker
 		EntitySpawnParams p = new EntitySpawnParams();
@@ -152,6 +152,21 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		Resource rsc = Resource.Load("{6EF387F31DB53667}Prefabs/Map/MapMarkerBase.et");
 		PR_ActiveMapIconMarker marker = PR_ActiveMapIconMarker.Cast(GetGame().SpawnEntityPrefab(rsc));
 		marker.Init(null, pos: markerPosWorld);
-		marker.InitMarkerProps(markerText, markerIconName, markerColor);
+		
+		PlayerManager pm = GetGame().GetPlayerManager();
+		string playerName = pm.GetPlayerName(fromPlayerId);
+		
+		marker.InitMarkerProps(markerText, markerIconName, markerColor, playerName);
+		
+		return marker;
+	}
+	
+	// Public interface to delete a map marker
+	void DeleteMapMarker(PR_ActiveMapIconMarker marker)
+	{
+		if (!marker)
+			return;
+		
+		RplComponent.DeleteRplEntity(marker, false);
 	}
 };

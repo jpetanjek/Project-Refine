@@ -1,0 +1,41 @@
+OverlayWidgetClass {
+ Name "Tooltip"
+ Slot FrameWidgetSlot "{5AED74B589A17105}" {
+  PositionX 0
+  OffsetLeft 0
+  PositionY 500
+  OffsetTop 500
+  SizeX 100
+  OffsetRight -100
+  SizeY 500
+  OffsetBottom -1000
+  SizeToContent 1
+ }
+ Clipping False
+ {
+  ImageWidgetClass "{5AED492197A13E98}" {
+   Name "Background"
+   Slot OverlayWidgetSlot "{5AED492197A13EFC}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   Opacity 0.8
+   Color 0 0 0 1
+  }
+  TextWidgetClass "{5AED72F9B195AADC}" {
+   Name "Text"
+   Slot OverlayWidgetSlot "{5AED72F9B195AB35}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 8 8 8 8
+   }
+   Text "Tooltip Text"\
+   "Tooltip Text"
+   "Font Size" 20
+   "Min Font Size" 20
+   FontProperties FontProperties "{5AED72F9D752BA26}" {
+    Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+   }
+  }
+ }
+}

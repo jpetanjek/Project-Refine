@@ -55,6 +55,18 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	void AskDeleteMapMarker(PR_ActiveMapIconMarker marker)
+	{
+		if (!marker)
+			return;
+		
+		RplComponent rpl = RplComponent.Cast(marker.FindComponent(RplComponent));
+		RplId id = rpl.Id();
+		
+		Rpc(RpcAsk_DeleteMapMarker, id);
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RpcAsk_AddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor)
 	{
@@ -66,4 +78,16 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 		mgr.AddMapMarker(fromPlayerId, markerPos, markerText, markerIconName, markerColor);
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RpcAsk_DeleteMapMarker(RplId rplId)
+	{
+		PR_ActiveMapIconManagerComponent mgr = PR_ActiveMapIconManagerComponent.GetInstance();
+		RplComponent rpl = RplComponent.Cast(Replication.FindItem(rplId));
+		if(!rpl)
+			return;
+		
+		PR_ActiveMapIconMarker marker = PR_ActiveMapIconMarker.Cast(rpl.GetEntity());
+		mgr.DeleteMapMarker(marker);
+	}
 };
