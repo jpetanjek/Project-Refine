@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{B8C205DFA5E72995}UI/Map/Icons/MapIcons_atlas.edds"
+ Name "{B8C205DFA5E72996}UI/Map/Icons/MapIcons_atlas.edds"
  Configurations {
   TGAResourceClass PC : "{1D692833852EC72A}Configs/System/ResourceTypes/PC/TextureUIAtlas.conf" {
   }

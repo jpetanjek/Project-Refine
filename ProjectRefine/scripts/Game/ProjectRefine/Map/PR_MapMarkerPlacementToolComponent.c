@@ -13,7 +13,8 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	protected static ref array<string> s_aMarkerIconNames = {
 		"small_dot", "small_square", "cross",
 		"circle_cross", "circle_info", "circle_warning", "circle_unknown",
-		"circle", "eye"
+		"circle", "eye",
+		"arrow_up", "arrow_left", "arrow_down", "arrow_right"
 	};
 	protected ref array<SCR_ModularButtonComponent> m_aIconSelectionButtons = {};
 	protected static int s_iSelectedIconId = -1;
