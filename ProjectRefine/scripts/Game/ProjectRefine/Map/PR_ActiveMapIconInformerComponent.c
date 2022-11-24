@@ -11,6 +11,8 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 	
 	protected PR_ActiveMapIconManagerComponent m_MapManager;
 	
+	protected PR_ActiveMapIcon m_Icon;
+	
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
@@ -27,7 +29,7 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 		m_MapManager = PR_ActiveMapIconManagerComponent.GetInstance();
 		if(m_MapManager)
 		{
-			m_MapManager.Register(this, m_IconPrefab);
+			m_Icon = m_MapManager.Register(this, m_IconPrefab);
 		}
 		
 		GetGame().GetGameMode()
@@ -35,7 +37,10 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 	
 	void ~PR_ActiveMapIconInformerComponent()
 	{
-		m_MapManager.Unregister(this);
+		if(m_MapManager && m_Icon)
+		{
+			m_MapManager.Unregister(m_Icon);
+		}
 	}
 	
 }

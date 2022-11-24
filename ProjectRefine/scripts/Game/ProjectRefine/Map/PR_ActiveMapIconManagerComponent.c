@@ -7,8 +7,8 @@ class PR_ActiveMapIconManagerComponentClass: SCR_BaseGameModeComponentClass
 //! Manages streaming logic of all icons - for now stream everything registered to everyone
 class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 {	
-	private ref map<ScriptComponent, PR_ActiveMapIcon> m_AllRegistered = new map<ScriptComponent, PR_ActiveMapIcon>;
-	private ref map<ScriptComponent, PR_ActiveMapIcon> m_NewlyRegistered = new map<ScriptComponent, PR_ActiveMapIcon>;
+	static ref array<PR_ActiveMapIcon> m_AllMarkers = new array<PR_ActiveMapIcon>;
+	static ref array<PR_ActiveMapIcon> m_NewMarkers = new array<PR_ActiveMapIcon>;
 	
 	protected static PR_ActiveMapIconManagerComponent s_Instance;
 	
@@ -39,7 +39,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
-	void Register(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
+	PR_ActiveMapIcon Register(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
 	{
 		if(target != null)
 		{
@@ -48,19 +48,27 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab)));
 			if(activeMapIcon != null)
 			{
-				m_NewlyRegistered.Insert(target, activeMapIcon);
-				m_AllRegistered.Insert(target, activeMapIcon);
+				m_AllMarkers.Insert(activeMapIcon);
+				m_NewMarkers.Insert(activeMapIcon);
 				
 				activeMapIcon.Init(target.GetOwner());
+				
+				return activeMapIcon;
 			}
+			return null;
 		}
+		return null;
 	}
 	
-	void Unregister(ScriptComponent target)
+	void Unregister(PR_ActiveMapIcon activeMapIcon)
 	{
-		ref PR_ActiveMapIcon activeMapIcon = m_AllRegistered.Get(target);
-		m_AllRegistered.Remove(target);
-		m_NewlyRegistered.Remove(target);
+		int index = m_AllMarkers.Find(activeMapIcon);
+		if(index != -1)
+			m_AllMarkers.Remove(index);
+		
+		index = m_NewMarkers.Find(activeMapIcon);
+		if(index != -1)
+			m_NewMarkers.Remove(index);
 		
 		delete activeMapIcon;
 	}
@@ -74,24 +82,24 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	{
 		// TODO: Only runs on master/server
 		StreamingLogic();
-		if(m_NewlyRegistered != null)
-			m_NewlyRegistered.Clear();
+		if(m_NewMarkers != null)
+			m_NewMarkers.Clear();
 	}
 	
 	void StreamingLogic()
 	{
-		if(m_NewlyRegistered == null)
+		if(m_NewMarkers.IsEmpty())
 			return;
 		
 		// Stream new ones in to everyone
 		array<int> indiciesToRemove = {};
 		
-		for(int i = 0; i < m_NewlyRegistered.Count(); i++)
+		for(int i = 0; i < m_NewMarkers.Count(); i++)
 		{
-			if(m_NewlyRegistered.GetElement(i) != null)
+			if(m_NewMarkers.Get(i) != null)
 			{
 				// Order its stream in to every player
-				RplComponent rpl = RplComponent.Cast(m_NewlyRegistered.GetElement(i).FindComponent(RplComponent));
+				RplComponent rpl = RplComponent.Cast(m_NewMarkers.Get(i).FindComponent(RplComponent));
 				if(rpl != null)
 				{
 					array<int> players = {};
@@ -115,24 +123,24 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		
 		for(int j = 0; j < indiciesToRemove.Count(); j++)
 		{
-			m_NewlyRegistered.RemoveElement(indiciesToRemove[j]);
+			m_NewMarkers.Remove(indiciesToRemove[j]);
 		}
 	}
 	
 	
 	override void OnPlayerConnected(int playerId)
 	{
-		if(m_AllRegistered == null)
+		if(m_AllMarkers == null)
 			return;
 		
 		array<int> indiciesToRemove = {};
 		
-		for(int i = 0; i < m_AllRegistered.Count(); i++)
+		for(int i = 0; i < m_AllMarkers.Count(); i++)
 		{
-			if(m_AllRegistered.GetElement(i) != null)
+			if(m_AllMarkers.Get(i) != null)
 			{
 				// Order its stream in to this player
-				RplComponent rpl = RplComponent.Cast(m_AllRegistered.GetElement(i).FindComponent(RplComponent));
+				RplComponent rpl = RplComponent.Cast(m_AllMarkers.Get(i).FindComponent(RplComponent));
 				if(rpl != null)
 				{
 					RplIdentity identity = GetGame().GetPlayerManager().GetPlayerController(playerId).GetRplIdentity();
@@ -150,7 +158,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		
 		for(int j = 0; j < indiciesToRemove.Count(); j++)
 		{
-			m_AllRegistered.RemoveElement(indiciesToRemove[j]);
+			m_AllMarkers.Remove(indiciesToRemove[j]);
 		}
 	}
 	
@@ -171,6 +179,9 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		
 		marker.InitMarkerProps(markerText, markerIconName, markerColor, playerName);
 		
+		m_NewMarkers.Insert(marker);
+		m_AllMarkers.Insert(marker);
+		
 		return marker;
 	}
 	
@@ -179,6 +190,14 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	{
 		if (!marker)
 			return;
+		
+		int index = m_NewMarkers.Find(marker);
+		if(index != -1)
+			m_NewMarkers.Remove(index);
+		
+		index = m_AllMarkers.Find(marker);
+		if(index != -1)
+			m_AllMarkers.Remove(index);
 		
 		RplComponent.DeleteRplEntity(marker, false);
 	}

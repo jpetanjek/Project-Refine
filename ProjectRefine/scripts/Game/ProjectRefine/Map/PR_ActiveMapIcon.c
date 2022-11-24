@@ -69,12 +69,16 @@ class PR_ActiveMapIcon : SCR_Position
 		
 		m_iFactionId = factionId;
 		
-		FactionAffiliationComponent factionAffiliation = FactionAffiliationComponent.Cast(m_Target.FindComponent(FactionAffiliationComponent));
-		FactionManager factionManager = GetGame().GetFactionManager();
-		if (factionAffiliation && factionManager)
+		if (m_Target)
 		{
-			m_iFactionId = factionManager.GetFactionIndex(factionAffiliation.GetAffiliatedFaction());
+			FactionAffiliationComponent factionAffiliation = FactionAffiliationComponent.Cast(m_Target.FindComponent(FactionAffiliationComponent));
+			FactionManager factionManager = GetGame().GetFactionManager();
+			if (factionAffiliation && factionManager)
+			{
+				m_iFactionId = factionManager.GetFactionIndex(factionAffiliation.GetAffiliatedFaction());
+			}
 		}
+		
 		
 		m_iGroupId = groupId;
 		
@@ -123,6 +127,8 @@ class PR_ActiveMapIcon : SCR_Position
 				return;
 			
 			int factionIndex = playerRespawnInfo.GetPlayerFactionIndex();
+			
+			Print("Client PR_ActiveMapIcon::FactionChangedByServer" + factionIndex + m_iFactionId);
 			
 			if (m_Style && factionIndex != m_iFactionId)
 			{
