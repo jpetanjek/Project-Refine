@@ -193,6 +193,9 @@ modded class SCR_MapCursorModule
 	
 	void ShowTooltip(bool show, string text = string.Empty)
 	{
+		if (!m_wTooltipRoot)
+			return;
+		
 		m_wTooltipRoot.SetVisible(show);
 		m_wTooltipText.SetText(text);
 		
