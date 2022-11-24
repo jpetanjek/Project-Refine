@@ -1,0 +1,44 @@
+FrameWidgetClass {
+ {
+  FrameWidgetClass "{58731DB204D94385}" {
+   Prefab "{58731DB204D94385}"
+   {
+    FrameWidgetClass "{5AED6441EEEAFD03}" {
+     Name "TooltipFrame"
+     Slot FrameWidgetSlot "{5AED6441EEEAFD61}" {
+      Anchor 0 0 1 1
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX -1820
+      OffsetRight 0
+      SizeY -1050
+      OffsetBottom 0
+     }
+     "Z Order" 101
+     {
+      OverlayWidgetClass "{5AED7422B8F5EC07}" : "{BDA29264FC7BA3BA}UI/Map/MapTooltip.layout" {
+       Name "Tooltip"
+      }
+     }
+    }
+    FrameWidgetClass "{5ACB13C960D4BB9E}" : "{C1CB49A98308994E}UI/Map/MapMarkerPlacementFrame.layout" {
+     Name "MarkerPlacementFrame"
+     Slot FrameWidgetSlot "{5ACB13C960D4BBED}" {
+      Anchor 0 0 1 1
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX -1620
+      OffsetRight 0
+      SizeY -974
+      OffsetBottom 0
+     }
+     "Z Order" 100
+    }
+   }
+  }
+ }
+}

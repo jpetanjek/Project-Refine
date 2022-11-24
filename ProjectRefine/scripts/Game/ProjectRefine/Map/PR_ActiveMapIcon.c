@@ -90,6 +90,9 @@ class PR_ActiveMapIcon : SCR_Position
 		}
 	}
 	
+	// Called when we hover a cursor on it
+	void OnCursorHover(SCR_MapEntity mapEntity, SCR_MapCursorModule cursorModule);
+	
 	//------------------------------------------------------------------------------------------------
 	// PROTECTED
 	
@@ -186,7 +189,7 @@ class PR_ActiveMapIcon : SCR_Position
 	//------------------------------------------------------------------------------------------------
 	void PR_ActiveMapIcon(IEntitySource src, IEntity parent)
 	{
-		SetEventMask(EntityEvent.INIT);
+		SetEventMask(EntityEvent.INIT | EntityEvent.FIXEDFRAME);
 		SetFlags(EntityFlags.ACTIVE, true);
 	}
 	

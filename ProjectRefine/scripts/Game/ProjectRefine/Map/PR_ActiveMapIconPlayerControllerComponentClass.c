@@ -49,21 +49,45 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void AskAddMapMarker(vector markerPos, string markerText)
+	void AskAddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor)
 	{
-		Rpc(RpcAsk_AddMapMarker, markerPos, markerText);
+		Rpc(RpcAsk_AddMapMarker, markerPos, markerText, markerIconName, markerColor);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void AskDeleteMapMarker(PR_ActiveMapIconMarker marker)
+	{
+		if (!marker)
+			return;
+		
+		RplComponent rpl = RplComponent.Cast(marker.FindComponent(RplComponent));
+		RplId id = rpl.Id();
+		
+		Rpc(RpcAsk_DeleteMapMarker, id);
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void RpcAsk_AddMapMarker(vector markerPos, string markerText)
+	protected void RpcAsk_AddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor)
 	{
 		PlayerController pc = PlayerController.Cast(GetOwner());
 		PR_ActiveMapIconManagerComponent mgr = PR_ActiveMapIconManagerComponent.GetInstance();
 		
 		int fromPlayerId = pc.GetPlayerId();
 		
-		mgr.AddMapMarker(markerPos, markerText, fromPlayerId);
+		mgr.AddMapMarker(fromPlayerId, markerPos, markerText, markerIconName, markerColor);
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RpcAsk_DeleteMapMarker(RplId rplId)
+	{
+		PR_ActiveMapIconManagerComponent mgr = PR_ActiveMapIconManagerComponent.GetInstance();
+		RplComponent rpl = RplComponent.Cast(Replication.FindItem(rplId));
+		if(!rpl)
+			return;
+		
+		PR_ActiveMapIconMarker marker = PR_ActiveMapIconMarker.Cast(rpl.GetEntity());
+		mgr.DeleteMapMarker(marker);
+	}
 };

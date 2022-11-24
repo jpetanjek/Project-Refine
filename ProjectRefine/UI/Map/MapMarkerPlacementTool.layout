@@ -7,12 +7,11 @@ SizeLayoutWidgetClass {
    GenerateFullWidgetPath 0
    ScriptClassNamePrefix "PR_"
   }
-  PR_MapMarkerPlacementToolComponent "{5ACB13C9216F666C}" {
+  PR_MapMarkerPlacementToolComponent "{5AE7758D8B9C9404}" {
   }
  }
  AllowWidthOverride 1
  WidthOverride 300
- AllowHeightOverride 1
  HeightOverride 400
  {
   OverlayWidgetClass "{5ACB13D7D5EEC67E}" {
@@ -87,6 +86,33 @@ SizeLayoutWidgetClass {
             Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
            }
           }
+         }
+        }
+       }
+      }
+      HorizontalLayoutWidgetClass "{5AE8C92A22D09821}" {
+       Name "HorizontalLayout1"
+       Slot LayoutSlot "{5AE8C92A22D0980D}" {
+       }
+       Clipping False
+       {
+        VerticalLayoutWidgetClass "{5AE8C92A2B17D0D7}" {
+         Name "m_ColorSelectionVerticalLayout"
+         Slot LayoutSlot "{5AE8C92A2B17D12E}" {
+          Padding 0 2 0 0
+         }
+        }
+        ImageWidgetClass "{5AE8C92A3582C3E5}" {
+         Name "Separator"
+         Slot LayoutSlot "{5AE8C92A3582C3FB}" {
+          Padding 4 0 4 0
+         }
+         Color 1 1 1 0.098
+         Size 4 1
+        }
+        VerticalLayoutWidgetClass "{5AE75A89A4C0118E}" {
+         Name "m_IconSelectionVerticalLayout"
+         Slot LayoutSlot "{5AE764929919F74F}" {
          }
         }
        }
