@@ -98,6 +98,8 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		{
 			if(m_NewMarkers.Get(i) != null)
 			{
+				PR_ActiveMapIcon localMarker = m_NewMarkers.Get(i);
+				
 				// Order its stream in to every player
 				RplComponent rpl = RplComponent.Cast(m_NewMarkers.Get(i).FindComponent(RplComponent));
 				if(rpl != null)
@@ -107,10 +109,23 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 					
 					for(int j = 0; j < players.Count(); j++)
 					{
-						RplIdentity identity = GetGame().GetPlayerManager().GetPlayerController(players[j]).GetRplIdentity();
-						if(identity.IsValid())
+						PlayerController localPC =  GetGame().GetPlayerManager().GetPlayerController(players[j]);
+						if(localPC)
 						{
-							rpl.EnableStreamingConNode(identity, false);
+							RplIdentity identity = localPC.GetRplIdentity();
+							if(identity.IsValid())
+							{
+								SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		
+								if (respawnSystem)
+								{		
+									SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
+									if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
+									{
+										rpl.EnableStreamingConNode(identity, false);
+									}
+								}
+							}
 						}
 					}
 				}
@@ -139,14 +154,29 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		{
 			if(m_AllMarkers.Get(i) != null)
 			{
+				PR_ActiveMapIcon localMarker = m_AllMarkers.Get(i);
+				
 				// Order its stream in to this player
 				RplComponent rpl = RplComponent.Cast(m_AllMarkers.Get(i).FindComponent(RplComponent));
 				if(rpl != null)
 				{
-					RplIdentity identity = GetGame().GetPlayerManager().GetPlayerController(playerId).GetRplIdentity();
-					if(identity.IsValid())
+					PlayerController localPC =  GetGame().GetPlayerManager().GetPlayerController(playerId);
+					if(localPC)
 					{
-						rpl.EnableStreamingConNode(identity, false);
+						RplIdentity identity = localPC.GetRplIdentity();
+						if(identity.IsValid())
+						{
+							SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		
+							if (respawnSystem)
+							{		
+								SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
+								if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
+								{
+									rpl.EnableStreamingConNode(identity, false);
+								}
+							}
+						}
 					}
 				}
 			}

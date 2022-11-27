@@ -29,7 +29,7 @@ class PR_ActiveMapIcon : SCR_Position
 	
 	// Faction ID for which this icon is relevant. -1 means it's for all factions.
 	[RplProp(onRplName: "FactionChangedByServer")]
-	protected int m_iFactionId = -1;
+	int m_iFactionId = -1;
 	
 	// Group ID for which this icon is relevant. -1 means it's for all groups.
 	[RplProp(onRplName: "UpdateFromReplicatedState")]
@@ -92,6 +92,14 @@ class PR_ActiveMapIcon : SCR_Position
 			// If we don't have a target to track then we don't need fixed frame
 			SetEventMask(EntityEvent.INIT | EntityEvent.FIXEDFRAME);
 		}
+		
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		
+		if (respawnSystem && Replication.IsClient())
+		{
+			// Subscribe to change of faction on Client only
+			respawnSystem.GetOnPlayerFactionChanged().Insert(OnPlayerFactionChanged);
+		}
 	}
 	
 	// Called when we hover a cursor on it
@@ -118,8 +126,6 @@ class PR_ActiveMapIcon : SCR_Position
 		
 		if (respawnSystem && Replication.IsClient())
 		{
-			// Subscribe to change of faction on Client only
-			respawnSystem.GetOnPlayerFactionChanged().Insert(OnPlayerFactionChanged);
 			
 			// Initialize properly - kinda ugly			
 			SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(SCR_PlayerController.GetLocalPlayerId());
@@ -130,9 +136,12 @@ class PR_ActiveMapIcon : SCR_Position
 			
 			Print("Client PR_ActiveMapIcon::FactionChangedByServer" + factionIndex + m_iFactionId);
 			
-			if (m_Style && factionIndex != m_iFactionId)
+			if (m_Style && factionIndex == m_iFactionId)
 			{
-				// By defualt it is visible, but if of opposite faction, hide it
+				m_Style.SetVisibility(true, m_MapDescriptor);
+			}
+			else if (m_Style)
+			{
 				m_Style.SetVisibility(false, m_MapDescriptor);
 			}
 		}
@@ -185,6 +194,10 @@ class PR_ActiveMapIcon : SCR_Position
 		if (m_Style && factionIndex == m_iFactionId)
 		{
 			m_Style.SetVisibility(true, m_MapDescriptor);
+		}
+		else if (m_Style)
+		{
+			m_Style.SetVisibility(false, m_MapDescriptor);
 		}
 		
 	}
