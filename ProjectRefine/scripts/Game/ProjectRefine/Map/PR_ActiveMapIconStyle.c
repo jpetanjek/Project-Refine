@@ -9,9 +9,7 @@ class PR_ActiveMapIconStyleBase : Managed
 // Style of characters
 [BaseContainerProps()]
 class PR_ActiveMapIconStyleCharacter : PR_ActiveMapIconStyleBase
-{
-	protected const string IMAGE_DEF = "character";
-	
+{	
 	override void Apply(PR_ActiveMapIcon mapIcon, MapDescriptorComponent mapDescriptorComp)
 	{
 		MapItem mapItem = mapDescriptorComp.Item();
@@ -20,11 +18,9 @@ class PR_ActiveMapIconStyleCharacter : PR_ActiveMapIconStyleBase
 		//mapItem.SetDisplayName("Display Name :D :D");
 		//mapItem.SetInfoText("Info Text :D", null);
 		mapItem.SetBaseType(EMapDescriptorType.MDT_SMALLTREE);
-		mapItem.SetImageDef(IMAGE_DEF);
-		props.SetImageDef(IMAGE_DEF);
 		props.SetTextVisible(true);
 		props.SetIconVisible(true);
-		props.SetIconSize(64, 0.4, 0.4);
+		props.SetIconSize(64, 0.3, 0.3);
 		props.SetFrontColor(Color.White);
 		props.SetOutlineColor(Color.White);
 		props.SetBackgroundColor(Color.White);
