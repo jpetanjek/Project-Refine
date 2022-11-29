@@ -57,6 +57,7 @@ class PR_ActiveMapIcon : SCR_Position
 		// We get position from target or set it explicitly
 		if (target)
 		{
+			OnTargetAssigned(target);
 			UpdatePosAndDirPropFromTarget();
 			m_bTargetAssigned = true;
 		}
@@ -154,6 +155,9 @@ class PR_ActiveMapIcon : SCR_Position
 		UpdatePosAndDirPropFromTarget();
 	}
 	
+	// Called once when a target is assigned.
+	// Override to implement one-time initialization.
+	protected void OnTargetAssigned(IEntity target);
 	
 	//------------------------------------------------------------------------------------------------
 	override protected void EOnInit(IEntity owner)
