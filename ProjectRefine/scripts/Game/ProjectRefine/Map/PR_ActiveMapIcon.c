@@ -111,7 +111,7 @@ class PR_ActiveMapIcon : SCR_Position
 		SetTransformFromPosAndDirProp();
 	}
 	
-	// On Client - FactionId changed by Server
+	// On Client - FactionId of icon changed by Server
 	protected void FactionChangedByServer()
 	{
 		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
@@ -167,15 +167,7 @@ class PR_ActiveMapIcon : SCR_Position
 		}	
 		
 		if(Replication.IsClient())
-		{
-			// Subscribe to change of faction - only for client
-			// Server only cares about streaming -> in manager
-			SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-			if (respawnSystem)
-			{
-				respawnSystem.GetOnPlayerFactionChanged().Insert(OnPlayerFactionChanged);
-			}
-			
+		{			
 			PR_ActiveMapIconManagerComponent m_MapManager = PR_ActiveMapIconManagerComponent.GetInstance();
 			if(m_MapManager)
 			{
@@ -184,7 +176,7 @@ class PR_ActiveMapIcon : SCR_Position
 		}
 	}
 	
-	// Client changed faction - hide / unhide this icon
+	// Client player changed faction - hide / unhide this icon -> needed for now because things in the bubble of the player stay streamed in even though it might be from enemy team
 	void OnPlayerFactionChanged(int playerID, int factionIndex)
 	{
 		if(SCR_PlayerController.GetLocalPlayerId() != playerID)
@@ -207,9 +199,6 @@ class PR_ActiveMapIcon : SCR_Position
 			m_Style.SetVisibility(false, m_MapDescriptor);
 		}
 	}
-	
-	// TODO: Target changed faction - do so by subscribing to the targets event - onlly on server
-	// TODO: OnRep for faction on Client
 	
 	//------------------------------------------------------------------------------------------------
 	void PR_ActiveMapIcon(IEntitySource src, IEntity parent)

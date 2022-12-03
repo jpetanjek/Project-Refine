@@ -7,8 +7,8 @@ class PR_ActiveMapIconManagerComponentClass: SCR_BaseGameModeComponentClass
 //! Manages streaming logic of all icons - for now stream everything registered to everyone
 class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 {	
-	static ref array<PR_ActiveMapIcon> m_AllMarkers = new array<PR_ActiveMapIcon>;
-	static ref array<PR_ActiveMapIcon> m_NewMarkers = new array<PR_ActiveMapIcon>;
+	ref array<PR_ActiveMapIcon> m_AllMarkers = new array<PR_ActiveMapIcon>;
+	ref array<PR_ActiveMapIcon> m_NewMarkers = new array<PR_ActiveMapIcon>;
 	
 	protected static PR_ActiveMapIconManagerComponent s_Instance;
 	
@@ -26,10 +26,64 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		return s_Instance;
 	}
 	
+	// Server -> Player changed faction, execute streaming logic - stream in things he needs, stream out things he doesn't
+	// Client
 	override void HandleOnFactionAssigned(int playerID, Faction assignedFaction)
 	{
-		// TODO: Player changed faction, execute streaming logic - stream in things he needs, stream out things he doesn't
+		PlayerController localPC =  GetGame().GetPlayerManager().GetPlayerController(playerID);
+		if(localPC == null)
+			return;
 		
+		RplIdentity identity = localPC.GetRplIdentity();
+		if(!identity.IsValid())
+			return;
+		
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		if (respawnSystem == null)
+			return;
+		
+		SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
+		if(playerRespawnInfo == null)
+			return;
+		
+		if(Replication.IsServer())
+		{	
+			for(int i = 0; i < m_AllMarkers.Count(); i++)
+			{
+				PR_ActiveMapIcon localMarker = m_AllMarkers.Get(i);
+				
+				if(localMarker != null)
+				{
+					// Order its stream in to this player
+					RplComponent rpl = RplComponent.Cast(localMarker.FindComponent(RplComponent));
+					if(rpl != null)
+					{
+						if (playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
+						{
+							rpl.EnableStreamingConNode(identity, false);
+						}
+						else
+						{
+							rpl.EnableStreamingConNode(identity, true);
+						}
+					}
+				}
+			}
+		}
+		else 
+		{
+			// Client
+			
+			for(int i = 0; i < m_AllMarkers.Count(); i++)
+			{
+				PR_ActiveMapIcon localMarker = m_AllMarkers.Get(i);
+				
+				if(localMarker != null)
+				{
+					localMarker.OnPlayerFactionChanged(playerID, playerRespawnInfo.GetPlayerFactionIndex());
+				}
+			}
+		}
 	}
 	
 	PR_ActiveMapIcon ServerRegister(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
@@ -84,11 +138,18 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	void StreamingLogic()
 	{
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		if(respawnSystem == null)
+			return;
+		
 		if(m_NewMarkers.IsEmpty())
 			return;
 		
 		// Stream new ones in to everyone
 		array<int> indiciesToRemove = {};
+		
+		array<int> players = {};
+		GetGame().GetPlayerManager().GetPlayers(players);
 		
 		for(int i = 0; i < m_NewMarkers.Count(); i++)
 		{
@@ -96,13 +157,10 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			{
 				PR_ActiveMapIcon localMarker = m_NewMarkers.Get(i);
 				
-				// Order its stream in to every player
+				// Order its stream in to every player - based on faction
 				RplComponent rpl = RplComponent.Cast(m_NewMarkers.Get(i).FindComponent(RplComponent));
 				if(rpl != null)
 				{
-					array<int> players = {};
-					GetGame().GetPlayerManager().GetPlayers(players);
-					
 					for(int j = 0; j < players.Count(); j++)
 					{
 						PlayerController localPC =  GetGame().GetPlayerManager().GetPlayerController(players[j]);
@@ -111,15 +169,10 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 							RplIdentity identity = localPC.GetRplIdentity();
 							if(identity.IsValid())
 							{
-								SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		
-								if (respawnSystem)
-								{		
-									SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
-									if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
-									{
-										rpl.EnableStreamingConNode(identity, false);
-									}
+								SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
+								if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
+								{
+									rpl.EnableStreamingConNode(identity, false);
 								}
 							}
 						}
@@ -128,6 +181,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			}
 			else
 			{
+				// TODO cleanup this logic
 				indiciesToRemove.Insert(i);
 			}
 		}
@@ -141,6 +195,10 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	override void OnPlayerConnected(int playerId)
 	{
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		if(respawnSystem == null)
+			return;
+		
 		if(m_AllMarkers == null)
 			return;
 		
@@ -162,15 +220,10 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 						RplIdentity identity = localPC.GetRplIdentity();
 						if(identity.IsValid())
 						{
-							SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		
-							if (respawnSystem)
-							{		
-								SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
-								if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
-								{
-									rpl.EnableStreamingConNode(identity, false);
-								}
+							SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
+							if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
+							{
+								rpl.EnableStreamingConNode(identity, false);
 							}
 						}
 					}
