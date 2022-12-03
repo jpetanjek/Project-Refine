@@ -20,18 +20,6 @@ class PR_ActiveMapIconMarker : PR_ActiveMapIcon
 	[RplProp(onRplName: "UpdateFromReplicatedState")]
 	protected string m_sPlayerName = string.Empty;
 	
-	static ref array<PR_ActiveMapIconMarker> s_aAllMarkers = {}; // TODO get list of markers from the manager
-	
-	void PR_ActiveMapIconMarker(IEntitySource src, IEntity parent)
-	{
-		s_aAllMarkers.Insert(this);
-	}
-	
-	void ~PR_ActiveMapIconMarker()
-	{
-		s_aAllMarkers.RemoveItem(this);
-	}
-	
 	override protected void UpdateFromReplicatedState()
 	{
 		super.UpdateFromReplicatedState();

@@ -165,8 +165,15 @@ modded class SCR_MapCursorModule
 		float minDistance = 99999;
 		PR_ActiveMapIconMarker closestMarker = null;
 		
-		foreach (PR_ActiveMapIconMarker marker : PR_ActiveMapIconMarker.s_aAllMarkers)
+		array<PR_ActiveMapIcon> allIcons = PR_ActiveMapIconManagerComponent.GetInstance().GetAllMapIcons();
+		
+		foreach (PR_ActiveMapIcon mapIcon : allIcons)
 		{
+			// We only care about map markers
+			PR_ActiveMapIconMarker marker = PR_ActiveMapIconMarker.Cast(mapIcon);
+			if (!marker)
+				continue;
+			
 			vector markerPosWorld = marker.GetOrigin();
 			
 			m_MapEntity.WorldToScreen(markerPosWorld[0], markerPosWorld[2], markerPosx, markerPosy, withPan: true);
