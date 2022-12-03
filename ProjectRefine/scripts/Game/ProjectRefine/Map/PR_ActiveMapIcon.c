@@ -48,6 +48,7 @@ class PR_ActiveMapIcon : SCR_Position
 	// PUBLIC
 	
 	// Initializes this icon
+	// Called only on server
 	// If target is not null, we start tracking the target
 	// If target is null, we just set position explicitly
 	void Init(IEntity target, vector pos = vector.Zero, int factionId = -1, int groupId = -1)
@@ -68,8 +69,8 @@ class PR_ActiveMapIcon : SCR_Position
 			m_vPosAndDir[2] = pos[2];
 		}
 		
+		// Faction affiliation
 		m_iFactionId = factionId;
-		
 		if (m_Target)
 		{
 			FactionAffiliationComponent factionAffiliation = FactionAffiliationComponent.Cast(m_Target.FindComponent(FactionAffiliationComponent));
@@ -80,26 +81,18 @@ class PR_ActiveMapIcon : SCR_Position
 			}
 		}
 		
-		
+		// TODO: Group affiliation
 		m_iGroupId = groupId;
 		
+		//  Initial setup I guess?
 		UpdateFromReplicatedState();
 		Replication.BumpMe();
 		
 		// Master will track target's state
-		RplComponent rpl = RplComponent.Cast(FindComponent(RplComponent));
-		if (target && rpl.IsMaster())
+		if (target)
 		{
 			// If we don't have a target to track then we don't need fixed frame
-			SetEventMask(EntityEvent.INIT | EntityEvent.FIXEDFRAME);
-		}
-		
-		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		
-		if (respawnSystem && Replication.IsClient())
-		{
-			// Subscribe to change of faction on Client only
-			respawnSystem.GetOnPlayerFactionChanged().Insert(OnPlayerFactionChanged);
+			SetEventMask(EntityEvent.FIXEDFRAME);
 		}
 	}
 	
@@ -118,24 +111,19 @@ class PR_ActiveMapIcon : SCR_Position
 		SetTransformFromPosAndDirProp();
 	}
 	
-	// Client - FactionId changed by Server
+	// On Client - FactionId changed by Server
 	protected void FactionChangedByServer()
 	{
-		Print("Faction: " + m_iFactionId);
-		
 		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
 		
 		if (respawnSystem && Replication.IsClient())
 		{
-			
 			// Initialize properly - kinda ugly			
 			SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(SCR_PlayerController.GetLocalPlayerId());
 			if (!playerRespawnInfo)
 				return;
 			
 			int factionIndex = playerRespawnInfo.GetPlayerFactionIndex();
-			
-			Print("Client PR_ActiveMapIcon::FactionChangedByServer" + factionIndex + m_iFactionId);
 			
 			if (m_Style && factionIndex == m_iFactionId)
 			{
@@ -168,22 +156,40 @@ class PR_ActiveMapIcon : SCR_Position
 		m_MapDescriptor = MapDescriptorComponent.Cast(owner.FindComponent(MapDescriptorComponent));
 				
 		RplComponent rpl = RplComponent.Cast(FindComponent(RplComponent));
-		if (rpl)
+		if (rpl && Replication.IsServer())
 		{
 			rpl.InsertToReplication();
-			RplId id = Replication.FindId(this);
 		}
 		
 		if (m_Style)
 		{
 			m_Style.Apply(this, m_MapDescriptor);
+		}	
+		
+		if(Replication.IsClient())
+		{
+			// Subscribe to change of faction - only for client
+			// Server only cares about streaming -> in manager
+			SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+			if (respawnSystem)
+			{
+				respawnSystem.GetOnPlayerFactionChanged().Insert(OnPlayerFactionChanged);
+			}
 			
-		}		
+			PR_ActiveMapIconManagerComponent m_MapManager = PR_ActiveMapIconManagerComponent.GetInstance();
+			if(m_MapManager)
+			{
+				m_MapManager.ClientRegister(this);
+			}
+		}
 	}
 	
-	// Client changed faction
+	// Client changed faction - hide / unhide this icon
 	void OnPlayerFactionChanged(int playerID, int factionIndex)
 	{
+		if(SCR_PlayerController.GetLocalPlayerId() != playerID)
+			return;
+		
 		FactionManager factionManager = GetGame().GetFactionManager();
 		if (!factionManager)
 			return;
@@ -192,9 +198,6 @@ class PR_ActiveMapIcon : SCR_Position
 		if (!faction)
 			return;
 		
-		Print("Client PR_ActiveMapIcon::OnPlayerFactionChanged"); 	
-		
-		// TODO: Compare faction and unhide if it is the same
 		if (m_Style && factionIndex == m_iFactionId)
 		{
 			m_Style.SetVisibility(true, m_MapDescriptor);
@@ -203,7 +206,6 @@ class PR_ActiveMapIcon : SCR_Position
 		{
 			m_Style.SetVisibility(false, m_MapDescriptor);
 		}
-		
 	}
 	
 	// TODO: Target changed faction - do so by subscribing to the targets event - onlly on server
@@ -212,13 +214,20 @@ class PR_ActiveMapIcon : SCR_Position
 	//------------------------------------------------------------------------------------------------
 	void PR_ActiveMapIcon(IEntitySource src, IEntity parent)
 	{
-		SetEventMask(EntityEvent.INIT | EntityEvent.FIXEDFRAME);
 		SetFlags(EntityFlags.ACTIVE, true);
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	void ~PR_ActiveMapIcon()
 	{
+		if(Replication.IsClient())
+		{
+			PR_ActiveMapIconManagerComponent m_MapManager = PR_ActiveMapIconManagerComponent.GetInstance();
+			if(m_MapManager)
+			{
+				m_MapManager.Unregister(this);
+			}
+		}
 	}
 	
 	// Converts target's XZ position and direction into one vector

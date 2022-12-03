@@ -22,17 +22,16 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
-		if (!GetGame().GetWorldEntity())
+		if (!GetGame().GetWorldEntity() || Replication.IsClient())
   			return;
 
+		// Only Server registers in to manager here
 		// inform game mode-> ActiveMapIconManagerComponent that we exist
 		m_MapManager = PR_ActiveMapIconManagerComponent.GetInstance();
 		if(m_MapManager)
 		{
-			m_Icon = m_MapManager.Register(this, m_IconPrefab);
+			m_Icon = m_MapManager.ServerRegister(this, m_IconPrefab);
 		}
-		
-		GetGame().GetGameMode()
 	}
 	
 	void ~PR_ActiveMapIconInformerComponent()

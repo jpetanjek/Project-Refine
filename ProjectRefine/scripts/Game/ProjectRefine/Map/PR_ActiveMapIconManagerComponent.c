@@ -28,36 +28,29 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	override void HandleOnFactionAssigned(int playerID, Faction assignedFaction)
 	{
-		// TODO remove this, its not needed
+		// TODO: Player changed faction, execute streaming logic - stream in things he needs, stream out things he doesn't
 		
-		if(Replication.IsClient())
-		{
-			Print("Client PR_ActiveMapIconManagerComponent::HandleOnFactionAssigned"); 
-			SCR_CampaignFaction faction = SCR_CampaignFaction.Cast(SCR_RespawnSystemComponent.GetLocalPlayerFaction());
-			if (!faction)
-				return;
-		}
 	}
 	
-	PR_ActiveMapIcon Register(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
-	{
-		if(target != null)
+	PR_ActiveMapIcon ServerRegister(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
+	{	
+		PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab)));
+		if(activeMapIcon != null)
 		{
-			Print(m_ActiveMapIconPrefab);
-			//PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab), GetOwner().GetWorld()));
-			PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab)));
-			if(activeMapIcon != null)
-			{
-				m_AllMarkers.Insert(activeMapIcon);
-				m_NewMarkers.Insert(activeMapIcon);
-				
-				activeMapIcon.Init(target.GetOwner());
-				
-				return activeMapIcon;
-			}
-			return null;
+			m_AllMarkers.Insert(activeMapIcon);
+			m_NewMarkers.Insert(activeMapIcon);
+			
+			activeMapIcon.Init(target.GetOwner());
+
+			return activeMapIcon;
 		}
 		return null;
+	}
+	
+	void ClientRegister(PR_ActiveMapIcon activeMapIcon)
+	{
+		m_AllMarkers.Insert(activeMapIcon);
+		m_NewMarkers.Insert(activeMapIcon);
 	}
 	
 	void Unregister(PR_ActiveMapIcon activeMapIcon)
@@ -70,7 +63,10 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		if(index != -1)
 			m_NewMarkers.Remove(index);
 		
-		delete activeMapIcon;
+		if(Replication.IsServer())
+		{
+			delete activeMapIcon;
+		}
 	}
 	
 	override void OnPostInit(IEntity owner)
