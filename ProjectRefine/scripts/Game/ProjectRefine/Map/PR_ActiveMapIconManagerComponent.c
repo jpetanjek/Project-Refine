@@ -26,8 +26,14 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		return s_Instance;
 	}
 	
+	array<PR_ActiveMapIcon> GetAllMapIcons()
+	{
+		array<PR_ActiveMapIcon> a = {};
+		a.Copy(m_AllMarkers);
+		return a;
+	}
+	
 	// Server -> Player changed faction, execute streaming logic - stream in things he needs, stream out things he doesn't
-	// Client
 	override void HandleOnFactionAssigned(int playerID, Faction assignedFaction)
 	{
 		PlayerController localPC =  GetGame().GetPlayerManager().GetPlayerController(playerID);
