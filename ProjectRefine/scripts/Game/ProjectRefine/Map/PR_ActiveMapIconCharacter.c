@@ -12,14 +12,13 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 	[RplProp(onRplName: "UpdateFromReplicatedState")]
 	protected bool m_bIsLeader;
 	
-	protected AIControlComponent m_AIControlComponent;
 	protected AIAgent m_AIAgent;
 	
 	
 	override void OnTargetAssigned(IEntity target)
 	{
-		m_AIControlComponent = AIControlComponent.Cast(target.FindComponent(AIControlComponent));
-		m_AIAgent = m_AIControlComponent.GetAIAgent();
+		AIControlComponent aiControlComponent = AIControlComponent.Cast(target.FindComponent(AIControlComponent));
+		m_AIAgent = aiControlComponent.GetAIAgent();
 	}
 	
 	override protected void UpdatePropsFromTarget()
