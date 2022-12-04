@@ -200,6 +200,26 @@ class PR_ActiveMapIcon : SCR_Position
 		}
 	}
 	
+	void ServerSideIconChangedFaction()
+	{
+		if (m_Target == null)
+			return;
+		
+		SCR_FactionAffiliationComponent m_FactionAffiliationComponent = SCR_FactionAffiliationComponent.Cast(m_Target.FindComponent(SCR_FactionAffiliationComponent));
+		if (m_FactionAffiliationComponent == null)
+			return;
+		
+		Faction affiliatedFaction = m_FactionAffiliationComponent.GetAffiliatedFaction();
+		
+		FactionManager factionManager = GetGame().GetFactionManager();
+		if (factionManager == null)
+			return;
+		
+		m_iFactionId = factionManager.GetFactionIndex(affiliatedFaction);
+		
+		Replication.BumpMe();
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	void PR_ActiveMapIcon(IEntitySource src, IEntity parent)
 	{

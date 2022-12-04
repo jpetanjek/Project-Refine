@@ -92,6 +92,46 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
+	void ServerSideIconChangedFaction(PR_ActiveMapIcon activeMapIcon)
+	{
+		int index = m_AllMarkers.Find(activeMapIcon);
+		if(index == -1)
+			return;
+		
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		if(respawnSystem == null)
+			return;
+		
+		array<int> players = {};
+		GetGame().GetPlayerManager().GetPlayers(players);
+		
+		// Order its stream in to every player - based on faction
+		RplComponent rpl = RplComponent.Cast(activeMapIcon.FindComponent(RplComponent));
+		if(rpl != null)
+		{
+			for(int j = 0; j < players.Count(); j++)
+			{
+				PlayerController localPC =  GetGame().GetPlayerManager().GetPlayerController(players[j]);
+				if(localPC)
+				{
+					RplIdentity identity = localPC.GetRplIdentity();
+					if(identity.IsValid())
+					{
+						SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
+						if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == activeMapIcon.m_iFactionId)
+						{
+							rpl.EnableStreamingConNode(identity, false);
+						}
+						else
+						{
+							rpl.EnableStreamingConNode(identity, true);
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	PR_ActiveMapIcon ServerRegister(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
 	{	
 		PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab)));
