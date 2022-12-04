@@ -3,7 +3,7 @@ ImageSetClass {
  Textures {
   ImageSetTextureClass {
    mpix 1
-   path "{B8C205DFA5E72995}UI/Map/Icons/MapIcons_atlas.edds"
+   path "UI/Map/Icons/MapIcons_atlas.edds"
   }
  }
  Images {
