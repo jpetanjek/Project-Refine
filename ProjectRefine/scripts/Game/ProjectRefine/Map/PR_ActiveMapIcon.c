@@ -78,6 +78,7 @@ class PR_ActiveMapIcon : SCR_Position
 			if (factionAffiliation && factionManager)
 			{
 				m_iFactionId = factionManager.GetFactionIndex(factionAffiliation.GetAffiliatedFaction());
+				UpdateVisibility();
 			}
 		}
 		
@@ -93,6 +94,31 @@ class PR_ActiveMapIcon : SCR_Position
 		{
 			// If we don't have a target to track then we don't need fixed frame
 			SetEventMask(EntityEvent.FIXEDFRAME);
+		}
+	}
+	
+	void UpdateVisibility()
+	{
+		if(m_Style == null)
+			return;
+
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		if(respawnSystem == null)
+			return;
+		
+		SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(SCR_PlayerController.GetLocalPlayerId());
+		if (!playerRespawnInfo)
+			return;
+		
+		int factionIndex = playerRespawnInfo.GetPlayerFactionIndex();
+		
+		if (m_Style && factionIndex == m_iFactionId)
+		{
+			m_Style.SetVisibility(true, m_MapDescriptor);
+		}
+		else if (m_Style)
+		{
+			m_Style.SetVisibility(false, m_MapDescriptor);
 		}
 	}
 	
@@ -114,25 +140,9 @@ class PR_ActiveMapIcon : SCR_Position
 	// On Client - FactionId of icon changed by Server
 	protected void FactionChangedByServer()
 	{
-		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		
-		if (respawnSystem && Replication.IsClient())
+		if (Replication.IsClient())
 		{
-			// Initialize properly - kinda ugly			
-			SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(SCR_PlayerController.GetLocalPlayerId());
-			if (!playerRespawnInfo)
-				return;
-			
-			int factionIndex = playerRespawnInfo.GetPlayerFactionIndex();
-			
-			if (m_Style && factionIndex == m_iFactionId)
-			{
-				m_Style.SetVisibility(true, m_MapDescriptor);
-			}
-			else if (m_Style)
-			{
-				m_Style.SetVisibility(false, m_MapDescriptor);
-			}
+			UpdateVisibility();
 		}
 	}
 	
@@ -182,22 +192,7 @@ class PR_ActiveMapIcon : SCR_Position
 		if(SCR_PlayerController.GetLocalPlayerId() != playerID)
 			return;
 		
-		FactionManager factionManager = GetGame().GetFactionManager();
-		if (!factionManager)
-			return;
-		
-		Faction faction = factionManager.GetFactionByIndex(factionIndex);
-		if (!faction)
-			return;
-		
-		if (m_Style && factionIndex == m_iFactionId)
-		{
-			m_Style.SetVisibility(true, m_MapDescriptor);
-		}
-		else if (m_Style)
-		{
-			m_Style.SetVisibility(false, m_MapDescriptor);
-		}
+		UpdateVisibility();
 	}
 	
 	void ServerSideIconChangedFaction()
@@ -218,6 +213,8 @@ class PR_ActiveMapIcon : SCR_Position
 		m_iFactionId = factionManager.GetFactionIndex(affiliatedFaction);
 		
 		Replication.BumpMe();
+		
+		UpdateVisibility();
 	}
 	
 	//------------------------------------------------------------------------------------------------
