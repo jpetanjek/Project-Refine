@@ -1,0 +1,26 @@
+$grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
+ MainBase0 {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 20
+   }
+  }
+  coords 55.476 2.001 484.2
+ }
+ MainBase1 {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 20
+   }
+  }
+  coords 33.194 2.095 352.663
+ }
+}
+$grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
+ Area0 {
+  coords 47.892 2.032 434.957
+ }
+ Area1 {
+  coords 55.786 2.001 386.971
+ }
+}
