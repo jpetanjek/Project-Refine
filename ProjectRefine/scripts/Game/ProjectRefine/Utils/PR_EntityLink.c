@@ -30,6 +30,11 @@ class PR_EntityLinkTemplated<Class T> : Managed
 		return value;
 	}
 	
+	string GetEntityName()
+	{
+		return m_sEntityName;
+	}
+	
 	// Call from _WB_AfterWorldUpdate
 	void Draw(IEntity owner)
 	{

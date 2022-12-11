@@ -22,6 +22,9 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("true", UIWidgets.CheckBox, desc: "True if area is capturable by soldier occupation, false if not.")]
 	protected bool m_bCapturable;
 	
+	// Linked areas in all directions
+	protected ref array<PR_CaptureArea> m_aNeighbours = {};
+	
 	//------------------------------------------------------------------------------------------------
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
@@ -40,12 +43,16 @@ class PR_CaptureArea : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	#ifdef WORKBENCH
+	void InitNeighbours(array<PR_CaptureArea> neighbours)
+	{
+		m_aNeighbours.Copy(neighbours);
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	override void _WB_AfterWorldUpdate(IEntity owner, float timeSlice)
 	{
-		Shape.CreateCylinder(Color.RED, ShapeFlags.VISIBLE | ShapeFlags.ONCE | ShapeFlags.WIREFRAME, owner.GetOrigin(), m_fRadius, 300.0);
+		Shape.CreateCylinder(Color.RED, ShapeFlags.VISIBLE | ShapeFlags.ONCE | ShapeFlags.WIREFRAME, owner.GetOrigin(), m_fRadius, 75.0);
 	}
-	#endif
 
 	//------------------------------------------------------------------------------------------------
 	void PR_CaptureArea(IEntityComponentSource src, IEntity ent, IEntity parent)
