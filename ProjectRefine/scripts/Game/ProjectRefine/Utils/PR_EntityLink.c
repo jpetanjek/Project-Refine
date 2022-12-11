@@ -79,4 +79,4 @@ class PR_EntityLinkTemplated<Class T> : Managed
 }
 
 [BaseContainerProps()]
-class PR_EntityLink : UDR_EntityLinkTemplated<IEntity> {}
+class PR_EntityLink : PR_EntityLinkTemplated<IEntity> {}
