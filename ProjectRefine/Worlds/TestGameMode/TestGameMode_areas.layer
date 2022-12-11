@@ -1,0 +1,8 @@
+GenericEntity {
+ components {
+  PR_CaptureArea "{5B156B902CEA1626}" {
+   m_fRadius 50
+  }
+ }
+ coords 51.85 2.001 474.124
+}

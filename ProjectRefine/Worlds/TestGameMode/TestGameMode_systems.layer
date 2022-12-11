@@ -1,0 +1,35 @@
+SCR_BaseGameMode GameMode_TeamDeathmatch_Selection1 : "{1B6C9BC044DA3B21}Prefabs/MP/Modes/TeamDeathmatch/GameMode_TeamDeathmatch_Selection.et" {
+ components {
+  PR_ActiveMapIconManagerComponent "{5ACCD3ED5A29F7DE}" {
+  }
+  SCR_RespawnBriefingComponent "{5ACAE991D3BC898F}" {
+   m_SimpleBriefingBackground "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
+   m_aGameModeHints {
+    SCR_UIInfo "{5ACAE991479EC58C}" {
+     Name "UAZ"
+     Description "The UAZ-469 is an off-road military light utility vehicle manufactured by UAZ. It was used by Soviet and other Warsaw Pact armed forces, as well as paramilitary units in Eastern Bloc countries. In the Soviet Union, it also saw widespread service in state organizations that needed a robust and durable off-road vehicle. Standard military versions included seating for seven personnel."
+     Icon "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
+    }
+   }
+  }
+  SCR_RespawnMenuHandlerComponent "{56B49DB42115F9B0}" {
+   m_bAllowLoadoutSelection 0
+  }
+ }
+}
+SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
+}
+SCR_FactionManager FactionManager_USxUSSR1 : "{589540B35EBA8CDC}Prefabs/MP/Managers/Factions/FactionManager_USxUSSR.et" {
+}
+RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
+}
+SCR_SpawnPoint : "{4FEA25583D0975F7}Prefabs/MP/Spawning/SpawnPoint_USSR.et" {
+ coords 21.557 2.001 433.047
+}
+SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
+ coords 11.255 2.001 436.685
+}
+SCR_LoadoutManager : "{97EF4C1A41F63DDB}Prefabs/MP/Managers/Loadouts/LoadoutManager_USxUSSR.et" {
+}
+SCR_MPDestructionManager : "{9BB369F2803C6F71}Prefabs/MP/MPDestructionManager.et" {
+}
