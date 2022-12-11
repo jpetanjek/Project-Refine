@@ -1,0 +1,11 @@
+PR_ActiveMapIconVehicle {
+ ID "5B0954D58EDB38F5"
+ components {
+  SCR_MapDescriptorComponent "{5B0954D5BB36BAEB}" {
+  }
+  RplComponent "{5B0954D5B607479A}" {
+  }
+ }
+ m_Style PR_ActiveMapIconStyleVehicle "{5B0954D5BF711E45}" {
+ }
+}
