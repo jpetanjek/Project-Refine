@@ -1,0 +1,11 @@
+GenericEntity {
+ ID "5B16FDA58D67A45A"
+ components {
+  PR_CaptureArea "{5B156B902CEA1626}" {
+   m_bCapturable 0
+  }
+  RplComponent "{5B16FDA5AEC2A359}" {
+  }
+ }
+ coords 51.85 2.001 474.124
+}
