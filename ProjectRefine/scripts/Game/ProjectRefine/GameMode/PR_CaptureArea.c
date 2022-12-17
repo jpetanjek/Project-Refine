@@ -33,9 +33,10 @@ class PR_CaptureArea : ScriptComponent
 	// Some of them are only needed for debugging
 	
 	protected int m_iCharactersInArea;							// Total amount of characters in area
-	protected ref array<int> m_aCharactersFromFactions = {};	// Array with count of characters from each faction
+	protected ref array<int> m_aCharactersFromFactions = {};	// Array with count of characters from each faction which can capture this point
+	protected ref array<int> m_aLinkedAreasOwners = {};			// Array with owner faction IDs of each linked area
 	protected int m_iDominatingFaction = -1;					// Id of faction which has most characters now.
-	protected int m_iDominatingCharacters = 0;						// Amount of characters from faction which has most characters here
+	protected int m_iDominatingCharacters = 0;					// Amount of characters from faction which has most characters here
 	protected int m_iLosingCharacters = 0;						// Amount of characters from second faction which has most characters here
 	
 		// [RplProp()]
@@ -49,6 +50,10 @@ class PR_CaptureArea : ScriptComponent
 	{
 		//PrintFormat("OnUpdateGameMode: %1", timeSlice);
 		m_iCharactersInArea = charactersInArea.Count();
+		
+		// Check who owns each of our neighbours
+		foreach (int i, PR_CaptureArea area : m_aLinkedAreas)
+			m_aLinkedAreasOwners[i] = area.m_iOwnerFaction; 
 		
 		// Count characters from each faction
 		FactionManager fm = GetGame().GetFactionManager();
@@ -68,6 +73,13 @@ class PR_CaptureArea : ScriptComponent
 				continue;
 			int factionId = factions.Find(f);
 			m_aCharactersFromFactions[factionId] = m_aCharactersFromFactions[factionId] + 1;
+		}
+		
+		// Reset to 0 characters from factions which can't capture this
+		for (int i = 0; i < nFactions; i++)
+		{
+			if (!CanBeCapturedByFaction(i))
+				m_aCharactersFromFactions[i] = 0;
 		}
 		
 		// Find faction which has biggest and second biggest amount of characters
@@ -102,7 +114,11 @@ class PR_CaptureArea : ScriptComponent
 	
 	//------------------------------------------------------------------------------------------------
 	protected void UpdateCaptureState(float timeSlice)
-	{		
+	{
+		// Bail if non capturable
+		if (!m_bCapturable)
+			return;
+		
 		int winnersExcess = m_iDominatingCharacters - m_iLosingCharacters; // How many attackers over defenders
 
 		switch (m_eState)
@@ -148,7 +164,9 @@ class PR_CaptureArea : ScriptComponent
 			
 			case PR_EAreaState.CAPTURED:
 			{
-				if (m_iDominatingFaction != m_iOwnerFaction && m_iDominatingFaction != -1)
+				if (m_iDominatingFaction != m_iOwnerFaction &&
+					m_iDominatingFaction != -1 &&
+					winnersExcess > 0)
 				{
 					// Another faction is capturing this
 					m_eState = PR_EAreaState.CONTESTING;
@@ -159,6 +177,13 @@ class PR_CaptureArea : ScriptComponent
 		}
 	}
 
+	//------------------------------------------------------------------------------------------------
+	bool CanBeCapturedByFaction(int factionId)
+	{
+		// True when any linked area is owned by same faction
+		return (factionId != -1) && (m_aLinkedAreasOwners.Find(factionId) != -1);
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	override void OnPostInit(IEntity owner)
 	{
@@ -223,6 +248,11 @@ class PR_CaptureArea : ScriptComponent
 	void InitLinkedAreas(array<PR_CaptureArea> neighbours)
 	{
 		m_aLinkedAreas.Copy(neighbours);
+		m_aLinkedAreasOwners.Resize(m_aLinkedAreas.Count());
+		for (int i = 0; i < m_aLinkedAreasOwners.Count(); i++)
+		{
+			m_aLinkedAreasOwners[i] = m_aLinkedAreas[i].m_iOwnerFaction;
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------

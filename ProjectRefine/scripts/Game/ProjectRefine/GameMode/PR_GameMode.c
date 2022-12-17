@@ -28,9 +28,9 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
-	override void EOnInit(IEntity owner)
+	override void OnGameStart()
 	{
-		super.EOnInit(owner);
+		super.OnGameStart();
 		
 		if (!GetGame().InPlayMode())
 			return;
