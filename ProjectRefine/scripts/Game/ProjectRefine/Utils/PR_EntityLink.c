@@ -25,7 +25,7 @@ class PR_EntityLinkTemplated<Class T> : Managed
 		return value;
 	}
 	
-	T Get()
+	T Get()	
 	{
 		return value;
 	}
