@@ -385,6 +385,8 @@ PR_GameMode PR_GameMode_1 {
  m_MainBaseEntity1 PR_EntityLink "{5B16FDA4EB01140E}" {
   m_sEntityName "MainBase1"
  }
+ m_fInitialFactionScore0 100
+ m_fInitialFactionScore1 100
 }
 SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
 }

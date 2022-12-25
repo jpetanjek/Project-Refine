@@ -15,17 +15,34 @@ class PR_GameMode : SCR_BaseGameMode
 	[Attribute(desc: "Main base of second faction")]
 	protected ref PR_EntityLink m_MainBaseEntity1;
 	
+	// Attributes - faction score
+	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of first faction")]
+	protected float m_fInitialFactionScore0;
+	
+	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of second faction")]
+	protected float m_fInitialFactionScore1;
+	
 	// Pointers to areas
 	protected ref array<PR_CaptureArea> m_aAreas = {}; // Array with all capture areas. It's parallel to m_aAreaEntities array.
 	protected PR_CaptureArea m_MainBaseArea0;
 	protected PR_CaptureArea m_MainBaseArea1;
 	
+	// Score of each faction
+	protected ref array<float> m_aFactionScore = {}; //!! It's synchronized via replication
+	
+	
+	
+	
+	// Other
+	protected float m_fGameModeUpdateTimer = 0;
 	protected bool m_bCaptureAreaInitSuccess = false;
 	
-	protected float m_fGameModeUpdateTimer = 0;
-	
-	
-	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	void PR_GameMode(IEntitySource src, IEntity parent)
+	{
+		int mask = EntityEvent.INIT | EntityEvent.FRAME | EntityEvent.DIAG;
+		SetEventMask(mask);
+	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	override void OnGameStart()
@@ -92,6 +109,13 @@ class PR_GameMode : SCR_BaseGameMode
 				m_aAreas[i].InitLinkedAreas(linked);
 			}
 		}
+		
+		// Init faction points
+		FactionManager fm = GetGame().GetFactionManager();
+		int nFactions = fm.GetFactionsCount();
+		m_aFactionScore.Resize(nFactions);
+		m_aFactionScore[0] = m_fInitialFactionScore0;
+		m_aFactionScore[1] = m_fInitialFactionScore1;
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -110,6 +134,21 @@ class PR_GameMode : SCR_BaseGameMode
 				m_fGameModeUpdateTimer -= GAME_MODE_UPDATE_INTERVAL_S;
 			}
 		}
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	override void EOnDiag(IEntity owner, float timeSlice)
+	{
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL))
+			DrawGameModePanel();
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	override void EOnInit(IEntity owner)
+	{
+		super.EOnInit(owner);
+		
+		InitDiagMenu();
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -136,6 +175,9 @@ class PR_GameMode : SCR_BaseGameMode
 	//-------------------------------------------------------------------------------------------------------------------------------
 	protected void UpdateGameMode(float timeSlice)
 	{
+		//---------------------------------------------
+		// Update areas
+		
 		array<SCR_ChimeraCharacter> allCharacters = SCR_ChimeraCharacter.GetAllCharacters();
 		
 		// Remove dead characters
@@ -167,8 +209,91 @@ class PR_GameMode : SCR_BaseGameMode
 			// Call update on that area
 			area.OnUpdateGameMode(timeSlice, charactersInArea);
 		}
+		
+		//---------------------------------------------
+		// Update factions score
+		
+		FactionManager fm = GetGame().GetFactionManager();
+		array<Faction> factions = {};
+		fm.GetFactionsList(factions);
+		int nFactions = factions.Count();
+		
+		// Count how many areas each faction owns
+		array<int> factionAreas = {};
+		factionAreas.Resize(nFactions);
+		for (int i = 0; i < nFactions; i++)
+			factionAreas[i] = 0;
+		foreach (PR_CaptureArea area : m_aAreas)
+		{
+			int ownerFactionId = area.GetOwnerFaction();
+			if (ownerFactionId != -1)
+			{
+				factionAreas[ownerFactionId] = factionAreas[ownerFactionId] + 1;
+			}
+		}
+		
+		// Find faction with biggest amount of areas
+		int maxOwnedAreas = 0;
+		int maxOwnedAreasFactionId = -1;
+		for (int i = 0; i < nFactions; i++)
+		{
+			if (factionAreas[i] > maxOwnedAreas)
+			{
+				maxOwnedAreas = factionAreas[i];
+				maxOwnedAreasFactionId = i;
+			}
+		}
+		
+		// Remove tickets from all losing factions
+		for (int factionId = 0; factionId < nFactions; factionId++)
+		{
+			if (factionId == maxOwnedAreasFactionId)
+				continue;
+			
+			// How many areas this factions owns less than the winning faction
+			int ownedAreasDifference = maxOwnedAreas - factionAreas[factionId];
+			
+			if (ownedAreasDifference > 0)
+			{
+				AddFactionScore(factionId, -1.0 * timeSlice);
+			}
+		}
+		
+		Replication.BumpMe();
 	}
 	
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Faction score
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Call this to add or remove faction points.
+	// points - can be negative or positive
+	void AddFactionScore(int factionId, float points)
+	{
+		if (!IsMaster())
+		{
+			Print("AddFactionPoints() must be called only on server!", LogLevel.ERROR);
+			return;
+		}
+		float newScore = m_aFactionScore[factionId] + points;
+		RpcDo_SetFactionScore(factionId, newScore);
+		Rpc(RpcDo_SetFactionScore, factionId, newScore);
+		Replication.BumpMe();
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	float GetFactionScore(int factionId)
+	{
+		return m_aFactionScore[factionId];
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+	protected void RpcDo_SetFactionScore(int factionId, float score)
+	{
+		m_aFactionScore[factionId] = score;
+	}
 	
 	
 	
@@ -194,5 +319,74 @@ class PR_GameMode : SCR_BaseGameMode
 	protected static void _print(string str, LogLevel logLevel = LogLevel.NORMAL)
 	{
 		Print(string.Format("[PR_GameMode] %1", str), logLevel);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Replication
+	
+	//------------------------------------------------------------------------------------------------
+	override bool RplSave(ScriptBitWriter writer)
+	{
+		super.RplSave(writer);
+		
+		// Faction score
+		int nFactions = m_aFactionScore.Count();
+		writer.WriteInt(nFactions);
+		for (int i = 0; i < nFactions; i++)
+			writer.WriteFloat(m_aFactionScore[i]);
+		
+		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override bool RplLoad(ScriptBitReader reader)
+	{
+		super.RplLoad(reader);
+		
+		// Faction score
+		int nFactions;
+		if (!reader.ReadInt(nFactions))
+			return false;
+		
+		if (m_aFactionScore.Count() != nFactions)
+			m_aFactionScore.Resize(nFactions);
+		for (int i = 0; i < nFactions; i++)
+		{
+			float score;
+			if (!reader.ReadFloat(score))
+				return false;
+			m_aFactionScore[i] = score;
+		}
+		
+		return true;
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Debugging
+	
+	void InitDiagMenu()
+	{
+		const string cheatMenuName = "Project Refine";
+		
+		DiagMenu.RegisterMenu(SCR_DebugMenuID.REFINE_MENU_ID, cheatMenuName, "");
+		
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL, "", "Game Mode Panel", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREAS_STATE, "", "Capture Areas State", cheatMenuName);
+	}
+	
+	void DrawGameModePanel()
+	{
+		DbgUI.Begin("Game Mode Panel", 100, 100);
+		
+		FactionManager fm = GetGame().GetFactionManager();
+		
+		for (int i = 0; i < 2; i++)
+		{
+			DbgUI.Text(string.Format("%1 score: %2", fm.GetFactionByIndex(i).GetFactionKey(), GetFactionScore(i)));
+		}
+		
+		DbgUI.Text(" ");
+		
+		DbgUI.End();
 	}
 }
