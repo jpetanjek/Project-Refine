@@ -39,10 +39,13 @@ class PR_CaptureArea : ScriptComponent
 	protected int m_iDominatingCharacters = 0;					// Amount of characters from faction which has most characters here
 	protected int m_iLosingCharacters = 0;						// Amount of characters from second faction which has most characters here
 	
-		// [RplProp()]
+	[RplProp()]
 	protected int m_iOwnerFaction;								// Current owner faction
+	[RplProp()]
 	protected PR_EAreaState m_eState = PR_EAreaState.NEUTRAL;	// Current state
+	[RplProp()]
 	protected float m_fPoints = 0.0;							// Amount of points (capture progress)
+	[RplProp()]
 	protected int m_iPointsOwnerFaction;						// Faction which owns those points now
 	
 	//------------------------------------------------------------------------------------------------
@@ -110,6 +113,14 @@ class PR_CaptureArea : ScriptComponent
 		
 		// Logic of capturing
 		UpdateCaptureState(timeSlice);
+		
+		Replication.BumpMe();
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	int GetOwnerFaction()
+	{
+		return m_iOwnerFaction;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -212,29 +223,32 @@ class PR_CaptureArea : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
-		// Draw debug text
-		const int COLOR_TEXT = Color.WHITE;
-	 	const int COLOR_BACKGROUND = Color.BLACK;
-		
-		FactionManager fm = GetGame().GetFactionManager();
-		
-		string strCharsFromFactions;
-		foreach (int n : m_aCharactersFromFactions)
-			strCharsFromFactions = strCharsFromFactions + string.Format("%1 ", n);
-		
-		string s;
-		s = s + string.Format("Owner:        %1\n", GetFactionKey(m_iOwnerFaction, fm));
-		s = s + string.Format("Points owner: %1\n", GetFactionKey(m_iPointsOwnerFaction, fm));
-		s = s + string.Format("Dominating:   %1\n", GetFactionKey(m_iDominatingFaction, fm));
-		s = s + string.Format("Points: %1\n", m_fPoints);
-		s = s + string.Format("State: %1\n", typename.EnumToString(PR_EAreaState, m_eState));
-		s = s + string.Format("Factions characters: %1\n", strCharsFromFactions);
-		s = s + string.Format("Characters (dom./lose): %1/%2", m_iDominatingCharacters, m_iLosingCharacters);
-		
-		vector pos = owner.GetOrigin() + Vector(0, 10, 0);
-		DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
-		
-		DrawDebugCylinder();
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREAS_STATE))
+		{
+			// Draw debug text
+			const int COLOR_TEXT = Color.WHITE;
+		 	const int COLOR_BACKGROUND = Color.BLACK;
+			
+			FactionManager fm = GetGame().GetFactionManager();
+			
+			string strCharsFromFactions;
+			foreach (int n : m_aCharactersFromFactions)
+				strCharsFromFactions = strCharsFromFactions + string.Format("%1 ", n);
+			
+			string s;
+			s = s + string.Format("Owner:        %1\n", GetFactionKey(m_iOwnerFaction, fm));
+			s = s + string.Format("Points owner: %1\n", GetFactionKey(m_iPointsOwnerFaction, fm));
+			s = s + string.Format("Dominating:   %1\n", GetFactionKey(m_iDominatingFaction, fm));
+			s = s + string.Format("Points: %1\n", m_fPoints);
+			s = s + string.Format("State: %1\n", typename.EnumToString(PR_EAreaState, m_eState));
+			s = s + string.Format("Factions characters: %1\n", strCharsFromFactions);
+			s = s + string.Format("Characters (dom./lose): %1/%2", m_iDominatingCharacters, m_iLosingCharacters);
+			
+			vector pos = owner.GetOrigin() + Vector(0, 10, 0);
+			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+			
+			DrawDebugCylinder();
+		}
 	}
 	string GetFactionKey(int factionId, FactionManager fm)
 	{
