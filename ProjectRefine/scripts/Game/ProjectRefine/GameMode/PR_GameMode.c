@@ -175,6 +175,10 @@ class PR_GameMode : SCR_BaseGameMode
 	//-------------------------------------------------------------------------------------------------------------------------------
 	protected void UpdateGameMode(float timeSlice)
 	{
+		// Do nothing if game has ended or not started yet
+		if (!IsRunning())
+			return;
+		
 		//---------------------------------------------
 		// Update areas
 		
@@ -255,9 +259,38 @@ class PR_GameMode : SCR_BaseGameMode
 			
 			if (ownedAreasDifference > 0)
 			{
-				AddFactionScore(factionId, -1.0 * timeSlice);
+				AddFactionScore(factionId, -1.0 * timeSlice); // !!! Change score decrease rate!
 			}
 		}
+		
+		
+		//---------------------------------------------
+		// End game if some faction has depleted points
+		float minScore = 1.0;
+		int factionIdMinScore = -1;
+		for (int i = 0; i < nFactions; i++)
+		{
+			if (m_aFactionScore[i] < minScore)
+			{
+				minScore = m_aFactionScore[i];
+				factionIdMinScore = i;
+			}
+		}
+		
+		if (minScore < 0)
+		{
+			// Some faction has lost all its points
+			// End the game
+			array<int> winnerFactions = {}; // All factions except the one which has lowest amount of points
+			for (int factionId = 0; factionId < nFactions; factionId++)
+			{
+				if (factionId != factionIdMinScore)
+					winnerFactions.Insert(factionId);				
+			}
+			SCR_GameModeEndData gameModeEndData = SCR_GameModeEndData.Create(SCR_GameModeEndData.ENDREASON_SCORELIMIT, winnerIds: null, winnerFactionIds: winnerFactions);
+			EndGameMode(gameModeEndData);
+		}
+		
 		
 		Replication.BumpMe();
 	}
