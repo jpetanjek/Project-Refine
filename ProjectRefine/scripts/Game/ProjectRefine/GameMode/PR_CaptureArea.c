@@ -39,10 +39,13 @@ class PR_CaptureArea : ScriptComponent
 	protected int m_iDominatingCharacters = 0;					// Amount of characters from faction which has most characters here
 	protected int m_iLosingCharacters = 0;						// Amount of characters from second faction which has most characters here
 	
-		// [RplProp()]
+	[RplProp()]
 	protected int m_iOwnerFaction;								// Current owner faction
+	[RplProp()]
 	protected PR_EAreaState m_eState = PR_EAreaState.NEUTRAL;	// Current state
+	[RplProp()]
 	protected float m_fPoints = 0.0;							// Amount of points (capture progress)
+	[RplProp()]
 	protected int m_iPointsOwnerFaction;						// Faction which owns those points now
 	
 	//------------------------------------------------------------------------------------------------
@@ -110,6 +113,8 @@ class PR_CaptureArea : ScriptComponent
 		
 		// Logic of capturing
 		UpdateCaptureState(timeSlice);
+		
+		Replication.BumpMe();
 	}
 	
 	//------------------------------------------------------------------------------------------------
