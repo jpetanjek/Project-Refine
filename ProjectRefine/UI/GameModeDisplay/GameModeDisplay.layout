@@ -1,0 +1,158 @@
+FrameWidgetClass {
+ Name "root"
+ components {
+  SCR_WidgetExportRuleRoot "{5B3B35C3A66AE375}" {
+   DestinationPath "{3A3D1DF7F52915F3}scripts/Game/ProjectRefine/UI"
+   ScriptAddon "$ProjectRefine:"
+   ScriptClassNamePrefix "PR_"
+  }
+ }
+ {
+  OverlayWidgetClass "{5B3B35C467DC193A}" {
+   Name "m_CurrentAreaOverlay"
+   Slot FrameWidgetSlot "{5B3B35C467DC1912}" {
+    Anchor 0.5 0 0.5 0
+    PositionX 0
+    OffsetLeft 0
+    PositionY 10
+    OffsetTop 10
+    SizeX 100
+    OffsetRight -100
+    SizeY 30
+    OffsetBottom -40
+    Alignment 0.5 0
+    SizeToContent 1
+   }
+   {
+    HorizontalLayoutWidgetClass "{5B3B35C7E224525E}" {
+     Name "HorizontalLayout"
+     Slot OverlayWidgetSlot "{5B3B35C7E22452B5}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      OverlayWidgetClass "{5B3B35C09022EE9B}" {
+       Name "Overlay0"
+       Slot LayoutSlot "{5B3B35C09022EED2}" {
+        HorizontalAlign 0
+        VerticalAlign 0
+       }
+       {
+        ImageWidgetClass "{5B3B35C0954AD7B9}" {
+         Name "FlagBackground"
+         Slot OverlayWidgetSlot "{5B3B35C0954AD79E}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         Color 0 0 0 0.471
+        }
+        ImageWidgetClass "{5B3B35C477ACEF8A}" {
+         Name "m_AreaFlagImage"
+         Slot OverlayWidgetSlot "{5B3B5D9C5948AE71}" {
+          Padding 2 2 2 2
+         }
+         Texture "{46FB2FB2C2125A3C}UI/Textures/Flags/US-flag-base-3it.edds"
+         Size 80 40
+        }
+        OverlayWidgetClass "{5B3B6B284F113545}" {
+         Name "m_AreaLock"
+         Slot OverlayWidgetSlot "{5B3B6B284F1135A9}" {
+         }
+         {
+          ImageWidgetClass "{5B3B6B2BCD7F532E}" {
+           Name "LockShadow"
+           Slot OverlayWidgetSlot "{5B3B6B2B9A72F91D}" {
+           }
+           Color 0 0 0 1
+           Texture "{5D85FA1AA039B2F8}UI/Textures/Icons/icons_wrapperUI-48-glow.imageset"
+           Image "server-locked"
+           Size 40 40
+          }
+          ImageWidgetClass "{5B3B6B2B9A72F905}" {
+           Name "Lock"
+           Slot OverlayWidgetSlot "{5B3B6B2B9A72F91D}" {
+           }
+           Texture "{9DA6A249AD4D71C4}UI/Textures/Icons/icons_wrapperUI-48.imageset"
+           Image "server-locked"
+           Size 40 40
+          }
+         }
+        }
+       }
+      }
+      VerticalLayoutWidgetClass "{5B3B35C7190C271A}" {
+       Name "VerticalLayout0"
+       Slot LayoutSlot "{5B3B35C7190C2773}" {
+        Padding 6 0 0 0
+       }
+       {
+        SizeLayoutWidgetClass "{5B3B35C7751893D2}" {
+         Name "SizeLayout0"
+         Slot LayoutSlot "{5B3B35C775189433}" {
+          HorizontalAlign 0
+         }
+         AllowWidthOverride 1
+         WidthOverride 200
+         AllowHeightOverride 1
+         HeightOverride 17
+         {
+          OverlayWidgetClass "{5B3B35C6BDAB28FB}" {
+           Name "Overlay0"
+           Slot AlignableSlot "{5B3B35C6BDAB28D9}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            ImageWidgetClass "{5B3B35C6F7C71C40}" {
+             Name "ProgressBarBackground"
+             Slot OverlayWidgetSlot "{5B3B35C6F7C71CA0}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             Color 0 0 0 0.471
+            }
+            ProgressBarWidgetClass "{5B3B35C7E4F5873D}" {
+             Name "m_AreaProgressBar"
+             Slot OverlayWidgetSlot "{5B3B5D9C5948AEC1}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             Color 0.016 0.552 0.905 1
+             style Simple
+             Maximum 1
+             Current 0.5
+            }
+            PanelWidgetClass "{5B3B6B272E02A5D1}" {
+             Name "Panel0"
+             Slot OverlayWidgetSlot "{5B3B6B272E02A634}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             Color 0 0 0 0.471
+             style outline_2px
+            }
+           }
+          }
+         }
+        }
+        TextWidgetClass "{5B3B35C7CAEEDAD0}" {
+         Name "m_AreaNameText"
+         Slot LayoutSlot "{5B3B35C7CAEEDB3E}" {
+         }
+         Clipping False
+         Text "Area Name"
+         "Font Size" 22
+         "Min Font Size" 22
+         FontProperties FontProperties "{5B3B35C66223C30E}" {
+          Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+          OutlineSize 1
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
