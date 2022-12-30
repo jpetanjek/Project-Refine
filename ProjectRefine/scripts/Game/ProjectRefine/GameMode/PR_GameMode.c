@@ -38,6 +38,22 @@ class PR_GameMode : SCR_BaseGameMode
 	protected bool m_bCaptureAreaInitSuccess = false;
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
+	// Public functions
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Returns area at given position
+	PR_CaptureArea GetAreaAtPos(vector posWorld)
+	{
+		foreach (PR_CaptureArea a : m_aAreas)
+		{
+			if (vector.DistanceXZ(a.GetOwner().GetOrigin(), posWorld) < a.m_fRadius)
+				return a;
+		}
+		
+		return null;
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
 	void PR_GameMode(IEntitySource src, IEntity parent)
 	{
 		int mask = EntityEvent.INIT | EntityEvent.FRAME | EntityEvent.DIAG;
@@ -229,7 +245,7 @@ class PR_GameMode : SCR_BaseGameMode
 			factionAreas[i] = 0;
 		foreach (PR_CaptureArea area : m_aAreas)
 		{
-			int ownerFactionId = area.GetOwnerFaction();
+			int ownerFactionId = area.GetOwnerFactionId();
 			if (ownerFactionId != -1)
 			{
 				factionAreas[ownerFactionId] = factionAreas[ownerFactionId] + 1;

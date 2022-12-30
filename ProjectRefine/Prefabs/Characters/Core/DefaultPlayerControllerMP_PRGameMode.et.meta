@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{D3FB68341A3988E2}Prefabs/Characters/Core/DefaultPlayerControllerMP_ProjectRefine.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

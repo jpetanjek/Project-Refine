@@ -19,6 +19,9 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("10", UIWidgets.EditBox, desc: "Radius of capture zone")]
 	float m_fRadius;
 	
+	[Attribute("", UIWidgets.EditBox, desc: "Name of the area")]
+	protected string m_sName;
+	
 	[Attribute("-1", UIWidgets.EditBox, desc: "Owner faction at game start")]
 	protected int m_iInitialOwnerFaction;
 	
@@ -34,7 +37,6 @@ class PR_CaptureArea : ScriptComponent
 	
 	protected int m_iCharactersInArea;							// Total amount of characters in area
 	protected ref array<int> m_aCharactersFromFactions = {};	// Array with count of characters from each faction which can capture this point
-	protected ref array<int> m_aLinkedAreasOwners = {};			// Array with owner faction IDs of each linked area
 	protected int m_iDominatingFaction = -1;					// Id of faction which has most characters now.
 	protected int m_iDominatingCharacters = 0;					// Amount of characters from faction which has most characters here
 	protected int m_iLosingCharacters = 0;						// Amount of characters from second faction which has most characters here
@@ -53,10 +55,6 @@ class PR_CaptureArea : ScriptComponent
 	{
 		//PrintFormat("OnUpdateGameMode: %1", timeSlice);
 		m_iCharactersInArea = charactersInArea.Count();
-		
-		// Check who owns each of our neighbours
-		foreach (int i, PR_CaptureArea area : m_aLinkedAreas)
-			m_aLinkedAreasOwners[i] = area.m_iOwnerFaction; 
 		
 		// Count characters from each faction
 		FactionManager fm = GetGame().GetFactionManager();
@@ -118,9 +116,28 @@ class PR_CaptureArea : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	int GetOwnerFaction()
+	int GetOwnerFactionId()
 	{
 		return m_iOwnerFaction;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	int GetPointsOwnerFactionId()
+	{
+		return m_iPointsOwnerFaction;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Returns amount of points in relative scale, from 0 to 1.0
+	float GetPointsRelative()
+	{
+		return m_fPoints / POINTS_MAX;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	string GetName()
+	{
+		return m_sName;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -191,8 +208,17 @@ class PR_CaptureArea : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	bool CanBeCapturedByFaction(int factionId)
 	{
-		// True when any linked area is owned by same faction
-		return (factionId != -1) && (m_aLinkedAreasOwners.Find(factionId) != -1);
+		if (factionId == -1 || !m_bCapturable)
+			return false;
+		
+		// There must be at least one linked area owned by same faction
+		foreach (PR_CaptureArea area : m_aLinkedAreas)
+		{
+			if (area.m_iOwnerFaction == factionId)
+				return true;
+		}
+		
+		return false;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -262,11 +288,6 @@ class PR_CaptureArea : ScriptComponent
 	void InitLinkedAreas(array<PR_CaptureArea> neighbours)
 	{
 		m_aLinkedAreas.Copy(neighbours);
-		m_aLinkedAreasOwners.Resize(m_aLinkedAreas.Count());
-		for (int i = 0; i < m_aLinkedAreasOwners.Count(); i++)
-		{
-			m_aLinkedAreasOwners[i] = m_aLinkedAreas[i].m_iOwnerFaction;
-		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
