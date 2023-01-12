@@ -112,3 +112,36 @@ class PR_ActiveMapIconStyleMarker : PR_ActiveMapIconStyleBase
 		mapItem.SetProps(props);
 	}
 }
+
+[BaseContainerProps()]
+class PR_ActiveMapIconStyleCapturePoint : PR_ActiveMapIconStyleBase
+{
+	override void Apply(PR_ActiveMapIcon mapIcon, MapDescriptorComponent mapDescriptorComp)
+	{
+		MapItem mapItem = mapDescriptorComp.Item();
+		MapDescriptorProps props = mapItem.GetProps();
+		
+		mapItem.SetDisplayName("Capture Point Name");
+		mapItem.SetBaseType(EMapDescriptorType.MDT_SMALLTREE);
+		mapItem.SetImageDef("capture_point");
+		props.SetTextVisible(true);
+		props.SetIconVisible(true);
+		props.SetIconSize(128, 0.4, 0.4);
+		props.SetFrontColor(Color.Red);
+		props.SetOutlineColor(Color.White);
+		props.SetBackgroundColor(Color.White);
+		props.SetTextColor(Color.Black);
+		
+		props.SetFont("{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt");
+		props.SetTextSize(24, 24, 24);
+		props.SetTextOffsetX(30);
+		props.SetTextOffsetY(-12);
+		//props.SetIconTextAlignH(1);
+		//props.SetIconTextAlignV(0);
+		
+		//props.SetVisible(false);
+		
+		props.Activate(true);
+		mapItem.SetProps(props);
+	}
+}

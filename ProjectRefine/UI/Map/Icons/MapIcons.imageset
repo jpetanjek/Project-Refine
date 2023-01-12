@@ -1,5 +1,5 @@
 ImageSetClass {
- RefSize 524 524
+ RefSize 524 656
  Textures {
   ImageSetTextureClass {
    mpix 1
@@ -31,75 +31,81 @@ ImageSetClass {
    Size 128 128
    Flags 0
   }
+  ImageSetDefClass capture_point {
+   Name "capture_point"
+   Pos 2 132
+   Size 128 128
+   Flags 0
+  }
   ImageSetDefClass character {
    Name "character"
-   Pos 2 132
+   Pos 132 132
    Size 128 128
    Flags 0
   }
   ImageSetDefClass character_leader {
    Name "character_leader"
-   Pos 132 132
+   Pos 262 132
    Size 128 128
    Flags 0
   }
   ImageSetDefClass circle {
    Name "circle"
-   Pos 262 132
+   Pos 392 132
    Size 128 128
    Flags 0
   }
   ImageSetDefClass circle_cross {
    Name "circle_cross"
-   Pos 392 132
+   Pos 2 262
    Size 128 128
    Flags 0
   }
   ImageSetDefClass circle_info {
    Name "circle_info"
-   Pos 2 262
+   Pos 132 262
    Size 128 128
    Flags 0
   }
   ImageSetDefClass circle_unknown {
    Name "circle_unknown"
-   Pos 132 262
+   Pos 262 262
    Size 128 128
    Flags 0
   }
   ImageSetDefClass circle_warning {
    Name "circle_warning"
-   Pos 262 262
+   Pos 392 262
    Size 128 128
    Flags 0
   }
   ImageSetDefClass cross {
    Name "cross"
-   Pos 392 262
+   Pos 2 392
    Size 128 128
    Flags 0
   }
   ImageSetDefClass eye {
    Name "eye"
-   Pos 2 392
+   Pos 132 392
    Size 128 128
    Flags 0
   }
   ImageSetDefClass small_dot {
    Name "small_dot"
-   Pos 132 392
+   Pos 262 392
    Size 128 128
    Flags 0
   }
   ImageSetDefClass small_square {
    Name "small_square"
-   Pos 262 392
+   Pos 392 392
    Size 128 128
    Flags 0
   }
   ImageSetDefClass vehicle {
    Name "vehicle"
-   Pos 392 392
+   Pos 2 522
    Size 128 128
    Flags 0
   }
