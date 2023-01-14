@@ -31,6 +31,10 @@ class PR_CaptureArea : ScriptComponent
 	// Called whenever any of state variables changes. It's not associated to m_eState only!
 	ref ScriptInvoker<PR_CaptureArea> m_OnAnyPropertyChanged = new ScriptInvoker<PR_CaptureArea>();
 	
+	// Called whenever owner faction changes.
+	// !!! Works only on server!
+	ref ScriptInvoker<int, int> m_OnOwnerFactionChanged = new ScriptInvoker<int, int>(); // Old faction, new faction
+	
 	// Linked areas in all directions
 	protected ref array<PR_CaptureArea> m_aLinkedAreas = {};
 	
@@ -184,13 +188,18 @@ class PR_CaptureArea : ScriptComponent
 					// Max points, now captured
 					m_iOwnerFaction = m_iPointsOwnerFaction; // New owner is the faction which has been capturing
 					m_eState = PR_EAreaState.CAPTURED;
+					
+					m_OnOwnerFactionChanged.Invoke(-1, m_iOwnerFaction);
 				}
 				else if (m_fPoints <= 0.0)
 				{
 					// Reached zero, now neutral
+					int prevOwnerFaction = m_iOwnerFaction;
 					m_iPointsOwnerFaction = -1;
 					m_iOwnerFaction = -1;
 					m_eState = PR_EAreaState.NEUTRAL;
+					
+					m_OnOwnerFactionChanged.Invoke(prevOwnerFaction, -1);
 				}
 				
 				invokeOnStateChanged = true;
@@ -257,6 +266,8 @@ class PR_CaptureArea : ScriptComponent
 		{
 			m_fPoints = POINTS_MAX;
 			m_eState = PR_EAreaState.CAPTURED;
+			
+			m_OnOwnerFactionChanged.Invoke(-1, m_iOwnerFaction); 
 		}
 		else
 		{
@@ -265,7 +276,6 @@ class PR_CaptureArea : ScriptComponent
 		}
 		m_OnAnyPropertyChanged.Invoke(this);
 	}
-	
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
