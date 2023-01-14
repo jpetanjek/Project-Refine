@@ -6,6 +6,6 @@ PR_ActiveMapIconVehicle {
   RplComponent "{5B0954D5B607479A}" {
   }
  }
- m_Style PR_ActiveMapIconStyleVehicle "{5B0954D5BF711E45}" {
+ m_Style PR_MapIconStyleVehicle "{5B0954D5BF711E45}" {
  }
 }

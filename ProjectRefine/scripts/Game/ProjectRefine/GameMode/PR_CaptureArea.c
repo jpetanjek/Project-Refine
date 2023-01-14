@@ -28,6 +28,13 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("true", UIWidgets.CheckBox, desc: "True if area is capturable by soldier occupation, false if not.")]
 	protected bool m_bCapturable;
 	
+	// Called whenever any of state variables changes. It's not associated to m_eState only!
+	ref ScriptInvoker<PR_CaptureArea> m_OnAnyPropertyChanged = new ScriptInvoker<PR_CaptureArea>();
+	
+	// Called whenever owner faction changes.
+	// !!! Works only on server!
+	ref ScriptInvoker<int, int> m_OnOwnerFactionChanged = new ScriptInvoker<int, int>(); // Old faction, new faction
+	
 	// Linked areas in all directions
 	protected ref array<PR_CaptureArea> m_aLinkedAreas = {};
 	
@@ -41,13 +48,13 @@ class PR_CaptureArea : ScriptComponent
 	protected int m_iDominatingCharacters = 0;					// Amount of characters from faction which has most characters here
 	protected int m_iLosingCharacters = 0;						// Amount of characters from second faction which has most characters here
 	
-	[RplProp()]
+	[RplProp(onRplName: "OnRplPropChanged")]
 	protected int m_iOwnerFaction;								// Current owner faction
-	[RplProp()]
+	[RplProp(onRplName: "OnRplPropChanged")]
 	protected PR_EAreaState m_eState = PR_EAreaState.NEUTRAL;	// Current state
-	[RplProp()]
+	[RplProp(onRplName: "OnRplPropChanged")]
 	protected float m_fPoints = 0.0;							// Amount of points (capture progress)
-	[RplProp()]
+	[RplProp(onRplName: "OnRplPropChanged")]
 	protected int m_iPointsOwnerFaction;						// Faction which owns those points now
 	
 	//------------------------------------------------------------------------------------------------
@@ -143,6 +150,8 @@ class PR_CaptureArea : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	protected void UpdateCaptureState(float timeSlice)
 	{
+		bool invokeOnStateChanged = false;
+		
 		// Bail if non capturable
 		if (!m_bCapturable)
 			return;
@@ -158,6 +167,7 @@ class PR_CaptureArea : ScriptComponent
 					m_iPointsOwnerFaction = m_iDominatingFaction;
 					m_fPoints = 0;
 					m_eState = PR_EAreaState.CONTESTING;
+					invokeOnStateChanged = true;
 				}
 				break;
 			}
@@ -178,14 +188,21 @@ class PR_CaptureArea : ScriptComponent
 					// Max points, now captured
 					m_iOwnerFaction = m_iPointsOwnerFaction; // New owner is the faction which has been capturing
 					m_eState = PR_EAreaState.CAPTURED;
+					
+					m_OnOwnerFactionChanged.Invoke(-1, m_iOwnerFaction);
 				}
 				else if (m_fPoints <= 0.0)
 				{
 					// Reached zero, now neutral
+					int prevOwnerFaction = m_iOwnerFaction;
 					m_iPointsOwnerFaction = -1;
 					m_iOwnerFaction = -1;
 					m_eState = PR_EAreaState.NEUTRAL;
+					
+					m_OnOwnerFactionChanged.Invoke(prevOwnerFaction, -1);
 				}
+				
+				invokeOnStateChanged = true;
 				
 				break;
 			}
@@ -198,11 +215,22 @@ class PR_CaptureArea : ScriptComponent
 				{
 					// Another faction is capturing this
 					m_eState = PR_EAreaState.CONTESTING;
+					invokeOnStateChanged = true;
 				}
 				
 				break;
 			}
 		}
+		
+		if (invokeOnStateChanged)
+			m_OnAnyPropertyChanged.Invoke(this);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Called by Replication on client whenever anything changes
+	void OnRplPropChanged()
+	{
+		m_OnAnyPropertyChanged.Invoke(this);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -238,14 +266,16 @@ class PR_CaptureArea : ScriptComponent
 		{
 			m_fPoints = POINTS_MAX;
 			m_eState = PR_EAreaState.CAPTURED;
+			
+			m_OnOwnerFactionChanged.Invoke(-1, m_iOwnerFaction); 
 		}
 		else
 		{
 			m_fPoints = 0;
 			m_eState = PR_EAreaState.NEUTRAL;
 		}
+		m_OnAnyPropertyChanged.Invoke(this);
 	}
-	
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
