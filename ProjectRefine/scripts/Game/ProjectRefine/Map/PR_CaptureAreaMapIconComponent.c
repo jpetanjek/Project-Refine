@@ -82,21 +82,7 @@ class PR_CaptureAreaMapIconComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void OnMapOpen()
 	{
-		// When map is opened, refresh the icon too
+		// When map is opened, refresh the icon too, in case player's faction has changed
 		UpdateMapIcon();
 	}
-
-	//------------------------------------------------------------------------------------------------
-	/*
-	void PR_CaptureAreaMapIconComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
-	{
-	}
-	*/
-
-	//------------------------------------------------------------------------------------------------
-	/*
-	void ~PR_CaptureAreaMapIconComponent()
-	{
-	}
-	*/
 };
