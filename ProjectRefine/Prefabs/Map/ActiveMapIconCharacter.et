@@ -6,6 +6,6 @@ PR_ActiveMapIconCharacter {
   RplComponent "{5AE6CB62490175B5}" {
   }
  }
- m_Style PR_ActiveMapIconStyleCharacter "{5AE6D26681170B31}" {
+ m_Style PR_MapIconStyleCharacter "{5AE6D26681170B31}" {
  }
 }

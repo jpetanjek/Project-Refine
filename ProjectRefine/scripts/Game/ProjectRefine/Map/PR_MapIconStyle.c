@@ -1,16 +1,16 @@
 // Class which implements styling of active map icons
 [BaseContainerProps()]
-class PR_ActiveMapIconStyleBase : Managed
+class PR_MapIconStyleBase : Managed
 {
-	void Apply(PR_ActiveMapIcon mapIcon, MapDescriptorComponent mapDescriptorComp);
+	void Apply(MapDescriptorComponent mapDescriptorComp);
 	void SetVisibility(bool visibility, MapDescriptorComponent mapDescriptorComp);
 }
 
 // Style of characters
 [BaseContainerProps()]
-class PR_ActiveMapIconStyleCharacter : PR_ActiveMapIconStyleBase
+class PR_MapIconStyleCharacter : PR_MapIconStyleBase
 {	
-	override void Apply(PR_ActiveMapIcon mapIcon, MapDescriptorComponent mapDescriptorComp)
+	override void Apply(MapDescriptorComponent mapDescriptorComp)
 	{
 		MapItem mapItem = mapDescriptorComp.Item();
 		MapDescriptorProps props = mapItem.GetProps();
@@ -47,9 +47,9 @@ class PR_ActiveMapIconStyleCharacter : PR_ActiveMapIconStyleBase
 
 // Style of vehicles
 [BaseContainerProps()]
-class PR_ActiveMapIconStyleVehicle : PR_ActiveMapIconStyleBase
+class PR_MapIconStyleVehicle : PR_MapIconStyleBase
 {	
-	override void Apply(PR_ActiveMapIcon mapIcon, MapDescriptorComponent mapDescriptorComp)
+	override void Apply(MapDescriptorComponent mapDescriptorComp)
 	{
 		MapItem mapItem = mapDescriptorComp.Item();
 		MapDescriptorProps props = mapItem.GetProps();
@@ -82,9 +82,9 @@ class PR_ActiveMapIconStyleVehicle : PR_ActiveMapIconStyleBase
 }
 
 [BaseContainerProps()]
-class PR_ActiveMapIconStyleMarker : PR_ActiveMapIconStyleBase
+class PR_MapIconStyleMarker : PR_MapIconStyleBase
 {
-	override void Apply(PR_ActiveMapIcon mapIcon, MapDescriptorComponent mapDescriptorComp)
+	override void Apply(MapDescriptorComponent mapDescriptorComp)
 	{
 		MapItem mapItem = mapDescriptorComp.Item();
 		MapDescriptorProps props = mapItem.GetProps();
@@ -114,9 +114,9 @@ class PR_ActiveMapIconStyleMarker : PR_ActiveMapIconStyleBase
 }
 
 [BaseContainerProps()]
-class PR_ActiveMapIconStyleCaptureArea : PR_ActiveMapIconStyleBase
+class PR_MapIconStyleCaptureArea : PR_MapIconStyleBase
 {
-	override void Apply(PR_ActiveMapIcon mapIcon, MapDescriptorComponent mapDescriptorComp)
+	override void Apply(MapDescriptorComponent mapDescriptorComp)
 	{
 		MapItem mapItem = mapDescriptorComp.Item();
 		if (!mapItem)

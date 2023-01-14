@@ -11,7 +11,7 @@ class PR_CaptureAreaMapIconComponentClass : ScriptComponentClass
 class PR_CaptureAreaMapIconComponent : ScriptComponent
 {
 	[Attribute()]
-	protected ref PR_ActiveMapIconStyleBase m_Style;
+	protected ref PR_MapIconStyleBase m_Style;
 	
 	protected MapDescriptorComponent m_MapDescriptor;
 	protected PR_CaptureArea m_CaptureArea;
@@ -64,7 +64,7 @@ class PR_CaptureAreaMapIconComponent : ScriptComponent
 		m_CaptureArea = PR_CaptureArea.Cast(owner.FindComponent(PR_CaptureArea));
 		
 		if (m_Style)
-			m_Style.Apply(null, m_MapDescriptor);
+			m_Style.Apply(m_MapDescriptor);
 		
 		m_CaptureArea.m_OnAnyPropertyChanged.Insert(OnCaptureAreaAnyPropertyChanged);
 		

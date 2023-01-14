@@ -39,7 +39,7 @@ class PR_ActiveMapIcon : SCR_Position
 	// ATTRIBUTES
 	
 	[Attribute(desc: "Style of the icon")]
-	protected ref PR_ActiveMapIconStyleBase m_Style;
+	protected ref PR_MapIconStyleBase m_Style;
 	
 	[Attribute("0", UIWidgets.CheckBox, desc: "When true, this map icon will keep faction ID updated according to faction of target")]
 	protected bool m_bTrackTargetFaction;
@@ -173,7 +173,7 @@ class PR_ActiveMapIcon : SCR_Position
 		
 		if (m_Style)
 		{
-			m_Style.Apply(this, m_MapDescriptor);
+			m_Style.Apply(m_MapDescriptor);
 		}	
 		
 		if(Replication.IsClient())

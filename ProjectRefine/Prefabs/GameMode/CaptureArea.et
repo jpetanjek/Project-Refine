@@ -4,7 +4,7 @@ GenericEntity {
   PR_CaptureArea "{5B156B902CEA1626}" {
   }
   PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
-   m_Style PR_ActiveMapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
+   m_Style PR_MapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
    }
   }
   SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
