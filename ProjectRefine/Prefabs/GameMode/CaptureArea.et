@@ -1,10 +1,14 @@
 GenericEntity {
  ID "5B16FDA58D67A45A"
  components {
-  PR_ActiveMapIconInformerComponent "{5C4EF33F4584256A}" {
-   m_IconPrefab "{6240E4B2A47867D6}Prefabs/Map/ActiveMapIconCapturePoint.et"
-  }
   PR_CaptureArea "{5B156B902CEA1626}" {
+  }
+  PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
+   m_Style PR_ActiveMapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
+   }
+  }
+  SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
+   MainType Cross
   }
   RplComponent "{5B16FDA5AEC2A359}" {
   }
