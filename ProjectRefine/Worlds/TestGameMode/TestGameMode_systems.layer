@@ -395,6 +395,11 @@ SCR_FactionManager FactionManager_USxUSSR1 : "{589540B35EBA8CDC}Prefabs/MP/Manag
 }
 RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
 }
+PR_AssetSpawner {
+ coords 35.932 1.971 447.018
+ m_EntityAssetList PR_EntitySpawnerList "{5C5D3D7231C552F9}" : "{4F5A2708AAE828F8}Configs/GameMode/PR_EntitySpawnerList.conf" {
+ }
+}
 SCR_SpawnPoint : "{4FEA25583D0975F7}Prefabs/MP/Spawning/SpawnPoint_USSR.et" {
  coords 21.557 2.001 433.047
 }

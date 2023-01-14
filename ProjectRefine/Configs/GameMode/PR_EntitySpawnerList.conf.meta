@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{4F5A2708AAE828F8}Configs/GameMode/PR_EntitySpawnerList.config.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}
