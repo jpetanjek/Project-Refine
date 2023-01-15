@@ -198,7 +198,10 @@ class PR_ActiveMapIcon : SCR_Position
 		UpdateVisibility();
 	}
 	
-	void ServerSideIconChangedFaction()
+	//------------------------------------------------------------------------------------------------
+	// Called when target changes faction.
+	// !!! Works only on server!
+	void OnTargetFactionChanged()
 	{
 		if (m_Target == null)
 			return;

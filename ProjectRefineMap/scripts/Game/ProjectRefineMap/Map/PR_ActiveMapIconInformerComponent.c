@@ -36,18 +36,18 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 		SCR_FactionAffiliationComponent m_FactionAffiliationComponent = SCR_FactionAffiliationComponent.Cast(owner.FindComponent(SCR_FactionAffiliationComponent));
 		if (m_FactionAffiliationComponent && m_Icon)
 		{
-			m_FactionAffiliationComponent.GetOnFactionUpdate().Insert(ServerOnFactionChanged);
+			m_FactionAffiliationComponent.GetOnFactionUpdate().Insert(OnTargetFactionChanged);
 		}
 	}
 	
-	void ServerOnFactionChanged()
+	void OnTargetFactionChanged()
 	{
 		// Inform icon directly
 		if(m_Icon)
 		{
-			m_Icon.ServerSideIconChangedFaction();
+			m_Icon.OnTargetFactionChanged();
 			if(m_MapManager)
-				m_MapManager.ServerSideIconChangedFaction(m_Icon);
+				m_MapManager.OnIconTargetFactionChanged(m_Icon);
 		}
 	}
 	

@@ -1,6 +1,8 @@
 PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
  ID "5C5EDC0C979A00DE"
  components {
+  SCR_GroupsManagerComponent "{5706EC99934496F5}" {
+  }
   SCR_RespawnBriefingComponent "{5B16FDA74EDF5FBC}" {
    m_SimpleBriefingBackground "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
    m_aGameModeHints {
@@ -17,7 +19,6 @@ PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
   SCR_RespawnTimerComponent "{5B16FDA74EDF5F89}" {
    m_fRespawnTime 10
   }
-  
   SCR_ScoringSystemComponent "{5B16FDA74EDF5FFA}" {
    m_aActions {
     EndGameAction "{5B16FDA74EDF5FFB}" {
@@ -25,7 +26,6 @@ PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
     }
    }
   }
-
  }
  PlayerControllerPrefab "{D3FB68341A3988E2}Prefabs/Characters/Core/DefaultPlayerControllerMP_PRGameMode.et"
 }

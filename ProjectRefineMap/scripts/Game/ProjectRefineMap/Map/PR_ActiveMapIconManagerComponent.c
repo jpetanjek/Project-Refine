@@ -92,7 +92,8 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
-	void ServerSideIconChangedFaction(PR_ActiveMapIcon activeMapIcon)
+	// Called on server when target of the icon changes its faction
+	void OnIconTargetFactionChanged(PR_ActiveMapIcon activeMapIcon)
 	{
 		int index = m_AllMarkers.Find(activeMapIcon);
 		if(index == -1)
