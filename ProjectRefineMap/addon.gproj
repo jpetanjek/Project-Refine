@@ -1,0 +1,8 @@
+GameProject {
+ ID "ProjectRefineMap"
+ GUID "5C5EBCE1BAFE1C01"
+ TITLE "Project Refine - Map"
+ Dependencies {
+  "58D0FB3206B6F859"
+ }
+}
