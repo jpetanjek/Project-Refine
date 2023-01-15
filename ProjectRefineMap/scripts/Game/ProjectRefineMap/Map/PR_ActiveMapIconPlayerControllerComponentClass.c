@@ -67,6 +67,38 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	int GetPlayerFactionId()
+	{
+		PlayerController pc = PlayerController.Cast(GetOwner());
+		
+		// Try get faction from controlled entity
+		IEntity controlledEntity = pc.GetControlledEntity();
+		if (controlledEntity)
+		{
+			FactionAffiliationComponent fComp = FactionAffiliationComponent.Cast(controlledEntity.FindComponent(FactionAffiliationComponent));
+			if (fComp)
+			{
+				Faction faction = fComp.GetAffiliatedFaction();
+				int factionId = GetGame().GetFactionManager().GetFactionIndex(faction);
+				if (factionId != -1)
+					return factionId;
+			}
+		}
+		
+		// Try get faction from respawn system
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(pc.GetPlayerId());
+		if (playerRespawnInfo)
+		{
+			int factionId = playerRespawnInfo.GetPlayerFactionIndex();
+			if (factionId != -1)
+				return factionId;
+		} 
+		
+		return -1;
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RpcAsk_AddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor)
 	{
@@ -75,7 +107,10 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 		
 		int fromPlayerId = pc.GetPlayerId();
 		
-		mgr.AddMapMarker(fromPlayerId, markerPos, markerText, markerIconName, markerColor);
+		int factionId = GetPlayerFactionId();
+		
+		if (factionId != -1)
+			mgr.AddMapMarker(fromPlayerId, factionId, markerPos, markerText, markerIconName, markerColor);
 	}
 	
 	//------------------------------------------------------------------------------------------------
