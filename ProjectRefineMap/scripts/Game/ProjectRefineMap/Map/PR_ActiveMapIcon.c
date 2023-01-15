@@ -44,6 +44,9 @@ class PR_ActiveMapIcon : SCR_Position
 	[Attribute("0", UIWidgets.CheckBox, desc: "When true, this map icon will keep faction ID updated according to faction of target")]
 	protected bool m_bTrackTargetFaction;
 	
+	protected vector prevTransform[4];
+	protected bool firstMove = false;
+	
 	//------------------------------------------------------------------------------------------------
 	// PUBLIC
 	
@@ -264,10 +267,17 @@ class PR_ActiveMapIcon : SCR_Position
 		{
 			if (m_Target)
 			{
+				if(!firstMove)
+				{
+					RplComponent rpl = RplComponent.Cast(owner.FindComponent(RplComponent));				
+					rpl.ForceNodeMovement(prevTransform[3]);
+				}
+				firstMove = false;
+				owner.GetWorldTransform(prevTransform);
+				
 				UpdatePropsFromTarget();
 				Replication.BumpMe();
-				if (!System.IsConsoleApp())
-					UpdateFromReplicatedState(); // Makes no sense if we have no UI
+				UpdateFromReplicatedState();
 			}
 			else
 			{
