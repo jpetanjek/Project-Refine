@@ -28,7 +28,7 @@ class PR_ActiveMapIcon : SCR_Position
 	protected vector m_vPosAndDir;
 	
 	// Faction ID for which this icon is relevant. -1 means it's for all factions.
-	[RplProp(onRplName: "FactionChangedByServer")]
+	[RplProp(onRplName: "OnRplFactionChanged")]
 	int m_iFactionId = -1;
 	
 	// Group ID for which this icon is relevant. -1 means it's for all groups.
@@ -141,11 +141,12 @@ class PR_ActiveMapIcon : SCR_Position
 	}
 	
 	// On Client - FactionId of icon changed by Server
-	protected void FactionChangedByServer()
+	protected void OnRplFactionChanged()
 	{
 		if (Replication.IsClient())
 		{
 			UpdateVisibility();
+			UpdateFromReplicatedState();
 		}
 	}
 	
