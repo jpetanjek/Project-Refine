@@ -3,7 +3,10 @@
 class PR_MapIconStyleBase : Managed
 {
 	void Apply(MapDescriptorComponent mapDescriptorComp);
-	void SetVisibility(bool visibility, MapDescriptorComponent mapDescriptorComp);
+	void SetVisibility(bool visibility, MapDescriptorComponent mapDescriptorComp)
+	{
+		mapDescriptorComp.Item().GetProps().SetVisible(visibility);
+	}
 }
 
 // Style of characters
@@ -38,11 +41,6 @@ class PR_MapIconStyleCharacter : PR_MapIconStyleBase
 		props.Activate(true);
 		mapItem.SetProps(props);
 	}
-	
-	override void SetVisibility(bool visibility, MapDescriptorComponent mapDescriptorComp)
-	{
-		mapDescriptorComp.Item().GetProps().SetVisible(visibility);
-	}
 }
 
 // Style of vehicles
@@ -74,11 +72,6 @@ class PR_MapIconStyleVehicle : PR_MapIconStyleBase
 		props.Activate(true);
 		mapItem.SetProps(props);
 	}
-	
-	override void SetVisibility(bool visibility, MapDescriptorComponent mapDescriptorComp)
-	{
-		mapDescriptorComp.Item().GetProps().SetVisible(visibility);
-	}
 }
 
 [BaseContainerProps()]
@@ -106,7 +99,7 @@ class PR_MapIconStyleMarker : PR_MapIconStyleBase
 		//props.SetIconTextAlignH(1);
 		//props.SetIconTextAlignV(0);
 		
-		//props.SetVisible(false);
+		//props.SetVisible(true);
 		
 		props.Activate(true);
 		mapItem.SetProps(props);
