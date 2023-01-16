@@ -35,6 +35,9 @@ class PR_CaptureArea : ScriptComponent
 	// !!! Works only on server!
 	ref ScriptInvoker<int, int> m_OnOwnerFactionChanged = new ScriptInvoker<int, int>(); // Old faction, new faction
 	
+	// Called when links are initialized, for each added link
+	ref ScriptInvoker<PR_CaptureArea, PR_CaptureArea> m_OnLinkAdded = new ScriptInvoker<PR_CaptureArea, PR_CaptureArea>();
+	
 	// Linked areas in all directions
 	protected ref array<PR_CaptureArea> m_aLinkedAreas = {};
 	
@@ -318,6 +321,11 @@ class PR_CaptureArea : ScriptComponent
 	void InitLinkedAreas(array<PR_CaptureArea> neighbours)
 	{
 		m_aLinkedAreas.Copy(neighbours);
+		
+		foreach (PR_CaptureArea area : neighbours)
+		{
+			m_OnLinkAdded.Invoke(this, area);
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
