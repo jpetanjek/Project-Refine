@@ -111,7 +111,7 @@ class PR_GameMode : SCR_BaseGameMode
 		else
 			_print("Capture areas initialized successfully!", LogLevel.NORMAL);
 		
-		// Link capture ares with their naighbours
+		// Link capture areas with their naighbours
 		// Now we just link them sequentially
 		if (m_bCaptureAreaInitSuccess)
 		{

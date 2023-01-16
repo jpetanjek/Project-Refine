@@ -67,6 +67,7 @@ class PR_CaptureAreaMapIconComponent : ScriptComponent
 			m_Style.Apply(m_MapDescriptor);
 		
 		m_CaptureArea.m_OnAnyPropertyChanged.Insert(OnCaptureAreaAnyPropertyChanged);
+		m_CaptureArea.m_OnLinkAdded.Insert(OnCaptureAreaLinkAdded);
 		
 		SCR_MapEntity.GetOnMapOpen().Insert(OnMapOpen);
 		
@@ -77,6 +78,49 @@ class PR_CaptureAreaMapIconComponent : ScriptComponent
 	void OnCaptureAreaAnyPropertyChanged(PR_CaptureArea captureArea)
 	{
 		UpdateMapIcon();
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void OnCaptureAreaLinkAdded(PR_CaptureArea thisArea, PR_CaptureArea otherArea)
+	{
+		// Visualize links on the map
+		
+		MapItem mapItem = m_MapDescriptor.Item();
+		
+		MapDescriptorComponent otherDescriptor = MapDescriptorComponent.Cast(otherArea.GetOwner().FindComponent(MapDescriptorComponent));
+		MapItem otherMapItem = otherDescriptor.Item();
+		array<MapLink> otherMapLinks = {};
+		otherMapItem.GetLinks(otherMapLinks);
+		
+		// Check if we have already visualized this link in opposite direction
+		bool linkAlreadyAdded = false;
+		foreach (MapLink link : otherMapLinks)
+		{
+			if (link.Owner() == mapItem || link.Target() == mapItem)
+			{
+				linkAlreadyAdded = true;
+				break;
+			}
+		}
+		
+		if (!linkAlreadyAdded)
+		{
+			Color lineColor = new Color(1, 1, 1, 0.7);
+			Color outlineColor = new Color(0, 0, 0, 0.3);
+			
+			MapLink mapLink = mapItem.LinkTo(otherMapItem);
+			MapLinkProps props = mapLink.GetMapLinkProps();
+			
+			props.SetLineWidth(4.0);
+			props.SetOutlineWidth(1.0);
+			props.SetLineColor(lineColor);
+			props.SetOutlineColor(outlineColor);
+			props.SetLineType(EMapLineType.LT_FULL_LINE);
+			props.SetVisible(true);
+			
+			//PrintFormat("Added link: %1 -> %2", thisArea.GetName(), otherArea.GetName());
+		}
+		
 	}
 	
 	//------------------------------------------------------------------------------------------------
