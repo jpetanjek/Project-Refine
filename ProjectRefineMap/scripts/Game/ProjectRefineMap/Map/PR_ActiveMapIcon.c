@@ -64,6 +64,13 @@ class PR_ActiveMapIcon : SCR_Position
 			OnTargetAssigned(target);
 			UpdatePosAndDirPropFromTarget();
 			m_bTargetAssigned = true;
+			
+			// Subscribe to damange manager state change if exists
+			ScriptedDamageManagerComponent m_pDamageManager = ScriptedDamageManagerComponent.Cast(m_Target.FindComponent(ScriptedDamageManagerComponent));
+			if(m_pDamageManager)
+			{
+				m_pDamageManager.GetOnDamageStateChanged().Insert(OnDamageStateChanged);
+			}
 		}
 		else
 		{
@@ -159,6 +166,14 @@ class PR_ActiveMapIcon : SCR_Position
 	// Called once when a target is assigned.
 	// Override to implement one-time initialization.
 	protected void OnTargetAssigned(IEntity target);
+	
+	protected void OnDamageStateChanged(EDamageState state)
+	{
+		if (state == EDamageState.DESTROYED)
+		{
+			delete this;
+		}
+	}
 	
 	//------------------------------------------------------------------------------------------------
 	override protected void EOnInit(IEntity owner)
