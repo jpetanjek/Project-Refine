@@ -88,12 +88,13 @@ class PR_ActiveMapIcon : SCR_Position
 			if (factionAffiliation && factionManager)
 			{
 				m_iFactionId = factionManager.GetFactionIndex(factionAffiliation.GetAffiliatedFaction());
-				UpdateVisibility();
 			}
 		}
 		
 		// TODO: Group affiliation
 		m_iGroupId = groupId;
+		
+		UpdateVisibility();
 		
 		//  Initial setup I guess?
 		UpdateFromReplicatedState();
@@ -122,11 +123,11 @@ class PR_ActiveMapIcon : SCR_Position
 		
 		int factionIndex = playerRespawnInfo.GetPlayerFactionIndex();
 		
-		if (m_Style && factionIndex == m_iFactionId)
+		if (PR_ActiveMapIconManagerComponent.CanStream(playerRespawnInfo, this))
 		{
 			m_Style.SetVisibility(true, m_MapDescriptor);
 		}
-		else if (m_Style)
+		else
 		{
 			m_Style.SetVisibility(false, m_MapDescriptor);
 		}

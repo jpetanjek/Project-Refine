@@ -64,7 +64,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 					RplComponent rpl = RplComponent.Cast(localMarker.FindComponent(RplComponent));
 					if(rpl != null)
 					{
-						if (playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
+						if (CanStream(playerRespawnInfo, localMarker))
 						{
 							rpl.EnableStreamingConNode(identity, false);
 						}
@@ -119,7 +119,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 					if(identity.IsValid())
 					{
 						SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
-						if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == activeMapIcon.m_iFactionId)
+						if (playerRespawnInfo && CanStream(playerRespawnInfo, activeMapIcon))
 						{
 							rpl.EnableStreamingConNode(identity, false);
 						}
@@ -217,7 +217,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 							if(identity.IsValid())
 							{
 								SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
-								if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
+								if (playerRespawnInfo && CanStream(playerRespawnInfo, localMarker))
 								{
 									rpl.EnableStreamingConNode(identity, false);
 								}
@@ -268,7 +268,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 						if(identity.IsValid())
 						{
 							SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
-							if (playerRespawnInfo && playerRespawnInfo.GetPlayerFactionIndex() == localMarker.m_iFactionId)
+							if (playerRespawnInfo && CanStream(playerRespawnInfo, localMarker))
 							{
 								rpl.EnableStreamingConNode(identity, false);
 							}
@@ -286,6 +286,11 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		{
 			m_AllMarkers.Remove(indiciesToRemove[j]);
 		}
+	}
+	
+	static bool CanStream(SCR_PlayerRespawnInfo playerRespawnInfo, PR_ActiveMapIcon icon)
+	{
+		return playerRespawnInfo.GetPlayerFactionIndex() == icon.m_iFactionId || icon.m_iFactionId == -1;
 	}
 	
 	// Public inteface to add a map marker
