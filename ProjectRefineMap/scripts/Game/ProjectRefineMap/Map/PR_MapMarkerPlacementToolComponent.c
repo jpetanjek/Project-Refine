@@ -1,3 +1,9 @@
+enum PR_EMarkerVisibility
+{
+	EVERYONE,
+	FACTION
+}
+
 class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 {
 	protected ref PR_MapMarkerPlacementToolWidgets widgets = new PR_MapMarkerPlacementToolWidgets();
@@ -31,6 +37,8 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	protected ref array<SCR_ModularButtonComponent> m_aColorSelectionButtons = {};
 	protected static int s_iSelectedColorId = -1;
 	
+	protected static int s_iSelectedVisibilityId = -1;
+	
 	
 	override void HandlerAttached(Widget w)
 	{
@@ -46,6 +54,7 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		
 		InitIconGrid();
 		InitColorGrid();
+		InitVisibilityListbox();
 	}
 	
 	override void HandlerDeattached(Widget w)
@@ -143,6 +152,58 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 			m_aColorSelectionButtons[0].SetToggled(true);
 	}
 	
+	void InitVisibilityListbox()
+	{
+		SCR_ListBoxComponent lb = widgets.m_VisibilityListboxComponent;
+		
+		lb.AddItem("My Faction");
+		lb.AddItem("Everyone");
+		
+		lb.m_OnChanged.Insert(OnVisibilityListbox);
+	}
+	
+	void UpdateVisibilityListboxAvailableItems()
+	{
+		SCR_ListBoxComponent lb = widgets.m_VisibilityListboxComponent;
+		
+		// Check if we have our own faction. If we don't then disable the 'my faction' option.
+		bool haveOwnFaction = false;
+		PlayerController pc = GetGame().GetPlayerController();
+		if (pc)
+		{
+			haveOwnFaction = pc.GetControlledEntity() != null;
+			if (!haveOwnFaction)
+			{
+				SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+				SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(pc.GetPlayerId());
+				if (playerRespawnInfo)
+					haveOwnFaction = playerRespawnInfo.GetPlayerFactionIndex() >= 0;
+			}
+		}	
+		
+		int defaultSelection = 0;
+		bool myFactionOptionEnabled = true;
+		
+		if (!haveOwnFaction)
+		{
+			myFactionOptionEnabled = false;
+			defaultSelection = 1;
+		}
+		else
+		{
+			if (s_iSelectedVisibilityId != -1)
+				defaultSelection = s_iSelectedVisibilityId;
+			else
+				defaultSelection = 0;
+			
+			myFactionOptionEnabled = true;
+		}
+
+		lb.GetElementComponent(0).SetEnabled(myFactionOptionEnabled);
+		lb.SetAllItemsSelected(false);
+		lb.SetItemSelected(defaultSelection, true);
+	}
+	
 	void Update(float timeSlice, SCR_MapEntity mapEntity)
 	{
 		WorkspaceWidget workspace = GetGame().GetWorkspace();
@@ -162,6 +223,8 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		m_wRoot.SetVisible(true);
 		
 		widgets.m_MarkerTextEditbox.SetText(string.Empty);
+		
+		UpdateVisibilityListboxAvailableItems();
 		//GetGame().GetWorkspace().SetFocusedWidget(widgets.m_MarkerTextEditbox);
 		//widgets.m_MarkerTextEditbox.ActivateWriteMode();
 	}
@@ -169,6 +232,11 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	void StopMarkerPlacement()
 	{
 		m_wRoot.SetVisible(false);
+	}
+	
+	void OnVisibilityListbox(SCR_ListBoxComponent comp, int item, bool newSelected)
+	{
+		s_iSelectedVisibilityId = comp.GetSelectedItem();
 	}
 	
 	protected void OnIconSelectionButton(SCR_ModularButtonComponent button)
@@ -234,11 +302,20 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	}
 	
 	// Returns marker properties entered by user
-	void GetMarkerProperties(out vector outMarkerPos, out string outMarkerText, out string outMarkerIconName, out int outMarkerColor)
+	void GetMarkerProperties(out vector outMarkerPos, out string outMarkerText, out string outMarkerIconName,
+		out int outMarkerColor, out PR_EMarkerVisibility outVisibility)
 	{
 		outMarkerPos = m_vMarkerPosWorld;
 		outMarkerText = widgets.m_MarkerTextEditbox.GetText();
 		outMarkerIconName = GetSelectedIconName();
 		outMarkerColor = GetSelectedColor();
+		
+		PR_EMarkerVisibility v = -1;
+		switch (widgets.m_VisibilityListboxComponent.GetSelectedItem())
+		{
+			case 0: v = PR_EMarkerVisibility.FACTION; break;
+			case 1: v = PR_EMarkerVisibility.EVERYONE; break;
+		}
+		outVisibility = v;
 	}
 }

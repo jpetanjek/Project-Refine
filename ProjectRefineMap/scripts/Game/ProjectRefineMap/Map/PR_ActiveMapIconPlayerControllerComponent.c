@@ -49,9 +49,9 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void AskAddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor)
+	void AskAddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor, PR_EMarkerVisibility markerVisibility)
 	{
-		Rpc(RpcAsk_AddMapMarker, markerPos, markerText, markerIconName, markerColor);
+		Rpc(RpcAsk_AddMapMarker, markerPos, markerText, markerIconName, markerColor, markerVisibility);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -67,8 +67,11 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	int GetPlayerFactionId()
+	int GetMarkerFactionId(PR_EMarkerVisibility markerVisibility)
 	{
+		if (markerVisibility == PR_EMarkerVisibility.EVERYONE)
+			return -1; // Visible for every faction
+		
 		PlayerController pc = PlayerController.Cast(GetOwner());
 		
 		// Try get faction from controlled entity
@@ -100,17 +103,16 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 	
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void RpcAsk_AddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor)
+	protected void RpcAsk_AddMapMarker(vector markerPos, string markerText, string markerIconName, int markerColor, PR_EMarkerVisibility markerVisibility)
 	{
 		PlayerController pc = PlayerController.Cast(GetOwner());
 		PR_ActiveMapIconManagerComponent mgr = PR_ActiveMapIconManagerComponent.GetInstance();
 		
 		int fromPlayerId = pc.GetPlayerId();
 		
-		int factionId = GetPlayerFactionId();
+		int factionId = GetMarkerFactionId(markerVisibility);
 		
-		if (factionId != -1)
-			mgr.AddMapMarker(fromPlayerId, factionId, markerPos, markerText, markerIconName, markerColor);
+		mgr.AddMapMarker(fromPlayerId, factionId, markerPos, markerText, markerIconName, markerColor);
 	}
 	
 	//------------------------------------------------------------------------------------------------
