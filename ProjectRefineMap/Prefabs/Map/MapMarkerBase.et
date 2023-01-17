@@ -2,6 +2,7 @@ PR_ActiveMapIconMarker {
  ID "5AE55486E065D8D1"
  components {
   SCR_MapDescriptorComponent "{5AE554868ED324FB}" {
+   MainType "Small Tree"
   }
   RplComponent "{5AE5548684F23990}" {
   }

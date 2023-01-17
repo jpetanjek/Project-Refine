@@ -11,10 +11,11 @@ class PR_MapIconStyleCaptureArea : PR_MapIconStyleBase
 		
 		mapItem.SetDisplayName("Capture Point Name");
 		mapItem.SetBaseType(EMapDescriptorType.MDT_SMALLTREE);
+		//mapItem.SetGroupType(EMapDescriptorGroup.MDG_AGGREGATE);
 		mapItem.SetImageDef("capture_point");
 		props.SetTextVisible(true);
 		props.SetIconVisible(true);
-		props.SetIconSize(128, 0.4, 0.4);
+		props.SetIconSize(1, 52.0/128.0, 52.0/128.0);
 		props.SetFrontColor(Color.Red);
 		props.SetOutlineColor(Color.White);
 		props.SetBackgroundColor(Color.White);

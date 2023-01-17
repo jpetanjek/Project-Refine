@@ -23,7 +23,7 @@ class PR_MapIconStyleCharacter : PR_MapIconStyleBase
 		mapItem.SetBaseType(EMapDescriptorType.MDT_SMALLTREE);
 		props.SetTextVisible(true);
 		props.SetIconVisible(true);
-		props.SetIconSize(64, 0.3, 0.3);
+		props.SetIconSize(1, 38.0/128.0, 38.0/128.0);
 		props.SetFrontColor(Color.White);
 		props.SetOutlineColor(Color.White);
 		props.SetBackgroundColor(Color.White);
@@ -56,7 +56,7 @@ class PR_MapIconStyleVehicle : PR_MapIconStyleBase
 		mapItem.SetImageDef("vehicle");
 		props.SetTextVisible(true);
 		props.SetIconVisible(true);
-		props.SetIconSize(64, 0.3, 0.3);
+		props.SetIconSize(1, 38.0/128.0, 38.0/128.0);
 		props.SetFrontColor(Color.White);
 		props.SetOutlineColor(Color.White);
 		props.SetBackgroundColor(Color.White);
@@ -86,7 +86,7 @@ class PR_MapIconStyleMarker : PR_MapIconStyleBase
 		mapItem.SetBaseType(EMapDescriptorType.MDT_SMALLTREE);
 		props.SetTextVisible(true);
 		props.SetIconVisible(true);
-		props.SetIconSize(128, 0.4, 0.4);
+		props.SetIconSize(1, 52.0/128.0, 52.0/128.0);
 		props.SetFrontColor(Color.White);
 		props.SetOutlineColor(Color.White);
 		props.SetBackgroundColor(Color.White);
