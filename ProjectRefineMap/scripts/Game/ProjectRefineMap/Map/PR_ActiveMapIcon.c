@@ -121,9 +121,7 @@ class PR_ActiveMapIcon : SCR_Position
 		if (!playerRespawnInfo)
 			return;
 		
-		int factionIndex = playerRespawnInfo.GetPlayerFactionIndex();
-		
-		if (PR_ActiveMapIconManagerComponent.CanStream(playerRespawnInfo, this))
+		if (PR_ActiveMapIconManagerComponent.GetInstance().CanStream(playerRespawnInfo, this))
 		{
 			m_Style.SetVisibility(true, m_MapDescriptor);
 		}

@@ -12,6 +12,8 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	protected static PR_ActiveMapIconManagerComponent s_Instance;
 	
+	protected SCR_EditorManagerEntity m_EditorManager;
+	
 	void PR_ActiveMapIconManagerComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
 		s_Instance = this;
@@ -31,6 +33,18 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		array<PR_ActiveMapIcon> a = {};
 		a.Copy(m_AllMarkers);
 		return a;
+	}
+	
+	protected void OnEditorModeChange(SCR_EditorModeEntity newModeEntity, SCR_EditorModeEntity oldModeEntity)
+	{
+		if (newModeEntity.GetModeType() == EEditorMode.EDIT)
+		{
+			
+		}
+		else
+		{
+			
+		}
 	}
 	
 	// Server -> Player changed faction, execute streaming logic - stream in things he needs, stream out things he doesn't
@@ -172,7 +186,22 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	override void OnPostInit(IEntity owner)
 	{
+		super.OnPostInit(owner);
+		
 		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
+		
+		SCR_EditorManagerCore editorManagerCore = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
+		if (editorManagerCore) 
+			editorManagerCore.Event_OnEditorManagerInitOwner.Insert(OnEditorManagerInit);
+	}
+	
+	protected void OnEditorManagerInit(SCR_EditorManagerEntity editorManager)
+	{
+		if(editorManager)
+		{
+			m_EditorManager = editorManager;
+			m_EditorManager.GetOnModeChange().Insert(OnEditorModeChange);
+		}
 	}
 	
 	override void EOnFixedFrame(IEntity owner, float timeSlice)
@@ -288,9 +317,9 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
-	static bool CanStream(SCR_PlayerRespawnInfo playerRespawnInfo, PR_ActiveMapIcon icon)
-	{
-		return playerRespawnInfo.GetPlayerFactionIndex() == icon.m_iFactionId || icon.m_iFactionId == -1;
+	bool CanStream(SCR_PlayerRespawnInfo playerRespawnInfo, PR_ActiveMapIcon icon)
+	{		
+		return playerRespawnInfo.GetPlayerFactionIndex() == icon.m_iFactionId || icon.m_iFactionId == -1 || (m_EditorManager && m_EditorManager.HasMode(EEditorMode.EDIT));
 	}
 	
 	// Public inteface to add a map marker
