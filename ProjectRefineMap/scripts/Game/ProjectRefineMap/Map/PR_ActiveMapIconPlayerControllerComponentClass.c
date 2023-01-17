@@ -112,8 +112,7 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 		
 		int factionId = GetMarkerFactionId(markerVisibility);
 		
-		if (factionId != -1)
-			mgr.AddMapMarker(fromPlayerId, factionId, markerPos, markerText, markerIconName, markerColor);
+		mgr.AddMapMarker(fromPlayerId, factionId, markerPos, markerText, markerIconName, markerColor);
 	}
 	
 	//------------------------------------------------------------------------------------------------
