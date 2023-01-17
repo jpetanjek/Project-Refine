@@ -8,6 +8,9 @@ class PR_MapMarkerPlacementToolWidgets
 
 	EditBoxWidget m_MarkerTextEditbox;
 
+	OverlayWidget m_VisibilityListbox;
+	SCR_ListBoxComponent m_VisibilityListboxComponent;
+
 	VerticalLayoutWidget m_ColorSelectionVerticalLayout;
 
 	VerticalLayoutWidget m_IconSelectionVerticalLayout;
@@ -21,6 +24,9 @@ class PR_MapMarkerPlacementToolWidgets
 	bool Init(Widget root)
 	{
 		m_MarkerTextEditbox = EditBoxWidget.Cast(root.FindAnyWidget("m_MarkerTextEditbox"));
+
+		m_VisibilityListbox = OverlayWidget.Cast(root.FindAnyWidget("m_VisibilityListbox"));
+		m_VisibilityListboxComponent = SCR_ListBoxComponent.Cast(m_VisibilityListbox.FindHandler(SCR_ListBoxComponent));
 
 		m_ColorSelectionVerticalLayout = VerticalLayoutWidget.Cast(root.FindAnyWidget("m_ColorSelectionVerticalLayout"));
 

@@ -1,0 +1,63 @@
+ButtonWidgetClass {
+ Name "ListBoxElement"
+ Slot AlignableSlot "{554ADB1D2D5974C0}" {
+  HorizontalAlign 3
+ }
+ components {
+  SCR_ListBoxElementComponent "{5C6331A7DBC894F0}" {
+   m_aEffects {
+    SCR_ButtonEffectOpacity "{5C6331A7059EA507}" {
+     m_eEvents 15
+     m_sWidgetName "Background"
+     m_fAnimationTime 0
+     m_fHovered 0.3
+     m_fActivated 0.8
+     m_fActivatedHovered 1
+    }
+   }
+   m_bCanBeToggled 1
+   m_bToggledOnlyThroughApi 1
+  }
+ }
+ style blank
+ {
+  SizeLayoutWidgetClass "{5C6331A0FC5BE95C}" {
+   Name "SizeLayout"
+   Slot ButtonWidgetSlot "{5548E6E7E6AEDDC1}" {
+    HorizontalAlign 3
+   }
+   AllowHeightOverride 1
+   HeightOverride 36
+   {
+    OverlayWidgetClass "{5C6331A0FC5BE95A}" {
+     Name "Overlay"
+     Slot ButtonWidgetSlot "{5548E6E7F213FB11}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Clipping False
+     {
+      ImageWidgetClass "{5C6331A79F5EDFBE}" {
+       Name "Background"
+       Slot OverlayWidgetSlot "{5C6331A79F5EDF89}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.539 0.195 0.002 1
+      }
+      TextWidgetClass "{5C6331A0FC5BE959}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
+       Name "Text"
+       Slot OverlayWidgetSlot "{569519C7FDE79DBD}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding 8 8 8 8
+       }
+       "Z Order" 8
+       "Min Font Size" 20
+      }
+     }
+    }
+   }
+  }
+ }
+}

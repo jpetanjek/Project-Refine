@@ -257,9 +257,10 @@ modded class SCR_MapCursorModule
 		string markerText;
 		string markerIconName;
 		int markerColor;
-		m_MarkerPlacementToolComponent.GetMarkerProperties(markerPos, markerText, markerIconName, markerColor);
+		PR_EMarkerVisibility markerVisibility;
+		m_MarkerPlacementToolComponent.GetMarkerProperties(markerPos, markerText, markerIconName, markerColor, markerVisibility);
 		
-		PR_ActiveMapIconPlayerControllerComponent.GetLocalInstance().AskAddMapMarker(markerPos, markerText, markerIconName, markerColor);
+		PR_ActiveMapIconPlayerControllerComponent.GetLocalInstance().AskAddMapMarker(markerPos, markerText, markerIconName, markerColor, markerVisibility);
 		
 		m_MarkerPlacementToolComponent.StopMarkerPlacement();
 	}

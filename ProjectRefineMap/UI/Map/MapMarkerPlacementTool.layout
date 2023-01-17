@@ -2,8 +2,8 @@ SizeLayoutWidgetClass {
  Name "root"
  components {
   SCR_WidgetExportRuleRoot "{5ACB13C82AA80F28}" {
-   DestinationPath "{337ADEA6D947EB68}scripts/Game/ProjectRefine/Map"
-   ScriptAddon "$ProjectRefine:"
+   DestinationPath "{5544D7FAFDE17979}scripts/Game/ProjectRefineMap/Map"
+   ScriptAddon "$ProjectRefineMap:"
    GenerateFullWidgetPath 0
    ScriptClassNamePrefix "PR_"
   }
@@ -96,23 +96,119 @@ SizeLayoutWidgetClass {
        }
        Clipping False
        {
-        VerticalLayoutWidgetClass "{5AE8C92A2B17D0D7}" {
-         Name "m_ColorSelectionVerticalLayout"
-         Slot LayoutSlot "{5AE8C92A2B17D12E}" {
-          Padding 0 2 0 0
+        SizeLayoutWidgetClass "{5C6331A2FFD58B81}" {
+         Name "VisibilitySelection"
+         Slot LayoutSlot "{5C6331A2FFD58BE0}" {
+         }
+         AllowWidthOverride 1
+         WidthOverride 110
+         {
+          VerticalLayoutWidgetClass "{5C6331A2BA66FA61}" {
+           Name "VisibilityVerticalLayout"
+           Slot AlignableSlot "{5C6331A2FFE18530}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            TextWidgetClass "{5C6331A28C0915BA}" {
+             Name "Text0"
+             Slot LayoutSlot "{5ACB398AC524F280}" {
+             }
+             Text "Visible to"
+             "Font Size" 22
+             "Min Font Size" 22
+             "Horizontal Alignment" Center
+             "Vertical Alignment" Center
+             FontProperties FontProperties "{5ACB398ACC5DAAEE}" {
+              Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+             }
+            }
+            OverlayWidgetClass "{5C6331A36DEFFCAC}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
+             Name "m_VisibilityListbox"
+             Slot LayoutSlot "{5C6331A36DEFFC8C}" {
+             }
+             components {
+              SCR_ListBoxComponent "{566C9415BAA54E1B}" {
+               m_sElementLayout "{3121BDD71C35E46E}UI/Map/ListBoxElement_Text.layout"
+              }
+             }
+             {
+              ScrollLayoutWidgetClass "{56691148E692435A}" {
+               Prefab "{56691148E692435A}"
+               style Blank
+              }
+             }
+            }
+           }
+          }
          }
         }
-        ImageWidgetClass "{5AE8C92A3582C3E5}" {
-         Name "Separator"
+        ImageWidgetClass "{5C6331A0A6707972}" {
+         Name "Separator0"
          Slot LayoutSlot "{5AE8C92A3582C3FB}" {
           Padding 4 0 4 0
          }
          Color 1 1 1 0.098
          Size 4 1
         }
-        VerticalLayoutWidgetClass "{5AE75A89A4C0118E}" {
-         Name "m_IconSelectionVerticalLayout"
-         Slot LayoutSlot "{5AE764929919F74F}" {
+        VerticalLayoutWidgetClass "{5C6331A1DFDF73E8}" {
+         Name "ColorSelection"
+         Slot LayoutSlot "{5C6331A1DFDF7424}" {
+          Padding 0 0 0 0
+         }
+         {
+          TextWidgetClass "{5C6331A1201D2327}" {
+           Name "Text0"
+           Slot LayoutSlot "{5ACB398AC524F280}" {
+           }
+           Text "Color"
+           "Font Size" 22
+           "Min Font Size" 22
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+           FontProperties FontProperties "{5ACB398ACC5DAAEE}" {
+            Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+           }
+          }
+          VerticalLayoutWidgetClass "{5AE8C92A2B17D0D7}" {
+           Name "m_ColorSelectionVerticalLayout"
+           Slot LayoutSlot "{5AE8C92A2B17D12E}" {
+            Padding 0 2 0 0
+           }
+          }
+         }
+        }
+        ImageWidgetClass "{5AE8C92A3582C3E5}" {
+         Name "Separator1"
+         Slot LayoutSlot "{5AE8C92A3582C3FB}" {
+          Padding 4 0 4 0
+         }
+         Color 1 1 1 0.098
+         Size 4 1
+        }
+        VerticalLayoutWidgetClass "{5C6331A105DAA139}" {
+         Name "IconSelection"
+         Slot LayoutSlot "{5C6331A105DAA11A}" {
+         }
+         {
+          TextWidgetClass "{5C6331A1152EFD09}" {
+           Name "Text0"
+           Slot LayoutSlot "{5ACB398AC524F280}" {
+           }
+           Text "Icon"
+           "Font Size" 22
+           "Min Font Size" 22
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+           FontProperties FontProperties "{5ACB398ACC5DAAEE}" {
+            Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+           }
+          }
+          VerticalLayoutWidgetClass "{5AE75A89A4C0118E}" {
+           Name "m_IconSelectionVerticalLayout"
+           Slot LayoutSlot "{5AE764929919F74F}" {
+           }
+          }
          }
         }
        }
