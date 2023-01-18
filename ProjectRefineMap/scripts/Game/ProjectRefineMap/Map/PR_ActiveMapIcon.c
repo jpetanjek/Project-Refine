@@ -84,11 +84,7 @@ class PR_ActiveMapIcon : SCR_Position
 		if (m_Target)
 		{
 			FactionAffiliationComponent factionAffiliation = FactionAffiliationComponent.Cast(m_Target.FindComponent(FactionAffiliationComponent));
-			FactionManager factionManager = GetGame().GetFactionManager();
-			if (factionAffiliation && factionManager)
-			{
-				m_iFactionId = factionManager.GetFactionIndex(factionAffiliation.GetAffiliatedFaction());
-			}
+			UpdateFaction(factionAffiliation, true);
 		}
 		
 		// TODO: Group affiliation
@@ -163,6 +159,17 @@ class PR_ActiveMapIcon : SCR_Position
 		UpdatePosAndDirPropFromTarget();
 	}
 	
+	// Here we can write custom logic which decides to which faction this icon is vibile
+	// This is not meant to be called periodically, instead it is called from events
+	// init - when true, we perform initialization, when false, this is called from faction change event
+	protected void UpdateFaction(FactionAffiliationComponent factionAffiliationComponent, bool init)
+	{
+		// In generic case, the icon is visible to same faction as its target's current faction
+		Faction affiliatedFaction = factionAffiliationComponent.GetAffiliatedFaction();
+		FactionManager factionManager = GetGame().GetFactionManager();
+		m_iFactionId = factionManager.GetFactionIndex(affiliatedFaction);
+	}
+	
 	// Called once when a target is assigned.
 	// Override to implement one-time initialization.
 	protected void OnTargetAssigned(IEntity target);
@@ -221,17 +228,9 @@ class PR_ActiveMapIcon : SCR_Position
 		if (m_Target == null)
 			return;
 		
-		SCR_FactionAffiliationComponent m_FactionAffiliationComponent = SCR_FactionAffiliationComponent.Cast(m_Target.FindComponent(SCR_FactionAffiliationComponent));
-		if (m_FactionAffiliationComponent == null)
-			return;
+		SCR_FactionAffiliationComponent factionAffiliationComponent = SCR_FactionAffiliationComponent.Cast(m_Target.FindComponent(SCR_FactionAffiliationComponent));
 		
-		Faction affiliatedFaction = m_FactionAffiliationComponent.GetAffiliatedFaction();
-		
-		FactionManager factionManager = GetGame().GetFactionManager();
-		if (factionManager == null)
-			return;
-		
-		m_iFactionId = factionManager.GetFactionIndex(affiliatedFaction);
+		UpdateFaction(factionAffiliationComponent, false);
 		
 		Replication.BumpMe();
 		
