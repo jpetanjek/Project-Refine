@@ -26,6 +26,104 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	static PR_ActiveMapIconManagerComponent GetInstance()
 	{
 		return s_Instance;
+	}	
+	
+	override void OnPostInit(IEntity owner)
+	{
+		super.OnPostInit(owner);
+		
+		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
+		
+		SCR_EditorManagerCore editorManagerCore = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
+		if (editorManagerCore)
+		{
+			editorManagerCore.Event_OnEditorManagerInitOwner.Insert(OnEditorManagerInitOwner);
+			// GameMaster logic - per client
+			if(Replication.IsServer())
+				editorManagerCore.Event_OnEditorManagerCreatedServer.Insert(OnEditorManagerInitOnServerForPlayer);
+		}
+	}
+	
+	protected void OnEditorManagerInitOwner(SCR_EditorManagerEntity editorManager)
+	{
+		if(editorManager)
+		{
+			m_EditorManager = editorManager;
+			m_EditorManager.GetOnModeChange().Insert(OnEditorModeChangeOwner);
+		}
+	}
+	
+	protected void OnEditorModeChangeOwner(SCR_EditorModeEntity newModeEntity, SCR_EditorModeEntity oldModeEntity)
+	{
+		// Reconsider visibility of all icons	
+		for(int i = 0; i < m_AllMarkers.Count(); i++)
+		{
+			PR_ActiveMapIcon localMarker = m_AllMarkers.Get(i);
+			
+			if(localMarker != null)
+			{
+				localMarker.UpdateVisibility();
+			}
+		}
+	}
+	
+	protected void OnEditorManagerInitOnServerForPlayer(SCR_EditorManagerEntity editorManager)
+	{
+		if(editorManager)
+		{
+			editorManager.GetOnModeAdd().Insert(OnEditorModeChangeOnServerForPlayer);
+			editorManager.GetOnModeRemove().Insert(OnEditorModeChangeOnServerForPlayer);
+		}
+	}
+	
+	protected void OnEditorModeChangeOnServerForPlayer(SCR_EditorModeEntity modeEntity)
+	{
+		SCR_EditorManagerEntity editorManager = SCR_EditorManagerEntity.Cast(modeEntity.GetParent());
+		if(!editorManager)
+			return;
+		
+		PlayerController localPC =  GetGame().GetPlayerManager().GetPlayerController(editorManager.GetPlayerID());
+		if(localPC == null)
+			return;
+		
+		RplIdentity identity = localPC.GetRplIdentity();
+		if(!identity.IsValid())
+			return;
+		
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		if (respawnSystem == null)
+			return;
+		
+		SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
+		if(playerRespawnInfo == null)
+			return;
+		
+		// Reconsider streamability of all icons
+		for(int i = 0; i < m_AllMarkers.Count(); i++)
+		{
+			PR_ActiveMapIcon localMarker = m_AllMarkers.Get(i);
+			
+			if(localMarker != null)
+			{
+				RplComponent rpl = RplComponent.Cast(localMarker.FindComponent(RplComponent));
+				if(rpl != null)
+				{	
+					if (CanStream(playerRespawnInfo, localMarker))
+					{
+						rpl.EnableStreamingConNode(identity, false);
+					}
+					else
+					{
+						rpl.EnableStreamingConNode(identity, true);
+					}
+				}
+			}
+		}
+	}
+	
+	bool CanStream(SCR_PlayerRespawnInfo playerRespawnInfo, PR_ActiveMapIcon icon)
+	{		
+		return playerRespawnInfo.GetPlayerFactionIndex() == icon.m_iFactionId || icon.m_iFactionId == -1 || (m_EditorManager && m_EditorManager.HasMode(EEditorMode.EDIT));
 	}
 	
 	array<PR_ActiveMapIcon> GetAllMapIcons()
@@ -33,18 +131,6 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		array<PR_ActiveMapIcon> a = {};
 		a.Copy(m_AllMarkers);
 		return a;
-	}
-	
-	protected void OnEditorModeChange(SCR_EditorModeEntity newModeEntity, SCR_EditorModeEntity oldModeEntity)
-	{
-		if (newModeEntity.GetModeType() == EEditorMode.EDIT)
-		{
-			
-		}
-		else
-		{
-			
-		}
 	}
 	
 	// Server -> Player changed faction, execute streaming logic - stream in things he needs, stream out things he doesn't
@@ -184,26 +270,6 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
-	override void OnPostInit(IEntity owner)
-	{
-		super.OnPostInit(owner);
-		
-		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
-		
-		SCR_EditorManagerCore editorManagerCore = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
-		if (editorManagerCore) 
-			editorManagerCore.Event_OnEditorManagerInitOwner.Insert(OnEditorManagerInit);
-	}
-	
-	protected void OnEditorManagerInit(SCR_EditorManagerEntity editorManager)
-	{
-		if(editorManager)
-		{
-			m_EditorManager = editorManager;
-			m_EditorManager.GetOnModeChange().Insert(OnEditorModeChange);
-		}
-	}
-	
 	override void EOnFixedFrame(IEntity owner, float timeSlice)
 	{
 		// TODO: Only runs on master/server
@@ -268,9 +334,12 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
-	
 	override void OnPlayerConnected(int playerId)
 	{
+		// Server side streaming calls
+		if(Replication.IsClient())
+			return;
+		
 		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
 		if(respawnSystem == null)
 			return;
@@ -315,11 +384,6 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		{
 			m_AllMarkers.Remove(indiciesToRemove[j]);
 		}
-	}
-	
-	bool CanStream(SCR_PlayerRespawnInfo playerRespawnInfo, PR_ActiveMapIcon icon)
-	{		
-		return playerRespawnInfo.GetPlayerFactionIndex() == icon.m_iFactionId || icon.m_iFactionId == -1 || (m_EditorManager && m_EditorManager.HasMode(EEditorMode.EDIT));
 	}
 	
 	// Public inteface to add a map marker
