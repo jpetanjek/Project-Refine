@@ -40,6 +40,8 @@ class PR_ActiveMapIconVehicle : PR_ActiveMapIcon
 		
 		if (init)
 			m_iFactionId = fm.GetFactionIndex(scrf.GetDefaultAffiliatedFaction());	// If it's just created, visible to default faction
+		else if (!faction && !prevFaction)
+			return;											// If current and prev faction are null, ignore, keep current value
 		else if (faction)
 			m_iFactionId = fm.GetFactionIndex(faction);		// If it has new faction, visible to players of the new faction
 		else if (prevFaction)
