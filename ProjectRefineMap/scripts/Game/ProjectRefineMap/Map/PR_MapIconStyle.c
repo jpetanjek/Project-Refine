@@ -31,8 +31,8 @@ class PR_MapIconStyleCharacter : PR_MapIconStyleBase
 		
 		props.SetFont("{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt");
 		props.SetTextSize(14, 14, 14);
-		props.SetTextOffsetX(12);
-		props.SetTextOffsetY(-5);
+		props.SetTextOffsetX(16);
+		props.SetTextOffsetY(-7);
 		props.SetIconTextAlignH(1);
 		props.SetIconTextAlignV(1);
 		

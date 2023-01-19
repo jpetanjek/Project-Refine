@@ -12,6 +12,10 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 	[RplProp(onRplName: "UpdateFromReplicatedState")]
 	protected bool m_bIsLeader;
 	
+	// Id of parent group of this character
+	[RplProp(onRplName: "UpdateFromReplicatedState")]
+	protected int m_iParentGroupId;
+	
 	protected AIAgent m_AIAgent;
 	
 	
@@ -33,11 +37,12 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 		bool isLeader = false;
 		if (m_AIAgent)
 		{
-			AIGroup aiGroup = m_AIAgent.GetParentGroup();
+			SCR_AIGroup aiGroup = SCR_AIGroup.Cast(m_AIAgent.GetParentGroup());
 			if (aiGroup)
 			{
 				AIAgent leader = aiGroup.GetLeaderAgent();
 				isLeader = leader == m_AIAgent;
+				m_iParentGroupId = aiGroup.GetGroupID();
 			}
 		}
 		m_bIsLeader = isLeader;
@@ -56,15 +61,6 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 		else
 			mapItem.SetDisplayName(string.Empty);
 		
-		// Icon image
-		string imageDef;
-		if (m_bIsLeader)
-			imageDef = "character_leader";
-		else
-			imageDef = "character";
-		
-		mapItem.SetImageDef(imageDef);
-		
 		// Icon color
 		Color color;
 		Faction faction = GetGame().GetFactionManager().GetFactionByIndex(m_iFactionId);
@@ -73,5 +69,30 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 		else
 			color = Color.White;
 		props.SetFrontColor(color);
+		
+		// Check our group ID
+		int myGroupId = -1;
+		SCR_PlayerController pc = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+		if (pc && pc.m_GroupComponent)
+			myGroupId = pc.m_GroupComponent.GetGroupID();
+		
+		// Icon image
+		string imageDef;
+		if (myGroupId == m_iParentGroupId && myGroupId != -1)
+		{
+			if (m_bIsLeader)
+				imageDef = "character_leader_same_group";
+			else
+				imageDef = "character_same_group";
+		}
+		else
+		{
+			if (m_bIsLeader)
+				imageDef = "character_leader";
+			else
+				imageDef = "character";
+		}
+		
+		mapItem.SetImageDef(imageDef);
 	}
 }
