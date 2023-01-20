@@ -275,6 +275,8 @@ class PR_ActiveMapIcon : SCR_Position
 		SetOrigin(newPos);
 		
 		// But update marker direction
+		if(!m_MapDescriptor)
+			return;
 		m_MapDescriptor.Item().SetAngle(Math.RAD2DEG * m_vPosAndDir[1]); 
 	}
 	
