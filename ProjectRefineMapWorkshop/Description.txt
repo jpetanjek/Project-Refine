@@ -1,0 +1,8 @@
+Adds map marker functionality to the game:
+- Friendly soldiers and vehicles are marked on the map
+- Squad leaders and own squad members are highlighted
+- Double-click to place custom map markers (only for mouse&keyboard)
+- Different properties for custom markers: icon, color, text
+- Multiplayer ready
+
+Made by Lab 6
