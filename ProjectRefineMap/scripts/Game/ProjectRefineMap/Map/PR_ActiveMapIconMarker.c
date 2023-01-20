@@ -22,6 +22,8 @@ class PR_ActiveMapIconMarker : PR_ActiveMapIcon
 	
 	override protected void UpdateFromReplicatedState()
 	{
+		GetWorldTransform(prevTransform);
+		
 		super.UpdateFromReplicatedState();
 		
 		MapItem mapItem = m_MapDescriptor.Item();
@@ -36,6 +38,12 @@ class PR_ActiveMapIconMarker : PR_ActiveMapIcon
 		props.SetOutlineColor(color);
 		props.SetBackgroundColor(color);
 		props.SetTextColor(color);
+		
+		if(Replication.IsServer())
+		{
+			RplComponent rpl = RplComponent.Cast(FindComponent(RplComponent));				
+			rpl.ForceNodeMovement(prevTransform[3]);
+		}
 	}
 	
 	void InitMarkerProps(string markerText, string iconName, int markerColor, string playerName)
