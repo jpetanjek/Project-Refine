@@ -56,7 +56,7 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 		MapDescriptorProps props = mapItem.GetProps();
 		
 		// Display name
-		if (m_iPlayerId != -1)
+		if (m_iPlayerId != 0) // 0 is invalid ID of player, not -1
 			mapItem.SetDisplayName(GetGame().GetPlayerManager().GetPlayerName(m_iPlayerId));
 		else
 			mapItem.SetDisplayName(string.Empty);
