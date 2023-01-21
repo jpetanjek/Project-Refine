@@ -86,6 +86,7 @@ modded class SCR_MapCursorModule
 	{
 		if (m_bPlacingMarker)
 		{
+			GetGame().GetInputManager().ActivateContext("MapMarkerPlacementToolContext");
 			m_MarkerPlacementToolComponent.Update(timeSlice, m_MapEntity);
 		}
 		//else
