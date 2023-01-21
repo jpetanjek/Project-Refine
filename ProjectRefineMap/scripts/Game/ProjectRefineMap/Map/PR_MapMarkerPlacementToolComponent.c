@@ -50,6 +50,7 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		
 		InputManager im = GetGame().GetInputManager();
 		im.AddActionListener("MapConfirmAddMarker", EActionTrigger.UP, OnConfirmAction);
+		im.AddActionListener("MapCancelAddMarker", EActionTrigger.UP, OnCancelAction);
 		
 		
 		InitIconGrid();
@@ -61,6 +62,7 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	{
 		InputManager im = GetGame().GetInputManager();
 		im.RemoveActionListener("MapConfirmAddMarker", EActionTrigger.UP, OnConfirmAction);
+		im.RemoveActionListener("MapCancelAddMarker", EActionTrigger.UP, OnConfirmAction);		
 	}
 	
 	void InitIconGrid()
@@ -267,6 +269,12 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	{
 		m_OnMarkerPlacementConfirmed.Invoke();
 		GetGame().GetWorkspace().SetFocusedWidget(null); // Otherwise game focuses on invisible text edit box
+	}
+	
+	protected void OnCancelAction()
+	{
+		m_OnMarkerPlacementCanceled.Invoke();
+		GetGame().GetWorkspace().SetFocusedWidget(null);
 	}
 	
 	protected void OnOkButton()
