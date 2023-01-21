@@ -163,7 +163,6 @@ SizeLayoutWidgetClass {
          Name "VisibilitySelection"
          Slot LayoutSlot "{5C6331A2FFD58BE0}" {
          }
-         "Right rule" Explicit
          "Right target" "ColorSelection"
          AllowWidthOverride 1
          WidthOverride 110
@@ -221,10 +220,7 @@ SizeLayoutWidgetClass {
          Slot LayoutSlot "{5C6331A1DFDF7424}" {
           Padding 0 0 0 0
          }
-         "Left rule" Explicit
          "Left target" "VisibilitySelection"
-         "Right rule" Explicit
-         "Right target" "IconSelection"
          {
           TextWidgetClass "{5C6331A1201D2327}" {
            Name "Text0"
@@ -259,7 +255,6 @@ SizeLayoutWidgetClass {
          Name "IconSelection"
          Slot LayoutSlot "{5C6331A105DAA11A}" {
          }
-         "Left rule" Explicit
          "Left target" "ColorSelection"
          {
           TextWidgetClass "{5C6331A1152EFD09}" {

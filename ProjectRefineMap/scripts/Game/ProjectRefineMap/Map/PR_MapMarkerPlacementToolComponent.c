@@ -65,7 +65,7 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	
 	void InitIconGrid()
 	{
-		const int nCols = 6; // Columns
+		const int nCols = 7; // Columns
 		
 		int nIcons = s_aMarkerIconNames.Count();
 		int nRows = nIcons / nCols;
