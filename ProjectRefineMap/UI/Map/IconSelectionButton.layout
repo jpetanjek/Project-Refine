@@ -3,6 +3,7 @@ ButtonWidgetClass {
  Slot LayoutSlot "{5AE7758DE0F18D82}" {
   Padding 2 2 2 2
  }
+ Clipping False
  Color 1 1 1 0
  components {
   SCR_ModularButtonComponent "{5AE75A8952C7C2AD}" {
@@ -15,6 +16,17 @@ ButtonWidgetClass {
      m_fHovered 0.3
      m_fActivated 0.8
      m_fActivatedHovered 1
+    }
+    SCR_ButtonEffectOpacity "{5C6B1A08916DF86C}" {
+     m_eEvents EVENT_FOCUS_GAINED
+     m_eInputDevices 61
+     m_sWidgetName "Border"
+     m_fAnimationTime 0
+     m_fFocusGained 1
+    }
+    SCR_ButtonEffectOpacity "{5C6B1A0A6CA39E7E}" {
+     m_eEvents EVENT_FOCUS_LOST
+     m_sWidgetName "Border"
     }
    }
    m_bCanBeToggled 1
@@ -46,7 +58,7 @@ ButtonWidgetClass {
         HorizontalAlign 3
         VerticalAlign 3
        }
-       Color 0.539 0.196 0.002 1
+       Color 0.539 0.195 0.002 1
       }
       ImageWidgetClass "{5AE75A89D1F68FCB}" {
        Name "Image"
@@ -57,6 +69,16 @@ ButtonWidgetClass {
        Texture "{D6BEE647C47E3E9E}UI/Map/Icons/MapIcons.imageset"
        Image "circle_cross"
        Size 1 1
+      }
+      PanelWidgetClass "{5C6B1A0956711973}" {
+       Name "Border"
+       Slot OverlayWidgetSlot "{5C6B1A095671195A}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding -3 -3 -3 -3
+       }
+       Color 0.539 0.195 0.002 1
+       style outline_4px
       }
      }
     }

@@ -150,7 +150,7 @@ modded class SCR_MapCursorModule
 	
 	protected PR_ActiveMapIconMarker GetMarkerUnderCursor()
 	{
-		const float distanceThreshold = 16; // If marker is further than this, it's too far away
+		const float distanceThreshold = 32; // If marker is further than this, it's too far away
 		
 		WorkspaceWidget ws = GetGame().GetWorkspace();
 		

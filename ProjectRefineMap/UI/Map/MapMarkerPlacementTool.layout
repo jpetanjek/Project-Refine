@@ -1,5 +1,6 @@
 SizeLayoutWidgetClass {
  Name "root"
+ Clipping False
  components {
   SCR_WidgetExportRuleRoot "{5ACB13C82AA80F28}" {
    DestinationPath "{5544D7FAFDE17979}scripts/Game/ProjectRefineMap/Map"
@@ -38,11 +39,71 @@ SizeLayoutWidgetClass {
       Padding 5 5 5 5
      }
      {
+      ButtonWidgetClass "{5C6B1A0EA1B96A30}" : "{0022F0B45ADBC5AC}UI/layouts/WidgetLibrary/EditBox/WLib_EditBox.layout" {
+       Name "m_MarkerTextEditBox"
+       Slot LayoutSlot "{5C6B1A0EA1B96A05}" {
+        HorizontalAlign 3
+        Padding 4 4 4 4
+       }
+       components {
+        SCR_EditBoxComponent "{547290FFBD5B33E9}" {
+         m_fAnimationTime 0.01
+         m_bUseLabel 0
+         m_fColorsAnimationTime 0.01
+        }
+       }
+       {
+        VerticalLayoutWidgetClass "{5AA4D27F39EB2514}" {
+         Prefab "{5AA4D27F39EB2514}"
+         {
+          SizeLayoutWidgetClass "{5538C205B27B0F5D}" {
+           Prefab "{5538C205B27B0F5D}"
+           {
+            OverlayWidgetClass "{55367D8E531FD623}" {
+             Prefab "{55367D8E531FD623}"
+             {
+              HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
+               Prefab "{55367D8E4592BC6E}"
+               {
+                OverlayWidgetClass "{5538C2059A570E94}" {
+                 Prefab "{5538C2059A570E94}"
+                 Slot LayoutSlot "{5538C2059A570EB1}" {
+                  FillWeight 4
+                 }
+                 {
+                  HorizontalLayoutWidgetClass "{58D095EE846E2B93}" {
+                   Prefab "{58D095EE846E2B93}"
+                   {
+                    EditBoxWidgetClass "{5538C2058B18F877}" {
+                     Prefab "{5538C2058B18F877}"
+                     Clipping False
+                     components {
+                      EditBoxFilterComponent "{5538D70DF38310BC}" {
+                       m_iCharacterLimit 40
+                      }
+                     }
+                     "Placeholder text" "Marker text"
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
       HorizontalLayoutWidgetClass "{5ACB398AC3C39AF9}" {
        Name "MarkerTextEditBox"
        Slot LayoutSlot "{5ACB398AC3C39AD1}" {
         Padding 0 0 0 4
        }
+       "Is Visible" 0
        {
         TextWidgetClass "{5ACB398AC524F2A8}" {
          Name "Text0"
@@ -73,7 +134,7 @@ SizeLayoutWidgetClass {
            Color 0 0 0 1
           }
           EditBoxWidgetClass "{5ACB398A33008B70}" {
-           Name "m_MarkerTextEditbox"
+           Name "MarkerTextEditbox"
            Slot OverlayWidgetSlot "{5ACB398A33008B49}" {
             HorizontalAlign 3
             VerticalAlign 3
@@ -95,11 +156,14 @@ SizeLayoutWidgetClass {
        Slot LayoutSlot "{5AE8C92A22D0980D}" {
        }
        Clipping False
+       "Down rule" Explicit
+       "Down target" "m_OkButton"
        {
         SizeLayoutWidgetClass "{5C6331A2FFD58B81}" {
          Name "VisibilitySelection"
          Slot LayoutSlot "{5C6331A2FFD58BE0}" {
          }
+         "Right target" "ColorSelection"
          AllowWidthOverride 1
          WidthOverride 110
          {
@@ -156,6 +220,7 @@ SizeLayoutWidgetClass {
          Slot LayoutSlot "{5C6331A1DFDF7424}" {
           Padding 0 0 0 0
          }
+         "Left target" "VisibilitySelection"
          {
           TextWidgetClass "{5C6331A1201D2327}" {
            Name "Text0"
@@ -190,6 +255,7 @@ SizeLayoutWidgetClass {
          Name "IconSelection"
          Slot LayoutSlot "{5C6331A105DAA11A}" {
          }
+         "Left target" "ColorSelection"
          {
           TextWidgetClass "{5C6331A1152EFD09}" {
            Name "Text0"

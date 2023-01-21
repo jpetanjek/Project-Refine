@@ -58,7 +58,7 @@ class PR_ActiveMapIconMarker : PR_ActiveMapIcon
 	
 	override void OnCursorHover(SCR_MapEntity mapEntity, SCR_MapCursorModule cursorModule)
 	{
-		string str = string.Format("Placed by %1\n[Del] - Delete marker", m_sPlayerName);
+		string str = string.Format("Placed by %1\n[Del/X] - Delete marker", m_sPlayerName);
 		cursorModule.ShowTooltip(true, str);
 	}
 }

@@ -2,6 +2,7 @@ ButtonWidgetClass {
  Name "ListBoxElement"
  Slot AlignableSlot "{554ADB1D2D5974C0}" {
   HorizontalAlign 3
+  Padding 0 0 0 2
  }
  components {
   SCR_ListBoxElementComponent "{5C6331A7DBC894F0}" {
@@ -13,6 +14,30 @@ ButtonWidgetClass {
      m_fHovered 0.3
      m_fActivated 0.8
      m_fActivatedHovered 1
+    }
+    SCR_ButtonEffectOpacity "{5C6B1A0DFFCF11F9}" {
+     m_eEvents EVENT_FOCUS_GAINED
+     m_eInputDevices 61
+     m_sWidgetName "Border"
+     m_fAnimationTime 0
+     m_fFocusGained 1
+    }
+    SCR_ButtonEffectOpacity "{5C6B1A0DCA7B6F62}" {
+     m_eEvents EVENT_FOCUS_LOST
+     m_sWidgetName "Border"
+     m_fAnimationTime 0
+    }
+    SCR_ButtonEffectPadding "{5C6B1A0C94131D45}" {
+     m_eEvents EVENT_FOCUS_GAINED
+     m_eInputDevices 61
+     m_sWidgetName "Background"
+     m_fAnimationTime 0
+     m_fFocusGained 6
+    }
+    SCR_ButtonEffectPadding "{5C6B1A0CE932D6A8}" {
+     m_eEvents EVENT_FOCUS_LOST
+     m_sWidgetName "Background"
+     m_fAnimationTime 0
     }
    }
    m_bCanBeToggled 1
@@ -54,6 +79,15 @@ ButtonWidgetClass {
        }
        "Z Order" 8
        "Min Font Size" 20
+      }
+      PanelWidgetClass "{5C6B1A0DE112CC78}" {
+       Name "Border"
+       Slot OverlayWidgetSlot "{5C6B1A095671195A}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.539 0.195 0.002 1
+       style outline_4px
       }
      }
     }
