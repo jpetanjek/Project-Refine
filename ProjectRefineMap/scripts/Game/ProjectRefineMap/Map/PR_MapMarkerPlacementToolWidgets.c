@@ -6,7 +6,8 @@ class PR_MapMarkerPlacementToolWidgets
 	static const ResourceName s_sLayout = "{8D12ABB2B0743BF8}UI/Map/MapMarkerPlacementTool.layout";
 	ResourceName GetLayout() { return s_sLayout; }
 
-	EditBoxWidget m_MarkerTextEditbox;
+	ButtonWidget m_MarkerTextEditBox;
+	SCR_EditBoxComponent m_MarkerTextEditBoxComponent;
 
 	OverlayWidget m_VisibilityListbox;
 	SCR_ListBoxComponent m_VisibilityListboxComponent;
@@ -23,7 +24,8 @@ class PR_MapMarkerPlacementToolWidgets
 
 	bool Init(Widget root)
 	{
-		m_MarkerTextEditbox = EditBoxWidget.Cast(root.FindAnyWidget("m_MarkerTextEditbox"));
+		m_MarkerTextEditBox = ButtonWidget.Cast(root.FindAnyWidget("m_MarkerTextEditBox"));
+		m_MarkerTextEditBoxComponent = SCR_EditBoxComponent.Cast(m_MarkerTextEditBox.FindHandler(SCR_EditBoxComponent));
 
 		m_VisibilityListbox = OverlayWidget.Cast(root.FindAnyWidget("m_VisibilityListbox"));
 		m_VisibilityListboxComponent = SCR_ListBoxComponent.Cast(m_VisibilityListbox.FindHandler(SCR_ListBoxComponent));

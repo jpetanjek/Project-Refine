@@ -222,9 +222,11 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		
 		m_wRoot.SetVisible(true);
 		
-		widgets.m_MarkerTextEditbox.SetText(string.Empty);
+		widgets.m_MarkerTextEditBoxComponent.SetValue(string.Empty);
 		
 		UpdateVisibilityListboxAvailableItems();
+		
+		GetGame().GetWorkspace().SetFocusedWidget(widgets.m_OkButton);
 		//GetGame().GetWorkspace().SetFocusedWidget(widgets.m_MarkerTextEditbox);
 		//widgets.m_MarkerTextEditbox.ActivateWriteMode();
 	}
@@ -306,7 +308,7 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		out int outMarkerColor, out PR_EMarkerVisibility outVisibility)
 	{
 		outMarkerPos = m_vMarkerPosWorld;
-		outMarkerText = widgets.m_MarkerTextEditbox.GetText();
+		outMarkerText = widgets.m_MarkerTextEditBoxComponent.GetValue();
 		outMarkerIconName = GetSelectedIconName();
 		outMarkerColor = GetSelectedColor();
 		

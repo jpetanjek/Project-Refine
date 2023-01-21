@@ -3,7 +3,7 @@ ButtonWidgetClass {
  Slot LayoutSlot "{5AE8C92A437EC9E3}" {
   Padding 2 2 2 2
  }
- Clipping True
+ Clipping False
  Color 1 1 1 0
  components {
   SCR_ModularButtonComponent "{5AE8C92C8DF0EF68}" {
@@ -16,6 +16,19 @@ ButtonWidgetClass {
      m_fHovered 0.3
      m_fActivated 0.8
      m_fActivatedHovered 1
+    }
+    SCR_ButtonEffectOpacity "{5C6B1A0B62B1FB3F}" {
+     m_eEvents EVENT_FOCUS_GAINED
+     m_eInputDevices 61
+     m_sWidgetName "BorderFocus"
+     m_fAnimationTime 0
+     m_fFocusGained 1
+     m_fToggledOn 0
+    }
+    SCR_ButtonEffectOpacity "{5C6B1A0A94AE4147}" {
+     m_eEvents EVENT_FOCUS_LOST
+     m_sWidgetName "BorderFocus"
+     m_fAnimationTime 0
     }
    }
    m_bCanBeToggled 1
@@ -61,7 +74,7 @@ ButtonWidgetClass {
          Slot OverlayWidgetSlot "{5AE8C92BD2F53F3C}" {
           HorizontalAlign 3
           VerticalAlign 3
-          Padding 1 1 1 1
+          Padding 3 3 3 3
          }
          Color 0 0 0 1
          style outline_4px
@@ -71,11 +84,21 @@ ButtonWidgetClass {
          Slot OverlayWidgetSlot "{5AE8C92BD2F53F3C}" {
           HorizontalAlign 3
           VerticalAlign 3
-          Padding -2 -2 -2 -2
+          Padding 0 0 0 0
          }
          style outline_4px
         }
        }
+      }
+      PanelWidgetClass "{5C6B1A0B3BFEC4BF}" {
+       Name "BorderFocus"
+       Slot OverlayWidgetSlot "{5C6B1A095671195A}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding -3 -3 -3 -3
+       }
+       Color 0.539 0.195 0.002 1
+       style outline_4px
       }
      }
     }
