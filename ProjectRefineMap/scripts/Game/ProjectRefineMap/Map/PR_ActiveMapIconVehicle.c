@@ -24,6 +24,9 @@ class PR_ActiveMapIconVehicle : PR_ActiveMapIcon
 	
 	override protected void UpdateFaction(FactionAffiliationComponent factionAffiliationComponent, bool init)
 	{
+		if (!factionAffiliationComponent)
+			return;
+		
 		SCR_FactionAffiliationComponent scrf = SCR_FactionAffiliationComponent.Cast(factionAffiliationComponent);
 		
 		FactionManager fm = GetGame().GetFactionManager();

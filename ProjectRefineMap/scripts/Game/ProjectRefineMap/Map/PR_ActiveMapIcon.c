@@ -164,6 +164,9 @@ class PR_ActiveMapIcon : SCR_Position
 	// init - when true, we perform initialization, when false, this is called from faction change event
 	protected void UpdateFaction(FactionAffiliationComponent factionAffiliationComponent, bool init)
 	{
+		if (!factionAffiliationComponent)
+			return;
+		
 		// In generic case, the icon is visible to same faction as its target's current faction
 		Faction affiliatedFaction = factionAffiliationComponent.GetAffiliatedFaction();
 		FactionManager factionManager = GetGame().GetFactionManager();
