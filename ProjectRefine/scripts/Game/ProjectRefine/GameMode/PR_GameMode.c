@@ -132,6 +132,15 @@ class PR_GameMode : SCR_BaseGameMode
 		m_aFactionScore.Resize(nFactions);
 		m_aFactionScore[0] = m_fInitialFactionScore0;
 		m_aFactionScore[1] = m_fInitialFactionScore1;
+		
+		// Subscribe to capture area events
+		if (IsMaster())
+		{
+			foreach (PR_CaptureArea area : m_aAreas)
+			{
+				area.m_OnOwnerFactionChanged.Insert(OnCaptureAreaFactionChanged);
+			}
+		}
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -140,7 +149,7 @@ class PR_GameMode : SCR_BaseGameMode
 		super.EOnFrame(owner, timeSlice);
 		
 		// Update game mode based on timer
-		// Only on server!
+		// Only on master!
 		if (IsMaster())
 		{
 			m_fGameModeUpdateTimer += timeSlice;
@@ -322,7 +331,7 @@ class PR_GameMode : SCR_BaseGameMode
 	{
 		if (!IsMaster())
 		{
-			Print("AddFactionPoints() must be called only on server!", LogLevel.ERROR);
+			Print("AddFactionPoints() must be called only on master!", LogLevel.ERROR);
 			return;
 		}
 		float newScore = m_aFactionScore[factionId] + points;
@@ -344,6 +353,34 @@ class PR_GameMode : SCR_BaseGameMode
 		m_aFactionScore[factionId] = score;
 	}
 	
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Capture areas
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Called on master
+	void OnCaptureAreaFactionChanged(PR_CaptureArea area, int oldFactionId, int newFactionId)
+	{
+		int areaId = m_aAreas.Find(area);
+		RpcDo_OnCaptureAreaFactionChanged(areaId, oldFactionId, newFactionId);
+		Rpc(RpcDo_OnCaptureAreaFactionChanged, areaId, oldFactionId, newFactionId);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+	void RpcDo_OnCaptureAreaFactionChanged(int areaId, int oldFactionId, int newFactionId)
+	{
+		if (!m_aAreas.IsIndexValid(areaId))
+			return;
+		PR_CaptureArea area = m_aAreas[areaId];
+		
+		foreach (auto comp : m_aAdditionalGamemodeComponents)
+		{
+			PR_BaseGameModeComponent prComp = PR_BaseGameModeComponent.Cast(comp);
+			if (prComp)
+				prComp.OnCaptureAreaFactionChanged(area, oldFactionId, newFactionId);
+		}
+	}
 	
 	
 	//-------------------------------------------------------------------------------------------------------------------------------

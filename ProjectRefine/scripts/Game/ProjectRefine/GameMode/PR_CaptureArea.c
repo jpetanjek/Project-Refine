@@ -33,7 +33,7 @@ class PR_CaptureArea : ScriptComponent
 	
 	// Called whenever owner faction changes.
 	// !!! Works only on server!
-	ref ScriptInvoker<int, int> m_OnOwnerFactionChanged = new ScriptInvoker<int, int>(); // Old faction, new faction
+	ref ScriptInvoker<PR_CaptureArea, int, int> m_OnOwnerFactionChanged = new ScriptInvoker<PR_CaptureArea, int, int>(); // Old faction, new faction
 	
 	// Called when links are initialized, for each added link
 	ref ScriptInvoker<PR_CaptureArea, PR_CaptureArea> m_OnLinkAdded = new ScriptInvoker<PR_CaptureArea, PR_CaptureArea>();
@@ -192,7 +192,7 @@ class PR_CaptureArea : ScriptComponent
 					m_iOwnerFaction = m_iPointsOwnerFaction; // New owner is the faction which has been capturing
 					m_eState = PR_EAreaState.CAPTURED;
 					
-					m_OnOwnerFactionChanged.Invoke(-1, m_iOwnerFaction);
+					m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction);
 				}
 				else if (m_fPoints <= 0.0)
 				{
@@ -202,7 +202,7 @@ class PR_CaptureArea : ScriptComponent
 					m_iOwnerFaction = -1;
 					m_eState = PR_EAreaState.NEUTRAL;
 					
-					m_OnOwnerFactionChanged.Invoke(prevOwnerFaction, -1);
+					m_OnOwnerFactionChanged.Invoke(this, prevOwnerFaction, -1);
 				}
 				
 				invokeOnStateChanged = true;
@@ -270,7 +270,7 @@ class PR_CaptureArea : ScriptComponent
 			m_fPoints = POINTS_MAX;
 			m_eState = PR_EAreaState.CAPTURED;
 			
-			m_OnOwnerFactionChanged.Invoke(-1, m_iOwnerFaction); 
+			m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction); 
 		}
 		else
 		{
