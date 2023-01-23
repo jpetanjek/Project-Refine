@@ -7,7 +7,16 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
     m_iInitialOwnerFaction 0
    }
   }
-  coords 55.476 2.001 484.2
+  coords 58.633 2.001 484.239
+  {
+   PR_AssetSpawner {
+    components {
+     Hierarchy "{5C6F336419D68262}" {
+     }
+    }
+    coords -15.568 -0.07 -26.625
+   }
+  }
  }
  MainBase1 {
   components {

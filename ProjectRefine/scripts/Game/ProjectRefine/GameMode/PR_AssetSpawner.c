@@ -17,7 +17,9 @@ class PR_AssetSpawner : GenericEntity
 	
 	protected IEntity m_Target;
 	
-	override protected void EOnInit(IEntity owner)
+	protected PR_CaptureArea m_CaptureArea;
+	
+	override void EOnInit(IEntity owner)
 	{
 		if (!GetGame().GetWorldEntity())
   			return;
@@ -32,16 +34,17 @@ class PR_AssetSpawner : GenericEntity
 			{		
 				ResourceName toInsert = entitySpawnInfo.GetPrefab();
 				m_aSpawn.Insert(toInsert);
-				int wtf = 0;
 			}
 		}
 		
-		if(m_aSpawn.IsEmpty())
+		if(GetParent())		
 		{
-			delete this;
+			m_CaptureArea = PR_CaptureArea.Cast(GetParent().FindComponent(PR_CaptureArea));
 		}
-		
-		SpawnActions();
+		else
+		{	
+			// Assert - cannot work unless it has assigned Caputre Area
+		}
 	}
 	
 	void OnDamageStateChanged(EDamageState state)

@@ -1,6 +1,8 @@
 GenericEntity {
  ID "5B16FDA58D67A45A"
  components {
+  Hierarchy "{5C6F336BA773E286}" {
+  }
   PR_CaptureArea "{5B156B902CEA1626}" {
   }
   PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
