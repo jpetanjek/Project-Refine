@@ -15,8 +15,10 @@ class PR_AssetSpawner : GenericEntity
 	
 	protected ref array<ResourceName> m_aSpawn = {};
 	
+	// Spawned vehicle
 	protected IEntity m_Target;
 	
+	// Assigned Capture Area
 	protected PR_CaptureArea m_CaptureArea;
 	
 	override void EOnInit(IEntity owner)
@@ -25,21 +27,13 @@ class PR_AssetSpawner : GenericEntity
   			return;
 		
 		// TODO: Runs only on server
-		
-		// Find which entity can spawn here		
-		for (int i = 0; i < m_EntityAssetList.GetEntryCount(); i++)
-		{
-			PR_EntitySpawnInfo entitySpawnInfo = m_EntityAssetList.GetEntryAtIndex(i);
-			if ( entitySpawnInfo && entitySpawnInfo.m_eAssetType == m_eSupportedEntities )
-			{		
-				ResourceName toInsert = entitySpawnInfo.GetPrefab();
-				m_aSpawn.Insert(toInsert);
-			}
-		}
+		if(Replication.IsClient())
+			return;
 		
 		if(GetParent())		
 		{
 			m_CaptureArea = PR_CaptureArea.Cast(GetParent().FindComponent(PR_CaptureArea));
+			SpawnActions();
 		}
 		else
 		{	
@@ -61,7 +55,19 @@ class PR_AssetSpawner : GenericEntity
 		spawnParams.TransformMode = ETransformMode.WORLD;
 		GetWorldTransform(spawnParams.Transform);
 		
-		// TODO: Faction logic via informer on CaptureArea
+		// Find which entity can spawn here		
+		for (int i = 0; i < m_EntityAssetList.GetEntryCount(); i++)
+		{
+			PR_EntitySpawnInfo entitySpawnInfo = m_EntityAssetList.GetEntryAtIndex(i);
+			int wha = m_CaptureArea.GetOwnerFactionId();
+			int wha2 = entitySpawnInfo.m_iFaction;
+			
+			if ( entitySpawnInfo && entitySpawnInfo.m_eAssetType == m_eSupportedEntities && m_CaptureArea && m_CaptureArea.GetOwnerFactionId() == entitySpawnInfo.m_iFaction)
+			{		
+				ResourceName toInsert = entitySpawnInfo.GetPrefab();
+				m_aSpawn.Insert(toInsert);
+			}
+		}
 		
 		m_Target = IEntity.Cast(GetGame().SpawnEntityPrefab( Resource.Load(m_aSpawn.Get(m_aSpawn.GetRandomIndex())), GetGame().GetWorld(), spawnParams));
 		

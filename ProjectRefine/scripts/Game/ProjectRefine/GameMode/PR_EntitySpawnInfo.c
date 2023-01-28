@@ -11,6 +11,9 @@ class PR_EntitySpawnInfo
 	[Attribute(desc: "The prefab spawned", uiwidget: UIWidgets.ResourcePickerThumbnail, params: "et", category: "Entity Spawn Info")]
 	ResourceName m_sPrefab;
 	
+	[Attribute(defvalue: "0")]
+	int m_iFaction;
+	
 	[Attribute("", UIWidgets.ComboBox, "", enums: ParamEnumArray.FromEnum(PR_EPhase))]
 	PR_EPhase m_ePhase;
 	

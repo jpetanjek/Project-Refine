@@ -9,12 +9,8 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
   }
   coords 58.633 2.001 484.239
   {
-   PR_AssetSpawner {
-    components {
-     Hierarchy "{5C6F336419D68262}" {
-     }
-    }
-    coords -15.568 -0.07 -26.625
+   PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
+    coords 0 0 0
    }
   }
  }
@@ -27,6 +23,11 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
    }
   }
   coords 33.194 2.095 352.663
+  {
+   PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
+    coords 0 0 0
+   }
+  }
  }
 }
 $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
