@@ -18,6 +18,26 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 	
 	protected AIAgent m_AIAgent;
 	
+	// Map descriptor which makes an icon to highlight current player
+	protected MapDescriptorComponent m_MapDescriptorPlayerHighlight;
+	
+	[Attribute()]
+	ref PR_MapIconStyleBase m_StylePlayerHighlight;
+	
+	override void EOnInit(IEntity owner)
+	{
+		super.EOnInit(owner);
+		
+		if (!GetGame().GetWorldEntity())
+  			return;
+		
+		array<Managed> components = {};
+		FindComponents(MapDescriptorComponent, components);
+		m_MapDescriptorPlayerHighlight = MapDescriptorComponent.Cast(components[1]);
+		
+		if (m_StylePlayerHighlight)
+			m_StylePlayerHighlight.Apply(m_MapDescriptorPlayerHighlight);
+	}
 	
 	override void OnTargetAssigned(IEntity target)
 	{
@@ -55,8 +75,12 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 		MapItem mapItem = m_MapDescriptor.Item();
 		MapDescriptorProps props = mapItem.GetProps();
 		
+		SCR_PlayerController pc = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+		bool controlledByMe = m_iPlayerId != 0 && pc && pc.GetPlayerId() == m_iPlayerId;
+			 
+		
 		// Display name
-		if (m_iPlayerId != 0) // 0 is invalid ID of player, not -1
+		if (m_iPlayerId != 0 && !controlledByMe) // 0 is invalid ID of player, not -1
 			mapItem.SetDisplayName(GetGame().GetPlayerManager().GetPlayerName(m_iPlayerId));
 		else
 			mapItem.SetDisplayName(string.Empty);
@@ -72,7 +96,7 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 		
 		// Check our group ID
 		int myGroupId = -1;
-		SCR_PlayerController pc = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+		
 		if (pc && pc.m_GroupComponent)
 			myGroupId = pc.m_GroupComponent.GetGroupID();
 		
@@ -94,5 +118,24 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 		}
 		
 		mapItem.SetImageDef(imageDef);
+		
+		// Font color
+		// This is already set in style, however for some reason text is rendered grey sometimes, let's see if it helps if we also set it here
+		// todo remove this
+		props.SetTextColor(Color.Black);
+		
+		//------------------------------------
+		// Player highlight
+		int myPlayerId = 0;
+		if (pc)
+			myPlayerId = pc.GetPlayerId();
+		
+		MapItem mapItemPlayerHighlight = m_MapDescriptorPlayerHighlight.Item();
+		MapDescriptorProps propsPlayerHighlight = mapItemPlayerHighlight.GetProps();
+		propsPlayerHighlight.SetVisible(controlledByMe);
+		if (controlledByMe)
+		{
+			mapItemPlayerHighlight.SetAngle(Math.RAD2DEG * m_vPosAndDir[1]); 
+		}
 	}
 }

@@ -43,6 +43,29 @@ class PR_MapIconStyleCharacter : PR_MapIconStyleBase
 	}
 }
 
+// Style of highlight of current player. It's a separate texture.
+[BaseContainerProps()]
+class PR_MapIconStyleCharacterPlayerHighlight : PR_MapIconStyleBase
+{	
+	override void Apply(MapDescriptorComponent mapDescriptorComp)
+	{
+		MapItem mapItem = mapDescriptorComp.Item();
+		MapDescriptorProps props = mapItem.GetProps();
+		
+		mapItem.SetBaseType(EMapDescriptorType.MDT_SMALLTREE);
+		mapItem.SetImageDef("view_cone");
+		props.SetTextVisible(false);
+		props.SetIconVisible(true);
+		props.SetIconSize(1, 128.0/128.0, 128.0/128.0);
+		props.SetFrontColor(Color.White);
+		props.SetOutlineColor(Color.White);
+		props.SetBackgroundColor(Color.White);
+		
+		props.Activate(true);
+		mapItem.SetProps(props);
+	}
+}
+
 // Style of vehicles
 [BaseContainerProps()]
 class PR_MapIconStyleVehicle : PR_MapIconStyleBase

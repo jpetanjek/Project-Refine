@@ -41,9 +41,6 @@ class PR_ActiveMapIcon : SCR_Position
 	[Attribute(desc: "Style of the icon")]
 	protected ref PR_MapIconStyleBase m_Style;
 	
-	[Attribute("0", UIWidgets.CheckBox, desc: "When true, this map icon will keep faction ID updated according to faction of target")]
-	protected bool m_bTrackTargetFaction;
-	
 	protected vector prevTransform[4];
 	protected bool firstMove = false;
 	

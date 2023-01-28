@@ -3,9 +3,13 @@ PR_ActiveMapIconCharacter {
  components {
   SCR_MapDescriptorComponent "{5AE6CB624D51441B}" {
   }
+  SCR_MapDescriptorComponent "{5C78C1CD367F6010}" {
+  }
   RplComponent "{5AE6CB62490175B5}" {
   }
  }
  m_Style PR_MapIconStyleCharacter "{5AE6D26681170B31}" {
+ }
+ m_StylePlayerHighlight PR_MapIconStyleCharacterPlayerHighlight "{5C78C80CAB4FBB25}" {
  }
 }

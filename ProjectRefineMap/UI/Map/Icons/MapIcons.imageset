@@ -121,5 +121,11 @@ ImageSetClass {
    Size 128 128
    Flags 0
   }
+  ImageSetDefClass view_cone {
+   Name "view_cone"
+   Pos 392 522
+   Size 128 128
+   Flags 0
+  }
  }
 }
