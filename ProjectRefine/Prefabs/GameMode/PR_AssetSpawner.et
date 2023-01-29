@@ -4,7 +4,6 @@ PR_AssetSpawner {
   Hierarchy "{5C6F336419D68262}" {
   }
  }
- coords -15.568 -0.07 -26.625
  m_EntityAssetList PR_EntitySpawnerList "{5C7923F1B920FE95}" : "{4F5A2708AAE828F8}Configs/GameMode/PR_EntitySpawnerList.conf" {
  }
 }

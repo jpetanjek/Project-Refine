@@ -6,78 +6,81 @@ class PR_AssetSpawnerClass : GenericEntityClass
 //------------------------------------------------------------------------------------------------
 //! Entity which follows its target and is drawn on the map via the SCR_MapDescriptorComponent
 class PR_AssetSpawner : GenericEntity
-{	
-	[Attribute("", UIWidgets.Flags, "", category: "Asset Spawner", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
+{
+	// Low frequency update interval of asset spawner
+	protected const float UPDATE_PERIOD_S = 1.0;
+	
+	[Attribute("", UIWidgets.ComboBox, "", category: "Asset Spawner", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
 	protected PR_EAssetType m_eSupportedEntities;
 	
 	// TODO: move this to prefab
 	[Attribute("20", UIWidgets.Slider, "Wait time", "0 1200 1")]
 	private float m_fWaitTime;
 	
-	protected ref array<ResourceName> m_aSpawn = {};
+	protected float m_fDeltaTime = 0;		// Timer for periodic updates
 	
-	protected bool m_bDestroyed = false;
-	protected float m_fTimer = 0;
+	protected PR_CaptureArea m_CaptureArea;	// Assigned Capture Area
+	protected bool m_bDestroyed = false;	// True when asset was destroyed
+	protected IEntity m_Target;				// Spawned asset
+	protected float m_fTimer = 0;			// Timer for respawning
 	
-	// Spawned vehicle
-	protected IEntity m_Target;
-	
-	// Assigned Capture Area
-	protected PR_CaptureArea m_CaptureArea;
 	
 	//------------------------------------------------------------------------------------------------	
 	void PR_AssetSpawner(IEntitySource src, IEntity parent)
 	{
 		SetFlags(EntityFlags.ACTIVE, true);
 	
-		if(Replication.IsClient())
-			return;
+		EntityEvent mask = EntityEvent.DIAG;
+		if(!Replication.IsClient())
+			mask |= EntityEvent.FRAME;
 		
-		SetEventMask(EntityEvent.INIT | EntityEvent.FRAME);	
+		SetEventMask(mask);
 	}
 	
-	//------------------------------------------------------------------------------------------------
-	void ~PR_AssetSpawner()
+	//------------------------------------------------------------------------------------------------	
+	// Called by Capture Area which owns this
+	void Init(PR_CaptureArea captureArea)
 	{
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	override void EOnInit(IEntity owner)
-	{
-		if (!GetGame().GetWorldEntity())
-  			return;
+		m_CaptureArea = captureArea;
 	}
 
 	//------------------------------------------------------------------------------------------------	
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
+		// 1s timer
+		m_fDeltaTime += timeSlice;
+		if (m_fDeltaTime < UPDATE_PERIOD_S)
+			return;
+		
+		// Bail if parent capture area is not assigned. Probably not initialized yet.
+		if (!m_CaptureArea)
+			return;
+		
 		// First spawn
 		if(!m_Target && !m_bDestroyed)
 		{
-			if(GetParent())		
-			{
-				m_CaptureArea = PR_CaptureArea.Cast(GetParent().FindComponent(PR_CaptureArea));
+			if (TrySpawnAsset())
 				m_bDestroyed = false;
-				SpawnActions();
+		}
+		else if (m_bDestroyed)
+		{
+			// Subsequent
+			if (m_fTimer >= m_fWaitTime)
+			{
+				if (TrySpawnAsset())
+					m_bDestroyed = false;
 			}
 			else
-			{	
-				// Assert - cannot work unless it has assigned Caputre Area
+			{
+				m_fTimer += m_fDeltaTime;
 			}
 		}
-		// Subsequent
-		if(m_fTimer >= m_fWaitTime && m_bDestroyed)
-		{
-			m_bDestroyed = false;
-			SpawnActions();
-		}
-		if(m_bDestroyed)
-		{
-			m_fTimer += timeSlice;
-		}
-	}
 		
+		// At the end of logic reset the low frequency update timer
+		m_fDeltaTime -= UPDATE_PERIOD_S;
+	}
 	
+	//------------------------------------------------------------------------------------------------
 	void OnDamageStateChanged(EDamageState state)
 	{
 		if (state == EDamageState.DESTROYED)
@@ -87,7 +90,8 @@ class PR_AssetSpawner : GenericEntity
 		}
 	}
 	
-	void SpawnActions()
+	//------------------------------------------------------------------------------------------------
+	bool TrySpawnAsset()
 	{
 		EntitySpawnParams spawnParams = EntitySpawnParams();	
 		spawnParams.TransformMode = ETransformMode.WORLD;
@@ -101,23 +105,84 @@ class PR_AssetSpawner : GenericEntity
 			{
 				PR_EntityAssetList fullAssetList = faction.GetAssetList();
 				if(!fullAssetList)
-					return;
+					return false;
 				
 				array<PR_EntityInfo> assetList = {};
 				fullAssetList.GetAssetList(assetList);
 				if(!assetList.IsEmpty())
 				{
+					// todo check if area is obstructed
+					// if (areaObstructed) return false;
+					
 					m_Target = IEntity.Cast(GetGame().SpawnEntityPrefab(
-					Resource.Load(assetList.Get(assetList.GetRandomIndex()).GetPrefab()),
-				 	GetGame().GetWorld(),
-					spawnParams));
+						Resource.Load(assetList.Get(assetList.GetRandomIndex()).GetPrefab()),
+				 		GetGame().GetWorld(),
+						spawnParams));
 		
 					ScriptedDamageManagerComponent m_pDamageManager = ScriptedDamageManagerComponent.Cast(m_Target.FindComponent(ScriptedDamageManagerComponent));
 					if (m_pDamageManager)
 						m_pDamageManager.GetOnDamageStateChanged().Insert(OnDamageStateChanged);
+					
+					return true;
 				}
 			}
 		}
+		
+		return false;
 	}
+
+	//------------------------------------------------------------------------------------------------
+	override void EOnDiag(IEntity owner, float timeSlice)
+	{
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_ASSET_SPAWNER_STATE))
+		{
+			// Draw debug text
+			const int COLOR_TEXT = Color.WHITE;
+		 	const int COLOR_BACKGROUND = Color.BLACK;
+			
+			string s;
+			s = s + string.Format("Destroyed:   %1\n", m_bDestroyed);
+			s = s + string.Format("Target:		%1\n", m_Target);
+			s = s + string.Format("Timer:       %1 / %2\n", m_fTimer.ToString(5, 1), m_fWaitTime);
+			
+			vector pos = owner.GetOrigin() + Vector(0, 3, 0);
+			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+			
+			DrawDebugLines();
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override void _WB_AfterWorldUpdate(float timeSlice)
+	{
+		DrawDebugLines();
+	}
+	
+	//------------------------------------------------------------------------------------------------s
+	void DrawDebugLines()
+	{
+		// Box size
+		const float halfWidth = 3.0 / 2; // Size of our biggest asset - BTR
+		const float halfLength = 8.0 / 2;
+		const float halfHeight = 3.0 / 2;
+		
+		vector t[4];
+		GetWorldTransform(t);
+		vector vside = t[0];
+		vector vdir = t[2];
+		
+		// Draw arrow
+		vector arrowOrigin = t[3] + Vector(0, halfHeight, 0);
+		Shape.CreateArrow(arrowOrigin, arrowOrigin + 3*vdir, 0.8, Color.RED, ShapeFlags.ONCE);
+		
+		Shape box = Shape.Create(ShapeType.BBOX, 0x70FF0000, ShapeFlags.ONCE | ShapeFlags.TRANSP, Vector(-halfWidth, -halfHeight, -halfLength), Vector(halfWidth, halfHeight, halfLength));
+		vector tbox[4];
+		tbox[0] = t[0];
+		tbox[1] = t[1];
+		tbox[2] = t[2];
+		tbox[3] = t[3] + Vector(0, halfHeight, 0);
+		box.SetMatrix(tbox);
+	}
+	
 
 }

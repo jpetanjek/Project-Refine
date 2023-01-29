@@ -300,6 +300,17 @@ class PR_CaptureArea : ScriptComponent
 			}
 			m_OnAnyPropertyChanged.Invoke(this);
 		}
+		
+		// Init asset spawners
+		IEntity childEntity = GetOwner().GetChildren();
+		while (childEntity)
+		{
+			PR_AssetSpawner assetSpawner = PR_AssetSpawner.Cast(childEntity);
+			if (assetSpawner)
+				assetSpawner.Init(this);
+			
+			childEntity = childEntity.GetSibling();
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------

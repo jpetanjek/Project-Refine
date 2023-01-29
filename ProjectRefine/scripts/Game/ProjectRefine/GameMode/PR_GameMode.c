@@ -481,6 +481,7 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL, "", "Game Mode Panel", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREAS_STATE, "", "Capture Areas State", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_ASSET_SPAWNER_STATE, "", "Asset Spawner State", cheatMenuName);
 	}
 	
 	void DrawGameModePanel()
