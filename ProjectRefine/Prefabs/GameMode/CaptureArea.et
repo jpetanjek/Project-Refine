@@ -13,6 +13,7 @@ GenericEntity {
    MainType Cross
   }
   RplComponent "{5B16FDA5AEC2A359}" {
+   Streamable Disabled
   }
  }
  coords 51.85 2.001 474.124
