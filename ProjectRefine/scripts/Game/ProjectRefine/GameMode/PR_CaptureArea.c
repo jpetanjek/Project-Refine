@@ -132,6 +132,12 @@ class PR_CaptureArea : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	int GetInitialOwnerFactionId()
+	{
+		return m_iInitialOwnerFaction;
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	int GetPointsOwnerFactionId()
 	{
 		return m_iPointsOwnerFaction;
@@ -258,27 +264,44 @@ class PR_CaptureArea : ScriptComponent
 		SetEventMask(owner, EntityEvent.INIT | EntityEvent.DIAG);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
-
+	
 	//------------------------------------------------------------------------------------------------
-	override void EOnInit(IEntity owner)
+	// Called by game mode
+	void Init(array<PR_CaptureArea> neighbourAreas, int ownerFactionId)
 	{
-		m_iOwnerFaction = m_iInitialOwnerFaction;
+		RplComponent rpl = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
 		
-		m_iPointsOwnerFaction = m_iOwnerFaction;
-		if (m_iOwnerFaction != -1)
+		// Init linked areas
+		m_aLinkedAreas.Copy(neighbourAreas);
+		
+		foreach (PR_CaptureArea area : neighbourAreas)
 		{
-			m_fPoints = POINTS_MAX;
-			m_eState = PR_EAreaState.CAPTURED;
+			m_OnLinkAdded.Invoke(this, area);
+		}
+		
+		// Init owner faction - only for Master
+		// If it's a proxy, owner faction is initialized from replication
+		if (rpl.IsMaster())
+		{
+			m_iOwnerFaction = ownerFactionId;
 			
-			m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction); 
+			m_iPointsOwnerFaction = m_iOwnerFaction;
+			if (m_iOwnerFaction != -1)
+			{
+				m_fPoints = POINTS_MAX;
+				m_eState = PR_EAreaState.CAPTURED;
+				
+				m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction); 
+			}
+			else
+			{
+				m_fPoints = 0;
+				m_eState = PR_EAreaState.NEUTRAL;
+			}
+			m_OnAnyPropertyChanged.Invoke(this);
 		}
-		else
-		{
-			m_fPoints = 0;
-			m_eState = PR_EAreaState.NEUTRAL;
-		}
-		m_OnAnyPropertyChanged.Invoke(this);
 	}
+	
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
@@ -315,17 +338,6 @@ class PR_CaptureArea : ScriptComponent
 			return string.Empty;
 		
 		return fm.GetFactionByIndex(factionId).GetFactionKey();
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	void InitLinkedAreas(array<PR_CaptureArea> neighbours)
-	{
-		m_aLinkedAreas.Copy(neighbours);
-		
-		foreach (PR_CaptureArea area : neighbours)
-		{
-			m_OnLinkAdded.Invoke(this, area);
-		}
 	}
 	
 	//------------------------------------------------------------------------------------------------

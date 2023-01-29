@@ -6,6 +6,9 @@ class PR_GameMode : SCR_BaseGameMode
 {
 	protected static const float GAME_MODE_UPDATE_INTERVAL_S = 1.0;
 	
+	[Attribute("1", UIWidgets.EditBox, desc: "When true, initial faction owners of areas are randomized")]
+	protected bool m_bRandomizeFactions;
+	
 	// Attributes - areas
 	[Attribute(desc: "All areas, including main bases, in their order of capture.")]
 	protected ref array<ref PR_EntityLink> m_aAreaEntities;
@@ -68,6 +71,18 @@ class PR_GameMode : SCR_BaseGameMode
 		if (!GetGame().InPlayMode())
 			return;
 		
+		// Randomize factions - if enabled
+		FactionManager fm = GetGame().GetFactionManager();
+		array<int> factionIds = {};
+		factionIds.Resize(fm.GetFactionsCount());
+		for (int i = 0; i < fm.GetFactionsCount(); i++)
+			factionIds[i] = i;
+		if (m_bRandomizeFactions)
+		{
+			if(true) //Math.RandomInt(0, 2) == 0)
+				factionIds.Sort(true); // Reverse whole array
+		}
+		
 		// Init capture areas
 		m_bCaptureAreaInitSuccess = true;
 		if (m_aAreaEntities)
@@ -111,8 +126,9 @@ class PR_GameMode : SCR_BaseGameMode
 		else
 			_print("Capture areas initialized successfully!", LogLevel.NORMAL);
 		
-		// Link capture areas with their naighbours
-		// Now we just link them sequentially
+		// Finish init of capture areas:
+		// - Link capture areas with their naighbours
+		// - Set capture area faction
 		if (m_bCaptureAreaInitSuccess)
 		{
 			for (int i = 0; i < m_aAreas.Count(); i++)
@@ -122,17 +138,24 @@ class PR_GameMode : SCR_BaseGameMode
 					linked.Insert(m_aAreas[i-1]); // Add prev area
 				if (i <= m_aAreas.Count()-2)
 					linked.Insert(m_aAreas[i+1]); // Add next area
-				m_aAreas[i].InitLinkedAreas(linked);
+				
+				PR_CaptureArea area = m_aAreas[i];
+				int initialOwnerFactionId = area.GetInitialOwnerFactionId();
+				if (initialOwnerFactionId != -1)
+					initialOwnerFactionId = factionIds[initialOwnerFactionId];
+				area.Init(linked, initialOwnerFactionId);
 			}
 		}
 		
 		// Init faction points
-		FactionManager fm = GetGame().GetFactionManager();
 		int nFactions = fm.GetFactionsCount();
 		m_aFactionScore.Resize(nFactions);
-		m_aFactionScore[0] = m_fInitialFactionScore0;
-		m_aFactionScore[1] = m_fInitialFactionScore1;
-		
+		if (IsMaster())
+		{
+			m_aFactionScore[factionIds[0]] = m_fInitialFactionScore0;
+			m_aFactionScore[factionIds[1]] = m_fInitialFactionScore1;
+		}
+			
 		// Subscribe to capture area events
 		if (IsMaster())
 		{
