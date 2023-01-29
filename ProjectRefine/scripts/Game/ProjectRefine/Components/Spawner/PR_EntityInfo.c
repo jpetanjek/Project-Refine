@@ -3,16 +3,13 @@ Class to be used for config, used to contain info about what to spawn and under 
 */
 
 [BaseContainerProps(configRoot:true), SCR_BaseContainerCustomTitleResourceName("m_sPrefab", true)]
-class PR_EntitySpawnInfo
+class PR_EntityInfo
 {
 	[Attribute("1", desc: "By default disabled entries are ignored.", category: "Entity Spawn Info")]
 	protected bool m_bEnabled;
 	
 	[Attribute(desc: "The prefab spawned", uiwidget: UIWidgets.ResourcePickerThumbnail, params: "et", category: "Entity Spawn Info")]
 	ResourceName m_sPrefab;
-	
-	[Attribute(defvalue: "0")]
-	int m_iFaction;
 	
 	[Attribute("", UIWidgets.ComboBox, "", enums: ParamEnumArray.FromEnum(PR_EPhase))]
 	PR_EPhase m_ePhase;
@@ -59,11 +56,11 @@ class PR_EntitySpawnInfo
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void PR_EntitySpawnInfo()
+	void PR_EntityInfo()
 	{}
 	
 	//------------------------------------------------------------------------------------------------
-	void PR_EntitySpawnInfo(ResourceName prefab, bool enabled = true)
+	void PR_EntityInfo(ResourceName prefab, bool enabled = true)
 	{
 		m_sPrefab = prefab;
 		m_bEnabled = enabled;

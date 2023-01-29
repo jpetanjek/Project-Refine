@@ -1,6 +1,12 @@
 SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
 }
 SCR_FactionManager FactionManager_USxUSSR1 : "{589540B35EBA8CDC}Prefabs/MP/Managers/Factions/FactionManager_USxUSSR.et" {
+ Factions {
+  SCR_Faction "{56B2B46E999BF3BF}" {
+   m_aAssetList PR_EntityAssetList "{5C7B00BA9E204AE6}" : "{CBA2DE7317E6BF2A}Configs/GameMode/PR_AssetList_US.conf" {
+   }
+  }
+ }
 }
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 146.67 65.489 364.823

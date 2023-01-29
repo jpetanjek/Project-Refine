@@ -2,10 +2,10 @@
 List of entity Assets
 */
 [BaseContainerProps(configRoot: true)]
-class PR_EntitySpawnerList
+class PR_EntityAssetList
 {
 	[Attribute(desc: "Asset list")]
-	protected ref array<ref PR_EntitySpawnInfo> m_aAssetList;
+	protected ref array<ref PR_EntityInfo> m_aAssetList;
 	
 	//------------------------------------------------------------------------------------------------
 	/*!
@@ -24,7 +24,7 @@ class PR_EntitySpawnerList
 	\param[out] Entity Info
 	\return bool returns false if index is invalid
 	*/
-	PR_EntitySpawnInfo GetEntryAtIndex(int index)
+	PR_EntityInfo GetEntryAtIndex(int index)
 	{
 		if (!m_aAssetList || index < 0 || index >= m_aAssetList.Count())
 		{
@@ -41,7 +41,7 @@ class PR_EntitySpawnerList
 	*/
 	ResourceName GetResourceNameAtIndex(int index)
 	{
-		PR_EntitySpawnInfo entityInfo = GetEntryAtIndex(index);
+		PR_EntityInfo entityInfo = GetEntryAtIndex(index);
 		if (entityInfo)
 		{
 			return entityInfo.GetPrefab();
@@ -56,9 +56,9 @@ class PR_EntitySpawnerList
 	\bool If true only get entities if they are set to enabled
 	\return int Size of list
 	*/
-	int GetAssetList(out notnull array<PR_EntitySpawnInfo> assetList, bool checkIfEnabled = true)
+	int GetAssetList(out notnull array<PR_EntityInfo> assetList, bool checkIfEnabled = true)
 	{
-		foreach (PR_EntitySpawnInfo entityInfo : m_aAssetList)
+		foreach (PR_EntityInfo entityInfo : m_aAssetList)
 		{
 			if (!entityInfo || (checkIfEnabled && !entityInfo.GetEnabled()))
 				continue;
@@ -70,7 +70,7 @@ class PR_EntitySpawnerList
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void PR_EntitySpawnerList(array<ref PR_EntitySpawnInfo> assetList = null)
+	void PR_EntitySpawnerList(array<ref PR_EntityInfo> assetList = null)
 	{
 		if (SCR_Global.IsEditMode())
 			return;
