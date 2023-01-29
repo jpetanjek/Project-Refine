@@ -172,9 +172,10 @@ class PR_AssetSpawner : GenericEntity
 		vector vdir = t[2];
 		
 		// Draw arrow
-		vector arrowOrigin = t[3] + Vector(0, halfHeight, 0);
+		vector arrowOrigin = t[3] + Vector(0, 0.1, 0);
 		Shape.CreateArrow(arrowOrigin, arrowOrigin + 3*vdir, 0.8, Color.RED, ShapeFlags.ONCE);
 		
+		// Draw box
 		Shape box = Shape.Create(ShapeType.BBOX, 0x70FF0000, ShapeFlags.ONCE | ShapeFlags.TRANSP, Vector(-halfWidth, -halfHeight, -halfLength), Vector(halfWidth, halfHeight, halfLength));
 		vector tbox[4];
 		tbox[0] = t[0];
