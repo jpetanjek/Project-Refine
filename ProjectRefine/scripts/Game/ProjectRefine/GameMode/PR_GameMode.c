@@ -79,7 +79,7 @@ class PR_GameMode : SCR_BaseGameMode
 			factionIds[i] = i;
 		if (m_bRandomizeFactions)
 		{
-			if(true) //Math.RandomInt(0, 2) == 0)
+			if(Math.RandomInt(0, 2) == 0)
 				factionIds.Sort(true); // Reverse whole array
 		}
 		
