@@ -11,6 +11,7 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
   {
    PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
     coords 0 0 0
+    m_fWaitTime 1
    }
   }
  }

@@ -10,7 +10,14 @@ class PR_AssetSpawner : GenericEntity
 	[Attribute("", UIWidgets.Flags, "", category: "Asset Spawner", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
 	protected PR_EAssetType m_eSupportedEntities;
 	
+	// TODO: move this to prefab
+	[Attribute("20", UIWidgets.Slider, "Wait time", "0 1200 1")]
+	private float m_fWaitTime;
+	
 	protected ref array<ResourceName> m_aSpawn = {};
+	
+	protected bool m_bDestroyed = false;
+	protected float m_fTimer = 0;
 	
 	// Spawned vehicle
 	protected IEntity m_Target;
@@ -18,31 +25,65 @@ class PR_AssetSpawner : GenericEntity
 	// Assigned Capture Area
 	protected PR_CaptureArea m_CaptureArea;
 	
+	//------------------------------------------------------------------------------------------------	
+	void PR_AssetSpawner(IEntitySource src, IEntity parent)
+	{
+		SetFlags(EntityFlags.ACTIVE, true);
+	
+		if(Replication.IsClient())
+			return;
+		
+		SetEventMask(EntityEvent.INIT | EntityEvent.FRAME);	
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void ~PR_AssetSpawner()
+	{
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
 		if (!GetGame().GetWorldEntity())
   			return;
-		
-		// TODO: Runs only on server
-		if(Replication.IsClient())
-			return;
-		
-		if(GetParent())		
+	}
+
+	//------------------------------------------------------------------------------------------------	
+	override void EOnFrame(IEntity owner, float timeSlice)
+	{
+		// First spawn
+		if(!m_Target && !m_bDestroyed)
 		{
-			m_CaptureArea = PR_CaptureArea.Cast(GetParent().FindComponent(PR_CaptureArea));
+			if(GetParent())		
+			{
+				m_CaptureArea = PR_CaptureArea.Cast(GetParent().FindComponent(PR_CaptureArea));
+				m_bDestroyed = false;
+				SpawnActions();
+			}
+			else
+			{	
+				// Assert - cannot work unless it has assigned Caputre Area
+			}
+		}
+		// Subsequent
+		if(m_fTimer >= m_fWaitTime && m_bDestroyed)
+		{
+			m_bDestroyed = false;
 			SpawnActions();
 		}
-		else
-		{	
-			// Assert - cannot work unless it has assigned Caputre Area
+		if(m_bDestroyed)
+		{
+			m_fTimer += timeSlice;
 		}
 	}
+		
 	
 	void OnDamageStateChanged(EDamageState state)
 	{
 		if (state == EDamageState.DESTROYED)
 		{
-			SpawnActions();
+			m_fTimer = 0;
+			m_bDestroyed = true;
 		}
 	}
 	
@@ -78,16 +119,5 @@ class PR_AssetSpawner : GenericEntity
 			}
 		}
 	}
-	
-	void PR_AssetSpawner(IEntitySource src, IEntity parent)
-	{
-		SetEventMask(EntityEvent.INIT);
-		SetFlags(EntityFlags.STATIC, true);
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	void ~PR_AssetSpawner()
-	{
-		
-	}
+
 }
