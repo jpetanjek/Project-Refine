@@ -109,21 +109,38 @@ class PR_AssetSpawner : GenericEntity
 				
 				array<PR_EntityInfo> assetList = {};
 				fullAssetList.GetAssetList(assetList);
-				if(!assetList.IsEmpty())
+				if(assetList.Count() > 0)
 				{
 					// todo check if area is obstructed
 					// if (areaObstructed) return false;
 					
-					m_Target = IEntity.Cast(GetGame().SpawnEntityPrefab(
-						Resource.Load(assetList.Get(assetList.GetRandomIndex()).GetPrefab()),
-				 		GetGame().GetWorld(),
-						spawnParams));
-		
-					ScriptedDamageManagerComponent m_pDamageManager = ScriptedDamageManagerComponent.Cast(m_Target.FindComponent(ScriptedDamageManagerComponent));
-					if (m_pDamageManager)
-						m_pDamageManager.GetOnDamageStateChanged().Insert(OnDamageStateChanged);
+					for(int i = assetList.Count() - 1; i >= 0 ; i--)
+					{
+						PR_EntityInfo asset = assetList.Get(i);
+						if(!asset || (asset && asset.GetAssetType() != m_eSupportedEntities))
+						{
+							assetList.Remove(i);
+						}
+					}
 					
-					return true;
+					if(assetList.Count() > 0)
+					{
+						m_Target = IEntity.Cast(GetGame().SpawnEntityPrefab(
+							Resource.Load(assetList.Get(assetList.GetRandomIndex()).GetPrefab()),
+					 		GetGame().GetWorld(),
+							spawnParams));
+					}
+					
+					if(m_Target)
+					{
+						ScriptedDamageManagerComponent m_pDamageManager = ScriptedDamageManagerComponent.Cast(m_Target.FindComponent(ScriptedDamageManagerComponent));
+						if (m_pDamageManager)
+							m_pDamageManager.GetOnDamageStateChanged().Insert(OnDamageStateChanged);
+						
+						return true;
+					}
+					else
+						return false;					
 				}
 			}
 		}
