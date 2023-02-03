@@ -41,6 +41,9 @@ class PR_CaptureArea : ScriptComponent
 	// Linked areas in all directions
 	protected ref array<PR_CaptureArea> m_aLinkedAreas = {};
 	
+	// Asset spawners in this capture area
+	protected ref array<PR_AssetSpawner> m_aAssetSpawners = {};
+	
 	
 	// Variables related to area capture
 	// Some of them are only needed for debugging
@@ -154,6 +157,14 @@ class PR_CaptureArea : ScriptComponent
 	string GetName()
 	{
 		return m_sName;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	array<PR_AssetSpawner> GetAssetSpawners()
+	{
+		array<PR_AssetSpawner> a = {};
+		a.Copy(m_aAssetSpawners);
+		return a;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -307,7 +318,10 @@ class PR_CaptureArea : ScriptComponent
 		{
 			PR_AssetSpawner assetSpawner = PR_AssetSpawner.Cast(childEntity);
 			if (assetSpawner)
+			{
 				assetSpawner.Init(this);
+				m_aAssetSpawners.Insert(assetSpawner);
+			}
 			
 			childEntity = childEntity.GetSibling();
 		}

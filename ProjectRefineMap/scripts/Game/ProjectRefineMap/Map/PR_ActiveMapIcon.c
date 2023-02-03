@@ -63,10 +63,10 @@ class PR_ActiveMapIcon : SCR_Position
 			m_bTargetAssigned = true;
 			
 			// Subscribe to damange manager state change if exists
-			ScriptedDamageManagerComponent m_pDamageManager = ScriptedDamageManagerComponent.Cast(m_Target.FindComponent(ScriptedDamageManagerComponent));
-			if(m_pDamageManager)
+			ScriptedDamageManagerComponent damageManager = ScriptedDamageManagerComponent.Cast(m_Target.FindComponent(ScriptedDamageManagerComponent));
+			if(damageManager)
 			{
-				m_pDamageManager.GetOnDamageStateChanged().Insert(OnDamageStateChanged);
+				damageManager.GetOnDamageStateChanged().Insert(OnDamageStateChanged);
 			}
 		}
 		else
