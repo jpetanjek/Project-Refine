@@ -10,6 +10,7 @@ SCR_FactionManager FactionManager_USxUSSR1 : "{589540B35EBA8CDC}Prefabs/MP/Manag
 }
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 146.67 65.489 364.823
+ m_bRandomizeFactions 0
  m_aAreaEntities {
   PR_EntityLink "{5C5EDD58F2E5EF81}" {
    m_sEntityName "MainBase0"
