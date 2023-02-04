@@ -1,7 +1,11 @@
+typedef func OnAssetSpawnedDelegate;
+void OnAssetSpawnedDelegate(PR_AssetSpawner spawner, IEntity asset, int factionId);
+
 [EntityEditorProps(category: "GameScripted/GameMode", description: "Runtime vehicle spawner", visible: false)]
 class PR_AssetSpawnerClass : GenericEntityClass
 {
 };
+	
 
 //------------------------------------------------------------------------------------------------
 //! Entity which follows its target and is drawn on the map via the SCR_MapDescriptorComponent
@@ -11,7 +15,7 @@ class PR_AssetSpawner : GenericEntity
 	protected const float UPDATE_PERIOD_S = 1.0;
 	
 	[Attribute("", UIWidgets.ComboBox, "", category: "Asset Spawner", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
-	protected PR_EAssetType m_eSupportedEntities;
+	protected PR_EAssetType m_AssetType;
 	
 	// TODO: move this to prefab
 	[Attribute("20", UIWidgets.Slider, "Wait time", "0 1200 1")]
@@ -24,6 +28,8 @@ class PR_AssetSpawner : GenericEntity
 	protected IEntity m_Target;				// Spawned asset
 	protected float m_fTimer = 0;			// Timer for respawning
 	
+	// Events
+	ref ScriptInvokerBase<OnAssetSpawnedDelegate> m_OnAssetSpawned = new ScriptInvokerBase<OnAssetSpawnedDelegate>();
 	
 	//------------------------------------------------------------------------------------------------	
 	void PR_AssetSpawner(IEntitySource src, IEntity parent)
@@ -117,25 +123,37 @@ class PR_AssetSpawner : GenericEntity
 					for(int i = assetList.Count() - 1; i >= 0 ; i--)
 					{
 						PR_EntityInfo asset = assetList.Get(i);
-						if(!asset || (asset && asset.GetAssetType() != m_eSupportedEntities))
+						if(!asset || (asset && asset.GetAssetType() != m_AssetType))
 						{
 							assetList.Remove(i);
 						}
 					}
 					
+					ResourceName resourceName;
 					if(assetList.Count() > 0)
 					{
+						resourceName = assetList.Get(assetList.GetRandomIndex()).GetPrefab();
 						m_Target = IEntity.Cast(GetGame().SpawnEntityPrefab(
-							Resource.Load(assetList.Get(assetList.GetRandomIndex()).GetPrefab()),
+							Resource.Load(resourceName),
 					 		GetGame().GetWorld(),
 							spawnParams));
 					}
 					
 					if(m_Target)
 					{
-						ScriptedDamageManagerComponent m_pDamageManager = ScriptedDamageManagerComponent.Cast(m_Target.FindComponent(ScriptedDamageManagerComponent));
-						if (m_pDamageManager)
-							m_pDamageManager.GetOnDamageStateChanged().Insert(OnDamageStateChanged);
+						ScriptedDamageManagerComponent damageManager = ScriptedDamageManagerComponent.Cast(m_Target.FindComponent(ScriptedDamageManagerComponent));
+						if (damageManager)
+							damageManager.GetOnDamageStateChanged().Insert(OnDamageStateChanged);
+						else
+							_print(string.Format("Didn't find ScriptedDamageManagerComponent on entity: %1", resourceName), LogLevel.ERROR);
+						
+						PR_EntityInfoComponent entityInfoComp = PR_EntityInfoComponent.Cast(m_Target.FindComponent(PR_EntityInfoComponent));
+						if (entityInfoComp)
+							entityInfoComp.Init(m_AssetType, m_CaptureArea.GetOwnerFactionId());
+						else
+							_print(string.Format("Didn't find PR_EntityInfoComponent on entity: %1", resourceName), LogLevel.ERROR);
+						
+						m_OnAssetSpawned.Invoke(this, m_Target, m_CaptureArea.GetOwnerFactionId());
 						
 						return true;
 					}
@@ -202,5 +220,9 @@ class PR_AssetSpawner : GenericEntity
 		box.SetMatrix(tbox);
 	}
 	
-
+	//-------------------------------------------------------------------------------------------------------------------------------
+	protected static void _print(string str, LogLevel logLevel = LogLevel.NORMAL)
+	{
+		Print(string.Format("[PR_AssetSpawner] %1", str), logLevel);
+	}
 }

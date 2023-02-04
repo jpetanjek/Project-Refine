@@ -78,6 +78,7 @@ enum PR_EPhase
 
 enum PR_EAssetType
 {
+	SOLDIER,
 	TRANSPORT,
 	ARMORED_TRANSPORT,
 	TROOP_TRANSPORT,

@@ -13,36 +13,36 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
     {
      coords -42.044 0 -1.88
      angleY -41.145
-     m_eSupportedEntities TRANSPORT
+     m_AssetType TRANSPORT
      m_fWaitTime 1
     }
     {
      coords -32.633 0 -0.004
-     m_eSupportedEntities ARMORED_TRANSPORT
+     m_AssetType ARMORED_TRANSPORT
     }
     {
      coords -22.858 0 0.095
-     m_eSupportedEntities TROOP_TRANSPORT
+     m_AssetType TROOP_TRANSPORT
     }
     {
      coords -10.84 0 0.854
-     m_eSupportedEntities ARMED_TRANSPORT
+     m_AssetType ARMED_TRANSPORT
     }
     {
      coords 0 0 0
-     m_eSupportedEntities FUEL
+     m_AssetType FUEL
     }
     {
      coords 11.447 0 -0.326
-     m_eSupportedEntities SUPPLY
+     m_AssetType SUPPLY
     }
     {
      coords 26.357 0 -0.803
-     m_eSupportedEntities COMMAND
+     m_AssetType COMMAND
     }
     {
      coords 44.959 0 -2.157
-     m_eSupportedEntities ARMORED_PERSONEL_CARRIER
+     m_AssetType ARMORED_PERSONEL_CARRIER
     }
    }
   }
@@ -60,7 +60,7 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
    PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
     coords 3.903 -0.095 -9.614
     angleY -42.997
-    m_eSupportedEntities TRANSPORT
+    m_AssetType TRANSPORT
    }
   }
  }

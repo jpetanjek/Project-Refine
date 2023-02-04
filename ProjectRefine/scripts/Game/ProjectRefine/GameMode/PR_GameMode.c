@@ -156,12 +156,20 @@ class PR_GameMode : SCR_BaseGameMode
 			m_aFactionScore[factionIds[1]] = m_fInitialFactionScore1;
 		}
 			
-		// Subscribe to capture area events
+		
 		if (IsMaster())
 		{
+			// Subscribe to capture area events
 			foreach (PR_CaptureArea area : m_aAreas)
 			{
 				area.m_OnOwnerFactionChanged.Insert(OnCaptureAreaFactionChanged);
+				
+				// Subscribe to asset spawner events
+				array<PR_AssetSpawner> assetSpawners = area.GetAssetSpawners();
+				foreach (PR_AssetSpawner spawner : assetSpawners)
+				{
+					spawner.m_OnAssetSpawned.Insert(OnAssetSpawned);
+				}
 			}
 		}
 	}
@@ -405,6 +413,71 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 	}
 	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Assets
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	protected override void OnPlayerKilled(int playerId, IEntity player, IEntity killer)
+	{
+		super.OnPlayerKilled(playerId, player, killer);
+		
+		if (!IsMaster())
+			return;
+		
+		FactionManager fm = GetGame().GetFactionManager();
+		FactionAffiliationComponent factionComp = FactionAffiliationComponent.Cast(player.FindComponent(FactionAffiliationComponent));
+		Faction faction = factionComp.GetAffiliatedFaction();
+		int factionId = fm.GetFactionIndex(faction);
+		
+		float cost = GetAssetCost(PR_EAssetType.SOLDIER);
+		AddFactionScore(factionId, -cost);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Called by asset spawner
+	void OnAssetSpawned(PR_AssetSpawner spawner, IEntity entity, int factionId)
+	{
+		ScriptedDamageManagerComponent damageManager = ScriptedDamageManagerComponent.Cast(entity.FindComponent(ScriptedDamageManagerComponent));
+		if (damageManager)
+			damageManager.GetOnDestroyed().Insert(OnAssetDestroyed);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Called only for assets spawned by asset spawner
+	void OnAssetDestroyed(IEntity entity)
+	{
+		FactionManager fm = GetGame().GetFactionManager();
+		
+		// Not character - probably vehicle
+		PR_EntityInfoComponent infoComp = PR_EntityInfoComponent.Cast(entity.FindComponent(PR_EntityInfoComponent));
+		if (!infoComp)
+		{
+			_print(string.Format("Didn't find PR_EntityInfoComponent on entity: %1, %2", entity, entity.GetPrefabData().GetPrefabName()));
+			return;
+		}
+		
+		float cost = GetAssetCost(infoComp.GetAssetType());
+		AddFactionScore(infoComp.GetInitialFactionId(), -cost);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Returns cost of asset
+	static float GetAssetCost(PR_EAssetType assetType)
+	{
+		switch(assetType)
+		{
+			case PR_EAssetType.SOLDIER:						return 1.0;
+			case PR_EAssetType.TRANSPORT:					return 4.0;
+			case PR_EAssetType.ARMORED_TRANSPORT:			return 6.0;
+			case PR_EAssetType.TROOP_TRANSPORT:				return 5.0;
+			case PR_EAssetType.ARMED_TRANSPORT:				return 10.0;
+			case PR_EAssetType.FUEL:						return 6.0;
+			case PR_EAssetType.SUPPLY:						return 5.0;
+			case PR_EAssetType.COMMAND:						return 20.0;
+			case PR_EAssetType.ARMORED_PERSONEL_CARRIER:	return 30.0;
+		}
+		return 1.0;
+	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Utils
