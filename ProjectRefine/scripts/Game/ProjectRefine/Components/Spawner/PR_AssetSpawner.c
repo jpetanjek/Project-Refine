@@ -109,7 +109,7 @@ class PR_AssetSpawner : GenericEntity
 			SCR_Faction faction = SCR_Faction.Cast(factionManager.GetFactionByIndex(m_CaptureArea.GetOwnerFactionId()));
 			if(faction)
 			{
-				PR_EntityAssetList fullAssetList = faction.GetAssetList();
+				ref PR_EntityAssetList fullAssetList = faction.GetAssetList();
 				if(!fullAssetList)
 					return false;
 				
