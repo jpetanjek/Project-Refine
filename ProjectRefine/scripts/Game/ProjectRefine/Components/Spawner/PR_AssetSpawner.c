@@ -28,9 +28,6 @@ class PR_AssetSpawner : GenericEntity
 	protected IEntity m_Target;				// Spawned asset
 	protected float m_fTimer = 0;			// Timer for respawning
 	
-	// Previously assigned startup chance - so it can be assigned when game mode enters play
-	float m_fPreviousStartupChance = 0;
-	
 	// Events
 	ref ScriptInvokerBase<OnAssetSpawnedDelegate> m_OnAssetSpawned = new ScriptInvokerBase<OnAssetSpawnedDelegate>();
 	
@@ -43,11 +40,6 @@ class PR_AssetSpawner : GenericEntity
 		if(!Replication.IsClient())
 		{
 			mask |= EntityEvent.FRAME;
-			PR_GameMode gameMode = PR_GameMode.Cast(GetGame().GetGameMode());
-			if(gameMode)
-			{
-				gameMode.m_OnGameModeStageChanged.Insert(OnGameModeStageChanged);
-			}
 		}
 		
 		SetEventMask(mask);
@@ -165,20 +157,6 @@ class PR_AssetSpawner : GenericEntity
 						
 						m_OnAssetSpawned.Invoke(this, m_Target, m_CaptureArea.GetOwnerFactionId());
 						
-						// Post spawn actions - 0 startup chance if we are in preparation phase
-						{
-							VehicleControllerComponent controller;
-							controller = VehicleControllerComponent.Cast(m_Target.FindComponent(VehicleControllerComponent));
-							
-							PR_GameMode gameMode = PR_GameMode.Cast(GetGame().GetGameMode());
-							
-							if(controller && gameMode && gameMode.GetGameModeStage() == PR_EGameModeStage.PREPARATION)
-							{
-								m_fPreviousStartupChance = controller.GetEngineStartupChance();
-								controller.SetEngineStartupChance(0);
-							}
-						}
-						
 						return true;
 					}
 					else
@@ -187,37 +165,6 @@ class PR_AssetSpawner : GenericEntity
 			}
 		}
 		return false;
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	void OnGameModeStageChanged(PR_EGameModeStage stage)
-	{
-		switch (stage)
-		{
-			case PR_EGameModeStage.PREPARATION:
-			{
-				break;
-			}
-			case PR_EGameModeStage.LIVE:
-			{
-				// Assign previous startup chance
-				if(m_Target)
-				{
-					VehicleControllerComponent controller;
-					controller = VehicleControllerComponent.Cast(m_Target.FindComponent(VehicleControllerComponent));
-					
-					if(controller)
-					{
-						controller.SetEngineStartupChance(m_fPreviousStartupChance);
-					}
-				}
-				break;
-			}
-			case PR_EGameModeStage.DEBRIF:
-			{
-				break;
-			}
-		}
 	}
 	
 	//------------------------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ enum PR_EGameModeStage
 {
 	PREPARATION,
 	LIVE,
-	DEBRIF
+	DEBRIEF
 }
 
 class PR_GameMode : SCR_BaseGameMode
@@ -51,7 +51,6 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	// Other
 	protected float m_fGameModeUpdateTimer = 0;
-	protected float m_fGameModeTotalTime = 0;
 	protected bool m_bCaptureAreaInitSuccess = false;
 
 	
@@ -201,7 +200,6 @@ class PR_GameMode : SCR_BaseGameMode
 		if (IsMaster())
 		{
 			m_fGameModeUpdateTimer += timeSlice;
-			m_fGameModeTotalTime += timeSlice;
 			if (m_fGameModeUpdateTimer >= GAME_MODE_UPDATE_INTERVAL_S)
 			{
 				UpdateGameMode(m_fGameModeUpdateTimer);
@@ -262,9 +260,9 @@ class PR_GameMode : SCR_BaseGameMode
 				TickGameModePlay(timeSlice);
 				break;
 			}
-			case PR_EGameModeStage.DEBRIF:
+			case PR_EGameModeStage.DEBRIEF:
 			{
-				TickGameModeDebrif(timeSlice);
+				TickGameModeDEBRIEF(timeSlice);
 				break;
 			}
 		}
@@ -274,7 +272,7 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	void TickGameModePreparation(float timeSlice)
 	{
-		if(m_fGameModeTotalTime > 30)
+		if(m_fTimeElapsed > 30)
 		{
 			RequestNextGameModeStage();
 		}
@@ -388,7 +386,7 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 	}
 	
-	void TickGameModeDebrif(float timeSlice)
+	void TickGameModeDEBRIEF(float timeSlice)
 	{
 		array<int> winnerFactions = {}; // All factions except the one which has lowest amount of points
 		// Do this only once
@@ -440,10 +438,10 @@ class PR_GameMode : SCR_BaseGameMode
 			}
 			case PR_EGameModeStage.LIVE:
 			{
-				m_eGameModeStage = PR_EGameModeStage.DEBRIF;
+				m_eGameModeStage = PR_EGameModeStage.DEBRIEF;
 				break;
 			}
-			case PR_EGameModeStage.DEBRIF:
+			case PR_EGameModeStage.DEBRIEF:
 			{
 				break;
 			}
@@ -678,7 +676,7 @@ class PR_GameMode : SCR_BaseGameMode
 			DbgUI.Text(string.Format("%1 score: %2", fm.GetFactionByIndex(i).GetFactionKey(), GetFactionScore(i)));
 		}
 		
-		DbgUI.Text(string.Format("Total time elapsed:%1 Game Mode Stage:%2", m_fGameModeTotalTime ,m_eGameModeStage));
+		DbgUI.Text(string.Format("Total time elapsed:%1 Game Mode Stage:%2", m_fTimeElapsed ,m_eGameModeStage));
 		
 		DbgUI.Text(" ");
 		
