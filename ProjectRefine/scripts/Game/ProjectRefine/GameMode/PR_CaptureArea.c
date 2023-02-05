@@ -369,6 +369,22 @@ class PR_CaptureArea : ScriptComponent
 			// Set UIInfo
 			m_SpawnPointUiInfo = SCR_UIInfo.CreateInfo(m_sName);
 			m_SpawnPoint.LinkInfo(m_SpawnPointUiInfo);
+			
+			// Search for PR_CharacterSpawnPosition entities and pass them to spawn point
+			childEntity = GetOwner().GetChildren();
+			int nCharSpawnPosAdded = 0;
+			while (childEntity)
+			{
+				PR_CharacterSpawnPosition playerSpawnPos = PR_CharacterSpawnPosition.Cast(childEntity);
+				if (playerSpawnPos)
+				{
+					m_SpawnPoint.AddChildPosition(playerSpawnPos);
+					nCharSpawnPosAdded++;
+				}
+				childEntity = childEntity.GetSibling();
+			}
+			if (nCharSpawnPosAdded == 0)
+				_print("No PR_CharacterSpawnPosition found!", LogLevel.ERROR);
 		}
 		else
 			_print("No SCR_SpawnPoint found", LogLevel.ERROR);

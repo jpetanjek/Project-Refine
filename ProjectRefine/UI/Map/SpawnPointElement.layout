@@ -1,4 +1,4 @@
-FrameWidgetClass "{5C8B38178CABD1FB}" {
+FrameWidgetClass {
  Name "SpawnPoint"
  "Z Order" 1
  Clipping False
@@ -7,7 +7,7 @@ FrameWidgetClass "{5C8B38178CABD1FB}" {
   }
  }
  {
-  OverlayWidgetClass "{5C8B38178CABD1F9}" {
+  OverlayWidgetClass "{5C8B3816CB3EF26D}" {
    Name "Overlay0"
    Slot FrameWidgetSlot "{5A748248649ECD71}" {
     Anchor 0.5 0.5 0.5 0.5
@@ -22,7 +22,7 @@ FrameWidgetClass "{5C8B38178CABD1FB}" {
     Alignment 0.5 0.5
    }
    {
-    SizeLayoutWidgetClass "{5C8B38178CABD1C7}" {
+    SizeLayoutWidgetClass "{5C8B3816CB3EF26C}" {
      Name "SizeLayout"
      Slot OverlayWidgetSlot "{5A7494430A5DF5B2}" {
       HorizontalAlign 1
@@ -30,18 +30,18 @@ FrameWidgetClass "{5C8B38178CABD1FB}" {
      }
      "Ignore Cursor" 0
      AllowWidthOverride 1
-     WidthOverride 60
+     WidthOverride 80
      AllowHeightOverride 1
-     HeightOverride 60
+     HeightOverride 80
      {
-      OverlayWidgetClass "{5C8B38178CABD1C5}" {
+      OverlayWidgetClass "{5C8B3816CB3EF26F}" {
        Name "IconOverlay"
        Slot AlignableSlot "{5A74824A63E50D09}" {
         HorizontalAlign 3
         VerticalAlign 3
        }
        {
-        ImageWidgetClass "{5C8B38178CABD1C2}" {
+        ImageWidgetClass "{5C8B3816CB3EF26E}" {
          Name "BackgroundGradient"
          Slot OverlayWidgetSlot "{56FAD15D251881C8}" {
           HorizontalAlign 3
@@ -50,7 +50,7 @@ FrameWidgetClass "{5C8B38178CABD1FB}" {
          }
          "Is Visible" 0
          Opacity 0.599
-         Color 0 0 0 0.745
+         Color 0 0 0 0
          Saturation 0.555
          Mask "{0BFC9F2798DAD87D}system/textures/PP/HDRCircleWeight_A.edds"
          "Transition width" 0.498
@@ -58,13 +58,14 @@ FrameWidgetClass "{5C8B38178CABD1FB}" {
          "Mask Mode" "Exclude Range"
          Range 0.672
         }
-        OverlayWidgetClass "{5C8B38178CABD1C3}" {
+        OverlayWidgetClass "{5C8B3816CB3EF269}" {
          Name "Symbol"
          Slot OverlayWidgetSlot "{55106432EF84C21E}" {
           HorizontalAlign 3
           VerticalAlign 3
          }
          "Z Order" 1
+         "Is Visible" 0
          components {
           SCR_MilitarySymbolUIComponent "{5A1275AE49C098AA}" {
            m_MilitarySymbol SCR_MilitarySymbol "{5A1275AEB780F20B}" {
@@ -73,7 +74,7 @@ FrameWidgetClass "{5C8B38178CABD1FB}" {
           }
          }
         }
-        ButtonWidgetClass "{5C8B38178CABD1C0}" {
+        ButtonWidgetClass "{5C8B3816CB3EF268}" {
          Name "Button"
          Slot OverlayWidgetSlot "{5A7494430A5DF5D0}" {
           HorizontalAlign 3
@@ -81,7 +82,7 @@ FrameWidgetClass "{5C8B38178CABD1FB}" {
          }
          Color 1 1 1 0
         }
-        ImageWidgetClass "{5C8B38178CABD1C1}" {
+        ImageWidgetClass "{5C8B3816CB3EF26B}" {
          Name "Highlight"
          Slot OverlayWidgetSlot "{56FAD15D251881C8}" {
           HorizontalAlign 3
@@ -90,7 +91,7 @@ FrameWidgetClass "{5C8B38178CABD1FB}" {
          }
          "Is Visible" 0
         }
-        ImageWidgetClass "{5C8B38178CABBEC2}" {
+        ImageWidgetClass "{5C8B3816CB3EF26A}" {
          Name "Corners"
          Slot OverlayWidgetSlot "{560858B2103D12BB}" {
           HorizontalAlign 3
@@ -100,12 +101,13 @@ FrameWidgetClass "{5C8B38178CABD1FB}" {
          Color 0.896 0.539 0.184 1
          Image ""
         }
-        TextWidgetClass "{5C8B38178CABBECC}" {
+        TextWidgetClass "{5C8B3816CB3EF275}" {
          Name "Name"
          Slot OverlayWidgetSlot "{54D4BC2CF0FC90D0}" {
           VerticalAlign 0
           Padding 0 -25 0 0
          }
+         "Is Visible" 0
          Clipping False
          Color 0 0 0 1
          Text "#ar-deploymenu_spawnpoint_name"

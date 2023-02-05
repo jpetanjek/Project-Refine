@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
