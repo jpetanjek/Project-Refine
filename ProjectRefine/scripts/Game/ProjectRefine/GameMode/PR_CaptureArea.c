@@ -44,6 +44,10 @@ class PR_CaptureArea : ScriptComponent
 	// Asset spawners in this capture area
 	protected ref array<PR_AssetSpawner> m_aAssetSpawners = {};
 	
+	// Spawn point attached to this capture area
+	protected SCR_SpawnPoint m_SpawnPoint;
+	protected ref SCR_UIInfo m_SpawnPointUiInfo;
+	
 	
 	// Variables related to area capture
 	// Some of them are only needed for debugging
@@ -210,6 +214,8 @@ class PR_CaptureArea : ScriptComponent
 					m_eState = PR_EAreaState.CAPTURED;
 					
 					m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction);
+					
+					SetSpawnPointOwnerFaction(m_iOwnerFaction);
 				}
 				else if (m_fPoints <= 0.0)
 				{
@@ -220,6 +226,8 @@ class PR_CaptureArea : ScriptComponent
 					m_eState = PR_EAreaState.NEUTRAL;
 					
 					m_OnOwnerFactionChanged.Invoke(this, prevOwnerFaction, -1);
+					
+					SetSpawnPointOwnerFaction(-1);
 				}
 				
 				invokeOnStateChanged = true;
@@ -282,6 +290,8 @@ class PR_CaptureArea : ScriptComponent
 	{
 		RplComponent rpl = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
 		
+		FactionManager fm = GetGame().GetFactionManager();
+		
 		// Init linked areas
 		m_aLinkedAreas.Copy(neighbourAreas);
 		
@@ -325,7 +335,56 @@ class PR_CaptureArea : ScriptComponent
 			
 			childEntity = childEntity.GetSibling();
 		}
+		
+		// Init spawn point
+		InitSpawnPoint(ownerFactionId);
 	}
+	
+	
+	//------------------------------------------------------------------------------------------------
+	// Methods related to control of the spawn point attached here
+	
+	//------------------------------------------------------------------------------------------------
+	protected void InitSpawnPoint(int ownerFactionId)
+	{
+		RplComponent rpl = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
+		
+		// Find the spawn point entity among children
+		IEntity childEntity = GetOwner().GetChildren();
+		m_SpawnPoint = null;
+		while (childEntity)
+		{
+			m_SpawnPoint = SCR_SpawnPoint.Cast(childEntity);
+			if (m_SpawnPoint)
+				break;
+			childEntity = childEntity.GetSibling();
+		}
+		
+		if (m_SpawnPoint)
+		{
+			// Set initial owner faction - only for Master
+			if (rpl.IsMaster())
+				SetSpawnPointOwnerFaction(ownerFactionId);
+			
+			// Set UIInfo
+			m_SpawnPointUiInfo = SCR_UIInfo.CreateInfo(m_sName);
+			m_SpawnPoint.LinkInfo(m_SpawnPointUiInfo);
+		}
+		else
+			_print("No SCR_SpawnPoint found", LogLevel.ERROR);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	protected void SetSpawnPointOwnerFaction(int ownerFactionId)
+	{
+		m_SpawnPoint.SetFaction(GetGame().GetFactionManager().GetFactionByIndex(ownerFactionId));
+	}
+	
+	
+	
+	//------------------------------------------------------------------------------------------------
+	// Misc
+	
 	
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
@@ -375,6 +434,12 @@ class PR_CaptureArea : ScriptComponent
 	protected void DrawDebugCylinder()
 	{
 		Shape.CreateCylinder(Color.RED, ShapeFlags.VISIBLE | ShapeFlags.ONCE | ShapeFlags.WIREFRAME, GetOwner().GetOrigin(), m_fRadius, 75.0);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	protected void _print(string str, LogLevel logLevel = LogLevel.NORMAL)
+	{
+		Print(string.Format("[PR_CaptureArea] %1: %2", m_sName, str), logLevel);
 	}
 	
 	//------------------------------------------------------------------------------------------------

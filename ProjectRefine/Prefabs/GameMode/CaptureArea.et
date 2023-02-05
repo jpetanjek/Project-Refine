@@ -17,4 +17,9 @@ GenericEntity {
   }
  }
  coords 51.85 2.001 474.124
+ {
+  SCR_SpawnPoint : "{E7F4D5562F48DDE4}Prefabs/MP/Spawning/SpawnPoint_Base.et" {
+   ID "5C8AF5143CE8BDBE"
+  }
+ }
 }
