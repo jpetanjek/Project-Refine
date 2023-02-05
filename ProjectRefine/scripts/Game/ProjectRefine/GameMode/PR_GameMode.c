@@ -528,6 +528,9 @@ class PR_GameMode : SCR_BaseGameMode
 		if (!IsMaster())
 			return;
 		
+		if(m_eGameModeStage != PR_EGameModeStage.LIVE)
+			return;
+		
 		FactionManager fm = GetGame().GetFactionManager();
 		FactionAffiliationComponent factionComp = FactionAffiliationComponent.Cast(player.FindComponent(FactionAffiliationComponent));
 		Faction faction = factionComp.GetAffiliatedFaction();
