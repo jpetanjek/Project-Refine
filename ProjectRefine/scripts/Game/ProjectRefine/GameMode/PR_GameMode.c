@@ -2,6 +2,16 @@ class PR_GameModeClass : SCR_BaseGameModeClass
 {
 }
 
+typedef func OnGameModeStageChangedDelegate;
+void OnGameModeStageChangedDelegate(PR_EGameModeStage stage);
+
+enum PR_EGameModeStage
+{
+	PREPARATION,
+	LIVE,
+	DEBRIF
+}
+
 class PR_GameMode : SCR_BaseGameMode
 {
 	protected static const float GAME_MODE_UPDATE_INTERVAL_S = 1.0;
@@ -33,12 +43,17 @@ class PR_GameMode : SCR_BaseGameMode
 	// Score of each faction
 	protected ref array<float> m_aFactionScore = {}; //!! It's synchronized via replication
 	
+	// Game mode stage
+	protected PR_EGameModeStage m_eGameModeStage = PR_EGameModeStage.PREPARATION;
 	
-	
+	// Events
+	ref ScriptInvokerBase<OnGameModeStageChangedDelegate> m_OnGameModeStageChanged = new ScriptInvokerBase<OnGameModeStageChangedDelegate>();
 	
 	// Other
 	protected float m_fGameModeUpdateTimer = 0;
+	protected float m_fGameModeTotalTime = 0;
 	protected bool m_bCaptureAreaInitSuccess = false;
+
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Public functions
@@ -70,6 +85,9 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		if (!GetGame().InPlayMode())
 			return;
+		
+		// Initialize game mode stage
+		m_eGameModeStage = PR_EGameModeStage.PREPARATION;
 		
 		// Randomize factions - if enabled
 		FactionManager fm = GetGame().GetFactionManager();
@@ -155,7 +173,6 @@ class PR_GameMode : SCR_BaseGameMode
 			m_aFactionScore[factionIds[0]] = m_fInitialFactionScore0;
 			m_aFactionScore[factionIds[1]] = m_fInitialFactionScore1;
 		}
-			
 		
 		if (IsMaster())
 		{
@@ -184,6 +201,7 @@ class PR_GameMode : SCR_BaseGameMode
 		if (IsMaster())
 		{
 			m_fGameModeUpdateTimer += timeSlice;
+			m_fGameModeTotalTime += timeSlice;
 			if (m_fGameModeUpdateTimer >= GAME_MODE_UPDATE_INTERVAL_S)
 			{
 				UpdateGameMode(m_fGameModeUpdateTimer);
@@ -220,10 +238,7 @@ class PR_GameMode : SCR_BaseGameMode
 			m_MainBaseEntity0.Draw(this);
 		if (m_MainBaseEntity1)
 			m_MainBaseEntity1.Draw(this);
-	}
-	
-	
-	
+	}	
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Game mode update
@@ -235,6 +250,38 @@ class PR_GameMode : SCR_BaseGameMode
 		if (!IsRunning())
 			return;
 		
+		switch (m_eGameModeStage)
+		{
+			case PR_EGameModeStage.PREPARATION:
+			{
+				TickGameModePreparation(timeSlice);
+				break;
+			}
+			case PR_EGameModeStage.LIVE:
+			{
+				TickGameModePlay(timeSlice);
+				break;
+			}
+			case PR_EGameModeStage.DEBRIF:
+			{
+				TickGameModeDebrif(timeSlice);
+				break;
+			}
+		}
+		
+		Replication.BumpMe();
+	}
+	
+	void TickGameModePreparation(float timeSlice)
+	{
+		if(m_fGameModeTotalTime > 30)
+		{
+			RequestNextGameModeStage();
+		}
+	}
+	
+	void TickGameModePlay(float timeSlice)
+	{
 		//---------------------------------------------
 		// Update areas
 		
@@ -337,20 +384,77 @@ class PR_GameMode : SCR_BaseGameMode
 		{
 			// Some faction has lost all its points
 			// End the game
-			array<int> winnerFactions = {}; // All factions except the one which has lowest amount of points
+			RequestNextGameModeStage();
+		}
+	}
+	
+	void TickGameModeDebrif(float timeSlice)
+	{
+		array<int> winnerFactions = {}; // All factions except the one which has lowest amount of points
+		// Do this only once
+		{
+			FactionManager fm = GetGame().GetFactionManager();
+			array<Faction> factions = {};
+			fm.GetFactionsList(factions);
+			int nFactions = factions.Count();
+			
+			float minScore = 1.0;
+			int factionIdMinScore = -1;
+			for (int i = 0; i < nFactions; i++)
+			{
+				if (m_aFactionScore[i] < minScore)
+				{
+					minScore = m_aFactionScore[i];
+					factionIdMinScore = i;
+				}
+			}
+			
+			
 			for (int factionId = 0; factionId < nFactions; factionId++)
 			{
 				if (factionId != factionIdMinScore)
 					winnerFactions.Insert(factionId);				
 			}
+		}
+		
+		// TODO: Delete all assets and players, move all cameras to some position?
+		
+		// TODO: Display score board?
+		
+		// TODO: Some timer logic?
+		{
 			SCR_GameModeEndData gameModeEndData = SCR_GameModeEndData.Create(SCR_GameModeEndData.ENDREASON_SCORELIMIT, winnerIds: null, winnerFactionIds: winnerFactions);
 			EndGameMode(gameModeEndData);
 		}
-		
-		
-		Replication.BumpMe();
 	}
 	
+	void RequestNextGameModeStage()
+	{
+		switch (m_eGameModeStage)
+		{
+			case PR_EGameModeStage.PREPARATION:
+			{
+				m_eGameModeStage = PR_EGameModeStage.LIVE;
+				
+				break;
+			}
+			case PR_EGameModeStage.LIVE:
+			{
+				m_eGameModeStage = PR_EGameModeStage.DEBRIF;
+				break;
+			}
+			case PR_EGameModeStage.DEBRIF:
+			{
+				break;
+			}
+		}
+		m_OnGameModeStageChanged.Invoke(m_eGameModeStage);
+	}
+	
+	PR_EGameModeStage GetGameModeStage()
+	{
+		return m_eGameModeStage;
+	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Faction score
@@ -446,6 +550,9 @@ class PR_GameMode : SCR_BaseGameMode
 	// Called only for assets spawned by asset spawner
 	void OnAssetDestroyed(IEntity entity)
 	{
+		if(m_eGameModeStage != PR_EGameModeStage.LIVE)
+			return;
+		
 		FactionManager fm = GetGame().GetFactionManager();
 		
 		// Not character - probably vehicle
@@ -567,6 +674,8 @@ class PR_GameMode : SCR_BaseGameMode
 		{
 			DbgUI.Text(string.Format("%1 score: %2", fm.GetFactionByIndex(i).GetFactionKey(), GetFactionScore(i)));
 		}
+		
+		DbgUI.Text(string.Format("Total time elapsed:%1 Game Mode Stage:%2", m_fGameModeTotalTime ,m_eGameModeStage));
 		
 		DbgUI.Text(" ");
 		
