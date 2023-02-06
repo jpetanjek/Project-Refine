@@ -38,7 +38,9 @@ class PR_AssetSpawner : GenericEntity
 	
 		EntityEvent mask = EntityEvent.DIAG;
 		if(!Replication.IsClient())
+		{
 			mask |= EntityEvent.FRAME;
+		}
 		
 		SetEventMask(mask);
 	}
@@ -162,10 +164,9 @@ class PR_AssetSpawner : GenericEntity
 				}
 			}
 		}
-		
 		return false;
 	}
-
+	
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
