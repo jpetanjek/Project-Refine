@@ -523,15 +523,30 @@ class PR_GameMode : SCR_BaseGameMode
 	{
 		super.OnPlayerKilled(playerId, player, killer);
 		
+		// Only for Master
 		if (!IsMaster())
 			return;
 		
+		// Bail if we are not in live game stage yet
 		if(m_eGameModeStage != PR_EGameModeStage.LIVE)
 			return;
-		
-		FactionManager fm = GetGame().GetFactionManager();
+
 		FactionAffiliationComponent factionComp = FactionAffiliationComponent.Cast(player.FindComponent(FactionAffiliationComponent));
 		Faction faction = factionComp.GetAffiliatedFaction();
+		
+		// Bail if friendly fire - prevent losing tickets in that case
+		if (killer)
+		{
+			FactionAffiliationComponent killerFactionComp = FactionAffiliationComponent.Cast(killer.FindComponent(FactionAffiliationComponent));
+			if (killerFactionComp)
+			{
+				if (killerFactionComp.GetAffiliatedFaction() == faction)
+					return;
+			}
+		}
+		
+		// Remove score from faction of player
+		FactionManager fm = GetGame().GetFactionManager();
 		int factionId = fm.GetFactionIndex(faction);
 		
 		float cost = GetAssetCost(PR_EAssetType.SOLDIER);
