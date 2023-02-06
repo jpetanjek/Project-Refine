@@ -691,7 +691,8 @@ class PR_GameMode : SCR_BaseGameMode
 			DbgUI.Text(string.Format("%1 score: %2", fm.GetFactionByIndex(i).GetFactionKey(), GetFactionScore(i)));
 		}
 		
-		DbgUI.Text(string.Format("Total time elapsed:%1 Game Mode Stage:%2", m_fTimeElapsed ,m_eGameModeStage));
+		DbgUI.Text(string.Format("Total Time Elapsed: %1", m_fTimeElapsed.ToString(8, 3)));
+		DbgUI.Text(string.Format("Stage: %1", typename.EnumToString(PR_EGameModeStage, m_eGameModeStage)));
 		
 		DbgUI.Text(" ");
 		
