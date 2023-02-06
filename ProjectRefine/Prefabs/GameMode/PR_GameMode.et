@@ -16,7 +16,6 @@ PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
    }
   }
   SCR_RespawnMenuHandlerComponent "{5B16FDA74EDF5F90}" {
-   m_bAllowLoadoutSelection 0
   }
   SCR_RespawnTimerComponent "{5B16FDA74EDF5F89}" {
    m_fRespawnTime 10
