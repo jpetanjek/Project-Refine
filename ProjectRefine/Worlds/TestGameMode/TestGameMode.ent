@@ -10,3 +10,6 @@ Layer vehicles {
 Layer areas {
  Index 2
 }
+Layer props {
+ Index 3
+}

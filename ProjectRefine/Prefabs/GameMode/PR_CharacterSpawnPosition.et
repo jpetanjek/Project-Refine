@@ -1,0 +1,7 @@
+PR_CharacterSpawnPosition {
+ ID "5C8B5AC7B7023852"
+ components {
+  Hierarchy "{5C8B5AC7AB222870}" {
+  }
+ }
+}

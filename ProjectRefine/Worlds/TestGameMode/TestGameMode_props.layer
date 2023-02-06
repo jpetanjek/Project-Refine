@@ -1,0 +1,26 @@
+$grp GenericEntity : "{AF73AC93750884CA}Prefabs/Structures/Signs/Warnings/SignBendDoubleLeft_01_pole.et" {
+ {
+  coords 47.164 2.001 475.654
+  angleY -170.282
+ }
+ {
+  coords 52.792 2.001 474.113
+  angleY -170.282
+ }
+ {
+  coords 57.167 2.001 472.389
+  angleY -170.282
+ }
+ {
+  coords 29.729 2.001 359.809
+  angleY -170.282
+ }
+ {
+  coords 53.172 2.001 392.294
+  angleY -170.282
+ }
+ {
+  coords 43.418 2.007 438.19
+  angleY -170.282
+ }
+}

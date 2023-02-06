@@ -17,4 +17,19 @@ GenericEntity {
   }
  }
  coords 51.85 2.001 474.124
+ {
+  SCR_SpawnPoint {
+   ID "5C8B44BD3710F47E"
+   components {
+    Hierarchy "{5C8B44BD3A4C588F}" {
+    }
+    SCR_MapDescriptorComponent "{5C8B44BD0D0E90EC}" {
+    }
+    RplComponent "{5C8B44BD03C35F89}" {
+     "Self Insert" 0
+     Streamable Disabled
+    }
+   }
+  }
+ }
 }
