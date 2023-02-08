@@ -12,7 +12,7 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 	protected PR_ActiveMapIconManagerComponent m_MapManager;
 	
 	protected PR_ActiveMapIcon m_Icon;
-	
+
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
