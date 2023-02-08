@@ -31,10 +31,19 @@ class PR_GameModeDisplay : SCR_InfoDisplay
 		
 		if (!gameMode || !playerController || !controlledEntity || !factionManager)
 		{
+			// Show nothing
 			ShowCurrentAreaOverlay(false);
+			ShowStaticText(string.Empty);
 			return;
 		}
 		
+		UpdateAreaOverlay(gameMode, controlledEntity, factionManager);
+
+		UpdateStaticText(gameMode);
+	}
+	
+	void UpdateAreaOverlay(PR_GameMode gameMode, IEntity controlledEntity, FactionManager factionManager)
+	{
 		PR_CaptureArea area = gameMode.GetAreaAtPos(controlledEntity.GetOrigin());
 		
 		if (!area)
@@ -89,8 +98,33 @@ class PR_GameModeDisplay : SCR_InfoDisplay
 		}
 	}
 	
+	void UpdateStaticText(PR_GameMode gameMode)
+	{
+		// Now we just show game mode stage text there
+		
+		PR_EGameModeStage gmStage = gameMode.GetGameModeStage();
+		if (gmStage != PR_EGameModeStage.PREPARATION)
+			ShowStaticText(string.Empty);
+		else
+		{
+			float remainingTime = gameMode.GetPreparationStageRemainingTime();
+			ShowStaticText(string.Format("Preparation stage: %1s", Math.Ceil(remainingTime)));
+		}
+	}
+	
 	void ShowCurrentAreaOverlay(bool show)
 	{
 		widgets.m_CurrentAreaOverlay.SetVisible(show);
+	}
+	
+	void ShowStaticText(string text)
+	{
+		if (text == string.Empty)
+			widgets.m_StaticText.SetVisible(false);
+		else
+		{
+			widgets.m_StaticText.SetText(text);
+			widgets.m_StaticText.SetVisible(true);
+		}
 	}
 }

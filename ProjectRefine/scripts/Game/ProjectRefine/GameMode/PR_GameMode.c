@@ -16,6 +16,8 @@ class PR_GameMode : SCR_BaseGameMode
 {
 	protected static const float GAME_MODE_UPDATE_INTERVAL_S = 1.0;
 	
+	protected static const float PREPARATION_DURATION_S = 30.0;
+	
 	[Attribute("1", UIWidgets.EditBox, desc: "When true, initial faction owners of areas are randomized")]
 	protected bool m_bRandomizeFactions;
 	
@@ -272,7 +274,7 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	void TickGameModePreparation(float timeSlice)
 	{
-		if(m_fTimeElapsed > 30)
+		if(m_fTimeElapsed > PREPARATION_DURATION_S)
 		{
 			RequestNextGameModeStage();
 		}
@@ -449,9 +451,17 @@ class PR_GameMode : SCR_BaseGameMode
 		m_OnGameModeStageChanged.Invoke(m_eGameModeStage);
 	}
 	
+	//-------------------------------------------------------------------------------------------------------------------------------
 	PR_EGameModeStage GetGameModeStage()
 	{
 		return m_eGameModeStage;
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Returns how much more the preparation stage is going to last, in seconds
+	float GetPreparationStageRemainingTime()
+	{
+		return PREPARATION_DURATION_S - m_fTimeElapsed;
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------

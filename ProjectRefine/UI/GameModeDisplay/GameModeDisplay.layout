@@ -8,6 +8,28 @@ FrameWidgetClass {
   }
  }
  {
+  TextWidgetClass "{5C912CB4FF33410F}" {
+   Name "m_StaticText"
+   Slot FrameWidgetSlot "{5C912CB4FF33416A}" {
+    Anchor 0.5 0.2 0.5 0.2
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX 100
+    OffsetRight -100
+    SizeY 30
+    OffsetBottom -30
+    Alignment 0.5 0.5
+    SizeToContent 1
+   }
+   Clipping False
+   Text "Static text"
+   FontProperties FontProperties "{5C912CB425EC7C50}" {
+    Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+    OutlineSize 1
+   }
+  }
   OverlayWidgetClass "{5B3B35C467DC193A}" {
    Name "m_CurrentAreaOverlay"
    Slot FrameWidgetSlot "{5B3B35C467DC1912}" {

@@ -6,6 +6,8 @@ class PR_GameModeDisplayWidgets
 	static const ResourceName s_sLayout = "{92C7C20511C737EE}UI/GameModeDisplay/GameModeDisplay.layout";
 	ResourceName GetLayout() { return s_sLayout; }
 
+	TextWidget m_StaticText;
+
 	OverlayWidget m_CurrentAreaOverlay;
 
 	ImageWidget m_AreaFlagImage;
@@ -18,6 +20,8 @@ class PR_GameModeDisplayWidgets
 
 	bool Init(Widget root)
 	{
+		m_StaticText = TextWidget.Cast(root.FindWidget("m_StaticText"));
+
 		m_CurrentAreaOverlay = OverlayWidget.Cast(root.FindWidget("m_CurrentAreaOverlay"));
 
 		m_AreaFlagImage = ImageWidget.Cast(root.FindWidget("m_CurrentAreaOverlay.HorizontalLayout.Overlay0.m_AreaFlagImage"));
