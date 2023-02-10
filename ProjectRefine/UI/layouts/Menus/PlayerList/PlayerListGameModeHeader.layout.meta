@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{2C4F6D2F7B3AB380}UI/layouts/Menus/PlayerList/FactionScoreHeader.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

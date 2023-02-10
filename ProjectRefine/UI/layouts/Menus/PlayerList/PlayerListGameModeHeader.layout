@@ -1,0 +1,54 @@
+HorizontalLayoutWidgetClass {
+ Name "HorizontalLayout0"
+ Slot OverlayWidgetSlot "{5C951054CC174568}" {
+ }
+ "Z Order" 10
+ components {
+  SCR_WidgetExportRuleRoot "{5C951051CDF0D17B}" {
+   DestinationPath "{3A3D1DF7F52915F3}scripts/Game/ProjectRefine/UI"
+   ScriptAddon "$ProjectRefine:"
+   GenerateFullWidgetPath 0
+   ScriptClassNamePrefix "PR_"
+  }
+  PR_PlayerListGameModeHeaderComponent "{5C95105282B7B82F}" {
+  }
+ }
+ {
+  ImageWidgetClass "{5C951054D5FBD2AC}" {
+   Name "m_FactionFlagImage"
+   Slot LayoutSlot "{5C9510541A9EE112}" {
+    HorizontalAlign 1
+    VerticalAlign 1
+    Padding 500 0 0 0
+   }
+   Texture "{46FB2FB2C2125A3C}UI/Textures/Flags/US-flag-base-3it.edds"
+   Size 80 40
+  }
+  TextWidgetClass "{5C951054691D41E4}" {
+   Name "Text0"
+   Slot LayoutSlot "{5C951054691D41F0}" {
+    Padding 10 0 0 0
+   }
+   Text "Faction score:"
+   "Font Size" 32
+   "Min Font Size" 32
+   "Vertical Alignment" Center
+   FontProperties FontProperties "{5C95105445AF308E}" {
+    Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+   }
+  }
+  TextWidgetClass "{5C951055A64789F2}" {
+   Name "m_FactionScoreText"
+   Slot LayoutSlot "{5C951054691D41F0}" {
+    Padding 10 0 0 0
+   }
+   Text "123"
+   "Font Size" 32
+   "Min Font Size" 32
+   "Vertical Alignment" Center
+   FontProperties FontProperties "{5C95105445AF308E}" {
+    Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+   }
+  }
+ }
+}
