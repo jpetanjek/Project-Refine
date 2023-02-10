@@ -32,7 +32,8 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	{
 		super.OnPostInit(owner);
 		
-		SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
+		if(Replication.IsServer())
+			SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
 		
 		SCR_EditorManagerCore editorManagerCore = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
 		if (editorManagerCore)
@@ -272,10 +273,12 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	override void EOnFixedFrame(IEntity owner, float timeSlice)
 	{
-		// TODO: Only runs on master/server
-		StreamingLogic();
-		if(m_NewMarkers != null)
+		if(m_NewMarkers != null && !m_NewMarkers.IsEmpty())
+		{
+			StreamingLogic();
 			m_NewMarkers.Clear();
+		}
+			
 	}
 	
 	void StreamingLogic()

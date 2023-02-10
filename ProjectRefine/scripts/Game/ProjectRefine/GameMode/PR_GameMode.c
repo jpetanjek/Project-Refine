@@ -46,6 +46,7 @@ class PR_GameMode : SCR_BaseGameMode
 	protected ref array<float> m_aFactionScore = {}; //!! It's synchronized via replication
 	
 	// Game mode stage
+	[RplProp (onRplName: "OnGameModeChangedClient")]
 	protected PR_EGameModeStage m_eGameModeStage = PR_EGameModeStage.PREPARATION;
 	
 	// Events
@@ -268,8 +269,6 @@ class PR_GameMode : SCR_BaseGameMode
 				break;
 			}
 		}
-		
-		Replication.BumpMe();
 	}
 	
 	void TickGameModePreparation(float timeSlice)
@@ -448,6 +447,13 @@ class PR_GameMode : SCR_BaseGameMode
 				break;
 			}
 		}
+		m_OnGameModeStageChanged.Invoke(m_eGameModeStage);
+				
+		Replication.BumpMe();
+	}
+	
+	void OnGameModeChangedClient()
+	{
 		m_OnGameModeStageChanged.Invoke(m_eGameModeStage);
 	}
 	
