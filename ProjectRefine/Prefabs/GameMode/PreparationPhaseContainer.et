@@ -1,0 +1,41 @@
+GenericEntity : "{777C176677786B31}Prefabs/Props/Industrial/CargoContainers/CargoContainer_01/CargoContainer_01_10ft_blue.et" {
+ ID "55DAD3EB5036C0D9"
+ components {
+  MeshObject "{5872F0EB7FA40561}" {
+   Materials {
+    MaterialAssignClass "{5C96D5EA85E7FB01}" {
+     SourceMaterial "Cargo_Decals"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+    MaterialAssignClass "{5C96D5EA85E7FBF7}" {
+     SourceMaterial "Cargo_EXT"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+    MaterialAssignClass "{5C96D5EA85E7FBF8}" {
+     SourceMaterial "Cargo_INT"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+    MaterialAssignClass "{5C96D5EA85E7FBFD}" {
+     SourceMaterial "Cargo_Mlod"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+    MaterialAssignClass "{5C96D5EA85E7FBFF}" {
+     SourceMaterial "Wood"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+   }
+   CastShadow 0
+   CastFarShadow 0
+   RainOccluder 0
+   WetnessOccluder 0
+   ReceiveLight 0
+  }
+  Hierarchy "{5C96D5EBDED714A3}" {
+  }
+  RigidBody "{5872F0EB7DFB5A9D}" {
+   ResponseIndex "Normal"
+  }
+ }
+ coords 0 0 0
+ scale 40
+}
