@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{1D0788F40F11FF04}Prefabs/GameMode/PreparationPhaseContainer.et"
+ Name "{947F4D9721642331}Prefabs/GameMode/PreparationPhaseCollider.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

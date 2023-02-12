@@ -5,4 +5,11 @@ GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
    m_bCapturable 0
   }
  }
+ {
+  PR_PreparationPhaseCollider : "{947F4D9721642331}Prefabs/GameMode/PreparationPhaseCollider.et" {
+   ID "5C992516FD18EDD2"
+   coords 0 -10 0
+   scale 40
+  }
+ }
 }

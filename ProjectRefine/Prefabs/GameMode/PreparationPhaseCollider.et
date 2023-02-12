@@ -1,25 +1,26 @@
-GenericEntity : "{777C176677786B31}Prefabs/Props/Industrial/CargoContainers/CargoContainer_01/CargoContainer_01_10ft_blue.et" {
- ID "55DAD3EB5036C0D9"
+PR_PreparationPhaseCollider {
+ ID "5C98F3A539A78E0D"
  components {
-  MeshObject "{5872F0EB7FA40561}" {
+  MeshObject "{5C98F3A5A2240441}" {
+   Object "{7358739C33A518E5}Assets/Props/Industrial/CargoContainer_01/CargoContainer_01_10ft.xob"
    Materials {
-    MaterialAssignClass "{5C96D5EA85E7FB01}" {
+    MaterialAssignClass "{5C98F3A586B3C00A}" {
      SourceMaterial "Cargo_Decals"
      AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
     }
-    MaterialAssignClass "{5C96D5EA85E7FBF7}" {
+    MaterialAssignClass "{5C98F3A586B3C0FA}" {
      SourceMaterial "Cargo_EXT"
      AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
     }
-    MaterialAssignClass "{5C96D5EA85E7FBF8}" {
+    MaterialAssignClass "{5C98F3A586B3C0E1}" {
      SourceMaterial "Cargo_INT"
      AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
     }
-    MaterialAssignClass "{5C96D5EA85E7FBFD}" {
+    MaterialAssignClass "{5C98F3A586B3C0E3}" {
      SourceMaterial "Cargo_Mlod"
      AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
     }
-    MaterialAssignClass "{5C96D5EA85E7FBFF}" {
+    MaterialAssignClass "{5C98F3A586B3C0E4}" {
      SourceMaterial "Wood"
      AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
     }
@@ -30,12 +31,15 @@ GenericEntity : "{777C176677786B31}Prefabs/Props/Industrial/CargoContainers/Carg
    WetnessOccluder 0
    ReceiveLight 0
   }
-  Hierarchy "{5C96D5EBDED714A3}" {
+  Hierarchy "{5C991EC4DEC06D88}" {
   }
-  RigidBody "{5872F0EB7DFB5A9D}" {
+  RigidBody "{5C98F3A5B8FD6704}" {
+   LayerPreset "Prop"
+   SimState Collision
    ResponseIndex "Normal"
+   ModelGeometry 1
   }
  }
- coords 0 0 0
+ coords 55.979 -10 454.972
  scale 40
 }
