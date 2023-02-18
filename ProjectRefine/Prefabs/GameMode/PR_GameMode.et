@@ -5,12 +5,13 @@ PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
   }
   SCR_GroupsManagerComponent "{5706EC99934496F5}" {
    m_iPlayableGroupFrequencyOffset 100
-   m_iPlayableGroupFrequencyMin 40000
+   m_iPlayableGroupFrequencyMin 31000
+   m_iPlayableGroupFrequencyMax 50000
    m_iCommanderFrequencies {
-    38100 38200 38300 38400
+    52000 52100 52200 52300
    }
    m_iSquadlessFrequencies {
-    39000 39100 39200 39300
+    30500 30600 30700 30800
    }
   }
   SCR_RespawnBriefingComponent "{5B16FDA74EDF5FBC}" {
