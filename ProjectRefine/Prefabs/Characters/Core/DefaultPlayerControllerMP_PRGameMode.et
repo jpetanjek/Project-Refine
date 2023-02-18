@@ -3,6 +3,9 @@ SCR_PlayerController : "{225E51284CC95CFA}Prefabs/Characters/Core/DefaultPlayerC
  components {
   SCR_HUDManagerComponent "{2FDC275D9EBCDB8B}" {
    InfoDisplays {
+    SCR_QuickMenu_BaseDisplay "{5618989F868DFC3A}" {
+     m_bIsEnabled 0
+    }
     PR_GameModeDisplay "{5B3B35CB78C23706}" {
      m_LayoutPath "{92C7C20511C737EE}UI/GameModeDisplay/GameModeDisplay.layout"
     }

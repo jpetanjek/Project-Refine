@@ -4,6 +4,15 @@ PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
   PR_NotificationsGameModeComponent "{5C6D3C8E31A7307F}" {
   }
   SCR_GroupsManagerComponent "{5706EC99934496F5}" {
+   m_iPlayableGroupFrequencyOffset 100
+   m_iPlayableGroupFrequencyMin 31000
+   m_iPlayableGroupFrequencyMax 50000
+   m_iCommanderFrequencies {
+    52000 52100 52200 52300
+   }
+   m_iSquadlessFrequencies {
+    30500 30600 30700 30800
+   }
   }
   SCR_RespawnBriefingComponent "{5B16FDA74EDF5FBC}" {
    m_SimpleBriefingBackground "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
