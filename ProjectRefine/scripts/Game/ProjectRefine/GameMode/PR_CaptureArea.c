@@ -48,11 +48,6 @@ class PR_CaptureArea : ScriptComponent
 	protected SCR_SpawnPoint m_SpawnPoint;
 	protected ref SCR_UIInfo m_SpawnPointUiInfo;
 	
-	// Preparation phase collider
-	PR_PreparationPhaseCollider m_Collider;
-	[RplProp(onRplName: "OnCollisionChanged")]
-	bool m_bColliderDisabled = false;
-	
 	// Variables related to area capture
 	// Some of them are only needed for debugging
 	
@@ -74,26 +69,6 @@ class PR_CaptureArea : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void OnUpdateGameMode(float timeSlice, array<SCR_ChimeraCharacter> charactersInArea)
 	{
-		if(!m_bColliderDisabled)
-		{
-			m_bColliderDisabled = true;
-			
-			IEntity childEntity = GetOwner().GetChildren();
-			
-			// Check for preparation phase collider
-			childEntity = GetOwner().GetChildren();
-			while (childEntity)
-			{
-				PR_PreparationPhaseCollider collider = PR_PreparationPhaseCollider.Cast(childEntity);
-				if (collider)
-				{
-					collider.GetPhysics().Destroy();
-					break;
-				}
-				childEntity = childEntity.GetSibling();
-			}
-		}
-		
 		//PrintFormat("OnUpdateGameMode: %1", timeSlice);
 		m_iCharactersInArea = charactersInArea.Count();
 		
@@ -154,27 +129,6 @@ class PR_CaptureArea : ScriptComponent
 		UpdateCaptureState(timeSlice);
 		
 		Replication.BumpMe();
-	}
-	
-	void OnCollisionChanged()
-	{
-		if(m_bColliderDisabled)
-		{			
-			IEntity childEntity = GetOwner().GetChildren();
-			
-			// Check for preparation phase collider
-			childEntity = GetOwner().GetChildren();
-			while (childEntity)
-			{
-				PR_PreparationPhaseCollider collider = PR_PreparationPhaseCollider.Cast(childEntity);
-				if (collider)
-				{
-					collider.GetPhysics().Destroy();
-					break;
-				}
-				childEntity = childEntity.GetSibling();
-			}
-		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
