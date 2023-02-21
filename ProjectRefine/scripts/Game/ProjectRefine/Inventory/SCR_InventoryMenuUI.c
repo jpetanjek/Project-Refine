@@ -14,7 +14,7 @@ modded class SCR_InventoryMenuUI
 		if (!itemComp)
 			return true;
 		
-		return CanTakeOrDropItem(itemComp.GetOwner());
+		return PR_Inventory.CanTakeOrDropItem(itemComp.GetOwner());
 	}
 	
 	override void Action_Drop()
@@ -24,7 +24,7 @@ modded class SCR_InventoryMenuUI
 		if (m_pSelectedSlotUI)
 			itemComp = m_pSelectedSlotUI.GetInventoryItemComponent();
 		
-		if (itemComp && !CanTakeOrDropItem(itemComp.GetOwner()))
+		if (itemComp && !PR_Inventory.CanTakeOrDropItem(itemComp.GetOwner()))
 		{
 			ResetHighlightsOnAvailableStorages();
 			return;
@@ -36,7 +36,7 @@ modded class SCR_InventoryMenuUI
 		if (m_pFocusedSlotUI)
 			itemComp = m_pFocusedSlotUI.GetInventoryItemComponent();
 		
-		if (itemComp && !CanTakeOrDropItem(itemComp.GetOwner()))
+		if (itemComp && !PR_Inventory.CanTakeOrDropItem(itemComp.GetOwner()))
 		{
 			ResetHighlightsOnAvailableStorages();
 			return;
@@ -44,25 +44,5 @@ modded class SCR_InventoryMenuUI
 		
 		super.Action_Drop();
 		return;
-	}
-	
-	static bool CanTakeOrDropItem(IEntity item)
-	{
-		if (item.FindComponent(BaseRadioComponent))	// Keep your hands off that radio
-			return false;
-		
-		BaseLoadoutClothComponent clothComp = BaseLoadoutClothComponent.Cast(item.FindComponent(BaseLoadoutClothComponent));
-		if (clothComp)
-		{
-			LoadoutAreaType areaType = clothComp.GetAreaType();
-			if (LoadoutBackpackArea.Cast(areaType) ||	// You can take a backpack,
-				LoadoutHeadCoverArea.Cast(areaType) ||	// a hat
-				LoadoutBootsArea.Cast(areaType))		// and boots
-				return true;
-			else
-				return false;	// Keep hands off jackets and pants! We don't do war crimes here!
-		}
-		
-		return true;
 	}
 }
