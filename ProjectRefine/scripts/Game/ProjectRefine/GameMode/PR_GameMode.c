@@ -272,7 +272,7 @@ class PR_GameMode : SCR_BaseGameMode
 			if(m_GroupManager.GetPlayerGroup(playerID) == null)
 			{
 				// Issue notification to player
-				//SCR_NotificationsComponent.SendToPlayer(playerID);
+				SCR_NotificationsComponent.SendToPlayer(playerID, ENotification.PR_NO_GROUP);
 				GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 30000, false, playerID, true);
 			}
 		}
