@@ -55,6 +55,8 @@ class PR_GameMode : SCR_BaseGameMode
 	// Other
 	protected float m_fGameModeUpdateTimer = 0;
 	protected bool m_bCaptureAreaInitSuccess = false;
+	
+	protected SCR_GroupsManagerComponent m_GroupManager;
 
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -224,6 +226,10 @@ class PR_GameMode : SCR_BaseGameMode
 		super.EOnInit(owner);
 		
 		InitDiagMenu();
+		
+		SCR_AIGroup.GetOnPlayerRemoved().Insert(OnGroupPlayerRemoved);
+		
+		m_GroupManager = SCR_GroupsManagerComponent.GetInstance();
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -240,6 +246,46 @@ class PR_GameMode : SCR_BaseGameMode
 		if (m_MainBaseEntity1)
 			m_MainBaseEntity1.Draw(this);
 	}	
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Player not part of group managerment
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	void OnGroupPlayerRemoved(SCR_AIGroup group, int playerID)
+	{
+		GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerID, false);
+	}
+	
+	override void OnPlayerConnected(int playerId)
+	{
+		super.OnPlayerConnected(playerId);
+		GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerId, false);
+	}
+	
+	void OnElapsedNoGroupTime(int playerID, bool kick)
+	{
+		if (!m_GroupManager)
+				return;
+		
+		if(!kick)
+		{
+			if(m_GroupManager.GetPlayerGroup(playerID) == null)
+			{
+				// Issue notification to player
+				SCR_NotificationsComponent.SendToPlayer(playerID, ENotification.PR_NO_GROUP);
+				GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 30000, false, playerID, true);
+			}
+		}
+		else
+		{
+			if(m_GroupManager.GetPlayerGroup(playerID) == null)
+			{
+				// Kick player
+				GetGame().GetPlayerManager().KickPlayer(playerID, PlayerManagerKickReason.KICK, 60);
+			}
+		}
+	}
+
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Game mode update
