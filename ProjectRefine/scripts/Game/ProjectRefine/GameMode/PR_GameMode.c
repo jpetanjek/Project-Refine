@@ -218,6 +218,12 @@ class PR_GameMode : SCR_BaseGameMode
 	{
 		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL))
 			DrawGameModePanel();
+		
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU))
+		{
+			GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
+			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, 0);
+		}
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -740,6 +746,8 @@ class PR_GameMode : SCR_BaseGameMode
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL, "", "Game Mode Panel", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREAS_STATE, "", "Capture Areas State", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_ASSET_SPAWNER_STATE, "", "Asset Spawner State", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, "", "Show Deployment Menu", cheatMenuName);
+		
 	}
 	
 	void DrawGameModePanel()
