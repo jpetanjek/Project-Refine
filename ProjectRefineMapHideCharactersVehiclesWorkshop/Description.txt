@@ -1,0 +1,1 @@
+This mod disables markers for all characters and vehicles in the original LAB6 Map Markers mod.

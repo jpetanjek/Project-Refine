@@ -1,0 +1,8 @@
+Vehicle {
+ ID "BBCBA43A9778AE21"
+ components {
+  PR_ActiveMapIconInformerComponent "{5B0954D49A4D5297}" {
+   Enabled 0
+  }
+ }
+}

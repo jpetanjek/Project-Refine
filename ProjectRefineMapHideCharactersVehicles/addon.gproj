@@ -1,0 +1,8 @@
+GameProject {
+ ID "ProjectRefineMapHideCharactersVehicles"
+ GUID "5CB16584BACB2D5D"
+ TITLE "Project Refine - Map - Hide Characters and Vehicles"
+ Dependencies {
+  "5C5EBCE1BAFE1C01" "58D0FB3206B6F859"
+ }
+}
