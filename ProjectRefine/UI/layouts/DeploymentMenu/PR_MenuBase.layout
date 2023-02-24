@@ -1,0 +1,36 @@
+OverlayWidgetClass : "{BBD087BFC198428A}UI/layouts/WidgetLibrary/BaseElements/WLib_MenuBaseSimple.layout" {
+ {
+  OverlayWidgetClass "{5CB1238335F59F5C}" : "{01FD644AD2B6317D}UI/layouts/Menus/Common/MenuBackground.layout" {
+   Name "MenuBackground0"
+   Slot OverlayWidgetSlot "{5CB1238335F59FB2}" {
+   }
+  }
+  SizeLayoutWidgetClass "{589F049780D13CA5}" {
+   Prefab "{589F049780D13CA5}"
+   Slot OverlayWidgetSlot "{589EF8CE4D84EB10}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 30 30 30 30
+   }
+   AllowWidthOverride 0
+   AllowHeightOverride 0
+   {
+    VerticalLayoutWidgetClass "{589F049780D13CA3}" {
+     Prefab "{589F049780D13CA3}"
+     {
+      SizeLayoutWidgetClass "{589F049780D13CA2}" {
+       Prefab "{589F049780D13CA2}"
+       "Is Visible" 0
+      }
+      SizeLayoutWidgetClass "{589F0497E391441C}" {
+       Prefab "{589F0497E391441C}"
+       Slot LayoutSlot "{589F0497E391442C}" {
+       }
+       HeightOverride 60
+      }
+     }
+    }
+   }
+  }
+ }
+}

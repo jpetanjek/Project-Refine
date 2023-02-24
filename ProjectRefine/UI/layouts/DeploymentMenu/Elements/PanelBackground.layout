@@ -1,0 +1,6 @@
+ImageWidgetClass {
+ Name "rootFrame"
+ Slot LayoutSlot "{5CB1544DAC1FAC4C}" {
+ }
+ Color 0 0 0 0.392
+}

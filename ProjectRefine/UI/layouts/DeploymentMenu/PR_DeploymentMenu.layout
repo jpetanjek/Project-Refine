@@ -1,0 +1,165 @@
+OverlayWidgetClass : "{F9150C6BAB374AB0}UI/layouts/DeploymentMenu/PR_MenuBase.layout" {
+ Name "root"
+ {
+  SizeLayoutWidgetClass "{589F049780D13CA5}" {
+   Prefab "{589F049780D13CA5}"
+   {
+    VerticalLayoutWidgetClass "{589F049780D13CA3}" {
+     Prefab "{589F049780D13CA3}"
+     {
+      OverlayWidgetClass "{589F0497F7A00346}" {
+       Prefab "{589F0497F7A00346}"
+       {
+        VerticalLayoutWidgetClass "{5CB12387BA17EE9F}" {
+         Name "VerticalLayout"
+         Slot OverlayWidgetSlot "{5CB12387BA17EEF9}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         {
+          OverlayWidgetClass "{5CB123878B6B7AE1}" {
+           Name "Top"
+           Slot LayoutSlot "{5CB123878B6B7AFD}" {
+           }
+           {
+            ImageWidgetClass "{5CB12388F423DC95}" : "{287B17C28CCECC1E}UI/layouts/DeploymentMenu/Elements/PanelBackground.layout" {
+             Name "rootFrame0"
+             Slot OverlayWidgetSlot "{5CB12388F423DCE7}" {
+             }
+            }
+            TextWidgetClass "{5CB12387919F2C03}" {
+             Name "Text0"
+             Slot OverlayWidgetSlot "{5CB12387919F2C19}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             Text "Team Score Team Score"
+             "Font Size" 30
+             "Min Font Size" 30
+             "Horizontal Alignment" Center
+            }
+           }
+          }
+          HorizontalLayoutWidgetClass "{5CB12387173B3EF1}" {
+           Name "Main"
+           Slot LayoutSlot "{5CB12387173B3ED7}" {
+            Padding 0 10 0 0
+            SizeMode Fill
+           }
+           {
+            OverlayWidgetClass "{5CB123876845EEF5}" {
+             Name "Map"
+             Slot LayoutSlot "{5CB123876845EEC1}" {
+              Padding 0 0 10 0
+              SizeMode Fill
+             }
+             {
+              ImageWidgetClass "{5CB12388FEF76023}" : "{287B17C28CCECC1E}UI/layouts/DeploymentMenu/Elements/PanelBackground.layout" {
+               Name "rootFrame0"
+               Slot OverlayWidgetSlot "{5CB12388FEF7603C}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+               }
+              }
+              TextWidgetClass "{5CB1238962E5018B}" {
+               Name "Text0"
+               Slot OverlayWidgetSlot "{5CB1238962E501EE}" {
+               }
+               Text "Map"
+              }
+             }
+            }
+            OverlayWidgetClass "{5CB1544D8A01B2D7}" {
+             Name "Right"
+             Slot LayoutSlot "{5CB1544D8A01B322}" {
+             }
+             {
+              ImageWidgetClass "{5CB1544DF67CD526}" : "{287B17C28CCECC1E}UI/layouts/DeploymentMenu/Elements/PanelBackground.layout" {
+               Name "rootFrame0"
+               Slot OverlayWidgetSlot "{5CB1544DF67CD53D}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+               }
+              }
+              HorizontalLayoutWidgetClass "{5CB1544D8CCD1685}" {
+               Name "HorizontalLayout0"
+               Slot OverlayWidgetSlot "{5CB1544D8CCD169F}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+               }
+               {
+                SizeLayoutWidgetClass "{5CB12386AAF139B8}" {
+                 Name "RoleSelection"
+                 Slot LayoutSlot "{5CB12386AAF13995}" {
+                  Padding 0 0 10 0
+                 }
+                 AllowWidthOverride 1
+                 WidthOverride 300
+                 {
+                  VerticalLayoutWidgetClass "{5CB1238627B0930E}" {
+                   Name "VerticalLayout0"
+                   Slot AlignableSlot "{5CB123862D353FD8}" {
+                    HorizontalAlign 3
+                    VerticalAlign 3
+                   }
+                   {
+                    TextWidgetClass "{5CB12386D69B8627}" {
+                     Name "Text0"
+                     Slot LayoutSlot "{5CB1544DB3445C45}" {
+                     }
+                     Text "Role selection"
+                    }
+                    VerticalLayoutWidgetClass "{5CB12386922384B9}" {
+                     Name "m_RoleListLayout"
+                     Slot LayoutSlot "{5CB1544DB3445C57}" {
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+                SizeLayoutWidgetClass "{5CB123865C6013DB}" {
+                 Name "Groups"
+                 Slot LayoutSlot "{5CB123865C601434}" {
+                 }
+                 AllowWidthOverride 1
+                 WidthOverride 500
+                 {
+                  VerticalLayoutWidgetClass "{5CB12388A4524408}" {
+                   Name "VerticalLayout0"
+                   Slot AlignableSlot "{5CB12388A4524464}" {
+                    HorizontalAlign 3
+                    VerticalAlign 3
+                   }
+                   {
+                    TextWidgetClass "{5CB12388B6814180}" {
+                     Name "Text0"
+                     Slot LayoutSlot "{5CB12388B681419A}" {
+                     }
+                     Text "Group List"
+                    }
+                    VerticalLayoutWidgetClass "{5CB12388AB64936E}" {
+                     Name "m_GroupListLayout"
+                     Slot LayoutSlot "{5CB12388AB649345}" {
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
