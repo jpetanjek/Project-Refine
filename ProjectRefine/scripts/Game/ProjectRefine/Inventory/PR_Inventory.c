@@ -10,12 +10,11 @@ class PR_Inventory
 		if (clothComp)
 		{
 			LoadoutAreaType areaType = clothComp.GetAreaType();
-			if (LoadoutBackpackArea.Cast(areaType) ||	// You can take a backpack,
-				LoadoutHeadCoverArea.Cast(areaType) ||	// a hat
-				LoadoutBootsArea.Cast(areaType))		// and boots
-				return true;
+			if (LoadoutJacketArea.Cast(areaType) ||
+				LoadoutPantsArea.Cast(areaType))		// Keep hands off jackets and pants! We don't do war crimes here!
+				return false;
 			else
-				return false;	// Keep hands off jackets and pants! We don't do war crimes here!
+				return true;
 		}
 		
 		return true;
