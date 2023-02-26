@@ -88,37 +88,12 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                 VerticalAlign 3
                }
                {
-                SizeLayoutWidgetClass "{5CB12386AAF139B8}" {
-                 Name "RoleSelection"
+                SizeLayoutWidgetClass "{5CB4D27B643D98DF}" : "{38EF0B55AA92A5C4}UI/DeploymentMenu/RoleList.layout" {
+                 Name "m_RoleList"
                  Slot LayoutSlot "{5CB12386AAF13995}" {
-                  Padding 0 0 10 0
-                 }
-                 AllowWidthOverride 1
-                 WidthOverride 300
-                 {
-                  VerticalLayoutWidgetClass "{5CB1238627B0930E}" {
-                   Name "VerticalLayout0"
-                   Slot AlignableSlot "{5CB123862D353FD8}" {
-                    HorizontalAlign 3
-                    VerticalAlign 3
-                   }
-                   {
-                    TextWidgetClass "{5CB12386D69B8627}" {
-                     Name "Text0"
-                     Slot LayoutSlot "{5CB1544DB3445C45}" {
-                     }
-                     Text "Role selection"
-                    }
-                    VerticalLayoutWidgetClass "{5CB12386922384B9}" {
-                     Name "m_RoleListLayout"
-                     Slot LayoutSlot "{5CB1544DB3445C57}" {
-                     }
-                    }
-                   }
-                  }
                  }
                 }
-                SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMenu/PR_GroupList.layout" {
+                SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMenu/GroupList.layout" {
                  Name "m_GroupList"
                  Slot LayoutSlot "{5CB123865C601434}" {
                  }
