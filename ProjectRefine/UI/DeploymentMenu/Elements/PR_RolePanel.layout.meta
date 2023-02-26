@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{D734BA5F9FB4DC5A}UI/DeploymentMenu/Elements/PR_RolePanel.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

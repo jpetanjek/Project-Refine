@@ -1,0 +1,141 @@
+ButtonWidgetClass {
+ Name "RolePanel"
+ Slot LayoutSlot "{5CB4B168EA093526}" {
+ }
+ Color 0 0 0 0
+ {
+  SizeLayoutWidgetClass "{5CB4B168359E684D}" {
+   Name "SizeConstraint"
+   Slot ButtonWidgetSlot "{5CB4B168359E6815}" {
+   }
+   AllowHeightOverride 1
+   HeightOverride 108
+   {
+    OverlayWidgetClass "{5CB4B1646782D14F}" {
+     Name "LineContent"
+     Slot AlignableSlot "{5CB4B16467816F2E}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      VerticalLayoutWidgetClass "{5CB4B164288E5CFA}" {
+       Name "LineElements"
+       Slot OverlayWidgetSlot "{5CB4B164288E5C91}" {
+       }
+       {
+        VerticalLayoutWidgetClass "{5CB4B1663DDC6228}" {
+         Name "NameOverlay"
+         Slot LayoutSlot {
+         }
+         {
+          SizeLayoutWidgetClass "{5CB4B1662EAE33A5}" {
+           Name "padding"
+           Slot LayoutSlot "{5712E90CF66CA76F}" {
+           }
+           WidthOverride 0
+           AllowHeightOverride 1
+           HeightOverride 2
+          }
+          TextWidgetClass "{5CB4B165914B410F}" {
+           Name "m_RoleName"
+           Slot LayoutSlot "{5CB4B165914B4127}" {
+            HorizontalAlign 0
+           }
+           Text "Role Name"
+          }
+         }
+        }
+        VerticalLayoutWidgetClass "{5CB4B1661D2150A8}" {
+         Name "PriparyOverlay"
+         Slot LayoutSlot "{5CB4B1661D2150B5}" {
+         }
+         {
+          SizeLayoutWidgetClass "{5CB4B167E8FC5EB3}" {
+           Name "padding"
+           Slot LayoutSlot "{5712E90CF66CA76F}" {
+           }
+           WidthOverride 0
+           AllowHeightOverride 1
+           HeightOverride 2
+          }
+          TextWidgetClass "{5CB4B16594AD1516}" {
+           Name "m_RolePrimary"
+           Slot LayoutSlot "{5CB4B16594AD1534}" {
+            HorizontalAlign 0
+           }
+           Text "Primary Weapon"
+          }
+         }
+        }
+        VerticalLayoutWidgetClass "{5CB4B1661CA6C9F0}" {
+         Name "SecondaryOverlay"
+         Slot LayoutSlot "{5CB4B1661CA6C990}" {
+         }
+         {
+          SizeLayoutWidgetClass "{5CB4B167E1911488}" {
+           Name "padding"
+           Slot LayoutSlot "{5712E90CF66CA76F}" {
+           }
+           WidthOverride 0
+           AllowHeightOverride 1
+           HeightOverride 2
+          }
+          TextWidgetClass "{5CB4B1656D49EE97}" {
+           Name "m_RoleSecondary"
+           Slot LayoutSlot "{5CB4B1656D49EEB7}" {
+            HorizontalAlign 0
+           }
+           Text "Secondary Weapon"
+          }
+         }
+        }
+        VerticalLayoutWidgetClass "{5CB4B16612977907}" {
+         Name "DescriptionOverlay"
+         Slot LayoutSlot {
+         }
+         {
+          SizeLayoutWidgetClass "{5CB4B167F9382A5B}" {
+           Name "padding"
+           Slot LayoutSlot "{5712E90CF66CA76F}" {
+           }
+           WidthOverride 0
+           AllowHeightOverride 1
+           HeightOverride 2
+          }
+          TextWidgetClass "{5CB4B16567BEC816}" {
+           Name "m_RoleDescription"
+           Slot LayoutSlot "{5CB4B16567BECBCA}" {
+            HorizontalAlign 0
+           }
+           Text "Description"
+          }
+         }
+        }
+       }
+      }
+      ImageWidgetClass "{5CB4B1646782D14E}" {
+       Name "LineBackground"
+       Slot OverlayWidgetSlot "{56A6DDC5A5263FF2}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Opacity 0.8
+       Color 0 0 0 1
+      }
+      PanelWidgetClass "{5CB4B1644CFEF758}" {
+       Name "LineBorder"
+       Slot OverlayWidgetSlot "{56A6DDC368941F20}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding 0 0 0 0
+       }
+       Opacity 0
+       Color 0.761 0.392 0.078 1
+       style outline_2px
+      }
+     }
+    }
+   }
+  }
+ }
+}
