@@ -1,8 +1,39 @@
 OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
  Name "root"
+ components {
+  SCR_WidgetExportRuleRoot "{5CB4D25F83D2EBA9}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+  }
+ }
  {
+  FrameWidgetClass "{5CB4D25E7912B0AC}" : "{0651202E9F2646DE}UI/Map/Map.layout" {
+   Name "m_MapFrame"
+   Slot OverlayWidgetSlot "{5CB4D25E7912B0BC}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   Clipping True
+   components {
+    SCR_WidgetExportRule "{5CB4D25FAF736B00}" {
+     ExportChildWidgets 0
+    }
+   }
+  }
+  OverlayWidgetClass "{5CB1238335F59F5C}" {
+   Prefab "{5CB1238335F59F5C}"
+   "Is Visible" 0
+  }
   SizeLayoutWidgetClass "{589F049780D13CA5}" {
    Prefab "{589F049780D13CA5}"
+   Slot OverlayWidgetSlot "{589EF8CE4D84EB10}" {
+    HorizontalAlign 1
+    VerticalAlign 1
+    Padding 30 30 30 30
+   }
+   AllowWidthOverride 1
+   WidthOverride 1892
+   AllowHeightOverride 1
+   HeightOverride 1057
    {
     VerticalLayoutWidgetClass "{589F049780D13CA3}" {
      Prefab "{589F049780D13CA3}"
@@ -25,6 +56,8 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
             ImageWidgetClass "{5CB12388F423DC95}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
              Name "rootFrame0"
              Slot OverlayWidgetSlot "{5CB12388F423DCE7}" {
+              HorizontalAlign 3
+              VerticalAlign 3
              }
             }
             TextWidgetClass "{5CB12387919F2C03}" {
@@ -48,25 +81,10 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
            }
            {
             OverlayWidgetClass "{5CB123876845EEF5}" {
-             Name "Map"
+             Name "m_MapInteractionArea"
              Slot LayoutSlot "{5CB123876845EEC1}" {
               Padding 0 0 10 0
               SizeMode Fill
-             }
-             {
-              ImageWidgetClass "{5CB12388FEF76023}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
-               Name "rootFrame0"
-               Slot OverlayWidgetSlot "{5CB12388FEF7603C}" {
-                HorizontalAlign 3
-                VerticalAlign 3
-               }
-              }
-              TextWidgetClass "{5CB1238962E5018B}" {
-               Name "Text0"
-               Slot OverlayWidgetSlot "{5CB1238962E501EE}" {
-               }
-               Text "Map"
-              }
              }
             }
             OverlayWidgetClass "{5CB1544D8A01B2D7}" {
@@ -92,10 +110,20 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                  Name "m_RoleList"
                  Slot LayoutSlot "{5CB12386AAF13995}" {
                  }
+                 components {
+                  SCR_WidgetExportRule "{5CB4D25FDA014E53}" {
+                   ExportChildWidgets 0
+                  }
+                 }
                 }
                 SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMenu/GroupList.layout" {
                  Name "m_GroupList"
                  Slot LayoutSlot "{5CB123865C601434}" {
+                 }
+                 components {
+                  SCR_WidgetExportRule "{5CB4D25FDC0A77CA}" {
+                   ExportChildWidgets 0
+                  }
                  }
                 }
                }
