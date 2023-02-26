@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{D07ED8A849945CCE}UI/DeploymentMenu/Elements/ButtonEmpty.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

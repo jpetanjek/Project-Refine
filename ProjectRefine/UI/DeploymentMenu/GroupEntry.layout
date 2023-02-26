@@ -1,0 +1,186 @@
+OverlayWidgetClass {
+ Name "GroupEntry"
+ Slot LayoutSlot "{5CB37851132A8BEC}" {
+ }
+ components {
+  PR_GroupEntryComponent "{5CB40A871BEE2646}" {
+  }
+  SCR_WidgetExportRuleRoot "{5CB40A871888BDA0}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+  }
+ }
+ {
+  VerticalLayoutWidgetClass "{5CB378511F9D7C22}" {
+   Name "VerticalLayout0"
+   Slot OverlayWidgetSlot "{5CB378511F9D7C3C}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   {
+    SizeLayoutWidgetClass "{5CB3785160EE51CE}" {
+     Name "HeaderSize"
+     Slot LayoutSlot "{5CB3785160EE5224}" {
+     }
+     AllowHeightOverride 1
+     HeightOverride 40
+     {
+      HorizontalLayoutWidgetClass "{5CB378528BF6BC41}" {
+       Name "HorizontalLayout0"
+       Slot AlignableSlot "{5CB378528BF6BCA2}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        TextWidgetClass "{5CB37852EB937CAE}" {
+         Name "m_GroupNameText"
+         Slot LayoutSlot "{5CB37852EB937C84}" {
+          Padding 10 0 0 0
+          SizeMode Fill
+         }
+         Text "Group Name"
+         "Font Size" 18
+         "Min Font Size" 18
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CB37852F5C50444}" {
+          Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+         }
+        }
+        ButtonWidgetClass "{5CB37853C25A4D81}" : "{D07ED8A849945CCE}UI/DeploymentMenu/Elements/ButtonEmpty.layout" {
+         Name "m_ExpandButton"
+         Slot LayoutSlot "{5CB378557E695658}" {
+         }
+         components {
+          SCR_ModularButtonComponent "{5CB3785628029158}" {
+           m_aEffects {
+            SCR_ButtonEffectVisibility "{5CB3785C83440E7D}" {
+             m_eEvents 24576
+             m_sWidgetName "Up"
+             m_bToggledOff 1
+            }
+            SCR_ButtonEffectVisibility "{5CB3785CF320B65E}" {
+             m_eEvents 24576
+             m_sWidgetName "Down"
+             m_bToggledOn 1
+            }
+           }
+           m_bCanBeToggled 1
+          }
+         }
+         {
+          SizeLayoutWidgetClass "{5CB37853F653B731}" {
+           Prefab "{5CB37853F653B731}"
+           {
+            OverlayWidgetClass "{5CB37853F653B73F}" {
+             Prefab "{5CB37853F653B73F}"
+             {
+              ImageWidgetClass "{5CB3785346528DF7}" {
+               Name "Up"
+               Slot OverlayWidgetSlot "{5CB3785346528DC3}" {
+               }
+               "Z Order" 10
+               Clipping False
+               Texture "{A47B084D863DD70A}UI/Textures/WidgetLibrary/ButtonSortArrow_16px_UI.edds"
+               Size 16 16
+              }
+              ImageWidgetClass "{5CB3785CA3504C53}" {
+               Name "Down"
+               Slot OverlayWidgetSlot "{5CB3785346528DC3}" {
+               }
+               "Z Order" 11
+               Clipping False
+               Rotation 180
+               Texture "{A47B084D863DD70A}UI/Textures/WidgetLibrary/ButtonSortArrow_16px_UI.edds"
+               Size 16 16
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        SizeLayoutWidgetClass "{5CB3785233CE8B45}" {
+         Name "PlayerCount"
+         Slot LayoutSlot "{5CB3785233CE8BAE}" {
+         }
+         AllowWidthOverride 1
+         WidthOverride 60
+         {
+          TextWidgetClass "{5CB378522107799D}" {
+           Name "m_PlayerCountText"
+           Slot AlignableSlot "{5CB3785233DABE8C}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           Text "10/10"
+           "Font Size" 18
+           "Min Font Size" 18
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+           FontProperties FontProperties "{5CB37852F5C50444}" {
+            Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+           }
+          }
+         }
+        }
+        ButtonWidgetClass "{5CB37852788FFEC1}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
+         Name "m_JoinButton"
+         Slot LayoutSlot "{5CB378557E695658}" {
+         }
+         {
+          SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+           Prefab "{5CB37856F029CE83}"
+           {
+            OverlayWidgetClass "{5CB378554B951C94}" {
+             Prefab "{5CB378554B951C94}"
+             {
+              TextWidgetClass "{5CB378555DCCD4DC}" {
+               Prefab "{5CB378555DCCD4DC}"
+               Text "JOIN"
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+    VerticalLayoutWidgetClass "{5CB40A86A33804AD}" {
+     Name "m_GroupMemberList"
+     Slot LayoutSlot "{5CB40A86A33804B9}" {
+      Padding 50 0 0 0
+     }
+     components {
+      SCR_WidgetExportRule "{5CB40A8644DD7B34}" {
+       ExportChildWidgets 0
+      }
+     }
+     {
+      SizeLayoutWidgetClass "{5CB40A85F3EDFD7F}" : "{045345094C0BD150}UI/DeploymentMenu/GroupMemberLine.layout" {
+       Name "SizeLayout00"
+       Slot LayoutSlot "{5CB40A8688EE0E08}" {
+       }
+      }
+      SizeLayoutWidgetClass "{5CB40A85F00A2BF5}" : "{045345094C0BD150}UI/DeploymentMenu/GroupMemberLine.layout" {
+       Name "SizeLayout01"
+       Slot LayoutSlot "{5CB40A8688EE0E08}" {
+       }
+      }
+      SizeLayoutWidgetClass "{5CB40A85F028959F}" : "{045345094C0BD150}UI/DeploymentMenu/GroupMemberLine.layout" {
+       Name "SizeLayout02"
+       Slot LayoutSlot "{5CB40A8688EE0E08}" {
+       }
+      }
+      SizeLayoutWidgetClass "{5CB40A85F0451BFB}" : "{045345094C0BD150}UI/DeploymentMenu/GroupMemberLine.layout" {
+       Name "SizeLayout03"
+       Slot LayoutSlot "{5CB40A8688EE0E08}" {
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

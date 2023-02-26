@@ -1,4 +1,4 @@
-OverlayWidgetClass : "{F9150C6BAB374AB0}UI/layouts/DeploymentMenu/PR_MenuBase.layout" {
+OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
  Name "root"
  {
   SizeLayoutWidgetClass "{589F049780D13CA5}" {
@@ -22,7 +22,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/layouts/DeploymentMenu/PR_MenuBase.la
            Slot LayoutSlot "{5CB123878B6B7AFD}" {
            }
            {
-            ImageWidgetClass "{5CB12388F423DC95}" : "{287B17C28CCECC1E}UI/layouts/DeploymentMenu/Elements/PanelBackground.layout" {
+            ImageWidgetClass "{5CB12388F423DC95}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
              Name "rootFrame0"
              Slot OverlayWidgetSlot "{5CB12388F423DCE7}" {
              }
@@ -54,7 +54,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/layouts/DeploymentMenu/PR_MenuBase.la
               SizeMode Fill
              }
              {
-              ImageWidgetClass "{5CB12388FEF76023}" : "{287B17C28CCECC1E}UI/layouts/DeploymentMenu/Elements/PanelBackground.layout" {
+              ImageWidgetClass "{5CB12388FEF76023}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
                Name "rootFrame0"
                Slot OverlayWidgetSlot "{5CB12388FEF7603C}" {
                 HorizontalAlign 3
@@ -74,7 +74,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/layouts/DeploymentMenu/PR_MenuBase.la
              Slot LayoutSlot "{5CB1544D8A01B322}" {
              }
              {
-              ImageWidgetClass "{5CB1544DF67CD526}" : "{287B17C28CCECC1E}UI/layouts/DeploymentMenu/Elements/PanelBackground.layout" {
+              ImageWidgetClass "{5CB1544DF67CD526}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
                Name "rootFrame0"
                Slot OverlayWidgetSlot "{5CB1544DF67CD53D}" {
                 HorizontalAlign 3
@@ -118,33 +118,9 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/layouts/DeploymentMenu/PR_MenuBase.la
                   }
                  }
                 }
-                SizeLayoutWidgetClass "{5CB123865C6013DB}" {
-                 Name "Groups"
+                SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMenu/PR_GroupList.layout" {
+                 Name "m_GroupList"
                  Slot LayoutSlot "{5CB123865C601434}" {
-                 }
-                 AllowWidthOverride 1
-                 WidthOverride 500
-                 {
-                  VerticalLayoutWidgetClass "{5CB12388A4524408}" {
-                   Name "VerticalLayout0"
-                   Slot AlignableSlot "{5CB12388A4524464}" {
-                    HorizontalAlign 3
-                    VerticalAlign 3
-                   }
-                   {
-                    TextWidgetClass "{5CB12388B6814180}" {
-                     Name "Text0"
-                     Slot LayoutSlot "{5CB12388B681419A}" {
-                     }
-                     Text "Group List"
-                    }
-                    VerticalLayoutWidgetClass "{5CB12388AB64936E}" {
-                     Name "m_GroupListLayout"
-                     Slot LayoutSlot "{5CB12388AB649345}" {
-                     }
-                    }
-                   }
-                  }
                  }
                 }
                }

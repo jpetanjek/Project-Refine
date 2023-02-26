@@ -1,0 +1,61 @@
+SizeLayoutWidgetClass {
+ Name "GroupMemberLine"
+ Slot LayoutSlot "{5CB40A8688EE0E08}" {
+ }
+ components {
+  SCR_WidgetExportRuleRoot "{5CB40A85C1A7760C}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+  }
+  PR_GroupMemberLineComponent "{5CB40A85216C3111}" {
+  }
+ }
+ AllowHeightOverride 1
+ HeightOverride 32
+ {
+  HorizontalLayoutWidgetClass "{5CB40A869C3E017F}" {
+   Name "HorizontalLayout0"
+   Slot AlignableSlot "{5CB40A869C3E014C}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   {
+    TextWidgetClass "{5CB40A8616A17784}" {
+     Name "m_PlayerNameText"
+     Slot LayoutSlot "{5CB40A85FAAD2974}" {
+      SizeMode Fill
+     }
+     Text "Player Name"
+     "Font Size" 16
+     "Min Font Size" 16
+     "Vertical Alignment" Center
+     FontProperties FontProperties "{5CB40A8632AF0342}" {
+      Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+     }
+    }
+    SizeLayoutWidgetClass "{5CB40A86EA8A843C}" {
+     Name "RoleName"
+     Slot LayoutSlot "{5CB40A86EA8A8417}" {
+     }
+     AllowWidthOverride 1
+     WidthOverride 170
+     {
+      TextWidgetClass "{5CB40A862D0D43FC}" {
+       Name "m_RoleNameText"
+       Slot AlignableSlot "{5CB40A862D0D43CB}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Text "Role Name"
+       "Font Size" 16
+       "Min Font Size" 16
+       "Vertical Alignment" Center
+       FontProperties FontProperties "{5CB40A8632AF0342}" {
+        Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

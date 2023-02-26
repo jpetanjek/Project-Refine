@@ -1,0 +1,77 @@
+SizeLayoutWidgetClass {
+ Name "GroupList"
+ Slot LayoutSlot "{5CB123865C601434}" {
+ }
+ components {
+  PR_GroupListComponent "{5CB378545F09D55F}" {
+  }
+  SCR_WidgetExportRuleRoot "{5CB37855B45410C4}" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+   ScriptAddon "$ProjectRefine:"
+   ScriptClassNamePrefix "PR_"
+  }
+ }
+ AllowWidthOverride 1
+ WidthOverride 500
+ {
+  VerticalLayoutWidgetClass "{5CB12388A4524408}" {
+   Name "VerticalLayout0"
+   Slot AlignableSlot "{5CB12388A4524464}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   {
+    TextWidgetClass "{5CB12388B6814180}" {
+     Name "Text0"
+     Slot LayoutSlot "{5CB12388B681419A}" {
+     }
+     Text "Group List"
+    }
+    VerticalLayoutWidgetClass "{5CB12388AB64936E}" {
+     Name "m_GroupListLayout"
+     Slot LayoutSlot "{5CB12388AB649345}" {
+      SizeMode Fill
+     }
+     {
+      OverlayWidgetClass "{5CB40A873E752BA7}" : "{E5B94A03AF210305}UI/DeploymentMenu/GroupEntry.layout" {
+       Name "GroupEntry0"
+       Slot LayoutSlot "{5CB37851132A8BEC}" {
+       }
+      }
+      OverlayWidgetClass "{5CB40A8704CDA2B6}" : "{E5B94A03AF210305}UI/DeploymentMenu/GroupEntry.layout" {
+       Name "GroupEntry1"
+       Slot LayoutSlot "{5CB37851132A8BEC}" {
+       }
+      }
+      OverlayWidgetClass "{5CB40A870453D47A}" : "{E5B94A03AF210305}UI/DeploymentMenu/GroupEntry.layout" {
+       Name "GroupEntry6"
+       Slot LayoutSlot "{5CB37851132A8BEC}" {
+       }
+      }
+     }
+    }
+    ButtonWidgetClass "{5CB378508D921CCA}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
+     Name "m_CreateGroupButton"
+     Slot LayoutSlot "{5CB378557E695658}" {
+     }
+     {
+      SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+       Prefab "{5CB37856F029CE83}"
+       {
+        OverlayWidgetClass "{5CB378554B951C94}" {
+         Prefab "{5CB378554B951C94}"
+         {
+          TextWidgetClass "{5CB378555DCCD4DC}" {
+           Prefab "{5CB378555DCCD4DC}"
+           Text "Create Group"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
