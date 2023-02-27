@@ -4,21 +4,46 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	
 	protected ref PR_DeploymentMenuWidgets widgets = new PR_DeploymentMenuWidgets();
 	
+	
+	protected PR_MapUiElementsModule m_MapUiElementsModule;
+	
 	override void OnMenuOpen()
 	{
 		super.OnMenuOpen();
 		
 		widgets.Init(GetRootWidget());
 		
-		SCR_MapEntity mapEntity = SCR_MapEntity.GetMapInstance();
+		SCR_MapEntity.GetOnMapOpen().Insert(OnMapOpen);
 		
+		// Open map
+		SCR_MapEntity mapEntity = SCR_MapEntity.GetMapInstance();
 		MapConfiguration mapConfigFullscreen = mapEntity.SetupMapConfig(EMapEntityMode.FULLSCREEN, MAP_CONFIG, GetRootWidget() );
 		mapEntity.OpenMap(mapConfigFullscreen);
+	}
+	
+	// Called by SCR_MapEntity after map has been opened and initialized. Here we can access map modules.
+	protected void OnMapOpen(MapConfiguration mapConfig)
+	{
+		// We need to call it only once
+		SCR_MapEntity.GetOnMapOpen().Remove(OnMapOpen);
+		
+		m_MapUiElementsModule = PR_MapUiElementsModule.Cast(SCR_MapEntity.GetMapInstance().GetMapModule(PR_MapUiElementsModule));
+		
+		// Tests
+		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
+		array<PR_CaptureArea> areas = gm.GetCaptureAreas();
+		
+		foreach (PR_CaptureArea a : areas)
+		{
+			m_MapUiElementsModule.CreateUiElement("{F2689BBD0CAFEB7B}UI/DeploymentMenu/TestMapUiElement.layout", a.GetOwner().GetOrigin());
+		}
 	}
 	
 	override void OnMenuClose()
 	{
 		super.OnMenuClose();
+		
+		SCR_MapEntity.GetOnMapOpen().Remove(OnMapOpen);
 		
 		SCR_MapEntity mapEntity = SCR_MapEntity.GetMapInstance();
 		mapEntity.CloseMap();
