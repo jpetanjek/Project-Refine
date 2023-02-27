@@ -31,11 +31,11 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		
 		// Tests
 		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
-		array<PR_CaptureArea> areas = gm.GetCaptureAreas();
+		array<PR_SpawnPoint> spawnPoints = PR_SpawnPoint.GetAll();
 		
-		foreach (PR_CaptureArea a : areas)
+		foreach (PR_SpawnPoint sp : spawnPoints)
 		{
-			m_MapUiElementsModule.CreateUiElement("{F2689BBD0CAFEB7B}UI/DeploymentMenu/TestMapUiElement.layout", a.GetOwner().GetOrigin());
+			m_MapUiElementsModule.CreateUiElement("{F2689BBD0CAFEB7B}UI/DeploymentMenu/TestMapUiElement.layout", sp.GetOwner().GetOrigin());
 		}
 	}
 	

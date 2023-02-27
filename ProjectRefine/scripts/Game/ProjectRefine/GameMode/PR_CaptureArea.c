@@ -45,8 +45,8 @@ class PR_CaptureArea : ScriptComponent
 	protected ref array<PR_AssetSpawner> m_aAssetSpawners = {};
 	
 	// Spawn point attached to this capture area
-	protected SCR_SpawnPoint m_SpawnPoint;
-	protected ref SCR_UIInfo m_SpawnPointUiInfo;
+	protected SCR_SpawnPoint m_SpawnPoint; // todo delete later
+	protected ref SCR_UIInfo m_SpawnPointUiInfo; // todo delete later
 	
 	// Variables related to area capture
 	// Some of them are only needed for debugging
