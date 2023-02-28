@@ -66,11 +66,7 @@ GenericEntity TestCreateDeleteSpawnPoint {
  "		}"\
  "		"\
  "		GetGame().GetCallqueue().CallLater(OnTimer, 2000, false);"\
- "	}"\
- "	"\
- "	"\
- "	float m_fFixedFrameAcc;"\
- "	int m_iFixedFrameCounter;"
+ "	}"
  constructor ""\
  "		Activate();"\
  "		SetEventMask(EntityEvent.SIMULATE | EntityEvent.INIT);"\
