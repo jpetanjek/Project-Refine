@@ -55,9 +55,9 @@ GenericEntity TestCreateDeleteSpawnPoint {
  "			EntitySpawnParams p = new EntitySpawnParams();"\
  "			p.TransformMode = ETransformMode.WORLD;"\
  "			p.Transform[0] = Vector(1, 0, 0);"\
- "			p.Transform[0] = Vector(0, 1, 0);"\
- "			p.Transform[0] = Vector(0, 0, 1);"\
- "			p.Transform[0] = GetOrigin();"\
+ "			p.Transform[1] = Vector(0, 1, 0);"\
+ "			p.Transform[2] = Vector(0, 0, 1);"\
+ "			p.Transform[3] = GetOrigin();"\
  "			p.Parent = null;"\
  "			p.Scale = 1.0;"\
  "			"\
@@ -66,8 +66,13 @@ GenericEntity TestCreateDeleteSpawnPoint {
  "		}"\
  "		"\
  "		GetGame().GetCallqueue().CallLater(OnTimer, 2000, false);"\
- "	}"
+ "	}"\
+ "	"\
+ "	"\
+ "	float m_fFixedFrameAcc;"\
+ "	int m_iFixedFrameCounter;"
  constructor ""\
+ "		Activate();"\
  "		SetEventMask(EntityEvent.SIMULATE | EntityEvent.INIT);"\
  "	"
  EOnInit ""\
