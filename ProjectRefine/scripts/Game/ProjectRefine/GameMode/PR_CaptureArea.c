@@ -392,7 +392,8 @@ class PR_CaptureArea : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	protected void SetSpawnPointOwnerFaction(int ownerFactionId)
 	{
-		m_SpawnPoint.SetFaction(GetGame().GetFactionManager().GetFactionByIndex(ownerFactionId));
+		if (m_SpawnPoint)
+			m_SpawnPoint.SetFaction(GetGame().GetFactionManager().GetFactionByIndex(ownerFactionId));
 	}
 	
 	

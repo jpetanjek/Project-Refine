@@ -29,6 +29,20 @@ class PR_SpawnPoint : ScriptComponent
 	}
 	
 	
+	//------------------------------------------------------------------------------------------------
+	// Even if faction owns a spawn point, respawn there might be blocked for various reasons.
+	bool GetRespawnAllowed()
+	{
+		return true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Returns spawn point name
+	string GetName()
+	{
+		return m_CaptureArea.GetName();
+	}
+	
 	
 	//------------------------------------------------------------------------------------------------
 	void PR_SpawnPoint(IEntityComponentSource src, IEntity ent, IEntity parent)

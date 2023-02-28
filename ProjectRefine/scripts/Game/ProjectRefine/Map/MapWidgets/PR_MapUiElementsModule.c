@@ -10,6 +10,7 @@ class PR_MapUiElementsModule : SCR_MapModuleBase
 	
 	
 	//------------------------------------------------------------------------------------------------
+	// Creates a UI widget on the map
 	PR_MapUiElementComponent CreateUiElement(ResourceName widgetLayout, vector worldPos)
 	{
 		Widget w = GetGame().GetWorkspace().CreateWidgets(widgetLayout, m_wFrame);
@@ -22,6 +23,14 @@ class PR_MapUiElementsModule : SCR_MapModuleBase
 		uiElementComp.SetWorldPos(worldPos);
 		
 		return uiElementComp;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Removes the element and its UI widget from the map
+	void RemoveUiElement(notnull PR_MapUiElementComponent element)
+	{
+		m_aUiElements.RemoveItem(element);
+		element.GetRootWidget().RemoveFromHierarchy();
 	}
 	
 	//------------------------------------------------------------------------------------------------

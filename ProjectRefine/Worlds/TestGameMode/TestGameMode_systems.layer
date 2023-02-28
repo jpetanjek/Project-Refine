@@ -36,6 +36,50 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
 }
 RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
 }
+GenericEntity TestCreateDeleteSpawnPoint {
+ coords 80.299 2 448.722
+ userScript "	// code here"\
+ ""\
+ "	IEntity m_CreatedSpawnPoint;"\
+ "	void OnTimer()"\
+ "	{"\
+ "		if (m_CreatedSpawnPoint)"\
+ "		{"\
+ "			Print(\"Deleting test spawn point\");"\
+ "			delete m_CreatedSpawnPoint;"\
+ "		}"\
+ "		else"\
+ "		{"\
+ "			Print(\"Creating test spawn point\");"\
+ "			"\
+ "			EntitySpawnParams p = new EntitySpawnParams();"\
+ "			p.TransformMode = ETransformMode.WORLD;"\
+ "			p.Transform[0] = Vector(1, 0, 0);"\
+ "			p.Transform[0] = Vector(0, 1, 0);"\
+ "			p.Transform[0] = Vector(0, 0, 1);"\
+ "			p.Transform[0] = GetOrigin();"\
+ "			p.Parent = null;"\
+ "			p.Scale = 1.0;"\
+ "			"\
+ "			Resource rsc = Resource.Load(\"{4FDC2DB5A1DBFB06}Prefabs/Test/CaptureAreaTestFaction0.et\");"\
+ "			m_CreatedSpawnPoint = GetGame().SpawnEntityPrefab(rsc, params: p);"\
+ "		}"\
+ "		"\
+ "		GetGame().GetCallqueue().CallLater(OnTimer, 2000, false);"\
+ "	}"
+ constructor ""\
+ "		SetEventMask(EntityEvent.SIMULATE | EntityEvent.INIT);"\
+ "	"
+ EOnInit ""\
+ "		/* code here */"\
+ "		Print(\"EOnInit from TestCreateDeleteSpawnPoint_Class\");"\
+ "		"\
+ "		GetGame().GetCallqueue().CallLater(OnTimer, 2000, false);"\
+ "	"
+ EOnFrame ""\
+ "		/* code here */"\
+ "	"
+}
 SCR_LoadoutManager : "{97EF4C1A41F63DDB}Prefabs/MP/Managers/Loadouts/LoadoutManager_USxUSSR.et" {
  m_aPlayerLoadouts {
   SCR_FactionPlayerLoadout "{5CA333AAB46A3E48}" {

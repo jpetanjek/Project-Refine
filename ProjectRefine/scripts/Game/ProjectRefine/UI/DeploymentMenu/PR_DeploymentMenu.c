@@ -1,12 +1,20 @@
+// Small class for UI to keep track of spawn points
+class PR_DeploymentMenu_SpawnPointData : Managed
+{
+	PR_SpawnPoint m_SpawnPoint;
+	PR_MapUiElementComponent m_MapUiElement;
+	SCR_ModularButtonComponent m_MapUiButton;	// The button component attached to map UI element
+}
+
 class PR_DeploymentMenu : ChimeraMenuBase
 {
 	protected const ResourceName MAP_CONFIG = "{2D46B52640F70437}Configs/Map/MapConfigDeploymentMenu.conf";
 	
 	protected ref PR_DeploymentMenuWidgets widgets = new PR_DeploymentMenuWidgets();
 	
-	
 	protected PR_MapUiElementsModule m_MapUiElementsModule;
 	
+	//-----------------------------------------------------------------------------------------------------------------------------
 	override void OnMenuOpen()
 	{
 		super.OnMenuOpen();
@@ -21,6 +29,7 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		mapEntity.OpenMap(mapConfigFullscreen);
 	}
 	
+	//-----------------------------------------------------------------------------------------------------------------------------
 	// Called by SCR_MapEntity after map has been opened and initialized. Here we can access map modules.
 	protected void OnMapOpen(MapConfiguration mapConfig)
 	{
@@ -28,17 +37,9 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		SCR_MapEntity.GetOnMapOpen().Remove(OnMapOpen);
 		
 		m_MapUiElementsModule = PR_MapUiElementsModule.Cast(SCR_MapEntity.GetMapInstance().GetMapModule(PR_MapUiElementsModule));
-		
-		// Tests
-		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
-		array<PR_SpawnPoint> spawnPoints = PR_SpawnPoint.GetAll();
-		
-		foreach (PR_SpawnPoint sp : spawnPoints)
-		{
-			m_MapUiElementsModule.CreateUiElement("{F2689BBD0CAFEB7B}UI/DeploymentMenu/TestMapUiElement.layout", sp.GetOwner().GetOrigin());
-		}
 	}
 	
+	//-----------------------------------------------------------------------------------------------------------------------------
 	override void OnMenuClose()
 	{
 		super.OnMenuClose();
@@ -49,9 +50,9 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		mapEntity.CloseMap();
 	}
 	
+	//-----------------------------------------------------------------------------------------------------------------------------
 	override void OnMenuUpdate(float tDelta)
 	{
-		
 		// Activate map context but only when cursor is over the map part of the menu
 		float areax, areay, areaw, areah;
 		widgets.m_MapInteractionArea.GetScreenPos(areax, areay);
@@ -64,5 +65,120 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		
 		if (mousex < (areax + areaw))
 			GetGame().GetInputManager().ActivateContext("MapContext");
+		
+		// Update spawn point seleciton, only when map is ready
+		if (m_MapUiElementsModule)
+			UpdateSpawnPointUi(tDelta);
+	}
+	
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	// SPAWN POINT SELECTION
+	// Everything related to spawn points is here
+	
+	protected ref array<ref PR_DeploymentMenu_SpawnPointData> m_aSpawnPointsData = {};
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	// This function defines if spawn point should be listed in UI
+	bool ShowSpawnPointInUi(PR_SpawnPoint spawnPoint, int myFactionId)
+	{
+		// True when spawn point exists in world
+		// and when our faction owns it
+		return spawnPoint && spawnPoint.GetFactionId() == myFactionId;
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void UpdateSpawnPointUi(float tDelta)
+	{
+		FactionManager fm = GetGame().GetFactionManager();
+		Faction myFaction = SCR_RespawnSystemComponent.GetLocalPlayerFaction();
+		int myFactionId = 0; // fm.GetFactionIndex(myFaction); //! ! ! ! ! Pretend we have a faction until faction selection is done ! ! ! ! ! ! ! ! ! ! ! ! ! 
+		
+		//---------------------------------------------------------------------------------
+		// Delete unaccessible or deleted spawn points
+		array<ref PR_DeploymentMenu_SpawnPointData> spawnPointsRemove = {};
+		foreach (PR_DeploymentMenu_SpawnPointData spData : m_aSpawnPointsData)
+		{
+			if (!ShowSpawnPointInUi(spData.m_SpawnPoint, myFactionId))
+				spawnPointsRemove.Insert(spData);
+		}
+		foreach (PR_DeploymentMenu_SpawnPointData spData : spawnPointsRemove)
+		{
+			RemoveSpawnPoint(spData);
+		}
+		
+		//---------------------------------------------------------------------------------
+		// Add spawn points which are not in UI yet
+		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
+		array<PR_SpawnPoint> spawnPoints = PR_SpawnPoint.GetAll();
+		foreach (PR_SpawnPoint spawnPoint : spawnPoints)
+		{	
+			// Have we already added that spawn point?
+			bool alreadyAdded = false;
+			foreach (PR_DeploymentMenu_SpawnPointData spData : m_aSpawnPointsData)
+			{
+				if (spData.m_SpawnPoint == spawnPoint && spawnPoint)
+				{
+					alreadyAdded = true;
+					break;
+				}
+			}
+			
+			// Ignore if we have already added it to our UI
+			if (alreadyAdded)
+				continue;
+			
+			if (ShowSpawnPointInUi(spawnPoint, myFactionId))
+			{
+				AddSpawnPoint(spawnPoint);
+			}
+		}
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void AddSpawnPoint(notnull PR_SpawnPoint spawnPoint)
+	{
+		Print(string.Format("AddSpawnPoint: %1 %2", spawnPoint, spawnPoint.GetName()));
+		
+		PR_DeploymentMenu_SpawnPointData spData = new PR_DeploymentMenu_SpawnPointData();
+		
+		spData.m_SpawnPoint = spawnPoint;
+		//spData.m_sSpawnPointName = spawnPoint.GetName();
+		
+		// Add to map
+		PR_MapUiElementComponent mapUiElement = m_MapUiElementsModule.CreateUiElement("{F2689BBD0CAFEB7B}UI/DeploymentMenu/TestMapUiElement.layout", spawnPoint.GetOwner().GetOrigin());
+		spData.m_MapUiElement = mapUiElement;
+		spData.m_MapUiButton = SCR_ModularButtonComponent.Cast(mapUiElement.GetRootWidget().FindHandler(SCR_ModularButtonComponent));
+		
+		// Add to selection UI
+		widgets.m_SpawnPointSpinboxComponent.AddItem(spawnPoint.GetName(), spData); // We use the passed spData later to identify the spawn point
+		
+		m_aSpawnPointsData.Insert(spData);
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void RemoveSpawnPoint(PR_DeploymentMenu_SpawnPointData spData)
+	{
+		//Print(string.Format("RemoveSpawnPoint: %1 %2", spData, spData.m_sSpawnPointName));
+		
+		// Remove spinbox entry
+		// Find ID of the item in spinbox
+		int spinboxElementId = -1;
+		SCR_SpinBoxComponent spinbox = widgets.m_SpawnPointSpinboxComponent;
+		for (int i = 0; i < spinbox.GetNumItems(); i++)
+		{
+			if (spinbox.GetItemData(i) == spData)
+			{
+				spinboxElementId = i;
+				break;
+			}
+		}
+		spinbox.RemoveItem(spinboxElementId);
+		
+		// Remove Map UI element
+		m_MapUiElementsModule.RemoveUiElement(spData.m_MapUiElement);
+		
+		m_aSpawnPointsData.RemoveItem(spData);
 	}
 }
+

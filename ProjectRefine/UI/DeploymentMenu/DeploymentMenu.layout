@@ -6,7 +6,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
   }
  }
  {
-  FrameWidgetClass "{5CB4D25E7912B0AC}" : "{0651202E9F2646DE}UI/Map/Map.layout" {
+  FrameWidgetClass "{5CB4D25E7912B0AC}" : "{0651202E9F2646DE}UI/layouts/Map/Map.layout" {
    Name "m_MapFrame"
    Slot OverlayWidgetSlot "{5CB4D25E7912B0BC}" {
     HorizontalAlign 3
@@ -85,6 +85,89 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
              Slot LayoutSlot "{5CB123876845EEC1}" {
               Padding 0 0 10 0
               SizeMode Fill
+             }
+             {
+              SizeLayoutWidgetClass "{5CB943CFB3F5F41E}" {
+               Name "SpawnPointSelection"
+               Slot OverlayWidgetSlot "{5CB943CFB3F5F473}" {
+                HorizontalAlign 2
+                VerticalAlign 2
+               }
+               AllowWidthOverride 1
+               WidthOverride 450
+               {
+                OverlayWidgetClass "{5CB943C0FFFDD9BF}" {
+                 Name "Overlay"
+                 Slot AlignableSlot "{5CB943CFB30586CF}" {
+                  HorizontalAlign 3
+                  VerticalAlign 3
+                 }
+                 {
+                  ImageWidgetClass "{5CB943C0CACAB420}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
+                   Name "rootFrame0"
+                   Slot OverlayWidgetSlot "{5CB943C0CACAB439}" {
+                    HorizontalAlign 3
+                    VerticalAlign 3
+                   }
+                  }
+                  VerticalLayoutWidgetClass "{5CB943C0D53287E2}" {
+                   Name "VerticalLayout0"
+                   Slot OverlayWidgetSlot "{5CB943C0D53287FE}" {
+                    HorizontalAlign 3
+                    VerticalAlign 3
+                   }
+                   {
+                    TextWidgetClass "{5CB943C0D35711A8}" {
+                     Name "m_RespawnTimerText"
+                     Slot LayoutSlot {
+                      Padding 0 0 0 5
+                     }
+                     Clipping False
+                     Text "Respawn Timer"
+                     "Font Size" 30
+                     "Min Font Size" 30
+                     "Horizontal Alignment" Center
+                    }
+                    ButtonWidgetClass "{5CB943C0DC39DFA6}" : "{C9DF0E6590F6C388}UI/layouts/WidgetLibrary/SpinBox/WLib_SpinBox.layout" {
+                     Name "m_SpawnPointSpinbox"
+                     Slot LayoutSlot {
+                     }
+                     components {
+                      SCR_SpinBoxComponent "{5472C6CBC0640458}" {
+                       m_sLabel "Spawn Point"
+                      }
+                     }
+                     {
+                      SizeLayoutWidgetClass "{55367D829C978ED4}" {
+                       Prefab "{55367D829C978ED4}"
+                       WidthOverride 600
+                       {
+                        OverlayWidgetClass "{55367D8E531FD623}" {
+                         Prefab "{55367D8E531FD623}"
+                         {
+                          HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
+                           Prefab "{55367D8E4592BC6E}"
+                           {
+                            HorizontalLayoutWidgetClass "{55367D828911C318}" {
+                             Prefab "{55367D828911C318}"
+                             Slot LayoutSlot "{55367D828911C327}" {
+                              FillWeight 2.6
+                             }
+                            }
+                           }
+                          }
+                         }
+                        }
+                       }
+                      }
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
              }
             }
             OverlayWidgetClass "{5CB1544D8A01B2D7}" {
