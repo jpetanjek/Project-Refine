@@ -648,10 +648,10 @@ class PR_GameMode : SCR_BaseGameMode
 		FactionManager fm = GetGame().GetFactionManager();
 		
 		// Not character - probably vehicle
-		PR_EntityInfoComponent infoComp = PR_EntityInfoComponent.Cast(entity.FindComponent(PR_EntityInfoComponent));
+		PR_AssetInformerComponent infoComp = PR_AssetInformerComponent.Cast(entity.FindComponent(PR_AssetInformerComponent));
 		if (!infoComp)
 		{
-			_print(string.Format("Didn't find PR_EntityInfoComponent on entity: %1, %2", entity, entity.GetPrefabData().GetPrefabName()));
+			_print(string.Format("Didn't find PR_AssetInformerComponent on entity: %1, %2", entity, entity.GetPrefabData().GetPrefabName()));
 			return;
 		}
 		

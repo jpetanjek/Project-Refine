@@ -1,11 +1,11 @@
 /*!
-List of entity Assets
+List of Assets
 */
 [BaseContainerProps(configRoot: true)]
-class PR_EntityAssetList
+class PR_AssetList
 {
 	[Attribute(desc: "Asset list")]
-	protected ref array<ref PR_EntityInfo> m_aAssetList;
+	protected ref array<ref PR_Asset> m_aAssetList;
 	
 	//------------------------------------------------------------------------------------------------
 	/*!
@@ -21,10 +21,10 @@ class PR_EntityAssetList
 	/*!
 	Get the entry of given index
 	\param index of entity
-	\param[out] Entity Info
+	\param[out] Asset
 	\return bool returns false if index is invalid
 	*/
-	PR_EntityInfo GetEntryAtIndex(int index)
+	PR_Asset GetEntryAtIndex(int index)
 	{
 		if (!m_aAssetList || index < 0 || index >= m_aAssetList.Count())
 		{
@@ -41,7 +41,7 @@ class PR_EntityAssetList
 	*/
 	ResourceName GetResourceNameAtIndex(int index)
 	{
-		PR_EntityInfo entityInfo = GetEntryAtIndex(index);
+		PR_Asset entityInfo = GetEntryAtIndex(index);
 		if (entityInfo)
 		{
 			return entityInfo.GetPrefab();
@@ -52,13 +52,13 @@ class PR_EntityAssetList
 	//------------------------------------------------------------------------------------------------
 	/*!
 	Get List of Entity Info
-	\param[out] Entity Info List
+	\param[out] Asset List
 	\bool If true only get entities if they are set to enabled
 	\return int Size of list
 	*/
-	int GetAssetList(out notnull array<PR_EntityInfo> assetList, bool checkIfEnabled = true)
+	int GetAssetList(out notnull array<PR_Asset> assetList, bool checkIfEnabled = true)
 	{
-		foreach (PR_EntityInfo entityInfo : m_aAssetList)
+		foreach (PR_Asset entityInfo : m_aAssetList)
 		{
 			if (!entityInfo || (checkIfEnabled && !entityInfo.GetEnabled()))
 				continue;
@@ -70,7 +70,7 @@ class PR_EntityAssetList
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void PR_EntitySpawnerList(array<ref PR_EntityInfo> assetList = null)
+	void PR_AssetList(array<ref PR_Asset> assetList = null)
 	{
 		if (SCR_Global.IsEditMode())
 			return;

@@ -1,5 +1,5 @@
 [EntityEditorProps(category: "GameScripted/ScriptWizard", description: "ScriptWizard generated script file.")]
-class PR_EntityInfoComponentClass : ScriptComponentClass
+class PR_AssetInformerComponentClass : ScriptComponentClass
 {
 };
 
@@ -7,7 +7,7 @@ class PR_EntityInfoComponentClass : ScriptComponentClass
 /*!
 	Component storing some data about asset.
 */
-class PR_EntityInfoComponent : ScriptComponent
+class PR_AssetInformerComponent : ScriptComponent
 {
 	protected PR_EAssetType m_AssetType = -1;
 	
