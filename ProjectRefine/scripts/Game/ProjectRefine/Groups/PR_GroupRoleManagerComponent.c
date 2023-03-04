@@ -44,7 +44,9 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		{
 			if(CanIncrementAvailabilityOfRole(index))
 			{
-				m_aRoleAvailabilityCount[index]++;
+				int val = m_aRoleAvailabilityCount[index];
+				val++;
+				m_aRoleAvailabilityCount[index] = val;
 				return true;
 			}
 			else
@@ -56,7 +58,9 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		{
 			if(CanDecrementAvailabilityOfRole(index))
 			{
-				m_aRoleAvailabilityCount[index]--;
+				int val = m_aRoleAvailabilityCount[index];
+				val--;
+				m_aRoleAvailabilityCount[index] = val;
 				return true;
 			}
 			else
@@ -102,6 +106,6 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	// Claiming can only happen in respawn menu
 	bool ClaimRole(int indexNew, int indexOld)
 	{
-		
+		return true;	
 	}
 }
