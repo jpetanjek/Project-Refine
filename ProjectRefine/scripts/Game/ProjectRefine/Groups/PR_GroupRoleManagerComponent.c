@@ -10,14 +10,14 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	// An array the same size as all roles of a faction
 	// -1 means never available for this group
 	[RplProp (onRplName: "OnAvailabilityChangedClient")]
-	array<int> m_aRoleAvailabilityCount;
+	array<int> m_aClaimableRolesCount;
 	
 	int m_iTotalAvailability = 0;
 	
 	// Initialize availability - via Game Mode
 	void InitializeAvailability(array<int> roleAvailabilityCount)
 	{
-		m_aRoleAvailabilityCount = roleAvailabilityCount;
+		m_aClaimableRolesCount = roleAvailabilityCount;
 		RecalculateTotalAvailability();
 	}
 	
@@ -30,13 +30,35 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	void RecalculateTotalAvailability()
 	{
 		m_iTotalAvailability = 0;
-		for(int i = 0; i < m_aRoleAvailabilityCount.Count(); i++)
+		for(int i = 0; i < m_aClaimableRolesCount.Count(); i++)
 		{
-			int val = m_aRoleAvailabilityCount[i];
+			int val = m_aClaimableRolesCount[i];
 			if(val != -1)
 				m_iTotalAvailability += val;
 		}
 	}
+	
+	//------------------------------------------------------------------------------
+	// UI logic START
+	
+	// Can I draw role increment at all?
+	bool CanIncrementAvailabilityOfAnyRole()
+	{
+		// Check if requester is SL?
+		
+		if( m_iTotalAvailability == 0)
+			return false;
+		return true;
+	}
+	// UI logic END
+	//------------------------------------------------------------------------------
+	
+	
+	//------------------------------------------------------------------------------
+	// Squad Lead Only logic START
+	
+	// -1 Dissalowed by SL
+	// -2 Dissallowed by Commander
 	
 	bool ChangeAvailabilityOfRole(int index, bool increment)
 	{
@@ -44,9 +66,9 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		{
 			if(CanIncrementAvailabilityOfRole(index))
 			{
-				int val = m_aRoleAvailabilityCount[index];
+				int val = m_aClaimableRolesCount[index];
 				val++;
-				m_aRoleAvailabilityCount[index] = val;
+				m_aClaimableRolesCount[index] = val;
 				return true;
 			}
 			else
@@ -58,9 +80,9 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		{
 			if(CanDecrementAvailabilityOfRole(index))
 			{
-				int val = m_aRoleAvailabilityCount[index];
+				int val = m_aClaimableRolesCount[index];
 				val--;
-				m_aRoleAvailabilityCount[index] = val;
+				m_aClaimableRolesCount[index] = val;
 				return true;
 			}
 			else
@@ -70,18 +92,10 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		}		
 	}
 	
-	// Can I draw role increment at all?
-	bool CanIncrementAvailabilityOfAnyRole()
-	{
-		if( m_iTotalAvailability == 0)
-			return false;
-		return true;
-	}
-	
 	// Can I draw role increment for this specific role?
 	bool CanIncrementAvailabilityOfRole(int index)
 	{
-		if(!CanIncrementAvailabilityOfAnyRole() || !m_aRoleAvailabilityCount.IsIndexValid(index) || m_aRoleAvailabilityCount[index] == -1)
+		if(!CanIncrementAvailabilityOfAnyRole() || !m_aClaimableRolesCount.IsIndexValid(index) || m_aClaimableRolesCount[index] == -1)
 			return false;
 		
 		// check if its SL_ROLE or FIRETEAMLEAD- can't change those
@@ -93,19 +107,68 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	
 	bool CanDecrementAvailabilityOfRole(int index)
 	{
-		if(!m_aRoleAvailabilityCount.IsIndexValid(index) || m_aRoleAvailabilityCount[index] == -1 || m_aRoleAvailabilityCount[index] == 0)
+		if(!m_aClaimableRolesCount.IsIndexValid(index) || m_aClaimableRolesCount[index] == -1 || m_aClaimableRolesCount[index] == 0)
 			return false;
 		
 		// check if its SL_ROLE or FIRETEAMLEAD- can't change those
 		
 		return true;
 	}
+	// Squad Lead Only logic END
+	//------------------------------------------------------------------------------
+	
+	
+	//------------------------------------------------------------------------------
+	// Claim Logic START
 	
 	// Manage pick and availability logic (first come, first serve), from server to client
-	// On Character/PlayerController level manage selected role (use this as indexOld) and active role (currently in use - draw this as icon)
-	// Claiming can only happen in respawn menu
+	// On Character level manage selected role (use this as indexOld) and active role (currently in use - draw this as icon)
+	// Claiming can only happen in respawn menu / when there is no active role (no character possesed)
+	// When player leaves group indexNew will be -1
 	bool ClaimRole(int indexNew, int indexOld)
 	{
-		return true;	
+		// Case 1: Claiming role
+		if(m_aClaimableRolesCount.IsIndexValid(indexNew))
+		{
+			// Check availability
+			if(m_aClaimableRolesCount[indexNew] != -1 || m_aClaimableRolesCount[indexNew] > 0)
+			{
+				// Available
+				// Increment new
+				int val = m_aClaimableRolesCount[indexNew] - 1;
+				m_aClaimableRolesCount[indexNew] = val;
+				
+				// Decrement old
+				if(m_aClaimableRolesCount.IsIndexValid(indexOld) && m_aClaimableRolesCount[indexOld] != -1)
+				{
+					val = m_aClaimableRolesCount[indexOld] + 1;
+					m_aClaimableRolesCount[indexOld] = val;
+				}
+			}
+			else
+			{
+				// Not available
+				return false;
+			}
+		}
+		
+		// Case 2: Leaving group
+		else if(indexNew == -1)
+		{
+			// Make sure old role is available for this group
+			if(m_aClaimableRolesCount.IsIndexValid(indexOld) && m_aClaimableRolesCount[indexOld] != -1)
+			{
+				int val = m_aClaimableRolesCount[indexOld] + 1;
+				m_aClaimableRolesCount[indexOld] = val;
+			}
+				
+		}
+		
+		// non valid index
+		return false;	
 	}
+	
+	// Claim Logic END
+	//------------------------------------------------------------------------------
+	
 }
