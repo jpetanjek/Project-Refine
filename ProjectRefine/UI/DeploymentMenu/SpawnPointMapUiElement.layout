@@ -3,10 +3,10 @@ ButtonWidgetClass {
  Slot FrameWidgetSlot "{5CB717C9182D9B32}" {
   OffsetLeft 0
   OffsetTop 0
-  SizeX 56
-  OffsetRight -56
-  SizeY 56
-  OffsetBottom -56
+  SizeX 58
+  OffsetRight -58
+  SizeY 58
+  OffsetBottom -58
   Alignment 0.5 0.5
  }
  Color 1 1 1 0
@@ -15,17 +15,20 @@ ButtonWidgetClass {
   }
   SCR_ModularButtonComponent "{5CB717D435C1ED25}" {
    m_aEffects {
-    SCR_ButtonEffectVisibility "{5CB717D4584CF7E4}" {
-     m_eEvents 15
-     m_sWidgetName "ImageHighlight"
-     m_bHovered 1
-     m_bActivatedHovered 1
-    }
     SCR_ButtonEffectVisibility "{5CB717D582E058C9}" {
      m_eEvents 15
-     m_sWidgetName "ImageSelected"
+     m_sWidgetName "ImageSelect"
      m_bActivated 1
      m_bActivatedHovered 1
+    }
+    SCR_ButtonEffectOpacity "{5CC367570F2425D2}" {
+     m_eEvents 15
+     m_sWidgetName "ImageHighlight"
+     m_fAnimationTime 0
+     m_fDefault 0.5
+     m_fHovered 1
+     m_fActivated 0
+     m_fActivatedHovered 1
     }
    }
    m_bCanBeToggled 1
@@ -49,23 +52,22 @@ ButtonWidgetClass {
      Color 1 0 0 1
     }
     ImageWidgetClass "{5CB717D76FDBEFAB}" {
-     Name "ImageHighlight"
+     Name "ImageSelect"
      Slot OverlayWidgetSlot "{5CB717D76FDBEF94}" {
       HorizontalAlign 3
       VerticalAlign 3
-      Padding 4 4 4 4
      }
-     Opacity 0.5
      Color 0.784 0.392 0 1
      Texture "{8479B3B5347DF5CF}UI/Imagesets/MilitarySymbol/ID_D.imageset"
      Image "Generic_Focus"
      Size 64 64
     }
     ImageWidgetClass "{5CB717D4AED584FE}" {
-     Name "ImageSelected"
+     Name "ImageHighlight"
      Slot OverlayWidgetSlot "{5CB717D76FDBEF94}" {
       HorizontalAlign 3
       VerticalAlign 3
+      Padding 5 5 5 5
      }
      Color 0.784 0.392 0 1
      Texture "{8479B3B5347DF5CF}UI/Imagesets/MilitarySymbol/ID_D.imageset"

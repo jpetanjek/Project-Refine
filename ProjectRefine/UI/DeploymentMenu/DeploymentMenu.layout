@@ -119,7 +119,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                    {
                     TextWidgetClass "{5CB943C0D35711A8}" {
                      Name "m_RespawnTimerText"
-                     Slot LayoutSlot {
+                     Slot LayoutSlot "{5CC35DDCCFF7FE92}" {
                       Padding 0 0 0 5
                      }
                      Clipping False
@@ -127,40 +127,6 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                      "Font Size" 30
                      "Min Font Size" 30
                      "Horizontal Alignment" Center
-                    }
-                    ButtonWidgetClass "{5CB943C0DC39DFA6}" : "{C9DF0E6590F6C388}UI/layouts/WidgetLibrary/SpinBox/WLib_SpinBox.layout" {
-                     Name "m_SpawnPointSpinbox"
-                     Slot LayoutSlot {
-                     }
-                     components {
-                      SCR_SpinBoxComponent "{5472C6CBC0640458}" {
-                       m_sLabel "Spawn Point"
-                      }
-                     }
-                     {
-                      SizeLayoutWidgetClass "{55367D829C978ED4}" {
-                       Prefab "{55367D829C978ED4}"
-                       WidthOverride 600
-                       {
-                        OverlayWidgetClass "{55367D8E531FD623}" {
-                         Prefab "{55367D8E531FD623}"
-                         {
-                          HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
-                           Prefab "{55367D8E4592BC6E}"
-                           {
-                            HorizontalLayoutWidgetClass "{55367D828911C318}" {
-                             Prefab "{55367D828911C318}"
-                             Slot LayoutSlot "{55367D828911C327}" {
-                              FillWeight 2.6
-                             }
-                            }
-                           }
-                          }
-                         }
-                        }
-                       }
-                      }
-                     }
                     }
                    }
                   }

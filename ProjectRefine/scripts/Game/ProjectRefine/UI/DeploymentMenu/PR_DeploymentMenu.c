@@ -37,6 +37,8 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		SCR_MapEntity.GetOnMapOpen().Remove(OnMapOpen);
 		
 		m_MapUiElementsModule = PR_MapUiElementsModule.Cast(SCR_MapEntity.GetMapInstance().GetMapModule(PR_MapUiElementsModule));
+		
+		InitSpawnPointUi();
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
@@ -88,6 +90,7 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
+	// Called from menu update, but only map is already initialized
 	void UpdateSpawnPointUi(float tDelta)
 	{
 		FactionManager fm = GetGame().GetFactionManager();
@@ -136,6 +139,12 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
+	// Called on menu open, map is not guaranteed to work yet
+	void InitSpawnPointUi()
+	{
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
 	void AddSpawnPoint(notnull PR_SpawnPoint spawnPoint)
 	{
 		Print(string.Format("AddSpawnPoint: %1 %2", spawnPoint, spawnPoint.GetName()));
@@ -150,31 +159,12 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		spData.m_MapUiElement = mapUiElement;
 		spData.m_MapUiButton = SCR_ModularButtonComponent.Cast(mapUiElement.GetRootWidget().FindHandler(SCR_ModularButtonComponent));
 		
-		// Add to selection UI
-		widgets.m_SpawnPointSpinboxComponent.AddItem(spawnPoint.GetName(), spData); // We use the passed spData later to identify the spawn point
-		
 		m_aSpawnPointsData.Insert(spData);
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
 	void RemoveSpawnPoint(PR_DeploymentMenu_SpawnPointData spData)
 	{
-		//Print(string.Format("RemoveSpawnPoint: %1 %2", spData, spData.m_sSpawnPointName));
-		
-		// Remove spinbox entry
-		// Find ID of the item in spinbox
-		int spinboxElementId = -1;
-		SCR_SpinBoxComponent spinbox = widgets.m_SpawnPointSpinboxComponent;
-		for (int i = 0; i < spinbox.GetNumItems(); i++)
-		{
-			if (spinbox.GetItemData(i) == spData)
-			{
-				spinboxElementId = i;
-				break;
-			}
-		}
-		spinbox.RemoveItem(spinboxElementId);
-		
 		// Remove Map UI element
 		m_MapUiElementsModule.RemoveUiElement(spData.m_MapUiElement);
 		
