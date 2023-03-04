@@ -4,4 +4,93 @@ Component for the panel with list of groups
 
 class PR_GroupListComponent : ScriptedWidgetComponent
 {
+	protected ref PR_GroupListWidgets widgets = new PR_GroupListWidgets();
+	
+	SCR_GroupsManagerComponent m_GroupsMgr;
+	
+	override void HandlerAttached(Widget w)
+	{
+		m_GroupsMgr = SCR_GroupsManagerComponent.GetInstance();
+		
+		widgets.Init(w);
+		
+		if (m_GroupsMgr)
+			m_GroupsMgr.GetOnPlayableGroupCreated().Insert(Event_OnPlayableGroupCreated);
+		
+		widgets.m_CreateGroupButtonComponent.m_OnClicked.Insert(OnCreateGroupButton);
+		
+		GetGame().GetCallqueue().CallLater(OnFrame, 0, true);
+	}
+	
+	override void HandlerDeattached(Widget w)
+	{
+		GetGame().GetCallqueue().Remove(OnFrame);
+		
+		if (m_GroupsMgr)
+			m_GroupsMgr.GetOnPlayableGroupCreated().Remove(Event_OnPlayableGroupCreated);
+	}
+	
+	// Creates a group entry widget for specified group
+	void CreateGroupEntry(notnull SCR_AIGroup group)
+	{
+		Widget wEntry = GetGame().GetWorkspace().CreateWidgets(PR_GroupEntryWidgets.s_sLayout, widgets.m_GroupListLayout);
+		
+		PR_GroupEntryComponent comp = PR_GroupEntryComponent.Cast(wEntry.FindHandler(PR_GroupEntryComponent));
+		comp.Init(group);
+	}
+	
+	// Called every frame
+	void OnFrame()
+	{
+		// Find out which groups were deleted
+		// There is an event for that in SCR_GroupsManagerComponent but it doesn't ever get called.
+		// I think that it's more reliable if we delete entries ourselves anyway and don't rely on event.
+		array<PR_GroupEntryComponent> groupEntriesToRemove = {};
+		Widget wChild = widgets.m_GroupListLayout.GetChildren();
+		while (wChild)
+		{
+			PR_GroupEntryComponent groupEntryComp = PR_GroupEntryComponent.Cast(wChild.FindHandler(PR_GroupEntryComponent));
+			
+			if (!groupEntryComp.GetGroup()) // Group does not exist any more?
+				groupEntriesToRemove.Insert(groupEntryComp);
+			
+			wChild = wChild.GetSibling();
+		}
+		
+		foreach (PR_GroupEntryComponent groupEntry : groupEntriesToRemove)
+		{
+			groupEntry.RemoveFromUi();
+		}
+	}
+	
+	
+	//-----------------------------------------------------------------------------------------------
+	// Our own UI events
+	
+	void OnCreateGroupButton()
+	{
+		string groupName = widgets.m_GroupNameEditBoxComponent.GetValue();
+		
+		if (groupName.IsEmpty())
+		{
+			ShowNotification(ENotification.PR_GROUP_MUST_HAVE_NAME);
+			return;
+		}
+	}
+	
+	//-----------------------------------------------------------------------------------------------
+	// Events
+	
+	void Event_OnPlayableGroupCreated(SCR_AIGroup group)
+	{
+		if (group)
+			CreateGroupEntry(group);
+	}
+	
+	//-----------------------------------------------------------------------------------------------
+	// Other
+	void ShowNotification(ENotification notificationId)
+	{
+		SCR_NotificationsComponent.SendLocal(notificationId);
+	}
 }

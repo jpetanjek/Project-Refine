@@ -38,6 +38,8 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		
 		m_MapUiElementsModule = PR_MapUiElementsModule.Cast(SCR_MapEntity.GetMapInstance().GetMapModule(PR_MapUiElementsModule));
 		
+		GetGame().GetInputManager().AddActionListener("MenuChat", EActionTrigger.DOWN, OnChatToggleButton); 
+		
 		InitSpawnPointUi();
 	}
 	
@@ -50,6 +52,8 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		
 		SCR_MapEntity mapEntity = SCR_MapEntity.GetMapInstance();
 		mapEntity.CloseMap();
+		
+		GetGame().GetInputManager().RemoveActionListener("MenuChat", EActionTrigger.DOWN, OnChatToggleButton);
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
@@ -71,6 +75,16 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		// Update spawn point seleciton, only when map is ready
 		if (m_MapUiElementsModule)
 			UpdateSpawnPointUi(tDelta);
+		
+		// Update chat panel - this must be called for chat to work
+		widgets.m_ChatPanelComponent.OnUpdateChat(tDelta);
+	}
+	
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void OnChatToggleButton()
+	{
+		SCR_ChatPanelManager.GetInstance().ToggleChatPanel(widgets.m_ChatPanelComponent);
 	}
 	
 	

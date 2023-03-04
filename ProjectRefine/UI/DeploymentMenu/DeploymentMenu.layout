@@ -134,6 +134,38 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                 }
                }
               }
+              OverlayWidgetClass "{5CC91A88D66DE39D}" : "{28C54D576A8997CF}UI/layouts/HUD/Chat/ChatPanel.layout" {
+               Name "m_ChatPanel"
+               Slot OverlayWidgetSlot "{5CC91A88D66DE3FC}" {
+                HorizontalAlign 0
+                VerticalAlign 0
+               }
+              }
+              FrameWidgetClass "{5CC91A8482EA6B55}" : "{7A376F90E18453C4}UI/layouts/HUD/Notifications/Notifications_Log.layout" {
+               Name "NotificationsLog0"
+               Slot OverlayWidgetSlot "{5CC91A8482EA6BBE}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+               }
+               "Z Order" 10
+               {
+                VerticalLayoutWidgetClass "{586AB611D4E07521}" {
+                 Prefab "{586AB611D4E07521}"
+                 Slot FrameWidgetSlot "{586AB611D4E07572}" {
+                  Anchor 1 1 1 1
+                  PositionX 0
+                  OffsetLeft 0
+                  PositionY -100
+                  OffsetTop -100
+                  SizeX 100
+                  OffsetRight -100
+                  SizeY 324
+                  OffsetBottom -224
+                  Alignment 1 1
+                 }
+                }
+               }
+              }
              }
             }
             OverlayWidgetClass "{5CB1544D8A01B2D7}" {
