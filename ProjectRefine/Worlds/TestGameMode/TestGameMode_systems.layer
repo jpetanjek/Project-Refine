@@ -17,6 +17,11 @@ SCR_FactionManager FactionManager_USxUSSR1 : "{589540B35EBA8CDC}Prefabs/MP/Manag
  }
 }
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
+ components {
+  SCR_GroupsManagerComponent "{5706EC99934496F5}" {
+   m_sDefaultGroupPrefab "{828C167E28741CAC}Prefabs/Groups/PR_PlayableGroup.et"
+  }
+ }
  coords 146.67 65.489 364.823
  m_bRandomizeFactions 0
  m_aAreaEntities {

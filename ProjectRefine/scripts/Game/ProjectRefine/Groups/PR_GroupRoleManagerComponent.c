@@ -1,3 +1,6 @@
+typedef func OnAvailabilityChangedDelegate;
+void OnAvailabilityChangedDelegate(PR_GroupRoleManagerComponent groupRoleManagerComponent);
+
 [EntityEditorProps(category: "GameScripted/Groups", description: "Player groups role manager, attach to group!.")]
 class PR_GroupRoleManagerComponentClass : ScriptComponentClass
 {
@@ -6,169 +9,133 @@ class PR_GroupRoleManagerComponentClass : ScriptComponentClass
 //------------------------------------------------------------------------------------------------
 class PR_GroupRoleManagerComponent : ScriptComponent
 {
-	// Network number of avialabe roles via state
-	// An array the same size as all roles of a faction
-	// -1 means never available for this group
+	// Defines how many of this role can be claimed
 	[RplProp (onRplName: "OnAvailabilityChangedClient")]
 	array<int> m_aClaimableRolesCount;
 	
-	int m_iTotalAvailability = 0;
+	// Defines how many of this role there can be max
+	[RplProp (onRplName: "OnAvailabilityChangedClient")]
+	array<int> m_RoleAvailabilityCount;
+	
+	// Events
+	ref ScriptInvokerBase<OnAvailabilityChangedDelegate> m_OnAvailabilityChanged = new ScriptInvokerBase<OnAvailabilityChangedDelegate>();
 	
 	// Initialize availability - via Game Mode
 	void InitializeAvailability(array<int> roleAvailabilityCount)
 	{
 		m_aClaimableRolesCount = roleAvailabilityCount;
-		RecalculateTotalAvailability();
+		m_RoleAvailabilityCount = roleAvailabilityCount;
+		Replication.BumpMe();
 	}
+	
+	int GetGroupID()
+	{
+		return SCR_AIGroup.Cast(GetOwner()).GetGroupID();
+	}
+	
+	// 0 means not available to this group as defined by SL
+	// -1 means not available to this group as defined by Commander
+	
+	//-----------------------------------------------
+	// CLAIM LOGIC START
+	
+	bool ClaimRole(int indexNew)
+	{
+		// Check if it is at all available
+		if(!m_RoleAvailabilityCount.IsIndexValid(indexNew) || m_RoleAvailabilityCount[indexNew] <= 0)
+			return false;
+		
+		// Check if there is any of it left
+		if(!m_aClaimableRolesCount.IsIndexValid(indexNew) || m_aClaimableRolesCount[indexNew] <= 0)
+			return false;
+		
+		// Check if role is limited
+		
+		// It is available, and there is enough of it
+		int val = m_aClaimableRolesCount[indexNew];
+		val--;
+		m_aClaimableRolesCount[indexNew] = val;
+		return true;
+	}
+	
+	bool ReturnRole(int indexOld)
+	{
+		// Check if it is at all available
+		if(!m_RoleAvailabilityCount.IsIndexValid(indexOld) || m_RoleAvailabilityCount[indexOld] <= 0)
+			return false;
+		
+		// Check if it is below maximum
+		if(!m_aClaimableRolesCount.IsIndexValid(indexOld) || m_aClaimableRolesCount[indexOld] >= m_RoleAvailabilityCount[indexOld])
+			return false;
+		
+		// It is can be returned
+		int val = m_aClaimableRolesCount[indexOld];
+		val++;
+		m_aClaimableRolesCount[indexOld] = val;
+		return true;
+	}
+	
+	// CLAIM LOGIC END
+	//-----------------------------------------------
+	
+	
+	//-----------------------------------------------
+	// UI LOGIC START
 	
 	void OnAvailabilityChangedClient()
 	{
-		RecalculateTotalAvailability();
-		// Only show those roles that are avialable in UI to client
-	}
-	
-	void RecalculateTotalAvailability()
-	{
-		m_iTotalAvailability = 0;
-		for(int i = 0; i < m_aClaimableRolesCount.Count(); i++)
-		{
-			int val = m_aClaimableRolesCount[i];
-			if(val != -1)
-				m_iTotalAvailability += val;
-		}
-	}
-	
-	//------------------------------------------------------------------------------
-	// UI logic START
-	
-	// Can I draw role increment at all?
-	bool CanIncrementAvailabilityOfAnyRole()
-	{
-		// Check if requester is SL?
+		m_OnAvailabilityChanged.Invoke(this);
 		
-		if( m_iTotalAvailability == 0)
-			return false;
-		return true;
-	}
-	// UI logic END
-	//------------------------------------------------------------------------------
-	
-	
-	//------------------------------------------------------------------------------
-	// Squad Lead Only logic START
-	
-	// -1 Dissalowed by SL
-	// -2 Dissallowed by Commander
-	
-	bool ChangeAvailabilityOfRole(int index, bool increment)
-	{
-		if(increment)
-		{
-			if(CanIncrementAvailabilityOfRole(index))
-			{
-				int val = m_aClaimableRolesCount[index];
-				val++;
-				m_aClaimableRolesCount[index] = val;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			if(CanDecrementAvailabilityOfRole(index))
-			{
-				int val = m_aClaimableRolesCount[index];
-				val--;
-				m_aClaimableRolesCount[index] = val;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}		
+		// Get local group
+		SCR_PlayerControllerGroupComponent groupController = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
+		if (!groupController)
+			return;
+		
+		// Get this groups id
+		int thisGroupId = SCR_AIGroup.Cast(GetOwner()).GetGroupID();
+		
+		if(thisGroupId != groupController.GetGroupID())
+			return;
+		
 	}
 	
-	// Can I draw role increment for this specific role?
-	bool CanIncrementAvailabilityOfRole(int index)
+	
+	//-----------------------------------------------
+	// GROUP MEMBER UI LOGIC START
+	
+	// Skip this one for your own role
+	bool CanGroupMemberDrawRole(int index)
 	{
-		if(!CanIncrementAvailabilityOfAnyRole() || !m_aClaimableRolesCount.IsIndexValid(index) || m_aClaimableRolesCount[index] == -1)
+		// Check if it is at all available
+		if(!m_RoleAvailabilityCount.IsIndexValid(index) || m_RoleAvailabilityCount[index] <= 0)
 			return false;
 		
-		// check if its SL_ROLE or FIRETEAMLEAD- can't change those
+		// Check if there is any of it left
+		if(!m_aClaimableRolesCount.IsIndexValid(index) || m_aClaimableRolesCount[index] <= 0)
+			return false;
 		
-		// check if SL has enough budget for claim price
-			
 		return true;
 	}
 	
-	bool CanDecrementAvailabilityOfRole(int index)
+	// GROUP MEMBER UI LOGIC END
+	//-----------------------------------------------
+	
+	//-----------------------------------------------
+	// GROUP LEADER UI LOGIC START
+	
+	bool CanGroupLeaderDrawRole(int index)
 	{
-		if(!m_aClaimableRolesCount.IsIndexValid(index) || m_aClaimableRolesCount[index] == -1 || m_aClaimableRolesCount[index] == 0)
+		// Check if it is at all available
+		if(!m_RoleAvailabilityCount.IsIndexValid(index) || m_RoleAvailabilityCount[index] < 0)
 			return false;
-		
-		// check if its SL_ROLE or FIRETEAMLEAD- can't change those
 		
 		return true;
 	}
-	// Squad Lead Only logic END
-	//------------------------------------------------------------------------------
+	
+	// GROUP LEADER UI LOGIC END
+	//-----------------------------------------------
 	
 	
-	//------------------------------------------------------------------------------
-	// Claim Logic START
-	
-	// Manage pick and availability logic (first come, first serve), from server to client
-	// On Character level manage selected role (use this as indexOld) and active role (currently in use - draw this as icon)
-	// Claiming can only happen in respawn menu / when there is no active role (no character possesed)
-	// When player leaves group indexNew will be -1
-	bool ClaimRole(int indexNew, int indexOld)
-	{
-		// Case 1: Claiming role
-		if(m_aClaimableRolesCount.IsIndexValid(indexNew))
-		{
-			// Check availability
-			if(m_aClaimableRolesCount[indexNew] != -1 || m_aClaimableRolesCount[indexNew] > 0)
-			{
-				// Available
-				// Increment new
-				int val = m_aClaimableRolesCount[indexNew] - 1;
-				m_aClaimableRolesCount[indexNew] = val;
-				
-				// Decrement old
-				if(m_aClaimableRolesCount.IsIndexValid(indexOld) && m_aClaimableRolesCount[indexOld] != -1)
-				{
-					val = m_aClaimableRolesCount[indexOld] + 1;
-					m_aClaimableRolesCount[indexOld] = val;
-				}
-			}
-			else
-			{
-				// Not available
-				return false;
-			}
-		}
-		
-		// Case 2: Leaving group
-		else if(indexNew == -1)
-		{
-			// Make sure old role is available for this group
-			if(m_aClaimableRolesCount.IsIndexValid(indexOld) && m_aClaimableRolesCount[indexOld] != -1)
-			{
-				int val = m_aClaimableRolesCount[indexOld] + 1;
-				m_aClaimableRolesCount[indexOld] = val;
-			}
-				
-		}
-		
-		// non valid index
-		return false;	
-	}
-	
-	// Claim Logic END
-	//------------------------------------------------------------------------------
-	
+	// UI LOGIC END
+	//-----------------------------------------------
 }

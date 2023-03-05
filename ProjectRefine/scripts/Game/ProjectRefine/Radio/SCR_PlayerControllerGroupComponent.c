@@ -1,6 +1,11 @@
+typedef func OnLocalPlayerJoinedGroup;
+void OnLocalPlayerJoinedGroup(int groupID);
+
 modded class SCR_PlayerControllerGroupComponent
 {
 	protected IEntity m_PrevControlledEntity;
+	
+	ref ScriptInvokerBase<OnLocalPlayerJoinedGroup> m_OnLocalPlayerJoinedGroup = new ScriptInvokerBase<OnLocalPlayerJoinedGroup>();
 	
 	override void OnPostInit(IEntity owner)
 	{
@@ -67,4 +72,10 @@ modded class SCR_PlayerControllerGroupComponent
 		
 		return BaseRadioComponent.Cast(radio.FindComponent(BaseRadioComponent));
 	}	
+	
+	override void RPC_DoChangeGroupID(int groupID)
+	{
+		super.RPC_DoChangeGroupID(groupID);
+		m_OnLocalPlayerJoinedGroup.Invoke(groupID);
+	}
 }
