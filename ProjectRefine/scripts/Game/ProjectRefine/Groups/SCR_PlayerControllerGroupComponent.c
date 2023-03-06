@@ -1,6 +1,9 @@
+typedef func OnLocalPlayerJoinedGroup;
+void OnLocalPlayerJoinedGroup(int groupID);
+
 modded class SCR_PlayerControllerGroupComponent
 {
-	
+	ref ScriptInvokerBase<OnLocalPlayerJoinedGroup> m_OnLocalPlayerJoinedGroup = new ScriptInvokerBase<OnLocalPlayerJoinedGroup>();
 	
 	//------------------------------------------------------------------------------------------------
 	// Creates a group and sets its name in one request
@@ -61,6 +64,16 @@ modded class SCR_PlayerControllerGroupComponent
 		PlayerController pc = PlayerController.Cast(GetOwner());
 		groupsManager.RemovePlayerFromGroup(pc.GetPlayerId());
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	override void RPC_DoChangeGroupID(int groupID)
+	{
+		super.RPC_DoChangeGroupID(groupID);
+		m_OnLocalPlayerJoinedGroup.Invoke(groupID);
+	}
+	
+	
+	
 	
 	//------------------------------------------------------------------------------------------------
 	// Related to radio
@@ -133,5 +146,5 @@ modded class SCR_PlayerControllerGroupComponent
 			return null;
 		
 		return BaseRadioComponent.Cast(radio.FindComponent(BaseRadioComponent));
-	}	
+	}
 }
