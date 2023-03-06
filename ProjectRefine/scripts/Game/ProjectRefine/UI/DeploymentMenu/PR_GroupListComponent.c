@@ -20,6 +20,8 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 		widgets.m_CreateGroupButtonComponent.m_OnClicked.Insert(OnCreateGroupButton);
 		
 		GetGame().GetCallqueue().CallLater(OnFrame, 0, true);
+		
+		InitGroupList();
 	}
 	
 	override void HandlerDeattached(Widget w)
@@ -28,6 +30,22 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 		
 		if (m_GroupsMgr)
 			m_GroupsMgr.GetOnPlayableGroupCreated().Remove(Event_OnPlayableGroupCreated);
+	}
+	
+	// Creates group entries for all existing groups
+	void InitGroupList()
+	{
+		Faction myFaction = SCR_RespawnSystemComponent.GetLocalPlayerFaction();
+		
+		SCR_GroupsManagerComponent groupsMgr = SCR_GroupsManagerComponent.GetInstance();
+		
+		array<SCR_AIGroup> groups = groupsMgr.GetPlayableGroupsByFaction(myFaction);
+		
+		if (groups)
+		{
+			foreach (SCR_AIGroup group : groups)
+				CreateGroupEntry(group);
+		}
 	}
 	
 	// Creates a group entry widget for specified group

@@ -21,6 +21,8 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		ExpandMemberList(GetExpanded());
 		
 		UpdateJoinLeaveButton();
+		
+		GetGame().GetCallqueue().CallLater(OnFrame, 0, true);
 	}
 	
 	override void HandlerDeattached(Widget w)
@@ -28,6 +30,8 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		SCR_AIGroup.GetOnPlayerAdded().Remove(Event_OnPlayerAdded);
 		SCR_AIGroup.GetOnPlayerRemoved().Remove(Event_OnPlayerRemoved);
 		SCR_AIGroup.GetOnCustomNameChanged().Remove(Event_OnCustomNameChanged);
+		
+		GetGame().GetCallqueue().Remove(OnFrame);
 	}
 	
 	void Init(SCR_AIGroup group)
@@ -39,6 +43,25 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		SCR_AIGroup.GetOnCustomNameChanged().Insert(Event_OnCustomNameChanged);
 		
 		UpdateJoinLeaveButton();
+		UpdateGroupNameText();
+		UpdateMemberCountText();
+		InitGroupMemberList();
+	}
+	
+	void OnFrame()
+	{
+		UpdateGroupNameText(); // The event doesn't work for some reason, no time to investigate
+		UpdateMemberCountText();
+	}
+	
+	// Creates a group member line for every group member
+	void InitGroupMemberList()
+	{
+		array<int> groupMembers = m_Group.GetPlayerIDs();
+		foreach (int playerId : groupMembers)
+		{
+			CreateGroupMemberLine(playerId);
+		}
 	}
 	
 	void CreateGroupMemberLine(int playerId)
@@ -86,6 +109,16 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 			buttonMode = "not_joined";
 		
 		widgets.m_JoinLeaveButtonComponent.SetEffectsWithAnyTagEnabled({"all", buttonMode});
+	}
+	
+	void UpdateGroupNameText()
+	{
+		widgets.m_GroupNameText.SetText(m_Group.GetCustomName());
+	}
+	
+	void UpdateMemberCountText()
+	{
+		widgets.m_PlayerCountText.SetText(m_Group.GetPlayerCount().ToString());
 	}
 	
 	//-----------------------------------------------------------------------------------------------
@@ -169,7 +202,7 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		// Just update our name anyway
 		
 		if (m_Group)
-			widgets.m_GroupNameText.SetText(m_Group.GetCustomName());
+			UpdateGroupNameText();
 	}
 	
 	//--------------------------------------------------------------------------------

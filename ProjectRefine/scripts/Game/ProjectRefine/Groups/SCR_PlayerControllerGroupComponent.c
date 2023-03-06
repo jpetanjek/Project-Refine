@@ -42,7 +42,8 @@ modded class SCR_PlayerControllerGroupComponent
 		
 		// Set name
 		PlayerController pc = PlayerController.Cast(GetOwner());
-		newGroup.SetCustomName(groupName, pc.GetPlayerId());
+		int myPlayerId = pc.GetPlayerId();
+		newGroup.SetCustomName(groupName, myPlayerId);
 		
 		// New group sucessfully created
 		// The player should be automatically added/moved to it
@@ -63,6 +64,9 @@ modded class SCR_PlayerControllerGroupComponent
 		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
 		PlayerController pc = PlayerController.Cast(GetOwner());
 		groupsManager.RemovePlayerFromGroup(pc.GetPlayerId());
+		
+		RPC_DoChangeGroupID(-1);
+		Rpc(RPC_DoChangeGroupID, -1);
 	}
 	
 	//------------------------------------------------------------------------------------------------
