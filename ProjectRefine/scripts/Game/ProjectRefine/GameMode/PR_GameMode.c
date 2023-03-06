@@ -214,22 +214,6 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
-	override void EOnDiag(IEntity owner, float timeSlice)
-	{
-		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL))
-			DrawGameModePanel();
-		
-		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU))
-		{
-			// Temporary: set player faction
-			SCR_RespawnSystemComponent.GetInstance().SetPlayerFaction(GetGame().GetPlayerController().GetPlayerId(), 0);
-			
-			GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
-			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, 0);
-		}
-	}
-	
-	//-------------------------------------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
@@ -778,5 +762,35 @@ class PR_GameMode : SCR_BaseGameMode
 		DbgUI.Text(" ");
 		
 		DbgUI.End();
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	override void EOnDiag(IEntity owner, float timeSlice)
+	{
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL))
+			DrawGameModePanel();
+		
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU))
+		{
+			// Assign faction to all players
+			array<int>  allPlayers = {};
+			GetGame().GetPlayerManager().GetAllPlayers(allPlayers);
+			foreach (int playerId : allPlayers)
+			{
+				SCR_RespawnSystemComponent.GetInstance().SetPlayerFaction(playerId, 0);
+			}
+			
+			RpcDo_DiagOpenDeploymentMenu();
+			Rpc(RpcDo_DiagOpenDeploymentMenu);
+			
+			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, 0);
+		}
+	}
+	
+	// Just for debugging - opens deployment menu for everyone
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+	void RpcDo_DiagOpenDeploymentMenu()
+	{	
+		GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
 	}
 }
