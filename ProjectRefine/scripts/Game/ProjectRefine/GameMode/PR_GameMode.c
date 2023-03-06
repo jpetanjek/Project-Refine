@@ -221,6 +221,9 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU))
 		{
+			// Temporary: set player faction
+			SCR_RespawnSystemComponent.GetInstance().SetPlayerFaction(GetGame().GetPlayerController().GetPlayerId(), 0);
+			
 			GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
 			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, 0);
 		}

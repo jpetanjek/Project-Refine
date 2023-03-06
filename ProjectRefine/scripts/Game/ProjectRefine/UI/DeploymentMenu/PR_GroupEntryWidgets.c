@@ -13,8 +13,8 @@ class PR_GroupEntryWidgets
 
 	TextWidget m_PlayerCountText;
 
-	ButtonWidget m_JoinButton;
-	SCR_ModularButtonComponent m_JoinButtonComponent;
+	ButtonWidget m_JoinLeaveButton;
+	SCR_ModularButtonComponent m_JoinLeaveButtonComponent;
 
 	VerticalLayoutWidget m_GroupMemberList;
 
@@ -27,8 +27,8 @@ class PR_GroupEntryWidgets
 
 		m_PlayerCountText = TextWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.PlayerCount.m_PlayerCountText"));
 
-		m_JoinButton = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_JoinButton"));
-		m_JoinButtonComponent = SCR_ModularButtonComponent.Cast(m_JoinButton.FindHandler(SCR_ModularButtonComponent));
+		m_JoinLeaveButton = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_JoinLeaveButton"));
+		m_JoinLeaveButtonComponent = SCR_ModularButtonComponent.Cast(m_JoinLeaveButton.FindHandler(SCR_ModularButtonComponent));
 
 		m_GroupMemberList = VerticalLayoutWidget.Cast(root.FindWidget("VerticalLayout0.m_GroupMemberList"));
 

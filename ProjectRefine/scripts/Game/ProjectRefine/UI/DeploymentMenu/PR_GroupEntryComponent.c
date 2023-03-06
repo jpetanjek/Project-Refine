@@ -13,18 +13,32 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 	override void HandlerAttached(Widget w)
 	{
 		m_wRoot = w;
+		widgets.Init(w);
+		
+		widgets.m_ExpandButtonComponent.m_OnToggled.Insert(OnExpandButton);
+		widgets.m_JoinLeaveButtonComponent.m_OnClicked.Insert(OnJoinLeaveButton);
+		
+		ExpandMemberList(GetExpanded());
+		
+		UpdateJoinLeaveButton();
 	}
 	
 	override void HandlerDeattached(Widget w)
 	{
 		SCR_AIGroup.GetOnPlayerAdded().Remove(Event_OnPlayerAdded);
 		SCR_AIGroup.GetOnPlayerRemoved().Remove(Event_OnPlayerRemoved);
+		SCR_AIGroup.GetOnCustomNameChanged().Remove(Event_OnCustomNameChanged);
 	}
 	
 	void Init(SCR_AIGroup group)
 	{
+		m_Group = group;
+		
 		SCR_AIGroup.GetOnPlayerAdded().Insert(Event_OnPlayerAdded);
 		SCR_AIGroup.GetOnPlayerRemoved().Insert(Event_OnPlayerRemoved);
+		SCR_AIGroup.GetOnCustomNameChanged().Insert(Event_OnCustomNameChanged);
+		
+		UpdateJoinLeaveButton();
 	}
 	
 	void CreateGroupMemberLine(int playerId)
@@ -55,8 +69,68 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		m_wRoot.RemoveFromHierarchy();
 	}
 	
+	// Updates state of join button depending on our state
+	void UpdateJoinLeaveButton()
+	{
+		if (!m_Group)
+		{
+			widgets.m_JoinLeaveButtonComponent.SetEffectsWithAnyTagEnabled({"all", "not_joined"});
+			return;
+		}
+		
+		string buttonMode;
+		
+		if (m_Group.IsPlayerInGroup(GetGame().GetPlayerController().GetPlayerId())) // Are we in that group?
+			buttonMode = "joined";
+		else
+			buttonMode = "not_joined";
+		
+		widgets.m_JoinLeaveButtonComponent.SetEffectsWithAnyTagEnabled({"all", buttonMode});
+	}
+	
+	//-----------------------------------------------------------------------------------------------
+	// Collapsing/expanding
+	
+	bool GetExpanded()
+	{
+		return widgets.m_ExpandButtonComponent.GetToggled();
+	}
+	
+	protected void ExpandMemberList(bool expand)
+	{
+		widgets.m_GroupMemberList.SetVisible(expand);
+	}
+	
 	//--------------------------------------------------------------------------------
-	// Events
+	// Our UI events
+	
+	void OnJoinLeaveButton()
+	{
+		if (!m_Group)
+			return;
+		
+		SCR_PlayerControllerGroupComponent groupComp = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
+		
+		// Are we joining or leaving?
+		if (m_Group.IsPlayerInGroup(GetGame().GetPlayerController().GetPlayerId()))
+		{
+			// Leave
+			groupComp.RequestLeaveGroup();
+		}
+		else
+		{
+			// Join
+			groupComp.RequestJoinGroup(m_Group.GetGroupID());
+		}
+	}
+	
+	protected void OnExpandButton()
+	{
+		ExpandMemberList(GetExpanded());
+	}
+	
+	//--------------------------------------------------------------------------------
+	// External events
 	
 	void Event_OnPlayerAdded(SCR_AIGroup group, int playerId)
 	{
@@ -65,6 +139,13 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 			return;
 		
 		CreateGroupMemberLine(playerId);
+		
+		// Debugging
+		//CreateGroupMemberLine(playerId);
+		//CreateGroupMemberLine(playerId);
+		//CreateGroupMemberLine(playerId);
+		
+		UpdateJoinLeaveButton();
 	}
 	
 	void Event_OnPlayerRemoved(SCR_AIGroup group, int playerId)
@@ -78,6 +159,17 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 			return; // wtf?
 		
 		comp.RemoveFromUi();
+		
+		UpdateJoinLeaveButton();
+	}
+	
+	void Event_OnCustomNameChanged()
+	{
+		// Surprise surprise! We don't get new group name here, nor the group pointer
+		// Just update our name anyway
+		
+		if (m_Group)
+			widgets.m_GroupNameText.SetText(m_Group.GetCustomName());
 	}
 	
 	//--------------------------------------------------------------------------------

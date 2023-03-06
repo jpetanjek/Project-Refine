@@ -123,8 +123,63 @@ OverlayWidgetClass {
          }
         }
         ButtonWidgetClass "{5CB37852788FFEC1}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
-         Name "m_JoinButton"
+         Name "m_JoinLeaveButton"
          Slot LayoutSlot "{5CB378557E695658}" {
+         }
+         components {
+          SCR_ModularButtonComponent "{5CB3785628029158}" {
+           m_aEffects {
+            SCR_ButtonEffectOpacity "{5CB378561949E9B9}" {
+             m_aTags {
+              "all"
+             }
+            }
+            SCR_ButtonEffectOpacity "{5CB3785704BEB9C5}" {
+             m_aTags {
+              "all"
+             }
+            }
+            SCR_ButtonEffectText "{5CCB1A04BF582151}" {
+             m_aTags {
+              "not_joined"
+             }
+             m_eEvents 63
+             m_sWidgetName "Text"
+             m_sDefault "JOIN"
+             m_sHovered "JOIN"
+             m_sActivated "JOIN"
+             m_sActivatedHovered "JOIN"
+             m_sDisabled "JOIN"
+             m_sDisabledActivated "JOIN"
+            }
+            SCR_ButtonEffectText "{5CCB1A04FFEEF36E}" {
+             m_aTags {
+              "joined"
+             }
+             m_eEvents 63
+             m_sWidgetName "Text"
+             m_sDefault "LEAVE"
+             m_sHovered "LEAVE"
+             m_sActivated "LEAVE"
+             m_sActivatedHovered "LEAVE"
+             m_sDisabled "LEAVE"
+             m_sDisabledActivated "LEAVE"
+            }
+            SCR_ButtonEffectText "{5CCB1A04D91EAB7D}" {
+             m_aTags {
+              "full"
+             }
+             m_eEvents 63
+             m_sWidgetName "Text"
+             m_sDefault "FULL"
+             m_sHovered "FULL"
+             m_sActivated "FULL"
+             m_sActivatedHovered "FULL"
+             m_sDisabled "FULL"
+             m_sDisabledActivated "FULL"
+            }
+           }
+          }
          }
          {
           SizeLayoutWidgetClass "{5CB37856F029CE83}" {
@@ -155,28 +210,6 @@ OverlayWidgetClass {
      components {
       SCR_WidgetExportRule "{5CB40A8644DD7B34}" {
        ExportChildWidgets 0
-      }
-     }
-     {
-      SizeLayoutWidgetClass "{5CB40A85F3EDFD7F}" : "{045345094C0BD150}UI/DeploymentMenu/GroupMemberLine.layout" {
-       Name "SizeLayout00"
-       Slot LayoutSlot "{5CB40A8688EE0E08}" {
-       }
-      }
-      SizeLayoutWidgetClass "{5CB40A85F00A2BF5}" : "{045345094C0BD150}UI/DeploymentMenu/GroupMemberLine.layout" {
-       Name "SizeLayout01"
-       Slot LayoutSlot "{5CB40A8688EE0E08}" {
-       }
-      }
-      SizeLayoutWidgetClass "{5CB40A85F028959F}" : "{045345094C0BD150}UI/DeploymentMenu/GroupMemberLine.layout" {
-       Name "SizeLayout02"
-       Slot LayoutSlot "{5CB40A8688EE0E08}" {
-       }
-      }
-      SizeLayoutWidgetClass "{5CB40A85F0451BFB}" : "{045345094C0BD150}UI/DeploymentMenu/GroupMemberLine.layout" {
-       Name "SizeLayout03"
-       Slot LayoutSlot "{5CB40A8688EE0E08}" {
-       }
       }
      }
     }

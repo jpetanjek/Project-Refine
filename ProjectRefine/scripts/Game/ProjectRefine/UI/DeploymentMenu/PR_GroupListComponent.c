@@ -71,11 +71,15 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 	{
 		string groupName = widgets.m_GroupNameEditBoxComponent.GetValue();
 		
+		// If group name was not provided, bail and show a notification
 		if (groupName.IsEmpty())
 		{
 			ShowNotification(ENotification.PR_GROUP_MUST_HAVE_NAME);
 			return;
 		}
+		
+		SCR_PlayerControllerGroupComponent groupComponent = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
+		groupComponent.RequestCreateGroupWithName(groupName);
 	}
 	
 	//-----------------------------------------------------------------------------------------------

@@ -22,4 +22,13 @@ modded class SCR_GroupsManagerComponent
 		int factionId = fm.GetFactionIndex(faction);
 		return m_iSquadlessFrequencies[factionId];
 	}
+	
+	//------------------------------------------------------------------------
+	void RemovePlayerFromGroup(int playerID)
+	{
+		SCR_AIGroup currentGroup = GetPlayerGroup(playerID);
+		
+		if (currentGroup)
+			currentGroup.RemovePlayer(playerID);
+	}
 }
