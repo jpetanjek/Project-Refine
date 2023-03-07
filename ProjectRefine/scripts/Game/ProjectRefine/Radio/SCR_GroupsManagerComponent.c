@@ -31,4 +31,21 @@ modded class SCR_GroupsManagerComponent
 		if (currentGroup)
 			currentGroup.RemovePlayer(playerID);
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Is called only on the server (authority)
+	//! The original method also creates a new group for no reason, we don't need this here
+	override void OnPlayerFactionChanged(int playerID, int factionIndex)
+	{
+		FactionManager factionManager = GetGame().GetFactionManager();
+		if (!factionManager)
+			return;
+		
+		Faction faction = factionManager.GetFactionByIndex(factionIndex);
+		if (!faction)
+			return;
+		//SCR_AIGroup newPlayerGroup = GetFirstNotFullForFaction(faction);
+		//if (!newPlayerGroup)
+		//	newPlayerGroup = CreateNewPlayableGroup(faction);
+	}
 }
