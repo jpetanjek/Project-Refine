@@ -45,6 +45,27 @@ OverlayWidgetClass {
           Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
          }
         }
+        ButtonWidgetClass "{5CCF4088F0776C0A}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
+         Name "m_ActionButton"
+         Slot LayoutSlot "{5CB378557E695658}" {
+         }
+         {
+          SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+           Prefab "{5CB37856F029CE83}"
+           {
+            OverlayWidgetClass "{5CB378554B951C94}" {
+             Prefab "{5CB378554B951C94}"
+             {
+              TextWidgetClass "{5CB378555DCCD4DC}" {
+               Prefab "{5CB378555DCCD4DC}"
+               Text "  ...  "
+              }
+             }
+            }
+           }
+          }
+         }
+        }
         ButtonWidgetClass "{5CB37853C25A4D81}" : "{D07ED8A849945CCE}UI/DeploymentMenu/Elements/ButtonEmpty.layout" {
          Name "m_ExpandButton"
          Slot LayoutSlot "{5CB378557E695658}" {
@@ -64,6 +85,7 @@ OverlayWidgetClass {
             }
            }
            m_bCanBeToggled 1
+           m_bToggledAtStart 1
           }
          }
          {

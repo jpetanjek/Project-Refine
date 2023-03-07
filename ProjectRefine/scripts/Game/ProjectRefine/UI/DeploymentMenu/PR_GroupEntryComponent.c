@@ -17,6 +17,7 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		
 		widgets.m_ExpandButtonComponent.m_OnToggled.Insert(OnExpandButton);
 		widgets.m_JoinLeaveButtonComponent.m_OnClicked.Insert(OnJoinLeaveButton);
+		widgets.m_ActionButtonComponent.m_OnClicked.Insert(OnActionButton);
 		
 		ExpandMemberList(GetExpanded());
 		
@@ -113,7 +114,9 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 	
 	void UpdateGroupNameText()
 	{
-		widgets.m_GroupNameText.SetText(m_Group.GetCustomName());
+		PlayerManager pm = GetGame().GetPlayerManager();
+		string leaderName = pm.GetPlayerName(m_Group.GetLeaderID());
+		widgets.m_GroupNameText.SetText(string.Format("%1 (%2)", m_Group.GetCustomName(), leaderName));
 	}
 	
 	void UpdateMemberCountText()
@@ -160,6 +163,18 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 	protected void OnExpandButton()
 	{
 		ExpandMemberList(GetExpanded());
+	}
+	
+	protected void OnActionButton()
+	{
+		Widget wTooltip = SCR_TooltipManagerEntity.CreateTooltipEx("{9EEDAB4F4D223D45}UI/DeploymentMenu/GroupTooltip.layout",
+			widgets.m_ActionButton,
+			followCursor: false,
+			checkWidgetUnderCursor: false,
+			offset: "5 5 0");
+		
+		PR_GroupTooltipComponent groupTooltipComp = PR_GroupTooltipComponent.Cast(wTooltip.FindHandler(PR_GroupTooltipComponent));
+		groupTooltipComp.Init(m_Group);
 	}
 	
 	//--------------------------------------------------------------------------------

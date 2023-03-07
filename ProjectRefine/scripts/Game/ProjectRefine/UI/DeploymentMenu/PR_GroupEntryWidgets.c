@@ -8,6 +8,9 @@ class PR_GroupEntryWidgets
 
 	TextWidget m_GroupNameText;
 
+	ButtonWidget m_ActionButton;
+	SCR_ModularButtonComponent m_ActionButtonComponent;
+
 	ButtonWidget m_ExpandButton;
 	SCR_ModularButtonComponent m_ExpandButtonComponent;
 
@@ -21,6 +24,9 @@ class PR_GroupEntryWidgets
 	bool Init(Widget root)
 	{
 		m_GroupNameText = TextWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_GroupNameText"));
+
+		m_ActionButton = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_ActionButton"));
+		m_ActionButtonComponent = SCR_ModularButtonComponent.Cast(m_ActionButton.FindHandler(SCR_ModularButtonComponent));
 
 		m_ExpandButton = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_ExpandButton"));
 		m_ExpandButtonComponent = SCR_ModularButtonComponent.Cast(m_ExpandButton.FindHandler(SCR_ModularButtonComponent));

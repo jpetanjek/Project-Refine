@@ -39,6 +39,9 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 		
 		SCR_GroupsManagerComponent groupsMgr = SCR_GroupsManagerComponent.GetInstance();
 		
+		if (!groupsMgr)
+			return;
+		
 		array<SCR_AIGroup> groups = groupsMgr.GetPlayableGroupsByFaction(myFaction);
 		
 		if (groups)
