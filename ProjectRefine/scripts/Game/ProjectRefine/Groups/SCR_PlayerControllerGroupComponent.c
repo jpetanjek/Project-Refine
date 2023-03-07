@@ -1,9 +1,9 @@
-typedef func OnLocalPlayerJoinedGroup;
-void OnLocalPlayerJoinedGroup(int groupID);
+typedef func OnLocalPlayerChangedGroup;
+void OnLocalPlayerChangedGroup(int groupID);
 
 modded class SCR_PlayerControllerGroupComponent
 {
-	ref ScriptInvokerBase<OnLocalPlayerJoinedGroup> m_OnLocalPlayerJoinedGroup = new ScriptInvokerBase<OnLocalPlayerJoinedGroup>();
+	ref ScriptInvokerBase<OnLocalPlayerChangedGroup> m_OnLocalPlayerChangedGroup = new ScriptInvokerBase<OnLocalPlayerChangedGroup>();
 	
 	//------------------------------------------------------------------------------------------------
 	// Creates a group and sets its name in one request
@@ -73,7 +73,7 @@ modded class SCR_PlayerControllerGroupComponent
 	override void RPC_DoChangeGroupID(int groupID)
 	{
 		super.RPC_DoChangeGroupID(groupID);
-		m_OnLocalPlayerJoinedGroup.Invoke(groupID);
+		m_OnLocalPlayerChangedGroup.Invoke(groupID);
 	}
 	
 	

@@ -16,11 +16,16 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 	{
 		m_wRoot = w;
 		
+		widgets.Init(m_wRoot);
+		
 		m_GroupManager = SCR_GroupsManagerComponent.GetInstance();
 		
 		// Event subscription
 		SCR_PlayerControllerGroupComponent groupController = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
-		groupController.m_OnLocalPlayerJoinedGroup.Insert(OnLocalPlayerJoinedGroup);
+		if(!groupController)
+			return;
+		
+		groupController.m_OnLocalPlayerChangedGroup.Insert(OnLocalPlayerChangedGroup);
 		
 		m_Group = m_GroupManager.FindGroup(groupController.GetGroupID());
 		
@@ -41,7 +46,7 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		bool what = 1;
 	}
 	
-	void OnLocalPlayerJoinedGroup(int groupID)
+	void OnLocalPlayerChangedGroup(int groupID)
 	{
 		if(m_Group)
 		{
@@ -49,15 +54,13 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 			PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent)).m_OnAvailabilityChanged.Remove(OnAvailabilityChanged);
 		}
 		
-		if(groupID == -1)
-		{
-			// No group - destroy everything drawn?
-		}
-		
 		// Find new group
 		m_Group = m_GroupManager.FindGroup(groupID);
 		if (!m_Group)
+		{
+			// No group - destroy everything drawn?
 			return;	
+		}
 		
 		// Find component
 		PR_GroupRoleManagerComponent groupRoleManagerComponent = PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent));
@@ -75,6 +78,11 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 	
 	void ReDrawCurrentAvailability(PR_GroupRoleManagerComponent groupRoleManagerComponent)
 	{
-	
+		// Draw some debug role panel
+		Widget wEntry = GetGame().GetWorkspace().CreateWidgets(PR_RoleEntryWidgets.s_sLayout, widgets.m_RoleListLayout);
+		
+		PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(wEntry.FindHandler(PR_RoleEntryComponent));
+		
+		comp.Init();
 	}
 }
