@@ -3,6 +3,15 @@ ButtonWidgetClass {
  Slot LayoutSlot "{5CB4B168EA093526}" {
  }
  Color 0 0 0 0
+ components {
+  PR_RoleEntryComponent "{5CCF29C06BA6DF93}" {
+  }
+  SCR_WidgetExportRuleRoot "{5CCF29C053D02A90}" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+   ScriptAddon "$ProjectRefine:"
+   ScriptClassNamePrefix "PR_"
+  }
+ }
  {
   SizeLayoutWidgetClass "{5CB4B168359E684D}" {
    Name "SizeConstraint"
@@ -25,7 +34,7 @@ ButtonWidgetClass {
        {
         VerticalLayoutWidgetClass "{5CB4B1663DDC6228}" {
          Name "NameOverlay"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5CCF29C09C3C5F18}" {
          }
          {
           SizeLayoutWidgetClass "{5CB4B1662EAE33A5}" {
@@ -91,7 +100,7 @@ ButtonWidgetClass {
         }
         VerticalLayoutWidgetClass "{5CB4B16612977907}" {
          Name "DescriptionOverlay"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5CCF29C09C3C5F8E}" {
          }
          {
           SizeLayoutWidgetClass "{5CB4B167F9382A5B}" {
