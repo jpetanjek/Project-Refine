@@ -16,7 +16,7 @@ class PR_GroupListWidgets
 
 	bool Init(Widget root)
 	{
-		m_GroupListLayout = VerticalLayoutWidget.Cast(root.FindWidget("VerticalLayout0.m_GroupListLayout"));
+		m_GroupListLayout = VerticalLayoutWidget.Cast(root.FindWidget("VerticalLayout0.ScrollSize.ScrollLayout0.m_GroupListLayout"));
 
 		m_GroupNameEditBox = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.CreateGroup.m_GroupNameEditBox"));
 		m_GroupNameEditBoxComponent = SCR_EditBoxComponent.Cast(m_GroupNameEditBox.FindHandler(SCR_EditBoxComponent));

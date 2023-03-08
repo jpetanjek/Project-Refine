@@ -6,15 +6,19 @@ class PR_GroupEntryWidgets
 	static const ResourceName s_sLayout = "{E5B94A03AF210305}UI/DeploymentMenu/GroupEntry.layout";
 	ResourceName GetLayout() { return s_sLayout; }
 
-	TextWidget m_GroupNameText;
-
-	ButtonWidget m_ActionButton;
-	SCR_ModularButtonComponent m_ActionButtonComponent;
-
 	ButtonWidget m_ExpandButton;
 	SCR_ModularButtonComponent m_ExpandButtonComponent;
 
 	TextWidget m_PlayerCountText;
+
+	ImageWidget m_LockImage;
+
+	TextWidget m_GroupNameText;
+
+	TextWidget m_LeaderNameText;
+
+	ButtonWidget m_ActionButton;
+	SCR_ModularButtonComponent m_ActionButtonComponent;
 
 	ButtonWidget m_JoinLeaveButton;
 	SCR_ModularButtonComponent m_JoinLeaveButtonComponent;
@@ -23,15 +27,19 @@ class PR_GroupEntryWidgets
 
 	bool Init(Widget root)
 	{
-		m_GroupNameText = TextWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_GroupNameText"));
-
-		m_ActionButton = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_ActionButton"));
-		m_ActionButtonComponent = SCR_ModularButtonComponent.Cast(m_ActionButton.FindHandler(SCR_ModularButtonComponent));
-
 		m_ExpandButton = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_ExpandButton"));
 		m_ExpandButtonComponent = SCR_ModularButtonComponent.Cast(m_ExpandButton.FindHandler(SCR_ModularButtonComponent));
 
 		m_PlayerCountText = TextWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.PlayerCount.m_PlayerCountText"));
+
+		m_LockImage = ImageWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_LockImage"));
+
+		m_GroupNameText = TextWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_GroupNameText"));
+
+		m_LeaderNameText = TextWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_LeaderNameText"));
+
+		m_ActionButton = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_ActionButton"));
+		m_ActionButtonComponent = SCR_ModularButtonComponent.Cast(m_ActionButton.FindHandler(SCR_ModularButtonComponent));
 
 		m_JoinLeaveButton = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.HeaderSize.HorizontalLayout0.m_JoinLeaveButton"));
 		m_JoinLeaveButtonComponent = SCR_ModularButtonComponent.Cast(m_JoinLeaveButton.FindHandler(SCR_ModularButtonComponent));

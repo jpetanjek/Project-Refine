@@ -19,6 +19,7 @@ SizeLayoutWidgetClass {
    Slot AlignableSlot "{5CB12388A4524464}" {
     HorizontalAlign 3
     VerticalAlign 3
+    Padding 5 0 5 0
    }
    {
     TextWidgetClass "{5CB12388B6814180}" {
@@ -27,10 +28,29 @@ SizeLayoutWidgetClass {
      }
      Text "Group List"
     }
-    VerticalLayoutWidgetClass "{5CB12388AB64936E}" {
-     Name "m_GroupListLayout"
-     Slot LayoutSlot "{5CB12388AB649345}" {
+    SizeLayoutWidgetClass "{5CD1598FDA678EB5}" {
+     Name "ScrollSize"
+     Slot LayoutSlot "{5CD1598FDA678E9F}" {
       SizeMode Fill
+     }
+     HeightOverride 900
+     {
+      ScrollLayoutWidgetClass "{5CD1598FD6DD86C9}" {
+       Name "ScrollLayout0"
+       Slot AlignableSlot "{5CD1598FDA70D639}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        VerticalLayoutWidgetClass "{5CB12388AB64936E}" {
+         Name "m_GroupListLayout"
+         Slot AlignableSlot "{5CD1598FD6E6B0FD}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+        }
+       }
+      }
      }
     }
     HorizontalLayoutWidgetClass "{5CC91A87BE4DCADF}" {

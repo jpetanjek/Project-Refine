@@ -54,7 +54,9 @@ modded class SCR_GroupsManagerComponent
 	void DeleteGroupRemovePlayersDelayed(notnull SCR_AIGroup group)
 	{
 		array<int> players = group.GetPlayerIDs();
-		foreach (int playerId : players)
+		array<int> playersCopy = {};
+		playersCopy.Copy(players);
+		foreach (int playerId : playersCopy)
 		{
 			group.RemovePlayer(playerId);
 		}

@@ -109,7 +109,10 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 	void Event_OnPlayableGroupCreated(SCR_AIGroup group)
 	{
 		if (group)
+		{
+			//for (int i = 0; i < 20; i++)
 			CreateGroupEntry(group);
+		}
 	}
 	
 	//-----------------------------------------------------------------------------------------------

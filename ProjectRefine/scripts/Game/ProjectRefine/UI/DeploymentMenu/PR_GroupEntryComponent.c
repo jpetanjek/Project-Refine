@@ -46,13 +46,20 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		UpdateJoinLeaveButton();
 		UpdateGroupNameText();
 		UpdateMemberCountText();
+		UpdateLockImage();
+		UpdateActionButton();
 		InitGroupMemberList();
 	}
 	
 	void OnFrame()
 	{
+		if (!m_Group)
+			return;
+		
 		UpdateGroupNameText(); // The event doesn't work for some reason, no time to investigate
 		UpdateMemberCountText();
+		UpdateLockImage();
+		UpdateActionButton();
 	}
 	
 	// Creates a group member line for every group member
@@ -116,12 +123,24 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 	{
 		PlayerManager pm = GetGame().GetPlayerManager();
 		string leaderName = pm.GetPlayerName(m_Group.GetLeaderID());
-		widgets.m_GroupNameText.SetText(string.Format("%1 (%2)", m_Group.GetCustomName(), leaderName));
+		widgets.m_GroupNameText.SetText(m_Group.GetCustomName());
+		widgets.m_LeaderNameText.SetText(leaderName);
 	}
 	
 	void UpdateMemberCountText()
 	{
-		widgets.m_PlayerCountText.SetText(m_Group.GetPlayerCount().ToString());
+		widgets.m_PlayerCountText.SetText(string.Format("%1/%2", m_Group.GetPlayerCount(), m_Group.GetMaxMembers()));
+	}
+	
+	void UpdateLockImage()
+	{
+		widgets.m_LockImage.SetVisible(m_Group.IsPrivate());
+	}
+	
+	void UpdateActionButton()
+	{
+		bool isLeader = m_Group.IsPlayerLeader(GetGame().GetPlayerController().GetPlayerId());
+		widgets.m_ActionButton.SetVisible(isLeader);
 	}
 	
 	//-----------------------------------------------------------------------------------------------
@@ -171,7 +190,7 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 			widgets.m_ActionButton,
 			followCursor: false,
 			checkWidgetUnderCursor: false,
-			offset: "5 5 0");
+			offset: "-5 10 0");
 		
 		PR_GroupTooltipComponent groupTooltipComp = PR_GroupTooltipComponent.Cast(wTooltip.FindHandler(PR_GroupTooltipComponent));
 		groupTooltipComp.Init(m_Group);
