@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{D734BA5F9FB4DC5A}UI/DeploymentMenu/Elements/PR_RolePanel.layout"
+ Name "{D734BA5F9FB4DC5A}UI/DeploymentMenu/RoleEntry.layout"
  Configurations {
   LayoutResourceClass PC {
   }

@@ -10,7 +10,7 @@ class PR_RoleListWidgets
 
 	bool Init(Widget root)
 	{
-		m_RoleListLayout = VerticalLayoutWidget.Cast(root.FindWidget("VerticalLayout0.m_RoleListLayout"));
+		m_RoleListLayout = VerticalLayoutWidget.Cast(root.FindWidget("VerticalLayout0.SizeLayout0.ScrollLayout0.m_RoleListLayout"));
 
 		return true;
 	}

@@ -16,6 +16,7 @@ ButtonWidgetClass {
   SizeLayoutWidgetClass "{5CB4B168359E684D}" {
    Name "SizeConstraint"
    Slot ButtonWidgetSlot "{5CB4B168359E6815}" {
+    HorizontalAlign 3
    }
    AllowHeightOverride 1
    HeightOverride 108
@@ -29,7 +30,8 @@ ButtonWidgetClass {
      {
       VerticalLayoutWidgetClass "{5CB4B164288E5CFA}" {
        Name "LineElements"
-       Slot OverlayWidgetSlot "{5CB4B164288E5C91}" {
+       Slot OverlayWidgetSlot {
+        HorizontalAlign 3
        }
        {
         VerticalLayoutWidgetClass "{5CB4B1663DDC6228}" {
@@ -96,27 +98,13 @@ ButtonWidgetClass {
            }
            Text "Secondary Weapon"
           }
-         }
-        }
-        VerticalLayoutWidgetClass "{5CB4B16612977907}" {
-         Name "DescriptionOverlay"
-         Slot LayoutSlot "{5CCF29C09C3C5F8E}" {
-         }
-         {
-          SizeLayoutWidgetClass "{5CB4B167F9382A5B}" {
-           Name "padding"
+          SizeLayoutWidgetClass "{5CD12E8B9F453A24}" {
+           Name "padding0"
            Slot LayoutSlot "{5712E90CF66CA76F}" {
            }
            WidthOverride 0
            AllowHeightOverride 1
            HeightOverride 2
-          }
-          TextWidgetClass "{5CB4B16567BEC816}" {
-           Name "m_RoleDescription"
-           Slot LayoutSlot "{5CB4B16567BECBCA}" {
-            HorizontalAlign 0
-           }
-           Text "Description"
           }
          }
         }

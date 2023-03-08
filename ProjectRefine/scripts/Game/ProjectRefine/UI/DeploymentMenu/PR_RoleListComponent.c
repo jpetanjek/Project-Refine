@@ -78,11 +78,45 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 	
 	void ReDrawCurrentAvailability(PR_GroupRoleManagerComponent groupRoleManagerComponent)
 	{
-		// Draw some debug role panel
-		Widget wEntry = GetGame().GetWorkspace().CreateWidgets(PR_RoleEntryWidgets.s_sLayout, widgets.m_RoleListLayout);
+		PlayerController localPC =  GetGame().GetPlayerController();
+		if(localPC == null)
+			return;
 		
-		PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(wEntry.FindHandler(PR_RoleEntryComponent));
+		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
+		if (respawnSystem == null)
+			return;
 		
-		comp.Init();
+		SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
+		if(playerRespawnInfo == null)
+			return;
+		
+		
+		FactionManager factionManager = GetGame().GetFactionManager();
+		if (factionManager  == null)
+			return;
+		
+		SCR_Faction faction = SCR_Faction.Cast(factionManager.GetFactionByIndex(playerRespawnInfo.GetPlayerFactionIndex()));
+		if(faction  == null)
+			return;
+					
+		PR_RoleList fullRoleList = faction.GetRoleList();
+		if(fullRoleList == null)
+			return;
+				
+		array<PR_Role> roleList = {};
+		fullRoleList.GetRoleList(roleList);
+		
+		for(int i = 0; i < roleList.Count(); i++)
+		{
+				
+			// Draw some debug role panel
+			Widget wEntry = GetGame().GetWorkspace().CreateWidgets(PR_RoleEntryWidgets.s_sLayout, widgets.m_RoleListLayout);
+			
+			PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(wEntry.FindHandler(PR_RoleEntryComponent));
+			
+			comp.Init();
+		}
+		
+		
 	}
 }

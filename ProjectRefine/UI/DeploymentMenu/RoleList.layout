@@ -12,6 +12,8 @@ SizeLayoutWidgetClass {
  }
  AllowWidthOverride 1
  WidthOverride 300
+ AllowHeightOverride 1
+ HeightOverride 600
  {
   VerticalLayoutWidgetClass "{5CB1238627B0930E}" {
    Name "VerticalLayout0"
@@ -26,9 +28,25 @@ SizeLayoutWidgetClass {
      }
      Text "Role selection"
     }
-    VerticalLayoutWidgetClass "{5CB12386922384B9}" {
-     Name "m_RoleListLayout"
+    SizeLayoutWidgetClass "{5CB12386922384B9}" {
+     Name "SizeLayout0"
      Slot LayoutSlot "{5CB1544DB3445C57}" {
+     }
+     AllowHeightOverride 1
+     HeightOverride 600
+     {
+      ScrollLayoutWidgetClass "{5CD12E83B19F38D8}" {
+       Name "ScrollLayout0"
+       Slot AlignableSlot "{5CD144D75ABCD2C3}" {
+       }
+       {
+        VerticalLayoutWidgetClass "{5CD144D72EF5C58C}" {
+         Name "m_RoleListLayout"
+         Slot AlignableSlot "{5CD144D72EF5C451}" {
+         }
+        }
+       }
+      }
      }
     }
    }
