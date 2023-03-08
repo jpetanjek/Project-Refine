@@ -86,6 +86,7 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	{
 		m_OnAvailabilityChanged.Invoke(this);
 		
+		/*
 		// Get local group
 		SCR_PlayerControllerGroupComponent groupController = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
 		if (!groupController)
@@ -96,9 +97,13 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		
 		if(thisGroupId != groupController.GetGroupID())
 			return;
-		
+		*/
 	}
 	
+	void GetClaimableRolesCount(notnull out array<int> in_aClaimable)
+	{
+		in_aClaimable.Copy(m_aClaimableRolesCount);
+	}
 	
 	//-----------------------------------------------
 	// GROUP MEMBER UI LOGIC START

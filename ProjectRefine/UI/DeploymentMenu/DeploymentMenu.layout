@@ -196,6 +196,17 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                    ExportChildWidgets 0
                   }
                  }
+                 {
+                  VerticalLayoutWidgetClass "{5CB1238627B0930E}" {
+                   Prefab "{5CB1238627B0930E}"
+                   {
+                    SizeLayoutWidgetClass "{5CB12386922384B9}" {
+                     Prefab "{5CB12386922384B9}"
+                     HeightOverride 930
+                    }
+                   }
+                  }
+                 }
                 }
                 SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMenu/GroupList.layout" {
                  Name "m_GroupList"
