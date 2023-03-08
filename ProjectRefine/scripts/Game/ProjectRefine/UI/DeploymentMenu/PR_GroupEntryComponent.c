@@ -60,6 +60,8 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		UpdateMemberCountText();
 		UpdateLockImage();
 		UpdateActionButton();
+		UpdateJoinLeaveButtonEnabled();
+		UpdateJoinLeaveButton();
 	}
 	
 	// Creates a group member line for every group member
@@ -117,6 +119,22 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 			buttonMode = "not_joined";
 		
 		widgets.m_JoinLeaveButtonComponent.SetEffectsWithAnyTagEnabled({"all", buttonMode});
+	}
+	
+	void UpdateJoinLeaveButtonEnabled()
+	{
+		bool enabled = true;
+		
+		if (m_Group.IsPrivate())
+		{
+			bool inGroup = m_Group.IsPlayerInGroup(GetGame().GetPlayerController().GetPlayerId());
+			if (!inGroup)
+				enabled = false;
+		}
+		else if (m_Group.IsFull())
+			enabled = false;
+		
+		widgets.m_JoinLeaveButtonComponent.SetEnabled(enabled);
 	}
 	
 	void UpdateGroupNameText()
@@ -211,8 +229,6 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		//CreateGroupMemberLine(playerId);
 		//CreateGroupMemberLine(playerId);
 		//CreateGroupMemberLine(playerId);
-		
-		UpdateJoinLeaveButton();
 	}
 	
 	void Event_OnPlayerRemoved(SCR_AIGroup group, int playerId)
@@ -226,8 +242,6 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 			return; // wtf?
 		
 		comp.RemoveFromUi();
-		
-		UpdateJoinLeaveButton();
 	}
 	
 	void Event_OnCustomNameChanged()

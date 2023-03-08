@@ -175,6 +175,11 @@ OverlayWidgetClass {
          components {
           SCR_ModularButtonComponent "{5CB3785628029158}" {
            m_aEffects {
+            SCR_ButtonEffectColor "{5CD171E7532193C2}" {
+             m_aTags {
+              "all"
+             }
+            }
             SCR_ButtonEffectOpacity "{5CB378561949E9B9}" {
              m_aTags {
               "all"
@@ -189,14 +194,11 @@ OverlayWidgetClass {
              m_aTags {
               "not_joined"
              }
-             m_eEvents 63
+             m_eEvents 19
              m_sWidgetName "Text"
              m_sDefault "JOIN"
              m_sHovered "JOIN"
-             m_sActivated "JOIN"
-             m_sActivatedHovered "JOIN"
              m_sDisabled "JOIN"
-             m_sDisabledActivated "JOIN"
             }
             SCR_ButtonEffectText "{5CCB1A04FFEEF36E}" {
              m_aTags {
@@ -206,23 +208,17 @@ OverlayWidgetClass {
              m_sWidgetName "Text"
              m_sDefault "LEAVE"
              m_sHovered "LEAVE"
-             m_sActivated "LEAVE"
-             m_sActivatedHovered "LEAVE"
              m_sDisabled "LEAVE"
-             m_sDisabledActivated "LEAVE"
             }
             SCR_ButtonEffectText "{5CCB1A04D91EAB7D}" {
              m_aTags {
               "full"
              }
-             m_eEvents 63
+             m_eEvents 19
              m_sWidgetName "Text"
              m_sDefault "FULL"
              m_sHovered "FULL"
-             m_sActivated "FULL"
-             m_sActivatedHovered "FULL"
              m_sDisabled "FULL"
-             m_sDisabledActivated "FULL"
             }
            }
           }
@@ -230,6 +226,8 @@ OverlayWidgetClass {
          {
           SizeLayoutWidgetClass "{5CB37856F029CE83}" {
            Prefab "{5CB37856F029CE83}"
+           AllowWidthOverride 1
+           WidthOverride 83
            {
             OverlayWidgetClass "{5CB378554B951C94}" {
              Prefab "{5CB378554B951C94}"

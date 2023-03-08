@@ -8,11 +8,12 @@ ButtonWidgetClass {
   SCR_ModularButtonComponent "{5CB3785628029158}" {
    m_aEffects {
     SCR_ButtonEffectOpacity "{5CB378561949E9B9}" {
-     m_eEvents 3
+     m_eEvents 19
      m_sWidgetName "BG"
      m_fAnimationTime 0.05
      m_fDefault 0.3
      m_fHovered 0.5
+     m_fDisabled 0.3
      m_fClicked 0
     }
     SCR_ButtonEffectOpacity "{5CB3785704BEB9C5}" {
@@ -20,6 +21,14 @@ ButtonWidgetClass {
      m_sWidgetName "BG"
      m_fAnimationTime 0
      m_fClicked 1
+    }
+    SCR_ButtonEffectColor "{5CD171E7532193C2}" {
+     m_eEvents 19
+     m_sWidgetName "Text"
+     m_fAnimationTime 0
+     m_cDefault 1 1 1 1
+     m_cHovered 1 1 1 1
+     m_cDisabled 0.521 0.521 0.521 1
     }
    }
   }
