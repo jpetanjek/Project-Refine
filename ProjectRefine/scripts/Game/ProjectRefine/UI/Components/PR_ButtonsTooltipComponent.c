@@ -55,5 +55,8 @@ class PR_ButtonsTooltipComponent : ScriptedWidgetComponent
 			m_wRoot.RemoveFromHierarchy(); // bye
 	}
 	
-	
+	void Close()
+	{
+		m_wRoot.RemoveFromHierarchy();
+	}
 }

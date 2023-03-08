@@ -48,4 +48,18 @@ modded class SCR_GroupsManagerComponent
 		//if (!newPlayerGroup)
 		//	newPlayerGroup = CreateNewPlayableGroup(faction);
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Deletes group and removes all players from it
+	void DeleteGroupRemovePlayersDelayed(notnull SCR_AIGroup group)
+	{
+		array<int> players = group.GetPlayerIDs();
+		foreach (int playerId : players)
+		{
+			group.RemovePlayer(playerId);
+		}
+		
+		// No need to call this, it has deleted the group after it became empty
+		//DeleteGroupDelayed(group);
+	}
 }

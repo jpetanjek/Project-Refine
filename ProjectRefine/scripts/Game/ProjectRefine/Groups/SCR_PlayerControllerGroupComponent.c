@@ -6,6 +6,34 @@ modded class SCR_PlayerControllerGroupComponent
 	ref ScriptInvokerBase<OnLocalPlayerChangedGroup> m_OnLocalPlayerChangedGroup = new ScriptInvokerBase<OnLocalPlayerChangedGroup>();
 	
 	//------------------------------------------------------------------------------------------------
+	// Note that it will only let you delete the group if you are the group leader
+	void RequestDeleteGroup(int groupID)
+	{
+		Rpc(RPC_AskDeleteGroup, groupID);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	void RPC_AskDeleteGroup(int groupID)
+	{
+		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
+		if (!groupsManager)
+			return;
+		
+		SCR_AIGroup group = groupsManager.FindGroup(groupID);
+		if (!group)
+			return;
+		
+		// Are you even the leader of the group?
+		int groupLeaderId = group.GetLeaderID();
+		int myId = PlayerController.Cast(GetOwner()).GetPlayerId();
+		if (myId != groupLeaderId)
+			return;
+		
+		groupsManager.DeleteGroupRemovePlayersDelayed(group);
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	// Creates a group and sets its name in one request
 	void RequestCreateGroupWithName(string groupName)
 	{
@@ -77,6 +105,11 @@ modded class SCR_PlayerControllerGroupComponent
 	}
 	
 	
+	//------------------------------------------------------------------------------------------------
+	static SCR_PlayerControllerGroupComponent GetLocalInstance()
+	{
+		return GetLocalPlayerControllerGroupComponent(); // I could break my keyboard trying to write this
+	}
 	
 	
 	//------------------------------------------------------------------------------------------------

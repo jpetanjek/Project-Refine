@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{4D2A02D8BCB520D9}Configs/Dialogs/PR_Dialogs.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}
