@@ -33,16 +33,18 @@ SizeLayoutWidgetClass {
      Slot LayoutSlot "{5CB1544DB3445C57}" {
      }
      AllowHeightOverride 1
-     HeightOverride 600
+     HeightOverride 1000
      {
       ScrollLayoutWidgetClass "{5CD12E83B19F38D8}" {
        Name "ScrollLayout0"
        Slot AlignableSlot "{5CD144D75ABCD2C3}" {
+        HorizontalAlign 3
        }
        {
         VerticalLayoutWidgetClass "{5CD144D72EF5C58C}" {
          Name "m_RoleListLayout"
          Slot AlignableSlot "{5CD144D72EF5C451}" {
+          HorizontalAlign 3
          }
         }
        }

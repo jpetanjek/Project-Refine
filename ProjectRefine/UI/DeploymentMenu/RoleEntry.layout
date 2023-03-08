@@ -11,6 +11,19 @@ ButtonWidgetClass {
    ScriptAddon "$ProjectRefine:"
    ScriptClassNamePrefix "PR_"
   }
+  SCR_ModularButtonComponent "{5CD144D5AAE7EEAB}" {
+   m_aEffects {
+    SCR_ButtonEffectOpacity "{5CD144D5908F9CBB}" {
+     m_eEvents 15
+     m_sWidgetName "LineBackground"
+     m_fAnimationTime 0
+     m_fDefault 0.8
+     m_fHovered 0.5
+     m_fActivated 0.5
+     m_fActivatedHovered 0.5
+    }
+   }
+  }
  }
  {
   SizeLayoutWidgetClass "{5CB4B168359E684D}" {
@@ -28,9 +41,29 @@ ButtonWidgetClass {
       VerticalAlign 3
      }
      {
+      ImageWidgetClass "{5CB4B1646782D14E}" {
+       Name "LineBackground"
+       Slot OverlayWidgetSlot "{56A6DDC5A5263FF2}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Opacity 0.8
+       Color 0 0 0 1
+      }
+      PanelWidgetClass "{5CB4B1644CFEF758}" {
+       Name "LineBorder"
+       Slot OverlayWidgetSlot "{56A6DDC368941F20}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding 0 0 0 0
+       }
+       Opacity 0
+       Color 0.761 0.392 0.078 1
+       style outline_2px
+      }
       VerticalLayoutWidgetClass "{5CB4B164288E5CFA}" {
        Name "LineElements"
-       Slot OverlayWidgetSlot {
+       Slot OverlayWidgetSlot "{5CD144D5DE6F3110}" {
         HorizontalAlign 3
        }
        {
@@ -109,26 +142,6 @@ ButtonWidgetClass {
          }
         }
        }
-      }
-      ImageWidgetClass "{5CB4B1646782D14E}" {
-       Name "LineBackground"
-       Slot OverlayWidgetSlot "{56A6DDC5A5263FF2}" {
-        HorizontalAlign 3
-        VerticalAlign 3
-       }
-       Opacity 0.8
-       Color 0 0 0 1
-      }
-      PanelWidgetClass "{5CB4B1644CFEF758}" {
-       Name "LineBorder"
-       Slot OverlayWidgetSlot "{56A6DDC368941F20}" {
-        HorizontalAlign 3
-        VerticalAlign 3
-        Padding 0 0 0 0
-       }
-       Opacity 0
-       Color 0.761 0.392 0.078 1
-       style outline_2px
       }
      }
     }
