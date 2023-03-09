@@ -90,7 +90,6 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		if(playerRespawnInfo == null)
 			return;
 		
-		
 		FactionManager factionManager = GetGame().GetFactionManager();
 		if (factionManager  == null)
 			return;
@@ -114,9 +113,7 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 			
 			PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(wEntry.FindHandler(PR_RoleEntryComponent));
 			
-			comp.Init();
-		}
-		
-		
+			comp.Init(roleList[i]);
+		}		
 	}
 }

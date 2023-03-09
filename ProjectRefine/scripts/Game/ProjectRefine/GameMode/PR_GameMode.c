@@ -223,6 +223,11 @@ class PR_GameMode : SCR_BaseGameMode
 		SCR_AIGroup.GetOnPlayerRemoved().Insert(OnGroupPlayerRemoved);
 		
 		m_GroupManager = SCR_GroupsManagerComponent.GetInstance();
+		
+		if(m_GroupManager)
+		{
+			m_GroupManager.GetOnPlayableGroupCreated().Insert(Event_OnPlayableGroupCreated);
+		}
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -614,6 +619,41 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		float cost = GetAssetCost(PR_EAssetType.SOLDIER);
 		AddFactionScore(factionId, -cost);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Roles
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	
+	void Event_OnPlayableGroupCreated(SCR_AIGroup group)
+	{
+		if (!group)
+			return;
+		
+		PR_GroupRoleManagerComponent groupRoleManagerComponent = PR_GroupRoleManagerComponent.Cast(group.FindComponent(PR_GroupRoleManagerComponent));
+		
+		if(!groupRoleManagerComponent)
+			return;
+		
+		// Hard coded group initialization for now
+		// Get faction of group
+		SCR_Faction groupFaction = SCR_Faction.Cast(group.GetFaction());
+		PR_RoleList fullRoleList = groupFaction.GetRoleList();
+		if(fullRoleList == null)
+			return;
+				
+		array<PR_Role> roleList = {};
+		fullRoleList.GetRoleList(roleList);
+		
+		array<int> roleAvailability = {};
+		
+		for(int i = 0; i < roleList.Count(); i++)
+		{
+			roleAvailability.Insert(roleList[i].GetDefaultCount());
+		}
+		
+		groupRoleManagerComponent.InitializeAvailability(roleAvailability);
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------

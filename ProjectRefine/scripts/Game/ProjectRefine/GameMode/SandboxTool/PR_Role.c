@@ -14,9 +14,12 @@ class PR_Role : PR_SandboxTool
 	[Attribute("", UIWidgets.ComboBox, "", enums: ParamEnumArray.FromEnum(PR_ERoleLimitation))]
 	PR_ERoleLimitation m_eRoleLimitation;
 	
+	[Attribute(desc: "Default available count", category: "Role Info")]
+	int m_iDefaultCount;
+	
 	//------------------------------------------------------------------------------------------------
 	/*!
-	Returns asset name
+	Returns role name
 	*/
 	string GetRoleName()
 	{
@@ -25,11 +28,21 @@ class PR_Role : PR_SandboxTool
 	
 	//------------------------------------------------------------------------------------------------
 	/*!
-	Returns asset role limitation
+	Returns role limitation
 	*/
 	PR_ERoleLimitation GetRoleLimitation()
 	{
 		return m_eRoleLimitation;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	/*!
+	Returns role default availability count
+	*/
+	PR_ERoleLimitation GetDefaultCount()
+	{
+		return m_iDefaultCount;
+	}
+	
 	
 }

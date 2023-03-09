@@ -18,8 +18,8 @@ class PR_RoleEntryComponent : ScriptedWidgetComponent
 		bool what = 1;
 	}
 	
-	void Init()
+	void Init(PR_Role role)
 	{
-		widgets.m_RoleName.SetText("test");
+		widgets.m_RoleName.SetText(role.GetRoleName());
 	}
 }
