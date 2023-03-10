@@ -10,21 +10,45 @@ class PR_GroupRoleManagerComponentClass : ScriptComponentClass
 class PR_GroupRoleManagerComponent : ScriptComponent
 {
 	// Defines how many of this role can be claimed
-	[RplProp (onRplName: "OnAvailabilityChangedClient")]
+	[RplProp(onRplName: "OnAvailabilityChangedClient")]
 	array<int> m_aClaimableRolesCount;
 	
 	// Defines how many of this role there can be max
-	[RplProp (onRplName: "OnAvailabilityChangedClient")]
-	array<int> m_RoleAvailabilityCount;
+	[RplProp(onRplName: "OnAvailabilityChangedClient")]
+	array<int> m_aRoleAvailabilityCount;
+	
+	//! The fact I have to do this is beyond dumb
+	[RplProp(onRplName: "OnAvailabilityChangedClient")]
+	int m_iFactionId;
+	
+	//! Local storage of role list so we don't query for it all the time which is stupid
+	ref array<PR_Role> m_aRoleList = {};
 	
 	// Events
 	ref ScriptInvokerBase<OnAvailabilityChangedDelegate> m_OnAvailabilityChanged = new ScriptInvokerBase<OnAvailabilityChangedDelegate>();
+	
+	override void EOnInit(IEntity owner)
+	{
+		m_aClaimableRolesCount = {-1};
+		m_aRoleAvailabilityCount = {-1};
+		m_iFactionId = -1;
+	}
 	
 	// Initialize availability - via Game Mode
 	void InitializeAvailability(array<int> roleAvailabilityCount)
 	{
 		m_aClaimableRolesCount = roleAvailabilityCount;
-		m_RoleAvailabilityCount = roleAvailabilityCount;
+		m_aRoleAvailabilityCount = roleAvailabilityCount;
+		
+		// Dumb code start
+		SCR_Faction groupFaction = SCR_Faction.Cast(SCR_AIGroup.Cast(GetOwner()).GetFaction());
+		FactionManager factionManager = GetGame().GetFactionManager();		
+		m_iFactionId = factionManager.GetFactionIndex(groupFaction);
+		// Dumb code end
+		
+		PR_RoleList fullRoleList = groupFaction.GetRoleList();
+		fullRoleList.GetRoleList(m_aRoleList);
+		
 		Replication.BumpMe();
 	}
 	
@@ -42,11 +66,11 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	bool ClaimRole(int indexNew)
 	{
 		// Check if it is at all available
-		if(!m_RoleAvailabilityCount.IsIndexValid(indexNew) || m_RoleAvailabilityCount[indexNew] <= 0)
+		if(!m_aRoleAvailabilityCount || !m_aRoleAvailabilityCount.IsIndexValid(indexNew) || m_aRoleAvailabilityCount[indexNew] <= 0)
 			return false;
 		
 		// Check if there is any of it left
-		if(!m_aClaimableRolesCount.IsIndexValid(indexNew) || m_aClaimableRolesCount[indexNew] <= 0)
+		if(!m_aClaimableRolesCount || !m_aClaimableRolesCount.IsIndexValid(indexNew) || m_aClaimableRolesCount[indexNew] <= 0)
 			return false;
 		
 		// Check if role is limited
@@ -61,11 +85,11 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	bool ReturnRole(int indexOld)
 	{
 		// Check if it is at all available
-		if(!m_RoleAvailabilityCount.IsIndexValid(indexOld) || m_RoleAvailabilityCount[indexOld] <= 0)
+		if(!m_aClaimableRolesCount || !m_aRoleAvailabilityCount.IsIndexValid(indexOld) || m_aRoleAvailabilityCount[indexOld] <= 0)
 			return false;
 		
 		// Check if it is below maximum
-		if(!m_aClaimableRolesCount.IsIndexValid(indexOld) || m_aClaimableRolesCount[indexOld] >= m_RoleAvailabilityCount[indexOld])
+		if(!m_aClaimableRolesCount || !m_aClaimableRolesCount.IsIndexValid(indexOld) || m_aClaimableRolesCount[indexOld] >= m_aRoleAvailabilityCount[indexOld])
 			return false;
 		
 		// It is can be returned
@@ -86,38 +110,80 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	{
 		m_OnAvailabilityChanged.Invoke(this);
 		
-		/*
-		// Get local group
-		SCR_PlayerControllerGroupComponent groupController = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
-		if (!groupController)
-			return;
-		
-		// Get this groups id
-		int thisGroupId = SCR_AIGroup.Cast(GetOwner()).GetGroupID();
-		
-		if(thisGroupId != groupController.GetGroupID())
-			return;
-		*/
+		if(m_aRoleList.IsEmpty())
+		{
+			// Dumb code start
+			FactionManager factionManager = GetGame().GetFactionManager();		
+			SCR_Faction groupFaction = SCR_Faction.Cast(factionManager.GetFactionByIndex(m_iFactionId));
+			// Dumb code end
+			
+			PR_RoleList fullRoleList = groupFaction.GetRoleList();
+			fullRoleList.GetRoleList(m_aRoleList);
+		}
 	}
 	
-	void GetClaimableRolesCount(notnull out array<int> in_aClaimable)
+	int GetRoleClaimableCount(int index)
 	{
-		in_aClaimable.Copy(m_aClaimableRolesCount);
+		if(m_aClaimableRolesCount && m_aClaimableRolesCount.IsIndexValid(index))
+		{
+			return m_aClaimableRolesCount[index];
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	
+	int GetRoleAvailableCount(int index)
+	{
+		if(m_aRoleAvailabilityCount && m_aRoleAvailabilityCount.IsIndexValid(index))
+		{
+			return m_aRoleAvailabilityCount[index];
+		}
+		else
+		{
+			return -1;
+		}
+	}
+		
+	PR_Role GetRole(int index)
+	{
+		if(!m_aRoleList.IsIndexValid(index))
+			return null;
+		
+		return m_aRoleList[index];
 	}
 	
 	//-----------------------------------------------
 	// GROUP MEMBER UI LOGIC START
 	
 	// Skip this one for your own role
-	bool CanGroupMemberDrawRole(int index)
+	bool CanGroupMemberDrawRole(int index, int playerID)
 	{
 		// Check if it is at all available
-		if(!m_RoleAvailabilityCount.IsIndexValid(index) || m_RoleAvailabilityCount[index] <= 0)
+		if(!m_aRoleAvailabilityCount || !m_aRoleAvailabilityCount.IsIndexValid(index) || m_aRoleAvailabilityCount[index] <= 0)
 			return false;
 		
 		// Check if there is any of it left
-		if(!m_aClaimableRolesCount.IsIndexValid(index) || m_aClaimableRolesCount[index] <= 0)
+		if(!m_aClaimableRolesCount || !m_aClaimableRolesCount.IsIndexValid(index) || m_aClaimableRolesCount[index] <= 0)
 			return false;
+		
+		// Check limitations
+		// Get Role
+		PR_Role role = GetRole(index);
+		if(!role)
+			return false;
+		
+		// Check if playerID is leader		
+		if(role.m_eRoleLimitation == PR_ERoleLimitation.SQUAD_LEAD_ONLY)
+		{
+			SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
+			if(!group)
+				return false;
+			
+			if(!group.IsPlayerLeader(playerID))
+				return false;
+		} 
 		
 		return true;
 	}
@@ -131,7 +197,7 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	bool CanGroupLeaderDrawRole(int index)
 	{
 		// Check if it is at all available
-		if(!m_RoleAvailabilityCount.IsIndexValid(index) || m_RoleAvailabilityCount[index] < 0)
+		if(!m_aRoleAvailabilityCount || !m_aRoleAvailabilityCount.IsIndexValid(index) || m_aRoleAvailabilityCount[index] < 0)
 			return false;
 		
 		return true;

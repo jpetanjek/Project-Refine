@@ -20,17 +20,18 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		
 		m_GroupManager = SCR_GroupsManagerComponent.GetInstance();
 		
+		SCR_AIGroup.GetOnPlayerAdded().Insert(OnPlayerAdded);
+		//SCR_AIGroup.GetOnPlayerRemoved().Insert(OnPlayerAdded);
+		
 		// Event subscription
 		SCR_PlayerControllerGroupComponent groupController = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
 		if(!groupController)
 			return;
 		
-		groupController.m_OnLocalPlayerChangedGroup.Insert(OnLocalPlayerChangedGroup);
-		
 		m_Group = m_GroupManager.FindGroup(groupController.GetGroupID());
 		
 		if(m_Group)
-		{
+		{	
 			// Find component
 			PR_GroupRoleManagerComponent groupRoleManagerComponent = PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent));
 			// Subscribe to its event
@@ -46,8 +47,15 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		bool what = 1;
 	}
 	
-	void OnLocalPlayerChangedGroup(int groupID)
+	void OnPlayerAdded(SCR_AIGroup group, int playerID)
 	{
+		SCR_PlayerControllerGroupComponent groupController = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
+		if(!groupController)
+			return;
+		
+		if(groupController.GetGroupID() != group.GetGroupID())
+			return;
+		
 		if(m_Group)
 		{
 			// Unsubscribe from old event
@@ -55,10 +63,11 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		}
 		
 		// Find new group
-		m_Group = m_GroupManager.FindGroup(groupID);
+		m_Group = group;
 		if (!m_Group)
 		{
-			// No group - destroy everything drawn?
+			// No group - destroy everything drawn
+			DestroyContentOfList();
 			return;	
 		}
 		
@@ -77,43 +86,70 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 	}
 	
 	void ReDrawCurrentAvailability(PR_GroupRoleManagerComponent groupRoleManagerComponent)
-	{
-		PlayerController localPC =  GetGame().GetPlayerController();
-		if(localPC == null)
-			return;
-		
-		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		if (respawnSystem == null)
-			return;
-		
-		SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(localPC.GetPlayerId());
-		if(playerRespawnInfo == null)
-			return;
-		
-		FactionManager factionManager = GetGame().GetFactionManager();
-		if (factionManager  == null)
-			return;
-		
-		SCR_Faction faction = SCR_Faction.Cast(factionManager.GetFactionByIndex(playerRespawnInfo.GetPlayerFactionIndex()));
-		if(faction  == null)
-			return;
-					
-		PR_RoleList fullRoleList = faction.GetRoleList();
-		if(fullRoleList == null)
-			return;
-				
-		array<PR_Role> roleList = {};
-		fullRoleList.GetRoleList(roleList);
-		
-		for(int i = 0; i < roleList.Count(); i++)
+	{	
+		for(int i = 0; i < groupRoleManagerComponent.m_aClaimableRolesCount.Count(); i++)
 		{
+			// Search if such a widget is already drawn
+			Widget child = widgets.m_RoleListLayout.GetChildren();
+			PR_RoleEntryComponent selection = null;
+			Widget selectionWidget = null;
+			while(child)
+			{
+				// Find its component
+				PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(child.FindHandler(PR_RoleEntryComponent));
+				if(comp)
+				{
+					if (comp.m_iRoleIndex == i)
+					{
+						selection = comp;
+						selectionWidget = child;
+						break;
+					}
+				}
 				
-			// Draw some debug role panel
-			Widget wEntry = GetGame().GetWorkspace().CreateWidgets(PR_RoleEntryWidgets.s_sLayout, widgets.m_RoleListLayout);
+				child = child.GetSibling();
+			}
 			
-			PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(wEntry.FindHandler(PR_RoleEntryComponent));
-			
-			comp.Init(roleList[i]);
+			if(selection)
+			{
+				if(groupRoleManagerComponent.CanGroupMemberDrawRole(i, GetGame().GetPlayerController().GetPlayerId()))
+				{				
+					// Redraw availability count
+				}
+				else
+				{
+					selectionWidget.RemoveFromHierarchy();
+				}
+			}
+			else
+			{
+				if(groupRoleManagerComponent.CanGroupMemberDrawRole(i, GetGame().GetPlayerController().GetPlayerId()))
+				{				
+					// Draw some debug role panel
+					Widget wEntry = GetGame().GetWorkspace().CreateWidgets(PR_RoleEntryWidgets.s_sLayout, widgets.m_RoleListLayout);
+					
+					PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(wEntry.FindHandler(PR_RoleEntryComponent));
+					
+					comp.Init(i, groupRoleManagerComponent.GetRole(i), groupRoleManagerComponent.GetRoleClaimableCount(i), groupRoleManagerComponent.GetRoleAvailableCount(i));
+				}
+			}
 		}		
+	}
+	
+	void DestroyContentOfList()
+	{
+		Widget child = widgets.m_RoleListLayout.GetChildren();
+		while(child)
+		{
+			Widget next = child.GetSibling();
+			child.RemoveFromHierarchy();
+			child = next;
+		}
+	}
+	
+	// Squad leader has changed redraw!
+	void OnPlayerLeaderChanged()
+	{
+		
 	}
 }

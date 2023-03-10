@@ -46,7 +46,7 @@ class PR_GameMode : SCR_BaseGameMode
 	protected ref array<float> m_aFactionScore = {}; //!! It's synchronized via replication
 	
 	// Game mode stage
-	[RplProp (onRplName: "OnGameModeChangedClient")]
+	[RplProp(onRplName: "OnGameModeChangedClient")]
 	protected PR_EGameModeStage m_eGameModeStage = PR_EGameModeStage.PREPARATION;
 	
 	// Events

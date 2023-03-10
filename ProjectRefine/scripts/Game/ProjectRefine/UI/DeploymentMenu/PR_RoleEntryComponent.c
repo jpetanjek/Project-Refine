@@ -8,6 +8,8 @@ class PR_RoleEntryComponent : ScriptedWidgetComponent
 	
 	protected Widget m_wRoot;
 	
+	int m_iRoleIndex = -1;
+	
 	override void HandlerAttached(Widget w)
 	{
 		widgets.Init(w);
@@ -18,8 +20,9 @@ class PR_RoleEntryComponent : ScriptedWidgetComponent
 		bool what = 1;
 	}
 	
-	void Init(PR_Role role)
+	void Init(int roleIndex, PR_Role role, int claimable, int available)
 	{
+		m_iRoleIndex = roleIndex;
 		widgets.m_RoleName.SetText(role.GetRoleName());
 	}
 }
