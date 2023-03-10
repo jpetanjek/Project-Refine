@@ -21,7 +21,7 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		m_GroupManager = SCR_GroupsManagerComponent.GetInstance();
 		
 		SCR_AIGroup.GetOnPlayerAdded().Insert(OnPlayerAdded);
-		//SCR_AIGroup.GetOnPlayerRemoved().Insert(OnPlayerAdded);
+		SCR_AIGroup.GetOnPlayerRemoved().Insert(OnPlayerAdded);
 		
 		// Event subscription
 		SCR_PlayerControllerGroupComponent groupController = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
@@ -48,14 +48,7 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 	}
 	
 	void OnPlayerAdded(SCR_AIGroup group, int playerID)
-	{
-		SCR_PlayerControllerGroupComponent groupController = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
-		if(!groupController)
-			return;
-		
-		if(groupController.GetGroupID() != group.GetGroupID())
-			return;
-		
+	{		
 		if(m_Group)
 		{
 			// Unsubscribe from old event
@@ -70,6 +63,9 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 			DestroyContentOfList();
 			return;	
 		}
+		
+		if(!group.IsPlayerInGroup(playerID))
+			return;
 		
 		// Find component
 		PR_GroupRoleManagerComponent groupRoleManagerComponent = PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent));

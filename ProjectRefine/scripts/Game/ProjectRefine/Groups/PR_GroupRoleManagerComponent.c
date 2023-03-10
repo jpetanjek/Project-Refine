@@ -11,28 +11,21 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 {
 	// Defines how many of this role can be claimed
 	[RplProp(onRplName: "OnAvailabilityChangedClient")]
-	array<int> m_aClaimableRolesCount;
+	ref array<int> m_aClaimableRolesCount = {};
 	
 	// Defines how many of this role there can be max
 	[RplProp(onRplName: "OnAvailabilityChangedClient")]
-	array<int> m_aRoleAvailabilityCount;
+	ref array<int> m_aRoleAvailabilityCount = {};
 	
 	//! The fact I have to do this is beyond dumb
 	[RplProp(onRplName: "OnAvailabilityChangedClient")]
-	int m_iFactionId;
+	int m_iFactionId = -1;
 	
 	//! Local storage of role list so we don't query for it all the time which is stupid
 	ref array<PR_Role> m_aRoleList = {};
 	
 	// Events
 	ref ScriptInvokerBase<OnAvailabilityChangedDelegate> m_OnAvailabilityChanged = new ScriptInvokerBase<OnAvailabilityChangedDelegate>();
-	
-	override void EOnInit(IEntity owner)
-	{
-		m_aClaimableRolesCount = {-1};
-		m_aRoleAvailabilityCount = {-1};
-		m_iFactionId = -1;
-	}
 	
 	// Initialize availability - via Game Mode
 	void InitializeAvailability(array<int> roleAvailabilityCount)
@@ -107,9 +100,7 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	// UI LOGIC START
 	
 	void OnAvailabilityChangedClient()
-	{
-		m_OnAvailabilityChanged.Invoke(this);
-		
+	{		
 		if(m_aRoleList.IsEmpty())
 		{
 			// Dumb code start
@@ -117,8 +108,18 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 			SCR_Faction groupFaction = SCR_Faction.Cast(factionManager.GetFactionByIndex(m_iFactionId));
 			// Dumb code end
 			
+			if(!groupFaction)
+				return;
+			
 			PR_RoleList fullRoleList = groupFaction.GetRoleList();
 			fullRoleList.GetRoleList(m_aRoleList);
+		}
+		
+		// Useless logic but has to be here since states are a bit broken
+		// Will be called twice by availability and claimability
+		if(!m_aRoleList.IsEmpty())
+		{
+			m_OnAvailabilityChanged.Invoke(this);
 		}
 	}
 	

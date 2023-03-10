@@ -220,6 +220,9 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		InitDiagMenu();
 		
+		if(Replication.IsClient())
+			return;
+		
 		SCR_AIGroup.GetOnPlayerRemoved().Insert(OnGroupPlayerRemoved);
 		
 		m_GroupManager = SCR_GroupsManagerComponent.GetInstance();
@@ -628,6 +631,9 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	void Event_OnPlayableGroupCreated(SCR_AIGroup group)
 	{
+		if(Replication.IsClient())
+			return;
+		
 		if (!group)
 			return;
 		
