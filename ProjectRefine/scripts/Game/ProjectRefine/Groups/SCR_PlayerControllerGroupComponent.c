@@ -35,14 +35,14 @@ modded class SCR_PlayerControllerGroupComponent
 	
 	//------------------------------------------------------------------------------------------------
 	// Creates a group and sets its name in one request
-	void RequestCreateGroupWithName(string groupName)
+	void RequestCreateGroupEx(string groupName, bool privateGroup)
 	{
-		Rpc(RPC_AskCreateGroupWithName, groupName);
+		Rpc(RPC_AskCreateGroupEx, groupName, privateGroup);
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void RPC_AskCreateGroupWithName(string groupName)
+	void RPC_AskCreateGroupEx(string groupName, bool privateGroup)
 	{
 		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
 		if (!groupsManager)
@@ -76,6 +76,9 @@ modded class SCR_PlayerControllerGroupComponent
 		// New group sucessfully created
 		// The player should be automatically added/moved to it
 		RPC_AskJoinGroup(newGroup.GetGroupID());
+		
+		// Make group private
+		newGroup.SetPrivate(privateGroup);
 	}
 	
 	
@@ -95,6 +98,31 @@ modded class SCR_PlayerControllerGroupComponent
 		
 		RPC_DoChangeGroupID(-1);
 		Rpc(RPC_DoChangeGroupID, -1);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Overriden to disable auto creation of group for the kicked player
+	override void RPC_AskKickPlayer(int playerID)
+	{
+		SCR_GroupsManagerComponent groupsManager;
+		SCR_PlayerControllerGroupComponent playerGroupController;
+		SCR_AIGroup group;
+		if (!InitiateComponents(playerID, groupsManager, playerGroupController, group))
+			return;
+		
+		//requesting player is not leader of the targets group, do nothing
+		if (!group.IsPlayerLeader(GetPlayerID()))
+			return;
+		
+		groupsManager.RemovePlayerFromGroup(playerID);
+		
+		//SCR_AIGroup newGroup = groupsManager.GetFirstNotFullForFaction(group.GetFaction(), group, true);
+		//if (!newGroup)
+		//	newGroup = groupsManager.CreateNewPlayableGroup(group.GetFaction());
+				
+		//if (!newGroup)
+		//	return;
+		//playerGroupController.RequestJoinGroup(newGroup.GetGroupID());
 	}
 	
 	//------------------------------------------------------------------------------------------------

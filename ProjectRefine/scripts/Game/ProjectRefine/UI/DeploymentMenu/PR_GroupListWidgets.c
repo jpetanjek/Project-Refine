@@ -8,6 +8,9 @@ class PR_GroupListWidgets
 
 	VerticalLayoutWidget m_GroupListLayout;
 
+	ButtonWidget m_LockButton;
+	SCR_ModularButtonComponent m_LockButtonComponent;
+
 	ButtonWidget m_GroupNameEditBox;
 	SCR_EditBoxComponent m_GroupNameEditBoxComponent;
 
@@ -17,6 +20,9 @@ class PR_GroupListWidgets
 	bool Init(Widget root)
 	{
 		m_GroupListLayout = VerticalLayoutWidget.Cast(root.FindWidget("VerticalLayout0.ScrollSize.ScrollLayout0.m_GroupListLayout"));
+
+		m_LockButton = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.CreateGroup.m_LockButton"));
+		m_LockButtonComponent = SCR_ModularButtonComponent.Cast(m_LockButton.FindHandler(SCR_ModularButtonComponent));
 
 		m_GroupNameEditBox = ButtonWidget.Cast(root.FindWidget("VerticalLayout0.CreateGroup.m_GroupNameEditBox"));
 		m_GroupNameEditBoxComponent = SCR_EditBoxComponent.Cast(m_GroupNameEditBox.FindHandler(SCR_EditBoxComponent));

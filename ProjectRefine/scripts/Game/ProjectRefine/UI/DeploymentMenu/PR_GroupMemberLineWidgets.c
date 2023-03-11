@@ -6,15 +6,21 @@ class PR_GroupMemberLineWidgets
 	static const ResourceName s_sLayout = "{045345094C0BD150}UI/DeploymentMenu/GroupMemberLine.layout";
 	ResourceName GetLayout() { return s_sLayout; }
 
+	ButtonWidget m_ActionButton;
+	SCR_ModularButtonComponent m_ActionButtonComponent;
+
 	TextWidget m_PlayerNameText;
 
 	TextWidget m_RoleNameText;
 
 	bool Init(Widget root)
 	{
-		m_PlayerNameText = TextWidget.Cast(root.FindWidget("HorizontalLayout0.m_PlayerNameText"));
+		m_ActionButton = ButtonWidget.Cast(root.FindWidget("SizeLayout0.HorizontalLayout0.ActionButtonSize.ActionButtonVisibilityWrapper.m_ActionButton"));
+		m_ActionButtonComponent = SCR_ModularButtonComponent.Cast(m_ActionButton.FindHandler(SCR_ModularButtonComponent));
 
-		m_RoleNameText = TextWidget.Cast(root.FindWidget("HorizontalLayout0.RoleName.m_RoleNameText"));
+		m_PlayerNameText = TextWidget.Cast(root.FindWidget("SizeLayout0.HorizontalLayout0.m_PlayerNameText"));
+
+		m_RoleNameText = TextWidget.Cast(root.FindWidget("SizeLayout0.HorizontalLayout0.RoleName.m_RoleNameText"));
 
 		return true;
 	}

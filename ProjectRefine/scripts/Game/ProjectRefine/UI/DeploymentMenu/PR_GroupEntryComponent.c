@@ -62,6 +62,7 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		UpdateActionButton();
 		UpdateJoinLeaveButtonEnabled();
 		UpdateJoinLeaveButton();
+		UpdateMembersOrder();
 	}
 	
 	// Creates a group member line for every group member
@@ -78,7 +79,7 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 	{
 		Widget w = GetGame().GetWorkspace().CreateWidgets(PR_GroupMemberLineWidgets.s_sLayout, widgets.m_GroupMemberList);
 		PR_GroupMemberLineComponent grpMemberComp = PR_GroupMemberLineComponent.Cast(w.FindHandler(PR_GroupMemberLineComponent));
-		grpMemberComp.Init(playerId);
+		grpMemberComp.Init(m_Group, playerId);
 	}
 	
 	PR_GroupMemberLineComponent FindGroupMemberLine(int playerId)
@@ -161,6 +162,23 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		widgets.m_ActionButton.SetVisible(isLeader);
 	}
 	
+	void UpdateMembersOrder()
+	{
+		// Update Z order of entries. Leader should be on top of the list.
+		int leaderId = m_Group.GetLeaderID();
+		Widget wChild = widgets.m_GroupMemberList.GetChildren();
+		while (wChild)
+		{
+			PR_GroupMemberLineComponent comp = PR_GroupMemberLineComponent.Cast(wChild.FindHandler(PR_GroupMemberLineComponent));
+			if (comp.GetPlayerId() == leaderId)
+				wChild.SetZOrder(-1); // It will be at the top
+			else
+				wChild.SetZOrder(0);
+			
+			wChild = wChild.GetSibling();
+		}
+	}
+	
 	//-----------------------------------------------------------------------------------------------
 	// Collapsing/expanding
 	
@@ -223,12 +241,8 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		if (group != m_Group)
 			return;
 		
+		//for (int i = 0; i < 5; i++)
 		CreateGroupMemberLine(playerId);
-		
-		// Debugging
-		//CreateGroupMemberLine(playerId);
-		//CreateGroupMemberLine(playerId);
-		//CreateGroupMemberLine(playerId);
 	}
 	
 	void Event_OnPlayerRemoved(SCR_AIGroup group, int playerId)

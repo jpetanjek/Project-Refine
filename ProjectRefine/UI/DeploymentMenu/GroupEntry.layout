@@ -249,7 +249,6 @@ OverlayWidgetClass {
     VerticalLayoutWidgetClass "{5CB40A86A33804AD}" {
      Name "m_GroupMemberList"
      Slot LayoutSlot "{5CB40A86A33804B9}" {
-      Padding 50 0 0 0
      }
      components {
       SCR_WidgetExportRule "{5CB40A8644DD7B34}" {

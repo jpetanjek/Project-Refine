@@ -42,7 +42,7 @@ class PR_GroupTooltipComponent : PR_ButtonsTooltipComponent
 			return;
 		
 		SCR_PlayerControllerGroupComponent c = SCR_PlayerControllerGroupComponent.GetLocalInstance();
-		c.RequestPrivateGroupChange(GetGame().GetPlayerController().GetPlayerId() , !m_Group.IsPrivate());
+		c.RequestPrivateGroupChange(GetGame().GetPlayerController().GetPlayerId(), !m_Group.IsPrivate());
 		
 		Close();
 	}

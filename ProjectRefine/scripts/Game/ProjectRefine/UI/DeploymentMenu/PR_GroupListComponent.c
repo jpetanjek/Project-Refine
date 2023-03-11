@@ -82,8 +82,35 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 		{
 			groupEntry.RemoveFromUi();
 		}
+		
+		UpdateGroupsOrder();
 	}
 	
+	//-----------------------------------------------------------------------------------------------
+	void UpdateGroupsOrder()
+	{
+		// Our own group should be always on top
+		SCR_PlayerControllerGroupComponent groupComp = SCR_PlayerControllerGroupComponent.GetLocalInstance();
+		int myGroupId = groupComp.GetGroupID();
+		
+		Widget wChild = widgets.m_GroupListLayout.GetChildren();
+		while (wChild)
+		{
+			PR_GroupEntryComponent groupEntryComp = PR_GroupEntryComponent.Cast(wChild.FindHandler(PR_GroupEntryComponent));
+			
+			SCR_AIGroup group = groupEntryComp.GetGroup();
+			if (group)
+			{
+				int groupId = group.GetGroupID();
+				if (groupId == myGroupId)
+					wChild.SetZOrder(-1);
+				else
+					wChild.SetZOrder(0);
+			}
+			
+			wChild = wChild.GetSibling();
+		}
+	}
 	
 	//-----------------------------------------------------------------------------------------------
 	// Our own UI events
@@ -99,8 +126,10 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 			return;
 		}
 		
+		bool privateGroup = widgets.m_LockButtonComponent.GetToggled();
+		
 		SCR_PlayerControllerGroupComponent groupComponent = SCR_PlayerControllerGroupComponent.GetLocalPlayerControllerGroupComponent();
-		groupComponent.RequestCreateGroupWithName(groupName);
+		groupComponent.RequestCreateGroupEx(groupName, privateGroup);
 	}
 	
 	//-----------------------------------------------------------------------------------------------

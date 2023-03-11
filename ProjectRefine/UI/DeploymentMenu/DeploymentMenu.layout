@@ -217,6 +217,66 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                    ExportChildWidgets 0
                   }
                  }
+                 {
+                  VerticalLayoutWidgetClass "{5CB12388A4524408}" {
+                   Prefab "{5CB12388A4524408}"
+                   {
+                    HorizontalLayoutWidgetClass "{5CC91A87BE4DCADF}" {
+                     Prefab "{5CC91A87BE4DCADF}"
+                     {
+                      ButtonWidgetClass "{5CC91A873C0342DA}" {
+                       Prefab "{5CC91A873C0342DA}"
+                       components {
+                        SCR_EditBoxComponent "{547290FFBD5B33E9}" {
+                         m_bUseLabel 0
+                        }
+                       }
+                       {
+                        VerticalLayoutWidgetClass "{5AA4D27F39EB2514}" {
+                         Prefab "{5AA4D27F39EB2514}"
+                         {
+                          SizeLayoutWidgetClass "{5538C205B27B0F5D}" {
+                           Prefab "{5538C205B27B0F5D}"
+                           {
+                            OverlayWidgetClass "{55367D8E531FD623}" {
+                             Prefab "{55367D8E531FD623}"
+                             {
+                              HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
+                               Prefab "{55367D8E4592BC6E}"
+                               {
+                                OverlayWidgetClass "{5538C2059A570E94}" {
+                                 Prefab "{5538C2059A570E94}"
+                                 Slot LayoutSlot "{5538C2059A570EB1}" {
+                                  FillWeight 1
+                                 }
+                                 {
+                                  ScaleWidgetClass "{553AB38C59601DA1}" {
+                                   Prefab "{553AB38C59601DA1}"
+                                   "Is Visible" 0
+                                   {
+                                    ImageWidgetClass "{5538C207E37BAF83}" {
+                                     Prefab "{5538C207E37BAF83}"
+                                     "Is Visible" 0
+                                    }
+                                   }
+                                  }
+                                 }
+                                }
+                               }
+                              }
+                             }
+                            }
+                           }
+                          }
+                         }
+                        }
+                       }
+                      }
+                     }
+                    }
+                   }
+                  }
+                 }
                 }
                }
               }
