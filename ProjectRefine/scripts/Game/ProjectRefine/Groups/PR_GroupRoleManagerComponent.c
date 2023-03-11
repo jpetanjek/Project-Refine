@@ -1,6 +1,11 @@
 typedef func OnAvailabilityChangedDelegate;
 void OnAvailabilityChangedDelegate(PR_GroupRoleManagerComponent groupRoleManagerComponent);
 
+typedef func OnRoleClaimsChangedDelegate;
+void OnRoleClaimsChangedDelegate(PR_GroupRoleManagerComponent groupRoleManagerComponent);
+
+
+
 [EntityEditorProps(category: "GameScripted/Groups", description: "Player groups role manager, attach to group!.")]
 class PR_GroupRoleManagerComponentClass : ScriptComponentClass
 {
@@ -123,7 +128,7 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 {
 	
 	//! Defines Role -> Players logic per group
-	[RplProp(onRplName: "OnAvailabilityChangedClient")]
+	[RplProp(onRplName: "OnRoleClaimsChangedClient")]
 	ref array<ref PR_RoleToPlayer> m_aRoleToPlayer = new ref array<ref PR_RoleToPlayer>();
 	
 	// Defines how many of this role there can be max
@@ -144,6 +149,8 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	
 	// Events
 	ref ScriptInvokerBase<OnAvailabilityChangedDelegate> m_OnAvailabilityChanged = new ScriptInvokerBase<OnAvailabilityChangedDelegate>();
+	ref ScriptInvokerBase<OnRoleClaimsChangedDelegate> m_OnRoleClaimsChanged = new ScriptInvokerBase<OnRoleClaimsChangedDelegate>();
+	
 	
 	
 	override void OnPostInit(IEntity owner)
@@ -153,7 +160,9 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		
 		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
 		group.GetOnPlayerLeaderChanged().Insert(OnPlayerLeaderChanged);
+		group.GetOnPlayerRemoved().Insert(OnPlayerRemoved);
 	}
+	
 	
 	// Initialize availability - via Game Mode
 	void InitializeAvailability(array<int> roleAvailabilityCount)
@@ -188,6 +197,22 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		m_iLeaderId = playerID;
 		Replication.BumpMe();
 		OnAvailabilityChangedClient();
+	}
+	
+	void OnPlayerRemoved(SCR_AIGroup group, int playerID)
+	{	
+		if(!group)
+			return;
+		
+		SCR_AIGroup thisGroup = SCR_AIGroup.Cast(GetOwner());
+		if(!thisGroup)
+			return;
+		
+		if(group.GetGroupID() != thisGroup.GetGroupID())
+			return;
+		
+		ReturnRole(playerID);
+		
 	}
 	
 	// 0 means not available to this group as defined by SL
@@ -230,7 +255,7 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		}
 		
 		if(Replication.IsServer())
-				OnAvailabilityChangedClient();
+			OnAvailabilityChangedClient();
 		
 		Replication.BumpMe();
 	}
@@ -247,6 +272,9 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		PR_Role role = GetRole(index);
 		if(!role)
 			return false;
+		
+		if(GetRoleClaimableCount(index) <= 0)
+				return false;
 	
 		if(group.IsPlayerLeader(playerID))
 		{
@@ -258,9 +286,6 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 			// Once we have fireteam TODO: PR_ERoleLimitation.NONE
 			if(role.m_eRoleLimitation == PR_ERoleLimitation.SQUAD_LEAD_ONLY)
 				return false;
-			
-			if(GetRoleClaimableCount(index) <= 0)
-				return false;
 		}
 		
 		return true;
@@ -270,9 +295,6 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	{
 		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
 		if(!group)
-			return -1;
-		
-		if(!group.IsPlayerInGroup(playerID))
 			return -1;
 		
 		for(int i=0; i < m_aRoleToPlayer.Count(); i++)
@@ -316,12 +338,25 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	// Check this before you spawn a player
 	bool CanPlayerSpawnWithClaimedRole(int playerID)
 	{
-		int index = GetPlayerRoleIndex(playerID);
-		if(index == -1)
+		PR_Role role = GetPlayerRole(playerID);
+		if(!role)
 			return false;
 		
-		if(GetRoleAvailableCount(index) <= 0)
-			return false;
+		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
+		if(!group)
+			return false;		
+		
+		if(group.IsPlayerLeader(playerID))
+		{
+			if(role.m_eRoleLimitation != PR_ERoleLimitation.SQUAD_LEAD_ONLY)
+				return false;
+		}
+		else
+		{
+			// Once we have fireteam TODO: PR_ERoleLimitation.NONE
+			if(role.m_eRoleLimitation == PR_ERoleLimitation.SQUAD_LEAD_ONLY)
+				return false;
+		}
 		
 		return true;
 	}
@@ -397,6 +432,30 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		if(!m_aRoleList.IsEmpty())
 		{
 			m_OnAvailabilityChanged.Invoke(this);
+		}
+	}
+	
+	void OnRoleClaimsChangedClient()
+	{
+		if(m_aRoleList.IsEmpty())
+		{
+			// Dumb code start
+			FactionManager factionManager = GetGame().GetFactionManager();		
+			SCR_Faction groupFaction = SCR_Faction.Cast(factionManager.GetFactionByIndex(m_iFactionId));
+			// Dumb code end
+			
+			if(!groupFaction)
+				return;
+			
+			PR_RoleList fullRoleList = groupFaction.GetRoleList();
+			fullRoleList.GetRoleList(m_aRoleList);
+		}
+		
+		// Useless logic but has to be here since states are a bit broken
+		// Will be called twice by availability and claimability
+		if(!m_aRoleList.IsEmpty())
+		{
+			m_OnRoleClaimsChanged.Invoke(this);
 		}
 	}
 	

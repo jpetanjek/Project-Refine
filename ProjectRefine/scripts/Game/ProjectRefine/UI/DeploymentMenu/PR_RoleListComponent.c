@@ -35,7 +35,8 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 			// Find component
 			PR_GroupRoleManagerComponent groupRoleManagerComponent = PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent));
 			// Subscribe to its event
-			groupRoleManagerComponent.m_OnAvailabilityChanged.Insert(OnAvailabilityChanged);
+			groupRoleManagerComponent.m_OnAvailabilityChanged.Insert(ReDrawCurrentAvailability);
+			groupRoleManagerComponent.m_OnRoleClaimsChanged.Insert(ReDrawCurrentAvailability);
 			
 			// Draw current availability
 			ReDrawCurrentAvailability(groupRoleManagerComponent);
@@ -47,6 +48,7 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		bool what = 1;
 	}
 	
+	//! Function meant to detect when current player joins any group
 	void OnPlayerAdded(SCR_AIGroup group, int playerID)
 	{
 		if(playerID != GetGame().GetPlayerController().GetPlayerId())
@@ -55,7 +57,8 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		if(m_Group)
 		{
 			// Unsubscribe from old event
-			PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent)).m_OnAvailabilityChanged.Remove(OnAvailabilityChanged);
+			PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent)).m_OnAvailabilityChanged.Remove(ReDrawCurrentAvailability);
+			PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent)).m_OnRoleClaimsChanged.Remove(ReDrawCurrentAvailability);
 		}
 		
 		// Find new group
@@ -70,15 +73,11 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		// Find component
 		PR_GroupRoleManagerComponent groupRoleManagerComponent = PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent));
 		// Subscribe to its event
-		groupRoleManagerComponent.m_OnAvailabilityChanged.Insert(OnAvailabilityChanged);
+		groupRoleManagerComponent.m_OnAvailabilityChanged.Insert(ReDrawCurrentAvailability);
+		groupRoleManagerComponent.m_OnRoleClaimsChanged.Insert(ReDrawCurrentAvailability);
 		
 		// Draw current availability
 		ReDrawCurrentAvailability(groupRoleManagerComponent);
-	}
-	
-	void OnAvailabilityChanged(PR_GroupRoleManagerComponent groupRoleManagerComponent)
-	{
-		ReDrawCurrentAvailability(groupRoleManagerComponent)
 	}
 	
 	void ReDrawCurrentAvailability(PR_GroupRoleManagerComponent groupRoleManagerComponent)
