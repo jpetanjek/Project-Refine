@@ -1,5 +1,5 @@
 /*
-Component for the panel with list of roles
+Component for the role entry in role panel
 */
 
 class PR_RoleEntryComponent : ScriptedWidgetComponent
@@ -23,8 +23,27 @@ class PR_RoleEntryComponent : ScriptedWidgetComponent
 	void Init(int roleIndex, PR_Role role, int claimable, int available)
 	{
 		m_iRoleIndex = roleIndex;
+		
 		widgets.m_RoleName.SetText(role.GetRoleName());
+		widgets.m_RolePrimary.SetText(role.GetPrimaryWeapon());
+		widgets.m_RoleSecondary.SetText(role.GetSecondaryWeapon());
+		
+		RedrawAvailability(claimable, available);
+		
+		// Claim button init
+		PR_RoleClaimButtonComponent comp = PR_RoleClaimButtonComponent.Cast(widgets.m_RoleClaimButton.FindHandler(PR_RoleClaimButtonComponent));
+		comp.Init(roleIndex);
+	}
+	
+	void RedrawAvailability(int claimable, int available)
+	{
 		string availabilityEntry = string.Format("%1/%2", claimable, available);
 		widgets.m_RoleAvailability.SetText(availabilityEntry);
+	}
+	
+	void EnableClaimButton(bool enable)
+	{
+		widgets.m_RoleClaimButton.SetEnabled(enable);
+		widgets.m_RoleClaimButton.SetVisible(enable);
 	}
 }

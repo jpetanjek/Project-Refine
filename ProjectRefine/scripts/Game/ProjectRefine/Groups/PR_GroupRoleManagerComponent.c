@@ -121,6 +121,8 @@ class PR_RoleToPlayer {
 //------------------------------------------------------------------------------------------------
 class PR_GroupRoleManagerComponent : ScriptComponent
 {
+	
+	//! Defines Role -> Players logic per group
 	[RplProp(onRplName: "OnAvailabilityChangedClient")]
 	ref array<ref PR_RoleToPlayer> m_aRoleToPlayer = new ref array<ref PR_RoleToPlayer>();
 	
@@ -137,12 +139,21 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	int m_iLeaderId = -1;
 	
 	
-	
 	//! Local storage of role list so we don't query for it all the time which is stupid
 	ref array<PR_Role> m_aRoleList = {};
 	
 	// Events
 	ref ScriptInvokerBase<OnAvailabilityChangedDelegate> m_OnAvailabilityChanged = new ScriptInvokerBase<OnAvailabilityChangedDelegate>();
+	
+	
+	override void OnPostInit(IEntity owner)
+	{
+		if(Replication.IsClient())
+			return;
+		
+		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
+		group.GetOnPlayerLeaderChanged().Insert(OnPlayerLeaderChanged);
+	}
 	
 	// Initialize availability - via Game Mode
 	void InitializeAvailability(array<int> roleAvailabilityCount)
@@ -172,25 +183,11 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		OnAvailabilityChangedClient();
 	}
 	
-	override void OnPostInit(IEntity owner)
-	{
-		if(Replication.IsClient())
-			return;
-		
-		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
-		group.GetOnPlayerLeaderChanged().Insert(OnPlayerLeaderChanged);
-	}
-	
 	void OnPlayerLeaderChanged(int groupID, int playerID)
 	{
 		m_iLeaderId = playerID;
 		Replication.BumpMe();
 		OnAvailabilityChangedClient();
-	}
-	
-	int GetGroupID()
-	{
-		return SCR_AIGroup.Cast(GetOwner()).GetGroupID();
 	}
 	
 	// 0 means not available to this group as defined by SL
@@ -199,15 +196,132 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	//-----------------------------------------------
 	// CLAIM LOGIC START
 	
-	bool ClaimRole(int indexNew)
+	// If player has 
+	
+	bool ClaimRole(int index, int playerID)
 	{
+		if(!CanPlayerClaimRole(index, playerID))
+			return false;
+		else
+		{
+			ReturnRole(playerID);
+			
+			m_aRoleToPlayer[index].m_aPlayers.Insert(playerID);
+			
+			Replication.BumpMe();
+			
+			if(Replication.IsServer())
+				OnAvailabilityChangedClient();
+			
+			return true;
+		}
+	}
+	
+	void ReturnRole(int playerID)
+	{
+		int index = GetPlayerRoleIndex(playerID);
+		if(index != -1)
+		{
+			int playerIdx = m_aRoleToPlayer[index].m_aPlayers.Find(playerID);
+			if(m_aRoleToPlayer[index].m_aPlayers.IsIndexValid(playerIdx))
+			{
+				m_aRoleToPlayer[index].m_aPlayers.Remove(playerIdx);
+			}
+		}
 		
-		 
+		if(Replication.IsServer())
+				OnAvailabilityChangedClient();
+		
+		Replication.BumpMe();
+	}
+	
+	bool CanPlayerClaimRole(int index, int playerID)
+	{	
+		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
+		if(!group)
+			return false;
+		
+		if(!group.IsPlayerInGroup(playerID))
+			return false;
+		
+		PR_Role role = GetRole(index);
+		if(!role)
+			return false;
+	
+		if(group.IsPlayerLeader(playerID))
+		{
+			if(role.m_eRoleLimitation != PR_ERoleLimitation.SQUAD_LEAD_ONLY)
+				return false;
+		}
+		else
+		{
+			// Once we have fireteam TODO: PR_ERoleLimitation.NONE
+			if(role.m_eRoleLimitation == PR_ERoleLimitation.SQUAD_LEAD_ONLY)
+				return false;
+			
+			if(GetRoleClaimableCount(index) <= 0)
+				return false;
+		}
+		
 		return true;
 	}
 	
-	bool ReturnRole(int indexOld)
+	int GetPlayerRoleIndex(int playerID)
 	{
+		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
+		if(!group)
+			return -1;
+		
+		if(!group.IsPlayerInGroup(playerID))
+			return -1;
+		
+		for(int i=0; i < m_aRoleToPlayer.Count(); i++)
+		{
+			if(m_aRoleToPlayer[i].m_aPlayers.Contains(playerID))
+				return i;
+		}
+		return -1;
+	}
+	
+	PR_Role GetPlayerRole(int playerID)
+	{
+		int index = GetPlayerRoleIndex(playerID);
+		if(index == -1)
+			return null;
+		
+		return GetRole(index);
+	}
+	
+	bool CanPlayerDrawClaimRoleButton(int index, int playerID)
+	{
+		if(CanPlayerClaimRole(index, playerID))
+		{
+			// If he already has it claimed, he cannot claim again
+			if(GetPlayerRoleIndex(playerID) == index)
+			{
+				return false;
+			}
+			else
+			{
+				// If he doesn't he can
+				return true;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	// Check this before you spawn a player
+	bool CanPlayerSpawnWithClaimedRole(int playerID)
+	{
+		int index = GetPlayerRoleIndex(playerID);
+		if(index == -1)
+			return false;
+		
+		if(GetRoleAvailableCount(index) <= 0)
+			return false;
 		
 		return true;
 	}
@@ -215,6 +329,49 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	// CLAIM LOGIC END
 	//-----------------------------------------------
 	
+	//-----------------------------------------------
+	// HELPER LOGIC START
+	
+	int GetGroupID()
+	{
+		return SCR_AIGroup.Cast(GetOwner()).GetGroupID();
+	}
+	
+	int GetRoleClaimableCount(int index)
+	{
+		if(!m_aRoleToPlayer || !m_aRoleToPlayer.IsIndexValid(index))
+			return -1;
+		
+		int availabilityCount = GetRoleAvailableCount(index);
+		
+		if(availabilityCount == -1 || availabilityCount == 0)
+			return -1;
+		
+		return availabilityCount - m_aRoleToPlayer[index].m_aPlayers.Count();
+	}
+	
+	int GetRoleAvailableCount(int index)
+	{
+		if(m_aRoleAvailabilityCount && m_aRoleAvailabilityCount.IsIndexValid(index))
+		{
+			return m_aRoleAvailabilityCount[index];
+		}
+		else
+		{
+			return -1;
+		}
+	}
+		
+	PR_Role GetRole(int index)
+	{
+		if(!m_aRoleList.IsIndexValid(index))
+			return null;
+		
+		return m_aRoleList[index];
+	}
+	
+	// HELPER LOGIC END
+	//-----------------------------------------------
 	
 	//-----------------------------------------------
 	// UI LOGIC START
@@ -243,70 +400,49 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		}
 	}
 	
-	int GetRoleClaimableCount(int index)
-	{
-		if(!m_aRoleToPlayer || !m_aRoleToPlayer.IsIndexValid(index))
-			return -1;
-		
-		int availabilityCount = GetRoleAvailableCount(index);
-		
-		if(availabilityCount == -1)
-			return -1;
-		
-		return availabilityCount - m_aRoleToPlayer[index].m_aPlayers.Count();
-	}
-	
-	int GetRoleAvailableCount(int index)
-	{
-		if(m_aRoleAvailabilityCount && m_aRoleAvailabilityCount.IsIndexValid(index))
-		{
-			return m_aRoleAvailabilityCount[index];
-		}
-		else
-		{
-			return -1;
-		}
-	}
-		
-	PR_Role GetRole(int index)
-	{
-		if(!m_aRoleList.IsIndexValid(index))
-			return null;
-		
-		return m_aRoleList[index];
-	}
-	
 	//-----------------------------------------------
 	// GROUP MEMBER UI LOGIC START
 	
 	// Skip this one for your own role
 	bool CanGroupMemberDrawRole(int index, int playerID)
 	{
-		// Check if it is at all available
-		if(!m_aRoleAvailabilityCount || !m_aRoleAvailabilityCount.IsIndexValid(index) || m_aRoleAvailabilityCount[index] <= 0)
+		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
+		if(!group)
 			return false;
-		
-		// Check if there is any of it left
-		int claimableCount = GetRoleClaimableCount(index);
-		if((GetRoleClaimableCount(index) < 0 || !m_aRoleToPlayer.IsIndexValid(index)) && !m_aRoleToPlayer[index].m_aPlayers.Contains(playerID))
-			return false;
-		
-		// Check limitations
-		// Get Role
-		PR_Role role = GetRole(index);
-		if(!role)
-			return false;
-		
-		// Check if playerID is leader		
-		if(role.m_eRoleLimitation == PR_ERoleLimitation.SQUAD_LEAD_ONLY)
+	
+		if(group.IsPlayerLeader(playerID))
 		{
-			SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
-			if(!group)
+			// Check if it is at all available
+			if(!m_aRoleAvailabilityCount || !m_aRoleAvailabilityCount.IsIndexValid(index) || m_aRoleAvailabilityCount[index] < 0)
 				return false;
 			
-			if(!group.IsPlayerLeader(playerID))
+			PR_Role role = GetRole(index);
+			if(!role)
 				return false;
-		} 
+		}
+		else
+		{
+			// Check if it is at all available
+			if(!m_aRoleAvailabilityCount || !m_aRoleAvailabilityCount.IsIndexValid(index) || m_aRoleAvailabilityCount[index] <= 0)
+				return false;
+			
+			// Check if there is any of it left
+			int claimableCount = GetRoleClaimableCount(index);
+			if((GetRoleClaimableCount(index) < 0 || !m_aRoleToPlayer.IsIndexValid(index)) && !m_aRoleToPlayer[index].m_aPlayers.Contains(playerID))
+				return false;
+			
+			// Check limitations
+			// Get Role
+			PR_Role role = GetRole(index);
+			if(!role)
+				return false;
+			
+			// Check if playerID is leader		
+			if(role.m_eRoleLimitation == PR_ERoleLimitation.SQUAD_LEAD_ONLY)
+			{
+				return false;
+			} 
+		}
 		
 		return true;
 	}

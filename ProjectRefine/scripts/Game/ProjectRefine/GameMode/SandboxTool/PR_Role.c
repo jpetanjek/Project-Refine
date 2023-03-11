@@ -17,6 +17,12 @@ class PR_Role : PR_SandboxTool
 	[Attribute(desc: "Default available count", category: "Role Info")]
 	int m_iDefaultCount;
 	
+	[Attribute(desc: "Role primary weapon", category: "Role Info")]
+	protected string m_sRolePrimary;
+	
+	[Attribute(desc: "Role secondary weapon", category: "Role Info")]
+	protected string m_sRoleSecondary;
+	
 	//------------------------------------------------------------------------------------------------
 	/*!
 	Returns role name
@@ -44,5 +50,21 @@ class PR_Role : PR_SandboxTool
 		return m_iDefaultCount;
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/*!
+	Returns role primary
+	*/
+	string GetPrimaryWeapon()
+	{
+		return m_sRolePrimary;
+	}
 	
+	//------------------------------------------------------------------------------------------------
+	/*!
+	Returns role secondary
+	*/
+	string GetSecondaryWeapon()
+	{
+		return m_sRoleSecondary;
+	}
 }

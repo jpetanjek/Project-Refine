@@ -111,6 +111,10 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 				if(groupRoleManagerComponent.CanGroupMemberDrawRole(i, GetGame().GetPlayerController().GetPlayerId()))
 				{				
 					// Redraw availability count
+					selection.RedrawAvailability(groupRoleManagerComponent.GetRoleClaimableCount(i), groupRoleManagerComponent.GetRoleAvailableCount(i));
+					
+					// Redraw claim button
+					DrawClaimButton(groupRoleManagerComponent, selection, i);
 				}
 				else
 				{
@@ -136,9 +140,25 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 					PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(wEntry.FindHandler(PR_RoleEntryComponent));
 					
 					comp.Init(i, role, groupRoleManagerComponent.GetRoleClaimableCount(i), groupRoleManagerComponent.GetRoleAvailableCount(i));
+					
+					DrawClaimButton(groupRoleManagerComponent, comp, i);
 				}
 			}
 		}		
+	}
+	
+	void DrawClaimButton(PR_GroupRoleManagerComponent groupRoleManagerComponent, PR_RoleEntryComponent selection, int index)
+	{
+		if(groupRoleManagerComponent.CanPlayerDrawClaimRoleButton(index, GetGame().GetPlayerController().GetPlayerId()))
+		{
+			// Enable button etc.
+			selection.EnableClaimButton(true);
+		}
+		else
+		{
+			// Disable button etc.
+			selection.EnableClaimButton(false);
+		}
 	}
 	
 	void DestroyContentOfList()
