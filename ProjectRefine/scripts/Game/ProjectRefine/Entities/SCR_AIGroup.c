@@ -31,10 +31,14 @@ modded class SCR_AIGroup
 		}
 
 		reader.ReadInt(m_iLeaderID);
+		s_OnPlayerLeaderChanged.Invoke(m_iGroupID, m_iLeaderID);
 		reader.ReadBool(m_bPrivate);
+		s_OnPrivateGroupChanged.Invoke();
 		
 		reader.ReadString(m_sCustomDescription);
+		s_OnCustomDescChanged.Invoke();
 		reader.ReadString(m_sCustomName);
+		s_OnCustomNameChanged.Invoke();
 		
 		RplId groupID;
 		reader.ReadRplId(groupID);

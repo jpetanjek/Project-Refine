@@ -12,13 +12,17 @@ class PR_RoleEntryWidgets
 
 	TextWidget m_RoleSecondary;
 
+	TextWidget m_RoleAvailability;
+
 	bool Init(Widget root)
 	{
-		m_RoleName = TextWidget.Cast(root.FindWidget("SizeConstraint.LineContent.LineElements.NameOverlay.m_RoleName"));
+		m_RoleName = TextWidget.Cast(root.FindWidget("SizeConstraint.LineContent.HorizontalLayout0.LineElements.NameOverlay.m_RoleName"));
 
-		m_RolePrimary = TextWidget.Cast(root.FindWidget("SizeConstraint.LineContent.LineElements.PriparyOverlay.m_RolePrimary"));
+		m_RolePrimary = TextWidget.Cast(root.FindWidget("SizeConstraint.LineContent.HorizontalLayout0.LineElements.PriparyOverlay.m_RolePrimary"));
 
-		m_RoleSecondary = TextWidget.Cast(root.FindWidget("SizeConstraint.LineContent.LineElements.SecondaryOverlay.m_RoleSecondary"));
+		m_RoleSecondary = TextWidget.Cast(root.FindWidget("SizeConstraint.LineContent.HorizontalLayout0.LineElements.SecondaryOverlay.m_RoleSecondary"));
+
+		m_RoleAvailability = TextWidget.Cast(root.FindWidget("SizeConstraint.LineContent.HorizontalLayout0.m_RoleAvailability"));
 
 		return true;
 	}

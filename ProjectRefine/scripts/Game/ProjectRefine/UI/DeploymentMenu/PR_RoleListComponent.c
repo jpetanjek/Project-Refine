@@ -48,7 +48,10 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 	}
 	
 	void OnPlayerAdded(SCR_AIGroup group, int playerID)
-	{		
+	{
+		if(playerID != GetGame().GetPlayerController().GetPlayerId())
+			return;
+				
 		if(m_Group)
 		{
 			// Unsubscribe from old event
@@ -57,15 +60,12 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		
 		// Find new group
 		m_Group = group;
-		if (!m_Group)
+		if (!group.IsPlayerInGroup(GetGame().GetPlayerController().GetPlayerId()))
 		{
 			// No group - destroy everything drawn
 			DestroyContentOfList();
 			return;	
 		}
-		
-		if(!group.IsPlayerInGroup(playerID))
-			return;
 		
 		// Find component
 		PR_GroupRoleManagerComponent groupRoleManagerComponent = PR_GroupRoleManagerComponent.Cast(m_Group.FindComponent(PR_GroupRoleManagerComponent));
@@ -83,7 +83,7 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 	
 	void ReDrawCurrentAvailability(PR_GroupRoleManagerComponent groupRoleManagerComponent)
 	{	
-		for(int i = 0; i < groupRoleManagerComponent.m_aClaimableRolesCount.Count(); i++)
+		for(int i = 0; i < groupRoleManagerComponent.m_aRoleAvailabilityCount.Count(); i++)
 		{
 			// Search if such a widget is already drawn
 			Widget child = widgets.m_RoleListLayout.GetChildren();
@@ -124,9 +124,18 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 					// Draw some debug role panel
 					Widget wEntry = GetGame().GetWorkspace().CreateWidgets(PR_RoleEntryWidgets.s_sLayout, widgets.m_RoleListLayout);
 					
+					PR_Role role = groupRoleManagerComponent.GetRole(i);
+					
+					if(role.m_eRoleLimitation == PR_ERoleLimitation.SQUAD_LEAD_ONLY)
+						wEntry.SetZOrder(1);
+					else if(role.m_eRoleLimitation == PR_ERoleLimitation.FIRE_TEAM_LEAD_ONLY)
+						wEntry.SetZOrder(2);
+					else
+						wEntry.SetZOrder(3);
+					
 					PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(wEntry.FindHandler(PR_RoleEntryComponent));
 					
-					comp.Init(i, groupRoleManagerComponent.GetRole(i), groupRoleManagerComponent.GetRoleClaimableCount(i), groupRoleManagerComponent.GetRoleAvailableCount(i));
+					comp.Init(i, role, groupRoleManagerComponent.GetRoleClaimableCount(i), groupRoleManagerComponent.GetRoleAvailableCount(i));
 				}
 			}
 		}		

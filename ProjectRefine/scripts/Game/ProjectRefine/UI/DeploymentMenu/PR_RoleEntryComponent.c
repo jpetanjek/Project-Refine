@@ -24,5 +24,7 @@ class PR_RoleEntryComponent : ScriptedWidgetComponent
 	{
 		m_iRoleIndex = roleIndex;
 		widgets.m_RoleName.SetText(role.GetRoleName());
+		string availabilityEntry = string.Format("%1/%2", claimable, available);
+		widgets.m_RoleAvailability.SetText(availabilityEntry);
 	}
 }
