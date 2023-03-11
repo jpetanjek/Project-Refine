@@ -46,7 +46,7 @@ class PR_GameMode : SCR_BaseGameMode
 	protected ref array<float> m_aFactionScore = {}; //!! It's synchronized via replication
 	
 	// Game mode stage
-	[RplProp (onRplName: "OnGameModeChangedClient")]
+	[RplProp(onRplName: "OnGameModeChangedClient")]
 	protected PR_EGameModeStage m_eGameModeStage = PR_EGameModeStage.PREPARATION;
 	
 	// Events
@@ -219,6 +219,9 @@ class PR_GameMode : SCR_BaseGameMode
 		super.EOnInit(owner);
 		
 		InitDiagMenu();
+		
+		if(Replication.IsClient())
+			return;
 		
 		SCR_AIGroup.GetOnPlayerRemoved().Insert(OnGroupPlayerRemoved);
 		
@@ -628,6 +631,9 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	void Event_OnPlayableGroupCreated(SCR_AIGroup group)
 	{
+		if(Replication.IsClient())
+			return;
+		
 		if (!group)
 			return;
 		
