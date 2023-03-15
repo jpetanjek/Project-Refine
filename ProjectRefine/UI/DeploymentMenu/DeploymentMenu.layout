@@ -23,6 +23,15 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
    Prefab "{5CB1238335F59F5C}"
    "Is Visible" 0
   }
+  ImageWidgetClass "{5CDF51DA25460A77}" {
+   Name "TestMapBackground"
+   Slot OverlayWidgetSlot "{5CDF51DA25460A4A}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   Texture "{C640BDDB85F8B6C0}UI/Map/TestMapBackground.edds"
+   Size 2545 1331
+  }
   SizeLayoutWidgetClass "{589F049780D13CA5}" {
    Prefab "{589F049780D13CA5}"
    Slot OverlayWidgetSlot "{589EF8CE4D84EB10}" {
@@ -53,7 +62,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
            Slot LayoutSlot "{5CB123878B6B7AFD}" {
            }
            {
-            ImageWidgetClass "{5CB12388F423DC95}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
+            OverlayWidgetClass "{5CB12388F423DC95}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
              Name "rootFrame0"
              Slot OverlayWidgetSlot "{5CB12388F423DCE7}" {
               HorizontalAlign 3
@@ -103,7 +112,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                   VerticalAlign 3
                  }
                  {
-                  ImageWidgetClass "{5CB943C0CACAB420}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
+                  OverlayWidgetClass "{5CB943C0CACAB420}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
                    Name "rootFrame0"
                    Slot OverlayWidgetSlot "{5CB943C0CACAB439}" {
                     HorizontalAlign 3
@@ -173,7 +182,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
              Slot LayoutSlot "{5CB1544D8A01B322}" {
              }
              {
-              ImageWidgetClass "{5CB1544DF67CD526}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
+              OverlayWidgetClass "{5CB1544DF67CD526}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
                Name "rootFrame0"
                Slot OverlayWidgetSlot "{5CB1544DF67CD53D}" {
                 HorizontalAlign 3
@@ -226,9 +235,14 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                      {
                       ButtonWidgetClass "{5CC91A873C0342DA}" {
                        Prefab "{5CC91A873C0342DA}"
+                       Slot LayoutSlot "{5CC91A873C034306}" {
+                        Padding 4 0 4 0
+                       }
                        components {
                         SCR_EditBoxComponent "{547290FFBD5B33E9}" {
                          m_bUseLabel 0
+                         m_fOpacityDefault 1
+                         m_fOpacityFocused 1
                         }
                        }
                        {
@@ -240,9 +254,23 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                            {
                             OverlayWidgetClass "{55367D8E531FD623}" {
                              Prefab "{55367D8E531FD623}"
+                             Slot AlignableSlot "{55367D8E531FD640}" {
+                              Padding 2 0 2 0
+                             }
                              {
+                              ImageWidgetClass "{55367D8E48B5ED75}" {
+                               Prefab "{55367D8E48B5ED75}"
+                               Color 0.561 0.071 0.071 1
+                              }
+                              PanelWidgetClass "{55367D8E4A135500}" {
+                               Prefab "{55367D8E4A135500}"
+                               Color 0.761 0.386 0.078 0
+                              }
                               HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
                                Prefab "{55367D8E4592BC6E}"
+                               Slot OverlayWidgetSlot "{55367D8E4592B383}" {
+                                Padding 8 0 8 0
+                               }
                                {
                                 OverlayWidgetClass "{5538C2059A570E94}" {
                                  Prefab "{5538C2059A570E94}"
@@ -250,6 +278,11 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                                   FillWeight 1
                                  }
                                  {
+                                  ImageWidgetClass "{5538C20588BB6BD0}" {
+                                   Prefab "{5538C20588BB6BD0}"
+                                   Opacity 1
+                                   Color 0.001 0.018 0.047 1
+                                  }
                                   ScaleWidgetClass "{553AB38C59601DA1}" {
                                    Prefab "{553AB38C59601DA1}"
                                    "Is Visible" 0
@@ -264,6 +297,25 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                                 }
                                }
                               }
+                             }
+                            }
+                           }
+                          }
+                          FrameWidgetClass "{5AA4D278F79F9344}" {
+                           Prefab "{5AA4D278F79F9344}"
+                           {
+                            OverlayWidgetClass "{5AA4D27680974382}" {
+                             Prefab "{5AA4D27680974382}"
+                             Slot FrameWidgetSlot "{5AA4F5188D779475}" {
+                              Anchor 0 0 1 0
+                              PositionX 0
+                              OffsetLeft 0
+                              PositionY -28
+                              OffsetTop -28
+                              SizeX 0
+                              OffsetRight 0
+                              SizeY 24
+                              OffsetBottom 4
                              }
                             }
                            }

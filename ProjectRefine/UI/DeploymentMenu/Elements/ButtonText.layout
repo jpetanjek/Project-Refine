@@ -7,28 +7,9 @@ ButtonWidgetClass {
  components {
   SCR_ModularButtonComponent "{5CB3785628029158}" {
    m_aEffects {
-    SCR_ButtonEffectOpacity "{5CB378561949E9B9}" {
-     m_eEvents 19
-     m_sWidgetName "BG"
-     m_fAnimationTime 0.05
-     m_fDefault 0.3
-     m_fHovered 0.5
-     m_fDisabled 0.3
-     m_fClicked 0
+    SCR_ButtonEffectColor "{5CDF339C477FFD14}" : "{A3127CA3228C8C36}UI/DeploymentMenu/Elements/ButtonEffectBackgroundColor.conf" {
     }
-    SCR_ButtonEffectOpacity "{5CB3785704BEB9C5}" {
-     m_eEvents EVENT_CLICKED
-     m_sWidgetName "BG"
-     m_fAnimationTime 0
-     m_fClicked 1
-    }
-    SCR_ButtonEffectColor "{5CD171E7532193C2}" {
-     m_eEvents 19
-     m_sWidgetName "Text"
-     m_fAnimationTime 0
-     m_cDefault 1 1 1 1
-     m_cHovered 1 1 1 1
-     m_cDisabled 0.521 0.521 0.521 1
+    SCR_ButtonEffectColor "{5CDF339C45DFB336}" : "{D5B76602C3AAF7D6}UI/DeploymentMenu/Elements/ButtonEffectTextColor.conf" {
     }
    }
   }
@@ -70,6 +51,7 @@ ButtonWidgetClass {
        "Vertical Alignment" Center
        FontProperties FontProperties "{5CB3785692FBD48F}" {
         Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+        DisabledColor 1 1 1 1
        }
       }
      }

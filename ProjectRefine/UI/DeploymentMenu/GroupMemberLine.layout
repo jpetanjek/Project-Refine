@@ -48,34 +48,19 @@ ButtonWidgetClass {
          Slot AlignableSlot "{5CD550824EC4018D}" {
           HorizontalAlign 3
           VerticalAlign 3
-          Padding 2 2 2 2
+          Padding 0 0 0 0
          }
          {
-          ButtonWidgetClass "{5CD55082CE92F8BC}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
+          ButtonWidgetClass "{5CDF54CF0AD07912}" : "{2F5C9F6C594BB0ED}UI/DeploymentMenu/Elements/ButtonIcon.layout" {
            Name "m_ActionButton"
-           Slot OverlayWidgetSlot "{5CD56493E4DCEDAF}" {
+           Slot OverlayWidgetSlot "{5CDF54CF0AD07976}" {
             HorizontalAlign 3
             VerticalAlign 3
+            Padding 0 0 0 0
            }
            components {
             SCR_ModularButtonComponent "{5CB3785628029158}" {
              m_eEventReturnValue 2147483599
-            }
-           }
-           {
-            SizeLayoutWidgetClass "{5CB37856F029CE83}" {
-             Prefab "{5CB37856F029CE83}"
-             {
-              OverlayWidgetClass "{5CB378554B951C94}" {
-               Prefab "{5CB378554B951C94}"
-               {
-                TextWidgetClass "{5CB378555DCCD4DC}" {
-                 Prefab "{5CB378555DCCD4DC}"
-                 Text "..."
-                }
-               }
-              }
-             }
             }
            }
           }

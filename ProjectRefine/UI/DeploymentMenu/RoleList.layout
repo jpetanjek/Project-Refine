@@ -17,14 +17,18 @@ SizeLayoutWidgetClass {
    Slot AlignableSlot "{5CB123862D353FD8}" {
     HorizontalAlign 3
     VerticalAlign 3
-    Padding 5 0 5 0
+    Padding 5 5 5 5
    }
    {
     TextWidgetClass "{5CB12386D69B8627}" {
      Name "Text0"
      Slot LayoutSlot "{5CB1544DB3445C45}" {
+      Padding 6 6 0 0
      }
-     Text "Role selection"
+     Text "Roles"
+     FontProperties FontProperties "{5CDF41BF84696307}" {
+      Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+     }
     }
     SizeLayoutWidgetClass "{5CB12386922384B9}" {
      Name "SizeLayout0"

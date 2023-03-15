@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{D5B76602C3AAF7D6}UI/DeploymentMenu/Elements/ButtonEffectTextColor.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

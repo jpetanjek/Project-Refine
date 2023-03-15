@@ -19,14 +19,18 @@ SizeLayoutWidgetClass {
    Slot AlignableSlot "{5CB12388A4524464}" {
     HorizontalAlign 3
     VerticalAlign 3
-    Padding 5 0 5 0
+    Padding 5 5 5 5
    }
    {
     TextWidgetClass "{5CB12388B6814180}" {
      Name "Text0"
      Slot LayoutSlot "{5CB12388B681419A}" {
+      Padding 6 6 0 10
      }
-     Text "Group List"
+     Text "Groups"
+     FontProperties FontProperties "{5CDF41BFBF9DF654}" {
+      Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+     }
     }
     SizeLayoutWidgetClass "{5CD1598FDA678EB5}" {
      Name "ScrollSize"

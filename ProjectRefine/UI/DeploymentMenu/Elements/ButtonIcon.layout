@@ -1,0 +1,48 @@
+ButtonWidgetClass : "{D07ED8A849945CCE}UI/DeploymentMenu/Elements/ButtonEmpty.layout" {
+ Name "m_ActionButton"
+ Slot LayoutSlot "{5CB378557E695658}" {
+  Padding 0 0 0 0
+ }
+ components {
+  SCR_ModularButtonComponent "{5CB3785628029158}" {
+   m_aEffects {
+    SCR_ButtonEffectColor "{5CDF339C935EF450}" {
+     m_bEnabled 0
+    }
+    SCR_ButtonEffectOpacity "{5CDF54CE1BA89993}" {
+     m_eEvents 15
+     m_sWidgetName "Image"
+     m_fAnimationTime 0
+     m_fDefault 0.7
+     m_fHovered 1
+     m_fActivated 0.7
+     m_fActivatedHovered 1
+    }
+   }
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{5CB37853F653B731}" {
+   Prefab "{5CB37853F653B731}"
+   {
+    OverlayWidgetClass "{5CB37853F653B73F}" {
+     Prefab "{5CB37853F653B73F}"
+     {
+      ImageWidgetClass "{5CDF54CE29093A84}" {
+       Name "Image"
+       Slot OverlayWidgetSlot "{5CDF54CE29093AE1}" {
+       }
+       Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
+       Image "dotsMenu"
+       Size 36 36
+      }
+      ImageWidgetClass "{5CB37853F653B73D}" {
+       Prefab "{5CB37853F653B73D}"
+       "Is Visible" 0
+      }
+     }
+    }
+   }
+  }
+ }
+}
