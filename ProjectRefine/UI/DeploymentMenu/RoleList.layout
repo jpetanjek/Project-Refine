@@ -10,20 +10,20 @@ SizeLayoutWidgetClass {
   }
  }
  AllowWidthOverride 1
- WidthOverride 300
+ WidthOverride 260
  {
   VerticalLayoutWidgetClass "{5CB1238627B0930E}" {
    Name "VerticalLayout0"
    Slot AlignableSlot "{5CB123862D353FD8}" {
     HorizontalAlign 3
     VerticalAlign 3
-    Padding 5 5 5 5
+    Padding 8 5 5 5
    }
    {
     TextWidgetClass "{5CB12386D69B8627}" {
      Name "Text0"
      Slot LayoutSlot "{5CB1544DB3445C45}" {
-      Padding 6 6 0 0
+      Padding 6 6 0 10
      }
      Text "Roles"
      FontProperties FontProperties "{5CDF41BF84696307}" {
@@ -49,6 +49,7 @@ SizeLayoutWidgetClass {
          Slot AlignableSlot "{5CD144D72EF5C451}" {
           HorizontalAlign 3
           VerticalAlign 3
+          Padding 0 0 13 0
          }
         }
        }

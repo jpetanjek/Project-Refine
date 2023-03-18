@@ -37,6 +37,7 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 			// Subscribe to its event
 			groupRoleManagerComponent.m_OnAvailabilityChanged.Insert(ReDrawCurrentAvailability);
 			groupRoleManagerComponent.m_OnRoleClaimsChanged.Insert(ReDrawCurrentAvailability);
+			groupRoleManagerComponent.m_OnRoleClaimsChanged.Insert(ReDrawCurrentAvailability);
 			
 			// Draw current availability
 			ReDrawCurrentAvailability(groupRoleManagerComponent);
@@ -82,8 +83,13 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 	
 	void ReDrawCurrentAvailability(PR_GroupRoleManagerComponent groupRoleManagerComponent)
 	{	
+		// Get our own loadout
+		int myRoleId = groupRoleManagerComponent.GetPlayerRoleIndex(GetGame().GetPlayerController().GetPlayerId());
+		
 		for(int i = 0; i < groupRoleManagerComponent.m_aRoleAvailabilityCount.Count(); i++)
 		{
+			bool claimedByMe = i == myRoleId;
+			
 			// Search if such a widget is already drawn
 			Widget child = widgets.m_RoleListLayout.GetChildren();
 			PR_RoleEntryComponent selection = null;
@@ -110,7 +116,9 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 				if(groupRoleManagerComponent.CanGroupMemberDrawRole(i, GetGame().GetPlayerController().GetPlayerId()))
 				{				
 					// Redraw availability count
-					selection.RedrawAvailability(groupRoleManagerComponent.GetRoleClaimableCount(i), groupRoleManagerComponent.GetRoleAvailableCount(i));
+					selection.Redraw(groupRoleManagerComponent.GetRoleClaimableCount(i),
+						groupRoleManagerComponent.GetRoleAvailableCount(i),
+						claimedByMe);
 					
 					// Redraw claim button
 					DrawClaimButton(groupRoleManagerComponent, selection, i);
@@ -138,8 +146,10 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 					
 					PR_RoleEntryComponent comp = PR_RoleEntryComponent.Cast(wEntry.FindHandler(PR_RoleEntryComponent));
 					
-					comp.Init(i, role, groupRoleManagerComponent.GetRoleClaimableCount(i), groupRoleManagerComponent.GetRoleAvailableCount(i));
-					
+					comp.Init(i, role);
+					comp.Redraw(groupRoleManagerComponent.GetRoleClaimableCount(i),
+						groupRoleManagerComponent.GetRoleAvailableCount(i),
+						claimedByMe);
 					DrawClaimButton(groupRoleManagerComponent, comp, i);
 				}
 			}

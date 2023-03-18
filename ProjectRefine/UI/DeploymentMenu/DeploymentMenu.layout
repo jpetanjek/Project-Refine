@@ -19,10 +19,6 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
     }
    }
   }
-  OverlayWidgetClass "{5CB1238335F59F5C}" {
-   Prefab "{5CB1238335F59F5C}"
-   "Is Visible" 0
-  }
   ImageWidgetClass "{5CDF51DA25460A77}" {
    Name "TestMapBackground"
    Slot OverlayWidgetSlot "{5CDF51DA25460A4A}" {
@@ -31,6 +27,10 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
    }
    Texture "{C640BDDB85F8B6C0}UI/Map/TestMapBackground.edds"
    Size 2545 1331
+  }
+  OverlayWidgetClass "{5CB1238335F59F5C}" {
+   Prefab "{5CB1238335F59F5C}"
+   "Is Visible" 0
   }
   SizeLayoutWidgetClass "{589F049780D13CA5}" {
    Prefab "{589F049780D13CA5}"
@@ -205,13 +205,14 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                    ExportChildWidgets 0
                   }
                  }
+                 WidthOverride 260
                  {
                   VerticalLayoutWidgetClass "{5CB1238627B0930E}" {
                    Prefab "{5CB1238627B0930E}"
                    {
                     SizeLayoutWidgetClass "{5CB12386922384B9}" {
                      Prefab "{5CB12386922384B9}"
-                     HeightOverride 930
+                     HeightOverride 905
                     }
                    }
                   }
