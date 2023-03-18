@@ -189,14 +189,23 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		
 		Replication.BumpMe();
 		
-		OnAvailabilityChangedClient();
+		if(Replication.IsServer())
+		{
+			OnAvailabilityChangedClient();
+			OnRoleClaimsChangedClient();			
+		}
 	}
 	
 	void OnPlayerLeaderChanged(int groupID, int playerID)
 	{
 		m_iLeaderId = playerID;
 		Replication.BumpMe();
-		OnAvailabilityChangedClient();
+		
+		if(Replication.IsServer())
+		{
+			OnAvailabilityChangedClient();
+			OnRoleClaimsChangedClient();			
+		}
 	}
 	
 	void OnPlayerRemoved(SCR_AIGroup group, int playerID)
@@ -236,7 +245,11 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 			Replication.BumpMe();
 			
 			if(Replication.IsServer())
+			{
 				OnAvailabilityChangedClient();
+				OnRoleClaimsChangedClient();			
+			}
+				
 			
 			return true;
 		}
@@ -255,7 +268,10 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		}
 		
 		if(Replication.IsServer())
+		{
 			OnAvailabilityChangedClient();
+			OnRoleClaimsChangedClient();			
+		}
 		
 		Replication.BumpMe();
 	}
