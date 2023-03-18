@@ -314,27 +314,6 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		return GetRole(index);
 	}
 	
-	bool CanPlayerDrawClaimRoleButton(int index, int playerID)
-	{
-		if(CanPlayerClaimRole(index, playerID))
-		{
-			// If he already has it claimed, he cannot claim again
-			if(GetPlayerRoleIndex(playerID) == index)
-			{
-				return false;
-			}
-			else
-			{
-				// If he doesn't he can
-				return true;
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
 	// Check this before you spawn a player
 	bool CanPlayerSpawnWithClaimedRole(int playerID)
 	{

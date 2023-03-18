@@ -37,7 +37,6 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 			// Subscribe to its event
 			groupRoleManagerComponent.m_OnAvailabilityChanged.Insert(ReDrawCurrentAvailability);
 			groupRoleManagerComponent.m_OnRoleClaimsChanged.Insert(ReDrawCurrentAvailability);
-			groupRoleManagerComponent.m_OnRoleClaimsChanged.Insert(ReDrawCurrentAvailability);
 			
 			// Draw current availability
 			ReDrawCurrentAvailability(groupRoleManagerComponent);
@@ -158,7 +157,7 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 	
 	void DrawClaimButton(PR_GroupRoleManagerComponent groupRoleManagerComponent, PR_RoleEntryComponent selection, int index)
 	{
-		if(groupRoleManagerComponent.CanPlayerDrawClaimRoleButton(index, GetGame().GetPlayerController().GetPlayerId()))
+		if(CanPlayerDrawClaimRoleButton(groupRoleManagerComponent, index, GetGame().GetPlayerController().GetPlayerId()))
 		{
 			// Enable button etc.
 			selection.EnableClaimButton(true);
@@ -167,6 +166,27 @@ class PR_RoleListComponent : ScriptedWidgetComponent
 		{
 			// Disable button etc.
 			selection.EnableClaimButton(false);
+		}
+	}
+	
+	bool CanPlayerDrawClaimRoleButton(PR_GroupRoleManagerComponent groupRoleManagerComponent, int index, int playerID)
+	{
+		if(groupRoleManagerComponent.CanPlayerClaimRole(index, playerID))
+		{
+			// If he already has it claimed, he cannot claim again
+			if(groupRoleManagerComponent.GetPlayerRoleIndex(playerID) == index)
+			{
+				return false;
+			}
+			else
+			{
+				// If he doesn't he can
+				return true;
+			}
+		}
+		else
+		{
+			return false;
 		}
 	}
 	
