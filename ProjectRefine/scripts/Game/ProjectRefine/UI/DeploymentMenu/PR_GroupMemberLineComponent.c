@@ -9,6 +9,7 @@ class PR_GroupMemberLineComponent : ScriptedWidgetComponent
 	protected Widget m_wRoot;
 	
 	protected SCR_AIGroup m_Group;
+	protected PR_GroupRoleManagerComponent m_RoleManager;
 	protected int m_iPlayerId = -1; // ID of player for which this line is created
 	
 	override void HandlerAttached(Widget w)
@@ -40,6 +41,9 @@ class PR_GroupMemberLineComponent : ScriptedWidgetComponent
 		m_Group = group;
 		m_iPlayerId = playerId;
 		
+		m_RoleManager = PR_GroupRoleManagerComponent.Cast(group.FindComponent(PR_GroupRoleManagerComponent));
+		m_RoleManager.m_OnRoleClaimsChanged.Insert(Event_OnRoleClaimsChanged);
+		
 		UpdateAllWidgets();
 	}
 	
@@ -68,7 +72,14 @@ class PR_GroupMemberLineComponent : ScriptedWidgetComponent
 		// Player name
 		widgets.m_PlayerNameText.SetText(pm.GetPlayerName(m_iPlayerId));
 		
-		// Other stuff later
+		// Role
+		PR_Role role = m_RoleManager.GetPlayerRole(m_iPlayerId);
+		string roleText;
+		if (!role)
+			roleText = "-";
+		else
+			roleText = role.GetRoleName();
+		widgets.m_RoleNameText.SetText(roleText);
 	}
 	
 	int GetPlayerId()
@@ -86,5 +97,10 @@ class PR_GroupMemberLineComponent : ScriptedWidgetComponent
 		
 		PR_GroupMemberTooltipComponent tooltipComp = PR_GroupMemberTooltipComponent.Cast(wTooltip.FindHandler(PR_GroupMemberTooltipComponent));
 		tooltipComp.Init(m_Group, m_iPlayerId);
+	}
+	
+	protected void Event_OnRoleClaimsChanged(PR_GroupRoleManagerComponent groupRoleManagerComponent)
+	{
+		UpdateAllWidgets();
 	}
 }
