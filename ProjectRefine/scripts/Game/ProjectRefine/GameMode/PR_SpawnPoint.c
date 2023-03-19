@@ -9,10 +9,13 @@ Component which represents spawn point functionality.
 */
 class PR_SpawnPoint : ScriptComponent
 {
-	protected PR_CaptureArea m_CaptureArea;
-
 	protected static ref array<PR_SpawnPoint> s_aAll = {};
 	
+	// Spawn positions for characters
+	protected ref array<PR_CharacterSpawnPosition> m_aSpawnPositions = {};
+
+	protected PR_CaptureArea m_CaptureArea; // Temporary, might get removed later
+		
 	//------------------------------------------------------------------------------------------------
 	static array<PR_SpawnPoint> GetAll()
 	{
@@ -43,6 +46,17 @@ class PR_SpawnPoint : ScriptComponent
 		return m_CaptureArea.GetName();
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	// Returns world space coordinate of a random spawn position
+	vector GetRandomSpawnPosition()
+	{
+		if (m_aSpawnPositions.IsEmpty())
+			return GetOwner().GetOrigin();
+		
+		int id = Math.RandomInt(0, m_aSpawnPositions.Count());
+		return m_aSpawnPositions[id].GetOrigin();
+	}
+	
 	
 	//------------------------------------------------------------------------------------------------
 	void PR_SpawnPoint(IEntityComponentSource src, IEntity ent, IEntity parent)
@@ -67,6 +81,23 @@ class PR_SpawnPoint : ScriptComponent
 	override void EOnInit(IEntity owner)
 	{
 		m_CaptureArea = PR_CaptureArea.Cast(owner.FindComponent(PR_CaptureArea));
+		
+		// Search for PR_CharacterSpawnPosition entities and pass them to spawn point
+		IEntity childEntity = GetOwner().GetChildren();
+		int nCharSpawnPosAdded = 0;
+		while (childEntity)
+		{
+			PR_CharacterSpawnPosition spawnPos = PR_CharacterSpawnPosition.Cast(childEntity);
+			if (spawnPos)
+			{
+				m_aSpawnPositions.Insert(spawnPos);
+				nCharSpawnPosAdded++;
+			}
+			childEntity = childEntity.GetSibling();
+		}
+		
+		if (nCharSpawnPosAdded == 0)
+			_print("No character spawn positions found!", LogLevel.ERROR);
 	}
 	
 	
@@ -78,4 +109,10 @@ class PR_SpawnPoint : ScriptComponent
 
 	
 	*/
+
+	//-------------------------------------------------------------------------------------------------------------------------------
+	protected void _print(string str, LogLevel logLevel = LogLevel.NORMAL)
+	{
+		Print(string.Format("[PR_SpawnPoint] %1: %2", GetName(), str), logLevel);
+	}
 };
