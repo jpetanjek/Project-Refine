@@ -44,10 +44,6 @@ class PR_CaptureArea : ScriptComponent
 	// Asset spawners in this capture area
 	protected ref array<PR_AssetSpawner> m_aAssetSpawners = {};
 	
-	// Spawn point attached to this capture area
-	protected SCR_SpawnPoint m_SpawnPoint; // todo delete later
-	protected ref SCR_UIInfo m_SpawnPointUiInfo; // todo delete later
-	
 	// Variables related to area capture
 	// Some of them are only needed for debugging
 	
@@ -213,8 +209,6 @@ class PR_CaptureArea : ScriptComponent
 					m_eState = PR_EAreaState.CAPTURED;
 					
 					m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction);
-					
-					SetSpawnPointOwnerFaction(m_iOwnerFaction);
 				}
 				else if (m_fPoints <= 0.0)
 				{
@@ -225,8 +219,6 @@ class PR_CaptureArea : ScriptComponent
 					m_eState = PR_EAreaState.NEUTRAL;
 					
 					m_OnOwnerFactionChanged.Invoke(this, prevOwnerFaction, -1);
-					
-					SetSpawnPointOwnerFaction(-1);
 				}
 				
 				invokeOnStateChanged = true;
@@ -334,69 +326,7 @@ class PR_CaptureArea : ScriptComponent
 			
 			childEntity = childEntity.GetSibling();
 		}
-		
-		// Init spawn point
-		InitSpawnPoint(ownerFactionId);
 	}
-	
-	
-	//------------------------------------------------------------------------------------------------
-	// Methods related to control of the spawn point attached here
-	
-	//------------------------------------------------------------------------------------------------
-	protected void InitSpawnPoint(int ownerFactionId)
-	{
-		RplComponent rpl = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
-		
-		// Find the spawn point entity among children
-		IEntity childEntity = GetOwner().GetChildren();
-		m_SpawnPoint = null;
-		while (childEntity)
-		{
-			m_SpawnPoint = SCR_SpawnPoint.Cast(childEntity);
-			if (m_SpawnPoint)
-				break;
-			childEntity = childEntity.GetSibling();
-		}
-		
-		if (m_SpawnPoint)
-		{
-			// Set initial owner faction - only for Master
-			if (rpl.IsMaster())
-				SetSpawnPointOwnerFaction(ownerFactionId);
-			
-			// Set UIInfo
-			m_SpawnPointUiInfo = SCR_UIInfo.CreateInfo(m_sName);
-			m_SpawnPoint.LinkInfo(m_SpawnPointUiInfo);
-			
-			// Search for PR_CharacterSpawnPosition entities and pass them to spawn point
-			childEntity = GetOwner().GetChildren();
-			int nCharSpawnPosAdded = 0;
-			while (childEntity)
-			{
-				PR_CharacterSpawnPosition playerSpawnPos = PR_CharacterSpawnPosition.Cast(childEntity);
-				if (playerSpawnPos)
-				{
-					m_SpawnPoint.AddChildPosition(playerSpawnPos);
-					nCharSpawnPosAdded++;
-				}
-				childEntity = childEntity.GetSibling();
-			}
-			if (nCharSpawnPosAdded == 0)
-				_print("No PR_CharacterSpawnPosition found!", LogLevel.ERROR);
-		}
-		else
-			_print("No SCR_SpawnPoint found", LogLevel.ERROR);
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	protected void SetSpawnPointOwnerFaction(int ownerFactionId)
-	{
-		if (m_SpawnPoint)
-			m_SpawnPoint.SetFaction(GetGame().GetFactionManager().GetFactionByIndex(ownerFactionId));
-	}
-	
-	
 	
 	//------------------------------------------------------------------------------------------------
 	// Misc
