@@ -10,32 +10,13 @@ class PR_DeploymentMenuWidgets
 
 	OverlayWidget m_MapInteractionArea;
 
-	TextWidget m_RespawnTimerText;
+	TextWidget m_SpawnPointNameText;
+
+	ButtonWidget m_DeployButton;
+	SCR_ModularButtonComponent m_DeployButtonComponent;
 
 	OverlayWidget m_ChatPanel;
 	SCR_ChatPanel m_ChatPanelComponent;
-
-	VerticalLayoutWidget m_MessageHistory;
-
-	OverlayWidget m_EditOverlay;
-
-	ImageWidget m_EditBackgroundImage;
-
-	TextWidget m_ChannelTagOverlay;
-
-	ImageWidget m_ChannelTypeImage;
-
-	EditBoxWidget m_MessageEditBox;
-	EditBoxFilterComponent m_MessageEditBoxComponent0;
-	SCR_EventHandlerComponent m_MessageEditBoxComponent1;
-
-	HorizontalLayoutWidget m_WarningChannelMessage;
-
-	ImageWidget m_WarningImage;
-
-	TextWidget m_WarningText;
-
-	TextWidget m_ChannelTagEditor;
 
 	SizeLayoutWidget m_RoleList;
 	PR_RoleListComponent m_RoleListComponent;
@@ -49,32 +30,13 @@ class PR_DeploymentMenuWidgets
 
 		m_MapInteractionArea = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea"));
 
-		m_RespawnTimerText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_RespawnTimerText"));
+		m_SpawnPointNameText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.HorizontalLayout0.m_SpawnPointNameText"));
+
+		m_DeployButton = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.HorizontalLayout0.m_DeployButton"));
+		m_DeployButtonComponent = SCR_ModularButtonComponent.Cast(m_DeployButton.FindHandler(SCR_ModularButtonComponent));
 
 		m_ChatPanel = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel"));
 		m_ChatPanelComponent = SCR_ChatPanel.Cast(m_ChatPanel.FindHandler(SCR_ChatPanel));
-
-		m_MessageHistory = VerticalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory"));
-
-		m_EditOverlay = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory.m_EditOverlay"));
-
-		m_EditBackgroundImage = ImageWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory.m_EditOverlay.EditLayoutBar.m_EditBackgroundImage"));
-
-		m_ChannelTagOverlay = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory.m_EditOverlay.EditLayoutBar.m_ChannelTagOverlay"));
-
-		m_ChannelTypeImage = ImageWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory.m_EditOverlay.EditLayoutBar.MessageEditor.m_ChannelTypeImage"));
-
-		m_MessageEditBox = EditBoxWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory.m_EditOverlay.EditLayoutBar.MessageEditor.Width.m_MessageEditBox"));
-		m_MessageEditBoxComponent0 = EditBoxFilterComponent.Cast(m_MessageEditBox.FindHandler(EditBoxFilterComponent));
-		m_MessageEditBoxComponent1 = SCR_EventHandlerComponent.Cast(m_MessageEditBox.FindHandler(SCR_EventHandlerComponent));
-
-		m_WarningChannelMessage = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory.m_EditOverlay.EditLayoutBar.MessageEditor.m_WarningChannelMessage"));
-
-		m_WarningImage = ImageWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory.m_EditOverlay.EditLayoutBar.MessageEditor.m_WarningChannelMessage.m_WarningImage"));
-
-		m_WarningText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory.m_EditOverlay.EditLayoutBar.MessageEditor.m_WarningChannelMessage.m_WarningText"));
-
-		m_ChannelTagEditor = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel.OverlayAlignTop.m_MessageHistory.m_EditOverlay.EditLayoutBar.MessageEditor.m_ChannelTagEditor"));
 
 		m_RoleList = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.Right.HorizontalLayout0.m_RoleList"));
 		m_RoleListComponent = PR_RoleListComponent.Cast(m_RoleList.FindHandler(PR_RoleListComponent));

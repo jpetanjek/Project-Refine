@@ -93,6 +93,18 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	// Everything related to spawn points is here
 	
 	protected ref array<ref PR_DeploymentMenu_SpawnPointData> m_aSpawnPointsData = {};
+	protected PR_DeploymentMenu_SpawnPointData m_SelectedSpawnPoint;
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	PR_DeploymentMenu_SpawnPointData FindSpawnPointData(SCR_ModularButtonComponent button)
+	{
+		foreach (PR_DeploymentMenu_SpawnPointData spdata : m_aSpawnPointsData)
+		{
+			if (spdata.m_MapUiButton == button)
+				return spdata;
+		}
+		return null;
+	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
 	// This function defines if spawn point should be listed in UI
@@ -123,6 +135,7 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		{
 			RemoveSpawnPoint(spData);
 		}
+		spawnPointsRemove.Clear(); // Unref the points we deleted, so that weak references are set to null too
 		
 		//---------------------------------------------------------------------------------
 		// Add spawn points which are not in UI yet
@@ -150,12 +163,52 @@ class PR_DeploymentMenu : ChimeraMenuBase
 				AddSpawnPoint(spawnPoint);
 			}
 		}
+		
+		//---------------------------------------------------------------------------------
+		// Visualize state of selected spawn point
+		UpdateSpawnPointPanel();
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
 	// Called on menu open, map is not guaranteed to work yet
 	void InitSpawnPointUi()
 	{
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void UpdateSpawnPointPanel()
+	{
+		// Show name of selected spawn point
+		string spawnPointName;
+		
+		if (!m_SelectedSpawnPoint)
+			spawnPointName = "-";
+		else
+		{
+			spawnPointName = m_SelectedSpawnPoint.m_SpawnPoint.GetName();
+		}
+		
+		widgets.m_SpawnPointNameText.SetText(spawnPointName);
+		
+		// Update deploy button
+		bool deployButtonEnabled = m_SelectedSpawnPoint != null;
+		widgets.m_DeployButtonComponent.SetEnabled(deployButtonEnabled);
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void OnSpawnPointClick(SCR_ModularButtonComponent comp)
+	{
+		PR_DeploymentMenu_SpawnPointData spdata = FindSpawnPointData(comp);
+		if (!spdata)
+			return;
+		
+		m_SelectedSpawnPoint = spdata;
+		
+		// Toggle this button, untoggle others
+		foreach (PR_DeploymentMenu_SpawnPointData s : m_aSpawnPointsData)
+		{
+			s.m_MapUiButton.SetToggled(spdata == s);
+		}
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
@@ -172,6 +225,8 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		PR_MapUiElementComponent mapUiElement = m_MapUiElementsModule.CreateUiElement("{F2689BBD0CAFEB7B}UI/DeploymentMenu/TestMapUiElement.layout", spawnPoint.GetOwner().GetOrigin());
 		spData.m_MapUiElement = mapUiElement;
 		spData.m_MapUiButton = SCR_ModularButtonComponent.Cast(mapUiElement.GetRootWidget().FindHandler(SCR_ModularButtonComponent));
+		
+		spData.m_MapUiButton.m_OnClicked.Insert(OnSpawnPointClick);
 		
 		m_aSpawnPointsData.Insert(spData);
 	}
