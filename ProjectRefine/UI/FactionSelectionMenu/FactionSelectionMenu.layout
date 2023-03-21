@@ -1,0 +1,101 @@
+OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
+ components {
+  SCR_WidgetExportRuleRoot "{5CEB48697A1938C8}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
+   DestinationPath "{0EAB43498ABCDBD2}scripts/Game/ProjectRefine/UI/FactionSelectionMenu"
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{589F049780D13CA5}" {
+   Prefab "{589F049780D13CA5}"
+   {
+    VerticalLayoutWidgetClass "{589F049780D13CA3}" {
+     Prefab "{589F049780D13CA3}"
+     {
+      OverlayWidgetClass "{589F0497F7A00346}" {
+       Prefab "{589F0497F7A00346}"
+       {
+        SizeLayoutWidgetClass "{5CEB48687F8255D9}" {
+         Name "SizeLayout0"
+         Slot OverlayWidgetSlot "{5CEB48687F825603}" {
+         }
+         AllowWidthOverride 1
+         WidthOverride 500
+         AllowHeightOverride 1
+         HeightOverride 500
+         {
+          VerticalLayoutWidgetClass "{5CEB48680C5B10C5}" {
+           Name "VerticalLayout0"
+           Slot AlignableSlot "{5CEB48687F8EB9CC}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            TextWidgetClass "{5CEB48681A79D790}" {
+             Name "Text0"
+             Slot LayoutSlot "{5CEB48681A79D7EB}" {
+              Padding 0 0 0 20
+             }
+             Text "Make your choice"
+             "Font Size" 32
+             "Min Font Size" 32
+             "Horizontal Alignment" Center
+            }
+            ButtonWidgetClass "{5CEB486870A01596}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
+             Name "m_Faction0Button"
+             Slot LayoutSlot "{5CB378557E695658}" {
+              Padding 2 2 2 20
+             }
+             {
+              SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+               Prefab "{5CB37856F029CE83}"
+               AllowHeightOverride 1
+               HeightOverride 80
+               {
+                OverlayWidgetClass "{5CB378554B951C94}" {
+                 Prefab "{5CB378554B951C94}"
+                 {
+                  TextWidgetClass "{5CB378555DCCD4DC}" {
+                   Prefab "{5CB378555DCCD4DC}"
+                   Text "Red Pill"
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+            ButtonWidgetClass "{5CEB486855C4AD27}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
+             Name "m_Faction1Button"
+             Slot LayoutSlot "{5CB378557E695658}" {
+             }
+             {
+              SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+               Prefab "{5CB37856F029CE83}"
+               AllowHeightOverride 1
+               HeightOverride 80
+               {
+                OverlayWidgetClass "{5CB378554B951C94}" {
+                 Prefab "{5CB378554B951C94}"
+                 {
+                  TextWidgetClass "{5CB378555DCCD4DC}" {
+                   Prefab "{5CB378555DCCD4DC}"
+                   Text "Blue Pill"
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

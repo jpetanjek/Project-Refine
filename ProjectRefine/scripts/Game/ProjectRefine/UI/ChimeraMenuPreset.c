@@ -1,4 +1,5 @@
 modded enum ChimeraMenuPreset
 {
-	RefineDeploymentMenu
+	RefineDeploymentMenu,
+	RefineFactionSelectionMenu
 }

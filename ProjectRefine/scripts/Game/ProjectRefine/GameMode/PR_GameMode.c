@@ -787,6 +787,7 @@ class PR_GameMode : SCR_BaseGameMode
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL, "", "Game Mode Panel", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREAS_STATE, "", "Capture Areas State", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_ASSET_SPAWNER_STATE, "", "Asset Spawner State", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, "", "Show Faction Menu", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, "", "Show Deployment Menu", cheatMenuName);
 		
 	}
@@ -831,12 +832,23 @@ class PR_GameMode : SCR_BaseGameMode
 			
 			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, 0);
 		}
+		
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU))
+		{
+			MenuManager mm = GetGame().GetMenuManager();
+			mm.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
+			mm.OpenMenu(ChimeraMenuPreset.RefineFactionSelectionMenu);
+			
+			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, 0);
+		}
 	}
 	
 	// Just for debugging - opens deployment menu for everyone
 	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
 	void RpcDo_DiagOpenDeploymentMenu()
 	{	
-		GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
+		MenuManager mm = GetGame().GetMenuManager();
+		mm.CloseMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu);
+		mm.OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
 	}
 }

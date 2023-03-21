@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{FAF119E75E0B9EBD}UI/DeploymentMenu/FactionSelectionMenu.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}
