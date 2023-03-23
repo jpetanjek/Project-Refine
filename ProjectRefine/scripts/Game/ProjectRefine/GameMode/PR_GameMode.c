@@ -827,8 +827,8 @@ class PR_GameMode : SCR_BaseGameMode
 				SCR_RespawnSystemComponent.GetInstance().SetPlayerFaction(playerId, 0);
 			}
 			
-			RpcDo_DiagOpenDeploymentMenu();
-			Rpc(RpcDo_DiagOpenDeploymentMenu);
+			RpcDo_DiagOpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
+			Rpc(RpcDo_DiagOpenMenu, ChimeraMenuPreset.RefineDeploymentMenu);
 			
 			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, 0);
 		}
@@ -836,8 +836,8 @@ class PR_GameMode : SCR_BaseGameMode
 		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU))
 		{
 			MenuManager mm = GetGame().GetMenuManager();
-			mm.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
-			mm.OpenMenu(ChimeraMenuPreset.RefineFactionSelectionMenu);
+			RpcDo_DiagOpenMenu(ChimeraMenuPreset.RefineFactionSelectionMenu);
+			Rpc(RpcDo_DiagOpenMenu, ChimeraMenuPreset.RefineFactionSelectionMenu);
 			
 			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, 0);
 		}
@@ -845,10 +845,10 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	// Just for debugging - opens deployment menu for everyone
 	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
-	void RpcDo_DiagOpenDeploymentMenu()
+	void RpcDo_DiagOpenMenu(int menuId)
 	{	
 		MenuManager mm = GetGame().GetMenuManager();
-		mm.CloseMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu);
-		mm.OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
+		mm.CloseMenuByPreset(menuId);
+		mm.OpenMenu(menuId);
 	}
 }

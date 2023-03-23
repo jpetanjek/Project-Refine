@@ -56,7 +56,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                  {
                   TextWidgetClass "{5CB378555DCCD4DC}" {
                    Prefab "{5CB378555DCCD4DC}"
-                   Text "Red Pill"
+                   Text "Give me faction!"
                   }
                  }
                 }
@@ -79,7 +79,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                  {
                   TextWidgetClass "{5CB378555DCCD4DC}" {
                    Prefab "{5CB378555DCCD4DC}"
-                   Text "Blue Pill"
+                   Text "Spawn my character!"
                   }
                  }
                 }
