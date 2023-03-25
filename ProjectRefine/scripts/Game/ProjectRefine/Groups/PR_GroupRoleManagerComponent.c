@@ -4,7 +4,9 @@ void OnAvailabilityChangedDelegate(PR_GroupRoleManagerComponent groupRoleManager
 typedef func OnRoleClaimsChangedDelegate;
 void OnRoleClaimsChangedDelegate(PR_GroupRoleManagerComponent groupRoleManagerComponent);
 
-
+// Server side only
+typedef func OnPlayerClaimedRoleChangedDelegate;
+void OnPlayerClaimedRoleChangedDelegate(PR_GroupRoleManagerComponent groupRoleManagerComponent, int playerID, int role);
 
 [EntityEditorProps(category: "GameScripted/Groups", description: "Player groups role manager, attach to group!.")]
 class PR_GroupRoleManagerComponentClass : ScriptComponentClass
@@ -150,8 +152,8 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	// Events
 	ref ScriptInvokerBase<OnAvailabilityChangedDelegate> m_OnAvailabilityChanged = new ScriptInvokerBase<OnAvailabilityChangedDelegate>();
 	ref ScriptInvokerBase<OnRoleClaimsChangedDelegate> m_OnRoleClaimsChanged = new ScriptInvokerBase<OnRoleClaimsChangedDelegate>();
-	
-	
+	static ref ScriptInvokerBase<OnPlayerClaimedRoleChangedDelegate> m_OnPlayerClaimedRoleChanged = new ScriptInvokerBase<OnPlayerClaimedRoleChangedDelegate>();
+
 	
 	override void OnPostInit(IEntity owner)
 	{
@@ -247,9 +249,9 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 			if(Replication.IsServer())
 			{
 				OnAvailabilityChangedClient();
-				OnRoleClaimsChangedClient();			
+				OnRoleClaimsChangedClient();
+				m_OnPlayerClaimedRoleChanged.Invoke(this, playerID, index);			
 			}
-				
 			
 			return true;
 		}
@@ -270,7 +272,8 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		if(Replication.IsServer())
 		{
 			OnAvailabilityChangedClient();
-			OnRoleClaimsChangedClient();			
+			OnRoleClaimsChangedClient();	
+			m_OnPlayerClaimedRoleChanged.Invoke(this, playerID, -1);		
 		}
 		
 		Replication.BumpMe();
