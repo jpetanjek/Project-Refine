@@ -17,6 +17,7 @@ class PR_SpawnPoint : ScriptComponent
 	// TODO: Too capture area specific
 	protected PR_CaptureArea m_CaptureArea; // Temporary, might get removed later
 	
+	[RplProp(onRplName: "EnqueuedPlayersChanged")]
 	protected ref array<int> m_aEnqueuedPlayers = {};
 	
 	protected float m_fRespawnWaveRateSec = 5;
@@ -111,10 +112,24 @@ class PR_SpawnPoint : ScriptComponent
 	
 	//! Enqueue player for spawning on this spawn point
 	void EnqueuePlayer(int playerID)
-	{
-		// TODO: Check if he is already enqueued in some other spawn point?
+	{	
 		if(CanPlayerEnqueue(playerID))
+		{
+			for(int i = 0; i < s_aAll.Count(); i++)
+			{
+				int idx = s_aAll[i].m_aEnqueuedPlayers.Find(playerID);
+				if(idx != -1)
+					s_aAll[i].m_aEnqueuedPlayers.Remove(idx);
+			}
+			
 			m_aEnqueuedPlayers.Insert(playerID);
+			Replication.BumpMe();
+		}
+	}
+	
+	void EnqueuedPlayersChanged()
+	{
+		
 	}
 	
 	bool CanPlayerEnqueue(int playerID)
@@ -207,7 +222,7 @@ class PR_SpawnPoint : ScriptComponent
 		
 		if(GetRespawnAllowed() && !m_aEnqueuedPlayers.IsEmpty() && m_fRespawmTimer >= m_fRespawnWaveRateSec)
 		{
-			for(int i = 0; i < m_aEnqueuedPlayers.Count(); i++)
+			for(int i = m_aEnqueuedPlayers.Count()-1; i >= 0 ; i--)
 			{
 				int playerID = m_aEnqueuedPlayers[i];
 				// If respawn timer has ticked down
@@ -231,12 +246,13 @@ class PR_SpawnPoint : ScriptComponent
 								PR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
 								
 								// TODO: Decrement cost of spawn from supplies
+								
+								m_aEnqueuedPlayers.Remove(i);
 							}
 						}
 					}
 				}
 			}
-			m_aEnqueuedPlayers.Clear();
 		}
 		
 		// If respawn timer has ticked down

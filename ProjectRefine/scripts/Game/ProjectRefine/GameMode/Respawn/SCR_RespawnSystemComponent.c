@@ -27,6 +27,9 @@ modded class SCR_RespawnSystemComponent
 			return;
 		
 		factionManager.SetPlayerFaction(factionIndex, playerId);
+		
+		if (m_pGameMode)
+			m_pGameMode.HandleOnFactionAssigned(playerId, factionManager.GetFactionByIndex(factionIndex));
 	}
 	
 }

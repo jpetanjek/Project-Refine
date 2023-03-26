@@ -12,8 +12,8 @@ void OnFactionMembersChanged(PR_FactionManager manager);
 //------------------------------------------------------------------------------------------------
 class PR_FactionManager : SCR_FactionManager
 {
-	[RplProp(onRplName: "FactionMembersChanged")]
-	protected ref array<ref array<int>> m_aFactionMembers = new ref array<ref array<int>>();
+	[RplProp(onRplName: "FactionMembersChanged")]	
+	ref array<ref PR_RoleToPlayer> m_aFactionMembers = new ref array<ref PR_RoleToPlayer>();
 	
 	// Server and client event
 	protected ref ScriptInvokerBase<OnFactionMembersChanged> m_OnFactionMembersChanged = new ScriptInvokerBase<OnFactionMembersChanged>();
@@ -44,10 +44,10 @@ class PR_FactionManager : SCR_FactionManager
 		
 		if( oldFactionIdx != -1)
 		{
-			int idx = m_aFactionMembers[oldFactionIdx].Find(oldFactionIdx);
+			int idx = m_aFactionMembers[oldFactionIdx].m_aPlayers.Find(oldFactionIdx);
 			if(idx != -1)
 			{
-				m_aFactionMembers[oldFactionIdx].Remove(idx);
+				m_aFactionMembers[oldFactionIdx].m_aPlayers.Remove(idx);
 			}
 		}
 		
@@ -55,12 +55,12 @@ class PR_FactionManager : SCR_FactionManager
 		{
 			if(m_aFactionMembers.IsIndexValid(factionIdx))
 			{
-				m_aFactionMembers[factionIdx].Insert(playerID);
+				m_aFactionMembers[factionIdx].m_aPlayers.Insert(playerID);
 			}
 			else
 			{
-				array<int> factionPlayerInit = {};
-				factionPlayerInit.Insert(playerID);
+				PR_RoleToPlayer factionPlayerInit = new PR_RoleToPlayer();
+				factionPlayerInit.m_aPlayers.Insert(playerID);
 				m_aFactionMembers.Insert(factionPlayerInit);
 			}
 		}
@@ -78,7 +78,7 @@ class PR_FactionManager : SCR_FactionManager
 	{
 		for(int i = 0; i < m_aFactionMembers.Count(); i++)
 		{
-			if( m_aFactionMembers[i].Contains(playerID))
+			if( m_aFactionMembers[i].m_aPlayers.Contains(playerID))
 			{
 				return i;
 			}
