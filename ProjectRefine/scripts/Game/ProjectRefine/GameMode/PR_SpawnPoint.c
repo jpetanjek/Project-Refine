@@ -19,6 +19,10 @@ class PR_SpawnPoint : ScriptComponent
 	
 	protected ref array<int> m_aEnqueuedPlayers;
 	
+	protected float m_fRespawnWaveRateMs = 10000;
+	protected float m_fRespawmTimer = 0;
+
+	
 	//------------------------------------------------------------------------------------------------
 	void PR_SpawnPoint(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
@@ -178,6 +182,7 @@ class PR_SpawnPoint : ScriptComponent
 	{
 		// TODO: Are there any enemy close?
 		// TODO: Are there enough supplies to spawn?
+		// TODO: Does it have signal?
 		return true;
 	}
 	
@@ -197,21 +202,47 @@ class PR_SpawnPoint : ScriptComponent
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
 		// Tick respawn wave timer
+		m_fRespawmTimer += timeSlice;
 		
 		if(GetRespawnAllowed() && !m_aEnqueuedPlayers.IsEmpty())
 		{
-			// If respawn timer has ticked down
-			if(true)
+			for(int i = 0; i < m_aEnqueuedPlayers.Count(); i++)
 			{
-				// Find Empty spot
-				// RespawnSystemComponent.DoSpawn()
+				int playerID = m_aEnqueuedPlayers[i];
+				// If respawn timer has ticked down
+				if(m_fRespawmTimer >= m_fRespawnWaveRateMs)
+				{
+					// Find Empty spot
+					
+					// Spawn with claimed role
+					SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
+					if(groupsManager)
+					{
+						SCR_AIGroup playerGroup = groupsManager.GetPlayerGroup(playerID);
+						if(playerGroup)
+						{
+							PR_GroupRoleManagerComponent roleManager = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
+							if(roleManager)
+							{
+								// Cannot spawn if you don't have a claimed role
+								PR_Role role = roleManager.GetPlayerRole(playerID);
+								if(role)
+								{
+									PR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
+									
+									// TODO: Decrement cost of spawn from supplies
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		
 		// If respawn timer has ticked down
-		if(true)
+		if(m_fRespawmTimer >= m_fRespawnWaveRateMs)
 		{
-			// Reset it
+			m_fRespawmTimer = 0;
 		}
 	}	
 	
