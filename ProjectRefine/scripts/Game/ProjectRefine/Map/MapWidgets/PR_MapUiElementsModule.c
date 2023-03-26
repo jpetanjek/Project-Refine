@@ -40,15 +40,23 @@ class PR_MapUiElementsModule : SCR_MapModuleBase
 		SCR_MapEntity mapEntity = SCR_MapEntity.GetMapInstance();
 		WorkspaceWidget ws = GetGame().GetWorkspace();
 		
-		// Reposition all elements according to their world position
-		foreach (PR_MapUiElementComponent c : m_aUiElements)
+		for (int i = m_aUiElements.Count() - 1; i >= 0; i--)
 		{
-			vector worldPos = c.GetWorldPos();
-			int screenx, screeny;
-			mapEntity.WorldToScreen(worldPos[0], worldPos[2], screenx, screeny, true);
-			float screenxUnscaled = ws.DPIUnscale(screenx);
-			float screenyUnscaled = ws.DPIUnscale(screeny);
-			FrameSlot.SetPos(c.GetRootWidget(), screenxUnscaled, screenyUnscaled);
+			PR_MapUiElementComponent c = m_aUiElements[i];
+			if (!c)
+			{
+				m_aUiElements.Remove(i);
+			}
+			else
+			{
+				// Reposition all elements according to their world position
+				vector worldPos = c.GetWorldPos();
+				int screenx, screeny;
+				mapEntity.WorldToScreen(worldPos[0], worldPos[2], screenx, screeny, true);
+				float screenxUnscaled = ws.DPIUnscale(screenx);
+				float screenyUnscaled = ws.DPIUnscale(screeny);
+				FrameSlot.SetPos(c.GetRootWidget(), screenxUnscaled, screenyUnscaled);
+			}
 		}
 	}
 	
@@ -56,16 +64,19 @@ class PR_MapUiElementsModule : SCR_MapModuleBase
 	//! Init method for cases where all modules and components should be loaded already so constructor cannot be used, called once after creation
 	override void Init()
 	{
+		
+	}
+	
+	
+	//------------------------------------------------------------------------------------------------
+	//! SCR_MapEntity event
+	override void OnMapOpen(MapConfiguration config)
+	{
 		MapConfiguration mapConfig = m_MapEntity.GetMapConfig();
 		m_wFrame = FrameWidget.Cast(mapConfig.RootWidgetRef.FindAnyWidget("MapUiElementsFrame"));
 	}
 	
 	/*
-	//------------------------------------------------------------------------------------------------
-	//! SCR_MapEntity event
-	override void OnMapOpen(MapConfiguration config)
-	{}
-	
 	//------------------------------------------------------------------------------------------------
 	//! SCR_MapEntity event
 	override void OnMapClose(MapConfiguration config)
