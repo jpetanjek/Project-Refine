@@ -17,9 +17,9 @@ class PR_SpawnPoint : ScriptComponent
 	// TODO: Too capture area specific
 	protected PR_CaptureArea m_CaptureArea; // Temporary, might get removed later
 	
-	protected ref array<int> m_aEnqueuedPlayers;
+	protected ref array<int> m_aEnqueuedPlayers = {};
 	
-	protected float m_fRespawnWaveRateMs = 10000;
+	protected float m_fRespawnWaveRateSec = 5;
 	protected float m_fRespawmTimer = 0;
 
 	
@@ -112,6 +112,7 @@ class PR_SpawnPoint : ScriptComponent
 	//! Enqueue player for spawning on this spawn point
 	void EnqueuePlayer(int playerID)
 	{
+		// TODO: Check if he is already enqueued in some other spawn point?
 		if(CanPlayerEnqueue(playerID))
 			m_aEnqueuedPlayers.Insert(playerID);
 	}
@@ -142,7 +143,7 @@ class PR_SpawnPoint : ScriptComponent
 		if(!roleManager.GetPlayerRole(playerID))
 			return false;
 		
-		// TODO: Reserved resource check
+		// TODO: Reserved resource check?
 		
 		return true;
 	}
@@ -204,43 +205,42 @@ class PR_SpawnPoint : ScriptComponent
 		// Tick respawn wave timer
 		m_fRespawmTimer += timeSlice;
 		
-		if(GetRespawnAllowed() && !m_aEnqueuedPlayers.IsEmpty())
+		if(GetRespawnAllowed() && !m_aEnqueuedPlayers.IsEmpty() && m_fRespawmTimer >= m_fRespawnWaveRateSec)
 		{
 			for(int i = 0; i < m_aEnqueuedPlayers.Count(); i++)
 			{
 				int playerID = m_aEnqueuedPlayers[i];
 				// If respawn timer has ticked down
-				if(m_fRespawmTimer >= m_fRespawnWaveRateMs)
+
+				// Find Empty spot
+				
+				// Spawn with claimed role
+				SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
+				if(groupsManager)
 				{
-					// Find Empty spot
-					
-					// Spawn with claimed role
-					SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
-					if(groupsManager)
+					SCR_AIGroup playerGroup = groupsManager.GetPlayerGroup(playerID);
+					if(playerGroup)
 					{
-						SCR_AIGroup playerGroup = groupsManager.GetPlayerGroup(playerID);
-						if(playerGroup)
+						PR_GroupRoleManagerComponent roleManager = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
+						if(roleManager)
 						{
-							PR_GroupRoleManagerComponent roleManager = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
-							if(roleManager)
+							// Cannot spawn if you don't have a claimed role
+							PR_Role role = roleManager.GetPlayerRole(playerID);
+							if(role)
 							{
-								// Cannot spawn if you don't have a claimed role
-								PR_Role role = roleManager.GetPlayerRole(playerID);
-								if(role)
-								{
-									PR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
-									
-									// TODO: Decrement cost of spawn from supplies
-								}
+								PR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
+								
+								// TODO: Decrement cost of spawn from supplies
 							}
 						}
 					}
 				}
 			}
+			m_aEnqueuedPlayers.Clear();
 		}
 		
 		// If respawn timer has ticked down
-		if(m_fRespawmTimer >= m_fRespawnWaveRateMs)
+		if(m_fRespawmTimer >= m_fRespawnWaveRateSec)
 		{
 			m_fRespawmTimer = 0;
 		}

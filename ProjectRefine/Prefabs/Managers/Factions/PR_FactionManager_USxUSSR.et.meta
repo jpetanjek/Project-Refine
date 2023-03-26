@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{1D93362B44F48351}Prefabs/Managers/Factions/PR_FactionManager_USxUSSR.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,23 +1,12 @@
-SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
+PR_FactionManager PR_FactionManager_USxUSSR1 : "{1D93362B44F48351}Prefabs/Managers/Factions/PR_FactionManager_USxUSSR.et" {
+ coords 9.15 79.397 517.651
 }
-SCR_FactionManager FactionManager_USxUSSR1 : "{589540B35EBA8CDC}Prefabs/MP/Managers/Factions/FactionManager_USxUSSR.et" {
- Factions {
-  SCR_Faction "{56B2B46E9AF80999}" {
-   m_aAssetList PR_AssetList "{5CC8A61471E1086E}" : "{D9138750E10BDAA4}Configs/GameMode/PR_AssetList_USSR.conf" {
-   }
-   m_aRoleList PR_RoleList "{5CC8A614770D350A}" : "{9267C01F2D3D6F86}Configs/GameMode/PR_RoleList_USSR.conf" {
-   }
-  }
-  SCR_Faction "{56B2B46E999BF3BF}" {
-   m_aAssetList PR_AssetList "{5C7B00BA9E204AE6}" : "{CBA2DE7317E6BF2A}Configs/GameMode/PR_AssetList_US.conf" {
-   }
-   m_aRoleList PR_RoleList "{5CC8A6147EE16C86}" : "{A8E36B111BA70FBE}Configs/GameMode/PR_RoleList_US.conf" {
-   }
-  }
- }
+SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
 }
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  components {
+  PR_RespawnSystemComponent "{5CF4BC3BD421E160}" {
+  }
   SCR_GroupsManagerComponent "{5706EC99934496F5}" {
    m_sDefaultGroupPrefab "{828C167E28741CAC}Prefabs/Groups/PR_PlayableGroup.et"
   }

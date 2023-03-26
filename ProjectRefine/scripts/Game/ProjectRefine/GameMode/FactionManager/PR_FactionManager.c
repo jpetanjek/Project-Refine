@@ -13,7 +13,7 @@ void OnFactionMembersChanged(PR_FactionManager manager);
 class PR_FactionManager : SCR_FactionManager
 {
 	[RplProp(onRplName: "FactionMembersChanged")]
-	protected ref array<ref array<int>> m_aFactionMembers;
+	protected ref array<ref array<int>> m_aFactionMembers = new ref array<ref array<int>>();
 	
 	// Server and client event
 	protected ref ScriptInvokerBase<OnFactionMembersChanged> m_OnFactionMembersChanged = new ScriptInvokerBase<OnFactionMembersChanged>();
@@ -59,7 +59,7 @@ class PR_FactionManager : SCR_FactionManager
 			}
 			else
 			{
-				array<int> factionPlayerInit;
+				array<int> factionPlayerInit = {};
 				factionPlayerInit.Insert(playerID);
 				m_aFactionMembers.Insert(factionPlayerInit);
 			}
