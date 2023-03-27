@@ -23,10 +23,19 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		
 		SCR_MapEntity.GetOnMapOpen().Insert(OnMapOpen);
 		
+		SCR_NavigationButtonComponent navBack = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Back", GetRootWidget());
+		navBack.m_OnActivated.Insert(OnBackButton);
+		
 		// Open map
 		SCR_MapEntity mapEntity = SCR_MapEntity.GetMapInstance();
-		MapConfiguration mapConfigFullscreen = mapEntity.SetupMapConfig(EMapEntityMode.FULLSCREEN, MAP_CONFIG, GetRootWidget() );
+		MapConfiguration mapConfigFullscreen = mapEntity.SetupMapConfig(EMapEntityMode.REFINE_DEPLOYMENT_MENU, MAP_CONFIG, GetRootWidget() );
 		mapEntity.OpenMap(mapConfigFullscreen);
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void OnBackButton()
+	{
+		Close();
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
