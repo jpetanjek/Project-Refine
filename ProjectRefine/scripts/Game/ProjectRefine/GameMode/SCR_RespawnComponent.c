@@ -8,16 +8,6 @@ modded class SCR_RespawnComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void RpcAsk_TempRequestSpawnPlayer()
 	{
-		/*
-		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		
-		int playerId = PlayerController.Cast(GetPlayerController()).GetPlayerId();
-		
-		string prefab = "{26A9756790131354}Prefabs/Characters/Factions/BLUFOR/US_Army/Character_US_Rifleman.et";
-		vector position = Vector(68.12 + Math.RandomFloat(-10, 10), 1, 425.008);
-		respawnSystem.CustomRespawn(playerId, prefab, position);
-		*/
-		
 		PR_FactionManager factionManager = PR_FactionManager.Cast(GetGame().GetFactionManager());
 		if(!factionManager)
 			return;
@@ -34,7 +24,6 @@ modded class SCR_RespawnComponent
 			if(allSpawnPoints[i].GetFactionId() == factionIdx)
 			{
 				allSpawnPoints[i].EnqueuePlayer(playerID);
-				// Usually here we would remove from all other spawn points (/his previous one)
 				return;
 			}
 		}

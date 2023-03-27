@@ -15,12 +15,19 @@ class PR_FactionManager : SCR_FactionManager
 	[RplProp(onRplName: "FactionMembersChanged")]	
 	ref array<ref PR_RoleToPlayer> m_aFactionMembers = new ref array<ref PR_RoleToPlayer>();
 	
+	ref array<ref PR_RoleToPlayer> m_aFactionMembersOld = new ref array<ref PR_RoleToPlayer>();
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+	protected void RplSetKita(int kita)
+	{
+		bool what = true;
+	}
+	
 	// Server and client event
 	protected ref ScriptInvokerBase<OnFactionMembersChanged> m_OnFactionMembersChanged = new ScriptInvokerBase<OnFactionMembersChanged>();
 
 	// Server only event
 	protected ref ScriptInvokerBase<OnPlayerChangedFaction> m_OnPlayerChangedFaction = new ScriptInvokerBase<OnPlayerChangedFaction>();
-
 
 	//------------------------------------------------------------------------------------------------
 	// Set players faction
@@ -40,6 +47,7 @@ class PR_FactionManager : SCR_FactionManager
 		if(Replication.IsClient())
 			return;
 		
+
 		int oldFactionIdx = GetPlayerFactionIndex(playerID);
 		
 		if( oldFactionIdx != -1)
@@ -65,9 +73,12 @@ class PR_FactionManager : SCR_FactionManager
 			}
 		}
 		
+		Rpc(RplSetKita, 1);
+		
 		Replication.BumpMe();
 		m_OnPlayerChangedFaction.Invoke(playerID, factionIdx);
 		FactionMembersChanged();
+		
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -118,6 +129,31 @@ class PR_FactionManager : SCR_FactionManager
 	void FactionMembersChanged()
 	{
 		m_OnFactionMembersChanged.Invoke(this);
+		
+		if(Replication.IsClient())
+		{
+			// Calculate changes
+			for(int i = 0; i < m_aFactionMembersOld.Count(); i++)
+			{
+				for(int j = 0; j < m_aFactionMembersOld[i].m_aPlayers.Count(); j++)
+				{
+					int playerID = m_aFactionMembersOld[i].m_aPlayers[j];
+					int oldFactionIdx = i;
+					int newFactionIdx = -1;
+					
+					for(int k = 0; k < m_aFactionMembers.Count(); k++)
+					{
+						if(m_aFactionMembers[k].m_aPlayers.Contains(playerID))
+							newFactionIdx = k;
+					}
+					
+					if(newFactionIdx != oldFactionIdx)
+					{
+						SCR_BaseGameMode.Cast(GetGame().GetGameMode()).HandleOnFactionAssigned(playerID, GetFactionByIndex(newFactionIdx));
+					}
+				}
+			}
+		}
 	}	
 	
 	ScriptInvokerBase<OnFactionMembersChanged> GetOnFactionMembersChanged()
