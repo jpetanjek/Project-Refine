@@ -1,0 +1,104 @@
+ButtonWidgetClass {
+ Name "FactionSelectionButton"
+ Slot LayoutSlot "{5CFEC731D60F6996}" {
+  Padding 0 0 0 20
+ }
+ Color 1 1 1 0
+ components {
+  SCR_ModularButtonComponent "{5CFEC7313E4F70F1}" {
+   m_aEffects {
+    SCR_ButtonEffectColor "{5CFEC731028EE9E7}" : "{A3127CA3228C8C36}UI/DeploymentMenu/Elements/ButtonEffectBackgroundColor.conf" {
+    }
+    SCR_ButtonEffectColor "{5CFEC731007783EB}" : "{D5B76602C3AAF7D6}UI/DeploymentMenu/Elements/ButtonEffectTextColor.conf" {
+    }
+   }
+  }
+  SCR_WidgetExportRuleRoot "{5CFED444C2ECAA3C}" {
+   DestinationPath "{0EAB43498ABCDBD2}scripts/Game/ProjectRefine/UI/FactionSelectionMenu"
+   ScriptAddon "$ProjectRefine:"
+   ScriptClassNamePrefix "PR_"
+  }
+  PR_FactionSelectionButtonComponent "{5CFEE38FE9262087}" {
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{5CFEC731DE4A0128}" {
+   Name "SizeLayout0"
+   Slot ButtonWidgetSlot "{5CFEC731DE4A0107}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   AllowWidthOverride 1
+   WidthOverride 400
+   {
+    OverlayWidgetClass "{5CFEC73128C364EC}" {
+     Name "Overlay0"
+     Slot AlignableSlot "{5CFEC73128C364F9}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      ImageWidgetClass "{5CFEC731338CEF21}" {
+       Name "BG"
+       Slot OverlayWidgetSlot "{5CFEC731338CEF03}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+      }
+      VerticalLayoutWidgetClass "{5CFEC7311CE50294}" {
+       Name "VerticalLayout0"
+       Slot OverlayWidgetSlot "{5CFEC7311CE502EE}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding 10 10 10 10
+       }
+       {
+        HorizontalLayoutWidgetClass "{5CFEC73501D51A2D}" {
+         Name "HorizontalLayout0"
+         Slot LayoutSlot "{5CFEC73501D51A09}" {
+          Padding 0 0 0 10
+         }
+         {
+          ImageWidgetClass "{5CFEC7350B5D534C}" {
+           Name "m_FlagImage"
+           Slot LayoutSlot "{5CFEC7350B5D5359}" {
+           }
+           Texture "{46FB2FB2C2125A3C}UI/Textures/Flags/US-flag-base-3it.edds"
+           Size 100 50
+          }
+          TextWidgetClass "{5CFEC7316D2643D8}" {
+           Name "m_FactionNameText"
+           Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+            Padding 10 10 0 10
+           }
+           Clipping False
+           Text "Faction"
+           "Font Size" 36
+           "Min Font Size" 36
+           "Horizontal Alignment" Center
+           FontProperties FontProperties "{5CFEC73020DCA989}" {
+            Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+           }
+          }
+         }
+        }
+        TextWidgetClass "{5CFEC731453653E9}" {
+         Name "m_PlayerCountText"
+         Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+          Padding 0 0 0 10
+         }
+         Clipping False
+         Text "Players: 12"
+         "Min Font Size" 24
+         FontProperties FontProperties "{5CFEC73020DCA989}" {
+          Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
