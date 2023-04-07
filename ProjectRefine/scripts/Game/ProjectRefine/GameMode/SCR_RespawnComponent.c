@@ -7,16 +7,16 @@ modded class SCR_RespawnComponent
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void RpcAsk_TempRequestSpawnPlayer()
-	{
-		PR_FactionManager factionManager = PR_FactionManager.Cast(GetGame().GetFactionManager());
-		if(!factionManager)
+	{	
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(GetGame().GetGameMode().FindComponent(PR_FactionMemberManager));
+		if(!factionMemberManager)
 			return;
 		
 		int playerID = PlayerController.Cast(GetPlayerController()).GetPlayerId();
 		
-		factionManager.SetPlayerFaction(0 , playerID);
+		factionMemberManager.SetPlayerFaction(0 , playerID);
 		
-		int factionIdx = factionManager.GetPlayerFactionIndex(playerID);
+		int factionIdx = factionMemberManager.GetPlayerFactionIndex(playerID);
 		array<PR_SpawnPoint> allSpawnPoints = PR_SpawnPoint.GetAll();
 		
 		for(int i = 0; i < allSpawnPoints.Count(); i++)

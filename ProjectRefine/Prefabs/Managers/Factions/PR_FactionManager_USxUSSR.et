@@ -4,9 +4,6 @@ PR_FactionManager {
   SCR_DelegateFactionManagerComponent "{5CF4BC391A0DDA6D}" {
    m_FactionDelegatePrefab "{94D481BAEC3B8573}PrefabsEditable/System/E_FactionDelegate.et"
   }
-  RplComponent "{5CF4BC38C0AB890E}" {
-   Streamable Disabled
-  }
  }
  coords 9.097 88.368 517.883
  Factions {

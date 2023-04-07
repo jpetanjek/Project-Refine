@@ -1,6 +1,8 @@
 PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
  ID "5C5EDC0C979A00DE"
  components {
+  PR_FactionMemberManager "{5D0F05823D57BFB5}" {
+  }
   PR_NotificationsGameModeComponent "{5C6D3C8E31A7307F}" {
   }
   SCR_GroupsManagerComponent "{5706EC99934496F5}" {

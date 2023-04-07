@@ -60,10 +60,10 @@ class PR_SpawnPoint : ScriptComponent
 		
 		
 		// Subscribe to player chancing faction
-		PR_FactionManager factionManager = PR_FactionManager.Cast(GetGame().GetFactionManager());
-		if(factionManager)
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(GetGame().GetGameMode().FindComponent(PR_FactionMemberManager));
+		if(factionMemberManager)
 		{
-			factionManager.GetOnPlayerChangedFaction().Insert(OnPlayerChangedFaction);	
+			factionMemberManager.GetOnPlayerChangedFaction().Insert(OnPlayerChangedFaction);	
 		}
 		
 		// Subscribe to player disconnect
@@ -134,11 +134,11 @@ class PR_SpawnPoint : ScriptComponent
 	
 	bool CanPlayerEnqueue(int playerID)
 	{
-		PR_FactionManager factionManager = PR_FactionManager.Cast(GetGame().GetFactionManager());
-		if(!factionManager)
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(GetGame().GetGameMode().FindComponent(PR_FactionMemberManager));
+		if(!factionMemberManager)
 			return false;
 		
-		if(GetFactionId() != factionManager.GetPlayerFactionIndex(playerID))
+		if(GetFactionId() != factionMemberManager.GetPlayerFactionIndex(playerID))
 			return false;
 		
 		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();

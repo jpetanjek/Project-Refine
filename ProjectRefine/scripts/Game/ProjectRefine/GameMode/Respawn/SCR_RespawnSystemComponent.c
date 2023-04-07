@@ -3,33 +3,33 @@ modded class SCR_RespawnSystemComponent
 
     override static Faction GetLocalPlayerFaction(IEntity player = null)
     {
-        PR_FactionManager factionManager = PR_FactionManager.Cast(GetGame().GetFactionManager());
-		if(!factionManager)
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(GetGame().GetGameMode().FindComponent(PR_FactionMemberManager));
+		if(!factionMemberManager)
 			return null;
 		
 		int playerID = SCR_PlayerController.GetLocalPlayerId();
-		return factionManager.GetPlayerFaction(playerID);
+		return factionMemberManager.GetPlayerFaction(playerID);
     }
 	
 	override Faction GetPlayerFaction(int playerId)
 	{
-		PR_FactionManager factionManager = PR_FactionManager.Cast(GetGame().GetFactionManager());
-		if(!factionManager)
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(GetGame().GetGameMode().FindComponent(PR_FactionMemberManager));
+		if(!factionMemberManager)
 			return null;
 		
-		return factionManager.GetPlayerFaction(playerId);
+		return factionMemberManager.GetPlayerFaction(playerId);
 	}
 	
 	override void SetPlayerFaction(int playerId, int factionIndex)
 	{
-		PR_FactionManager factionManager = PR_FactionManager.Cast(GetGame().GetFactionManager());
-		if(!factionManager)
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(GetGame().GetGameMode().FindComponent(PR_FactionMemberManager));
+		if(!factionMemberManager)
 			return;
 		
-		factionManager.SetPlayerFaction(factionIndex, playerId);
+		factionMemberManager.SetPlayerFaction(factionIndex, playerId);
 		
 		if (m_pGameMode)
-			m_pGameMode.HandleOnFactionAssigned(playerId, factionManager.GetFactionByIndex(factionIndex));
+			m_pGameMode.HandleOnFactionAssigned(playerId, factionMemberManager.GetPlayerFaction(playerId));
 	}
 	
 	//------------------------------------------------------------------------------------------------
