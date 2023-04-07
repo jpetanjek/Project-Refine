@@ -117,12 +117,20 @@ class PR_SpawnPoint : ScriptComponent
 		{
 			for(int i = 0; i < s_aAll.Count(); i++)
 			{
-				int idx = s_aAll[i].m_aEnqueuedPlayers.Find(playerID);
-				if(idx != -1)
-					s_aAll[i].m_aEnqueuedPlayers.Remove(idx);
+				s_aAll[i].DequeuePlayer(playerID);
 			}
 			
 			m_aEnqueuedPlayers.Insert(playerID);
+			Replication.BumpMe();
+		}
+	}
+	
+	void DequeuePlayer(int playerID)
+	{
+		int idx = m_aEnqueuedPlayers.Find(playerID);
+		if(idx != -1)
+		{
+			m_aEnqueuedPlayers.Remove(idx);
 			Replication.BumpMe();
 		}
 	}
@@ -168,11 +176,8 @@ class PR_SpawnPoint : ScriptComponent
 		// Remove him from queue if he is enqueued && is not same faction any more
 		if(newFactionIdx != GetFactionId())
 		{
-			int idx = m_aEnqueuedPlayers.Find(playerID);
-			if(idx != -1)
-				m_aEnqueuedPlayers.Remove(idx);
+			DequeuePlayer(playerID);
 		}
-		
 	}
 	
 	void OnPlayerClaimedRoleChanged(PR_GroupRoleManagerComponent groupRoleManagerComponent, int playerID, int role)
@@ -180,17 +185,13 @@ class PR_SpawnPoint : ScriptComponent
 		// Remove him from queue if he is enqueued && doesn't have a role
 		if(role == -1)
 		{
-			int idx = m_aEnqueuedPlayers.Find(playerID);
-			if(idx != -1)
-				m_aEnqueuedPlayers.Remove(idx);
+			DequeuePlayer(playerID);
 		}
 	}
 	
 	void OnPlayerDisconnected(int playerID)
 	{
-		int idx = m_aEnqueuedPlayers.Find(playerID);
-		if(idx != -1)
-			m_aEnqueuedPlayers.Remove(idx);
+		DequeuePlayer(playerID);
 	}
 	
 	//! Even if faction owns a spawn point, respawn there might be blocked for various reasons.

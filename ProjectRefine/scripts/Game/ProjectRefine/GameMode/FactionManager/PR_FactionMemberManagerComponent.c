@@ -13,13 +13,8 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 	[RplProp(onRplName: "FactionMembersChanged")]	
 	ref array<ref PR_RoleToPlayer> m_aFactionMembers = new ref array<ref PR_RoleToPlayer>();
 	
+	// Client only - to deduce what new members were added to a faction
 	ref array<ref PR_RoleToPlayer> m_aFactionMembersOld = new ref array<ref PR_RoleToPlayer>();
-	
-	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
-	protected void RplSetKita(int kita)
-	{
-		bool what = true;
-	}
 	
 	FactionManager m_FactionManager;
 	
@@ -192,8 +187,6 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 				m_aFactionMembers.Insert(factionPlayerInit);
 			}
 		}
-		
-		Rpc(RplSetKita, 1);
 		
 		Replication.BumpMe();
 		m_OnPlayerChangedFaction.Invoke(playerID, factionIdx);
