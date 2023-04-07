@@ -161,9 +161,11 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 	{
 		if(Replication.IsClient())
 			return;
-		
 
 		int oldFactionIdx = GetPlayerFactionIndex(playerID);
+		
+		if( oldFactionIdx == factionIdx)
+			return;
 		
 		if( oldFactionIdx != -1)
 		{
@@ -189,7 +191,7 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 		}
 		
 		Replication.BumpMe();
-		m_OnPlayerChangedFaction.Invoke(playerID, factionIdx);
 		FactionMembersChanged();
+		m_OnPlayerChangedFaction.Invoke(playerID, factionIdx);
 	}
 }
