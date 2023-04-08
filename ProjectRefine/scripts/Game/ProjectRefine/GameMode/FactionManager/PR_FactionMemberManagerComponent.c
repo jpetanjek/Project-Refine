@@ -45,6 +45,9 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 	override protected void EOnInit(IEntity owner)
 	{
 		m_FactionManager = GetGame().GetFactionManager();
+		if(!m_FactionManager)
+			return;
+		
 		for(int i = 0; i < m_FactionManager.GetFactionsCount(); i++)
 		{
 			PR_RoleToPlayer instance = new PR_RoleToPlayer;
