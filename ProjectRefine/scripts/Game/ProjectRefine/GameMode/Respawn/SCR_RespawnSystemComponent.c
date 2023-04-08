@@ -1,5 +1,18 @@
 modded class SCR_RespawnSystemComponent
 {
+	
+	override int GetFactionPlayerCount(Faction faction)
+	{
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(GetGame().GetGameMode().FindComponent(PR_FactionMemberManager));
+		if(!factionMemberManager)
+			return null;
+		
+		PR_RoleToPlayer members = factionMemberManager.GetFactionMembers(faction);
+		if(members)
+			return members.m_aPlayers.Count();
+		else
+			return 0;
+	}
 
     override static Faction GetLocalPlayerFaction(IEntity player = null)
     {

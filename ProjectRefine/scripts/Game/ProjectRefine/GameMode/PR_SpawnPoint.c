@@ -25,7 +25,7 @@ class PR_SpawnPoint : ScriptComponent
 	
 	protected ref array<int> m_aOldEnqueuedPlayers = {};
 	
-	protected float m_fRespawnWaveRateSec = 5;
+	protected float m_fRespawnWaveRateSec = 0.1;
 	protected float m_fRespawmTimer = 0;
 	
 	// Events

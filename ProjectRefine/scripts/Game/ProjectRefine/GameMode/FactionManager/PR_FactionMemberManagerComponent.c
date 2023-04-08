@@ -45,6 +45,11 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 	override protected void EOnInit(IEntity owner)
 	{
 		m_FactionManager = GetGame().GetFactionManager();
+		for(int i = 0; i < m_FactionManager.GetFactionsCount(); i++)
+		{
+			PR_RoleToPlayer instance = new PR_RoleToPlayer;
+			m_aFactionMembers.Insert(instance);
+		}
 	}
 	
 	void ~PR_FactionMemberManager()
@@ -146,6 +151,15 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 		}
 	}
 	
+	PR_RoleToPlayer GetFactionMembers(Faction faction)
+	{
+		int idx = m_FactionManager.GetFactionIndex(faction);
+		if(m_aFactionMembers.IsIndexValid(idx))
+			return m_aFactionMembers[idx];
+		else
+			return null;
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	// Set players faction
 	void SetPlayerFaction(FactionKey factionKey, int playerID)
@@ -171,7 +185,7 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 		
 		if( oldFactionIdx != -1)
 		{
-			int idx = m_aFactionMembers[oldFactionIdx].m_aPlayers.Find(oldFactionIdx);
+			int idx = m_aFactionMembers[oldFactionIdx].m_aPlayers.Find(playerID);
 			if(idx != -1)
 			{
 				m_aFactionMembers[oldFactionIdx].m_aPlayers.Remove(idx);
@@ -183,12 +197,6 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 			if(m_aFactionMembers.IsIndexValid(factionIdx))
 			{
 				m_aFactionMembers[factionIdx].m_aPlayers.Insert(playerID);
-			}
-			else
-			{
-				PR_RoleToPlayer factionPlayerInit = new PR_RoleToPlayer();
-				factionPlayerInit.m_aPlayers.Insert(playerID);
-				m_aFactionMembers.Insert(factionPlayerInit);
 			}
 		}
 		
