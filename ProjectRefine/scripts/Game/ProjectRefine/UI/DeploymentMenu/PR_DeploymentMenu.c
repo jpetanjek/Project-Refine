@@ -130,7 +130,7 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	{
 		FactionManager fm = GetGame().GetFactionManager();
 		Faction myFaction = SCR_RespawnSystemComponent.GetLocalPlayerFaction();
-		int myFactionId = 0; // fm.GetFactionIndex(myFaction); //! ! ! ! ! Pretend we have a faction until faction selection is done ! ! ! ! ! ! ! ! ! ! ! ! ! 
+		int myFactionId = fm.GetFactionIndex(myFaction);
 		
 		//---------------------------------------------------------------------------------
 		// Delete unaccessible or deleted spawn points
@@ -179,9 +179,10 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
-	// Called on menu open, map is not guaranteed to work yet
+	// Called from OnMapOpen
 	void InitSpawnPointUi()
 	{
+		widgets.m_DeployButtonComponent.m_OnClicked.Insert(OnDeployButton);
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
@@ -247,6 +248,16 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		m_MapUiElementsModule.RemoveUiElement(spData.m_MapUiElement);
 		
 		m_aSpawnPointsData.RemoveItem(spData);
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void OnDeployButton()
+	{
+		if (!m_SelectedSpawnPoint || !m_SelectedSpawnPoint.m_SpawnPoint)
+			return;
+		
+		PR_PlayerControllerDeploymentComponent deploymentComp = PR_PlayerControllerDeploymentComponent.GetLocalInstance();
+		deploymentComp.AskEnqueueAtSpawnPoint(m_SelectedSpawnPoint.m_SpawnPoint);
 	}
 }
 

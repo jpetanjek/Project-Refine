@@ -274,7 +274,7 @@ class PR_SpawnPoint : ScriptComponent
 							PR_Role role = roleManager.GetPlayerRole(playerID);
 							if(role && CanPlayerSpawn(playerID))
 							{
-								GenericEntity spawnedEntity = PR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
+								GenericEntity spawnedEntity = SCR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
 								
 								PlayerController playerController = GetGame().GetPlayerManager().GetPlayerController(playerID);
 								playerController.SetControlledEntity(spawnedEntity);							
