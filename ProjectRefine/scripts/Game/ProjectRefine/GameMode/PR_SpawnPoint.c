@@ -3,6 +3,9 @@ class PR_SpawnPointClass : ScriptComponentClass
 {
 };
 
+typedef func OnPlayerEnqueuedOnSpawnPoint;
+void OnPlayerEnqueuedOnSpawnPoint(int playerID, PR_SpawnPoint spawnPoint);
+
 //------------------------------------------------------------------------------------------------
 /*!
 Component which represents spawn point functionality.
@@ -20,23 +23,32 @@ class PR_SpawnPoint : ScriptComponent
 	[RplProp(onRplName: "EnqueuedPlayersChanged")]
 	protected ref array<int> m_aEnqueuedPlayers = {};
 	
+	protected ref array<int> m_aOldEnqueuedPlayers = {};
+	
 	protected float m_fRespawnWaveRateSec = 5;
 	protected float m_fRespawmTimer = 0;
-
+	
+	// Events
+	// Server and client event
+	protected ref ScriptInvokerBase<OnPlayerEnqueuedOnSpawnPoint> m_OnPlayerEnqueuedOnSpawnPoint = new ScriptInvokerBase<OnPlayerEnqueuedOnSpawnPoint>();
+	
+	ScriptInvokerBase<OnPlayerEnqueuedOnSpawnPoint> GetOnPlayerEnqueuedOnSpawnPoint()
+	{
+		return m_OnPlayerEnqueuedOnSpawnPoint;
+	}	
 	
 	//------------------------------------------------------------------------------------------------
+	// Initialization
 	void PR_SpawnPoint(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
 		s_aAll.Insert(this);
 	}
 	
-	//------------------------------------------------------------------------------------------------
 	void ~PR_SpawnPoint()
 	{
 		s_aAll.RemoveItem(this);
 	}
 
-	//------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
 		m_CaptureArea = PR_CaptureArea.Cast(owner.FindComponent(PR_CaptureArea));
@@ -70,18 +82,13 @@ class PR_SpawnPoint : ScriptComponent
 		SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
 		if (gameMode)
 			gameMode.GetOnPlayerDisconnected().Insert(OnPlayerDisconnected);
-		
-		// Subscribe to any player changing role
-		PR_GroupRoleManagerComponent.m_OnPlayerClaimedRoleChanged.Insert(OnPlayerClaimedRoleChanged);
 	}
 	
-	//------------------------------------------------------------------------------------------------
 	override void OnPostInit(IEntity owner)
 	{
 		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
-	
 		
 	//------------------------------------------------------------------------------------------------
 	// Getters
@@ -106,25 +113,53 @@ class PR_SpawnPoint : ScriptComponent
 		return m_CaptureArea.GetName();
 	}
 	
+	//-------------------------------------------------------------------------------------------
+	// Events
 	
-	//------------------------------------------------------------------------------------------------
-	// Runtime Logic
-	
-	//! Enqueue player for spawning on this spawn point
-	void EnqueuePlayer(int playerID)
-	{	
-		if(CanPlayerEnqueue(playerID))
+	// Client side resolving of newly enqueued players based on old state vs new state
+	void EnqueuedPlayersChanged()
+	{
+		if(Replication.IsClient())
 		{
-			for(int i = 0; i < s_aAll.Count(); i++)
+			// Calculate changes
+			if(m_aOldEnqueuedPlayers.Count())
 			{
-				s_aAll[i].DequeuePlayer(playerID);
+				for(int i = 0; i < m_aOldEnqueuedPlayers.Count(); i++)
+				{
+					int playerID = m_aOldEnqueuedPlayers[i];
+					
+					if(!m_aEnqueuedPlayers.Contains(playerID))
+					{
+						m_OnPlayerEnqueuedOnSpawnPoint.Invoke(playerID, this);
+					}
+				}
 			}
-			
-			m_aEnqueuedPlayers.Insert(playerID);
-			Replication.BumpMe();
+			else
+			{
+				for(int i = 0; i < m_aEnqueuedPlayers.Count(); i++)
+				{
+					int playerID = m_aOldEnqueuedPlayers[i];
+					m_OnPlayerEnqueuedOnSpawnPoint.Invoke(playerID, this);
+				}
+			}
 		}
 	}
 	
+	// Dequeue's
+	void OnPlayerChangedFaction(int playerID, int newFactionIdx)
+	{
+		// Remove him from queue if he is enqueued && is not same faction any more
+		if(newFactionIdx != GetFactionId())
+		{
+			DequeuePlayer(playerID);
+		}
+	}
+	
+	void OnPlayerDisconnected(int playerID)
+	{
+		DequeuePlayer(playerID);
+	}
+		
 	void DequeuePlayer(int playerID)
 	{
 		int idx = m_aEnqueuedPlayers.Find(playerID);
@@ -135,11 +170,20 @@ class PR_SpawnPoint : ScriptComponent
 		}
 	}
 	
-	void EnqueuedPlayersChanged()
-	{
+	//! Enqueue player for spawning on this spawn point
+	void EnqueuePlayer(int playerID)
+	{	
+		for(int i = 0; i < s_aAll.Count(); i++)
+		{
+			s_aAll[i].DequeuePlayer(playerID);
+		}
 		
+		m_aEnqueuedPlayers.Insert(playerID);
+		Replication.BumpMe();
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	// Runtime Logic
 	bool CanPlayerEnqueue(int playerID)
 	{
 		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(GetGame().GetGameMode().FindComponent(PR_FactionMemberManager));
@@ -158,62 +202,50 @@ class PR_SpawnPoint : ScriptComponent
 		if(!playerGroup)
 			return false;
 		
-		PR_GroupRoleManagerComponent roleManager = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
-		if(!roleManager)
-			return false;
-		
-		// Cannot enqueue if you don't have a claimed role
-		if(!roleManager.GetPlayerRole(playerID))
-			return false;
-		
-		// TODO: Reserved resource check?
+		// TODO: Does spawn point belong to his group (rally point)
 		
 		return true;
 	}
 	
-	void OnPlayerChangedFaction(int playerID, int newFactionIdx)
+	bool CanPlayerSpawn(int playerID)
 	{
-		// Remove him from queue if he is enqueued && is not same faction any more
-		if(newFactionIdx != GetFactionId())
-		{
-			DequeuePlayer(playerID);
-		}
-	}
-	
-	void OnPlayerClaimedRoleChanged(PR_GroupRoleManagerComponent groupRoleManagerComponent, int playerID, int role)
-	{
-		// Remove him from queue if he is enqueued && doesn't have a role
-		if(role == -1)
-		{
-			DequeuePlayer(playerID);
-		}
-	}
-	
-	void OnPlayerDisconnected(int playerID)
-	{
-		DequeuePlayer(playerID);
+		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
+		if(!groupsManager)
+			return false;
+		
+		SCR_AIGroup playerGroup = groupsManager.GetPlayerGroup(playerID);
+		if(!playerGroup)
+			return false;
+		
+		// Does he have claimed role?
+		PR_GroupRoleManagerComponent roleManager = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
+        if(!roleManager)
+            return false;
+        
+        // Cannot enqueue if you don't have a claimed role
+        if(!roleManager.GetPlayerRole(playerID))
+            return false;
+		
+		// TODO: Reserved resource check
+		
+		return true;
 	}
 	
 	//! Even if faction owns a spawn point, respawn there might be blocked for various reasons.
-	bool GetRespawnAllowed()
+	bool IsRespawnAllowed()
 	{
-		// TODO: Are there any enemy close?
-		// TODO: Are there enough supplies to spawn?
-		// TODO: Does it have signal?
-		return true;
+		if(Replication.IsServer())
+		{
+			// TODO: Are there any enemy close?
+			// TODO: Does it have signal?
+			return true;
+		}
+		else
+		{
+			// Check replicated property from server
+			return true;
+		}
 	}
-	
-	// Returns world space coordinate of a random spawn position
-	// TODO: Too capture point specific
-	vector GetRandomSpawnPosition()
-	{
-		if (m_aSpawnPositions.IsEmpty())
-			return GetOwner().GetOrigin();
-		
-		int id = Math.RandomInt(0, m_aSpawnPositions.Count());
-		return m_aSpawnPositions[id].GetOrigin();
-	}
-	
 	
 	// Maybe better FixedFrame?
 	override void EOnFrame(IEntity owner, float timeSlice)
@@ -221,14 +253,12 @@ class PR_SpawnPoint : ScriptComponent
 		// Tick respawn wave timer
 		m_fRespawmTimer += timeSlice;
 		
-		if(GetRespawnAllowed() && !m_aEnqueuedPlayers.IsEmpty() && m_fRespawmTimer >= m_fRespawnWaveRateSec)
+		// If respawn timer has ticked down
+		if(IsRespawnAllowed() && !m_aEnqueuedPlayers.IsEmpty() && m_fRespawmTimer >= m_fRespawnWaveRateSec)
 		{
 			for(int i = m_aEnqueuedPlayers.Count()-1; i >= 0 ; i--)
 			{
 				int playerID = m_aEnqueuedPlayers[i];
-				// If respawn timer has ticked down
-
-				// Find Empty spot
 				
 				// Spawn with claimed role
 				SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
@@ -242,7 +272,7 @@ class PR_SpawnPoint : ScriptComponent
 						{
 							// Cannot spawn if you don't have a claimed role
 							PR_Role role = roleManager.GetPlayerRole(playerID);
-							if(role)
+							if(role && CanPlayerSpawn(playerID))
 							{
 								PR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
 								
@@ -263,11 +293,22 @@ class PR_SpawnPoint : ScriptComponent
 		}
 	}	
 	
+	// Returns world space coordinate of a random spawn position
+	// TODO: Too capture point specific
+	vector GetRandomSpawnPosition()
+	{
+		if (m_aSpawnPositions.IsEmpty())
+			return GetOwner().GetOrigin();
+		
+		int id = Math.RandomInt(0, m_aSpawnPositions.Count());
+		return m_aSpawnPositions[id].GetOrigin();
+	}
+	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// UI Logic
 	bool IsAvailable()
 	{
-		return GetRespawnAllowed() && CanPlayerEnqueue(SCR_PlayerController.GetLocalPlayerId());
+		return IsRespawnAllowed() && CanPlayerEnqueue(SCR_PlayerController.GetLocalPlayerId());
 	}
 
 	//-------------------------------------------------------------------------------------------------------------------------------
