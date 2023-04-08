@@ -81,7 +81,6 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
              Name "SizeLayout0"
              Slot LayoutSlot "{5CFED444636D7094}" {
              }
-             "Is Visible" 0
              WidthOverride 500
              HeightOverride 500
              {
