@@ -230,15 +230,14 @@ class PR_SpawnPoint : ScriptComponent
 	static PR_ESpawnCondition CanPlayerSpawn(int playerId)
 	{
 		// Have group?
-		int myPlayerId = GetGame().GetPlayerController().GetPlayerId();
 		SCR_GroupsManagerComponent groupsMgr = SCR_GroupsManagerComponent.GetInstance();
-		SCR_AIGroup playerGroup = groupsMgr.GetPlayerGroup(myPlayerId);
+		SCR_AIGroup playerGroup = groupsMgr.GetPlayerGroup(playerId);
 		if (!playerGroup)
 			return PR_ESpawnCondition.NO_GROUP;
 		
 		// Have role?
 		PR_GroupRoleManagerComponent groupRoleMgr = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
-		if(!groupRoleMgr.GetPlayerRole(myPlayerId))
+		if(!groupRoleMgr.GetPlayerRole(playerId))
 			return PR_ESpawnCondition.NO_ROLE;
 		
 		// TODO: Reserved resource check
