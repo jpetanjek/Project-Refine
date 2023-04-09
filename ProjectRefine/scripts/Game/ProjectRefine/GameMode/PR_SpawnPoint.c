@@ -210,6 +210,10 @@ class PR_SpawnPoint : ScriptComponent
 		if(!playerGroup)
 			return false;
 		
+		// If you are already spawned you cannot enqueue
+		if(GetGame().GetPlayerManager().GetPlayerController(playerID).GetControlledEntity())
+			return false;
+		
 		// TODO: Does spawn point belong to his group (rally point)
 		
 		return true;
