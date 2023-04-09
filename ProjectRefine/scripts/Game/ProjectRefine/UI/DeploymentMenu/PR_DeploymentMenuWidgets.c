@@ -10,6 +10,8 @@ class PR_DeploymentMenuWidgets
 
 	OverlayWidget m_MapInteractionArea;
 
+	TextWidget m_DeploymentCountdownText;
+
 	HorizontalLayoutWidget m_Warning;
 
 	TextWidget m_WarningText;
@@ -33,6 +35,8 @@ class PR_DeploymentMenuWidgets
 		m_MapFrame = FrameWidget.Cast(root.FindWidget("m_MapFrame"));
 
 		m_MapInteractionArea = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea"));
+
+		m_DeploymentCountdownText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_DeploymentCountdownText"));
 
 		m_Warning = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning"));
 

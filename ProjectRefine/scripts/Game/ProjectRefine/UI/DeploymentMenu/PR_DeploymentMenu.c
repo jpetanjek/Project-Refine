@@ -188,21 +188,26 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	//-----------------------------------------------------------------------------------------------------------------------------
 	void UpdateSpawnPointPanel()
 	{
-		// Show name of selected spawn point
-		string spawnPointName;
+		// Spawn point name text
+		string spawnPointNameText;
 		
 		if (!m_SelectedSpawnPoint)
-			spawnPointName = "-";
+			spawnPointNameText = "-";
 		else
 		{
-			spawnPointName = m_SelectedSpawnPoint.m_SpawnPoint.GetName();
+			string name = m_SelectedSpawnPoint.m_SpawnPoint.GetName();
+			float timeLeft_ms = m_SelectedSpawnPoint.m_SpawnPoint.GetNextRespawnWaveTime() - Replication.Time();
+			timeLeft_ms = Math.Clamp(timeLeft_ms, 0, timeLeft_ms);
+			spawnPointNameText = string.Format("%1 (%2 s)", name, Math.Floor(timeLeft_ms/1000.0));
 		}
+		widgets.m_SpawnPointNameText.SetText(spawnPointNameText);
 		
-		widgets.m_SpawnPointNameText.SetText(spawnPointName);
-		
-		// Update deploy button
+		// Update elements
 		bool buttonEnabled = false;
+		bool buttonToggled = false;
 		string warningText = string.Empty;
+		float deploymentTimeLeft = 0;
+		bool showDeploymentCountdown = false;
 		
 		if (!m_SelectedSpawnPoint || !m_SelectedSpawnPoint.m_SpawnPoint)
 		{
@@ -214,8 +219,18 @@ class PR_DeploymentMenu : ChimeraMenuBase
 			switch (condition)
 			{
 				case PR_ESpawnCondition.SPAWN_AVAILABLE:
+				{
 					buttonEnabled = true;
+					
+					if (m_SelectedSpawnPoint.m_SpawnPoint.IsPlayerEnqueued(GetGame().GetPlayerController().GetPlayerId()) )
+					{
+						buttonToggled = true; // Button is toggled only when we are enqueued at selected spawn point
+						deploymentTimeLeft = m_SelectedSpawnPoint.m_SpawnPoint.GetNextRespawnWaveTime() - Replication.Time();
+						showDeploymentCountdown = true;
+					}
+					
 					break;
+				}
 				case PR_ESpawnCondition.NO_GROUP:
 					warningText = "You must join a group!";
 					break;
@@ -226,7 +241,10 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		}		
 		
 		SetWarningText(warningText);
+		//SetCountdownText(deploymentTimeLeft, showDeploymentCountdown);
+		SetCountdownText(0, false);
 		widgets.m_DeployButtonComponent.SetEnabled(buttonEnabled);
+		widgets.m_DeployButtonComponent.SetToggled(buttonToggled);
 	}
 	
 	bool DeployConditionGroup()
@@ -288,18 +306,41 @@ class PR_DeploymentMenu : ChimeraMenuBase
 			return;
 		
 		PR_PlayerControllerDeploymentComponent deploymentComp = PR_PlayerControllerDeploymentComponent.GetLocalInstance();
-		deploymentComp.AskEnqueueAtSpawnPoint(m_SelectedSpawnPoint.m_SpawnPoint);
+		
+		// If button is toggled, we request dequeue ourselves from spawn point,
+		// Otherwise we ask to enqueue ourselves
+		
+		if (m_SelectedSpawnPoint.m_SpawnPoint.IsPlayerEnqueued(GetGame().GetPlayerController().GetPlayerId()) )
+			deploymentComp.AskDequeueAtSpawnPoint(m_SelectedSpawnPoint.m_SpawnPoint);
+		else
+			deploymentComp.AskEnqueueAtSpawnPoint(m_SelectedSpawnPoint.m_SpawnPoint);
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
 	void SetWarningText(string s)
 	{
-		if (s == string.Empty)
-			widgets.m_Warning.SetVisible(false);
-		else
+		widgets.m_Warning.SetVisible(!s.IsEmpty());
+		if (!s.IsEmpty())
 		{
-			widgets.m_Warning.SetVisible(true);
 			widgets.m_WarningText.SetText(s);
+		}
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void SetCountdownText(float timeLeft_ms, bool showText)
+	{
+		widgets.m_DeploymentCountdownText.SetVisible(showText);
+		
+		if(showText)
+		{
+			timeLeft_ms = Math.Clamp(timeLeft_ms, 0, timeLeft_ms);
+						
+			string countdownText;
+			if (timeLeft_ms == 0.0)
+				countdownText = "Deploying ...";
+			else
+				countdownText = string.Format("Deploying in %1...", Math.Ceil(timeLeft_ms/1000.0));
+			widgets.m_DeploymentCountdownText.SetText(countdownText);
 		}
 	}
 }

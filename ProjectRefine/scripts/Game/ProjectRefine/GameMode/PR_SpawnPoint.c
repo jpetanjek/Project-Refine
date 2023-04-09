@@ -32,8 +32,10 @@ class PR_SpawnPoint : ScriptComponent
 	
 	protected ref array<int> m_aOldEnqueuedPlayers = {};
 	
-	protected float m_fRespawnWaveRateSec = 0.1;
-	protected float m_fRespawmTimer = 0;
+	// Respawn timer
+	[RplProp()]
+	protected float m_fNextRespawnWaveTime_ms; // Replication.Time()
+	protected float m_fRespawnWaveInterval_ms = 7000.0;
 	
 	// Events
 	// Server and client event
@@ -129,6 +131,12 @@ class PR_SpawnPoint : ScriptComponent
 	}
 	
 	//-------------------------------------------------------------------------------------------
+	float GetNextRespawnWaveTime()
+	{
+		return m_fNextRespawnWaveTime_ms;
+	}
+	
+	//-------------------------------------------------------------------------------------------
 	// Events
 	
 	// Client side resolving of newly enqueued players based on old state vs new state
@@ -195,6 +203,11 @@ class PR_SpawnPoint : ScriptComponent
 		
 		m_aEnqueuedPlayers.Insert(playerID);
 		Replication.BumpMe();
+	}
+	
+	bool IsPlayerEnqueued(int playerId)
+	{
+		return m_aEnqueuedPlayers.Find(playerId) != -1;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -265,49 +278,50 @@ class PR_SpawnPoint : ScriptComponent
 	// Maybe better FixedFrame?
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
-		// Tick respawn wave timer
-		m_fRespawmTimer += timeSlice;
+		float currentTime_ms = Replication.Time();
 		
 		// If respawn timer has ticked down
-		if(IsRespawnAllowed() && !m_aEnqueuedPlayers.IsEmpty() && m_fRespawmTimer >= m_fRespawnWaveRateSec)
+		if(currentTime_ms >= m_fNextRespawnWaveTime_ms)
 		{
-			for(int i = m_aEnqueuedPlayers.Count()-1; i >= 0 ; i--)
+			// Spawn players
+			if (IsRespawnAllowed())
 			{
-				int playerID = m_aEnqueuedPlayers[i];
-				
-				// Spawn with claimed role
-				SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
-				if(groupsManager)
+				for(int i = m_aEnqueuedPlayers.Count()-1; i >= 0 ; i--)
 				{
-					SCR_AIGroup playerGroup = groupsManager.GetPlayerGroup(playerID);
-					if(playerGroup)
+					int playerID = m_aEnqueuedPlayers[i];
+					
+					// Spawn with claimed role
+					SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
+					if(groupsManager)
 					{
-						PR_GroupRoleManagerComponent roleManager = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
-						if(roleManager)
+						SCR_AIGroup playerGroup = groupsManager.GetPlayerGroup(playerID);
+						if(playerGroup)
 						{
-							// Cannot spawn if you don't have a claimed role
-							PR_Role role = roleManager.GetPlayerRole(playerID);
-							if(role && CanPlayerSpawn(playerID) == PR_ESpawnCondition.SPAWN_AVAILABLE)
+							PR_GroupRoleManagerComponent roleManager = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
+							if(roleManager)
 							{
-								GenericEntity spawnedEntity = SCR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
-								
-								SCR_PlayerController playerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerID));
-								playerController.SetPossessedEntity(spawnedEntity);
-																
-								// TODO: Decrement cost of spawn from supplies
-								
-								m_aEnqueuedPlayers.Remove(i);
+								// Cannot spawn if you don't have a claimed role
+								PR_Role role = roleManager.GetPlayerRole(playerID);
+								if(role && CanPlayerSpawn(playerID) == PR_ESpawnCondition.SPAWN_AVAILABLE)
+								{
+									GenericEntity spawnedEntity = SCR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
+									
+									SCR_PlayerController playerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerID));
+									playerController.SetPossessedEntity(spawnedEntity);
+																	
+									// TODO: Decrement cost of spawn from supplies
+									
+									m_aEnqueuedPlayers.Remove(i);
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-		
-		// If respawn timer has ticked down
-		if(m_fRespawmTimer >= m_fRespawnWaveRateSec)
-		{
-			m_fRespawmTimer = 0;
+			
+			// Set and broadcast next respawn wave time ...
+			m_fNextRespawnWaveTime_ms = currentTime_ms + m_fRespawnWaveInterval_ms;
+			Replication.BumpMe();
 		}
 	}	
 	

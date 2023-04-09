@@ -1,0 +1,50 @@
+ButtonWidgetClass : "{D07ED8A849945CCE}UI/DeploymentMenu/Elements/ButtonEmpty.layout" {
+ {
+  SizeLayoutWidgetClass "{5CB37853F653B731}" {
+   Prefab "{5CB37853F653B731}"
+   {
+    OverlayWidgetClass "{5CB37853F653B73F}" {
+     Prefab "{5CB37853F653B73F}"
+     {
+      HorizontalLayoutWidgetClass "{5D12E84E36D4C373}" {
+       Name "HorizontalLayout0"
+       Slot OverlayWidgetSlot "{5D12E84E36D4C348}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       "Z Order" 10
+       {
+        ImageWidgetClass "{5D12E84E003A3E82}" {
+         Name "Image"
+         Slot LayoutSlot "{5D12E8515A5342BE}" {
+          HorizontalAlign 1
+          VerticalAlign 1
+          Padding 5 0 0 0
+         }
+         Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
+         Image "favourite"
+         Size 32 32
+        }
+        TextWidgetClass "{5D12E84E358797B5}" {
+         Name "Text"
+         Slot LayoutSlot "{5D12E8515A5342E8}" {
+          Padding 5 0 10 0
+          SizeMode Fill
+         }
+         "Font Size" 20
+         "Min Font Size" 20
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CB3785692FBD48F}" {
+          Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+          DisabledColor 1 1 1 1
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

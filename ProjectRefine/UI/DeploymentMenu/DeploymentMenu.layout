@@ -101,6 +101,33 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                Name "SpawnPointSelection"
                Slot OverlayWidgetSlot "{5CB943CFB3F5F473}" {
                }
+               {
+                OverlayWidgetClass "{5CB943C0FFFDD9BF}" {
+                 Prefab "{5CB943C0FFFDD9BF}"
+                 {
+                  VerticalLayoutWidgetClass "{5CB943C0D53287E2}" {
+                   Prefab "{5CB943C0D53287E2}"
+                   {
+                    HorizontalLayoutWidgetClass "{5CE53264DBEBD061}" {
+                     Prefab "{5CE53264DBEBD061}"
+                     {
+                      ButtonWidgetClass "{5CE6B1352FD5C3EA}" {
+                       Prefab "{5CE6B1352FD5C3EA}"
+                       {
+                        SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+                         Prefab "{5CB37856F029CE83}"
+                         AllowWidthOverride 1
+                         WidthOverride 110
+                        }
+                       }
+                      }
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+               }
               }
               OverlayWidgetClass "{5CC91A88D66DE39D}" : "{28C54D576A8997CF}UI/layouts/HUD/Chat/ChatPanel.layout" {
                Name "m_ChatPanel"
@@ -128,12 +155,12 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                   Anchor 1 1 1 1
                   PositionX 0
                   OffsetLeft 0
-                  PositionY -100
-                  OffsetTop -100
+                  PositionY -250
+                  OffsetTop -250
                   SizeX 100
                   OffsetRight -100
                   SizeY 324
-                  OffsetBottom -224
+                  OffsetBottom -74
                   Alignment 1 1
                  }
                 }
