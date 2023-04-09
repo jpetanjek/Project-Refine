@@ -86,7 +86,15 @@ class PR_SpawnPoint : ScriptComponent
 	
 	override void OnPostInit(IEntity owner)
 	{
-		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
+		if(Replication.IsServer())
+		{
+			SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
+		}
+		else
+		{
+			SetEventMask(owner, EntityEvent.INIT);
+		}
+		
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
 		
@@ -138,7 +146,7 @@ class PR_SpawnPoint : ScriptComponent
 			{
 				for(int i = 0; i < m_aEnqueuedPlayers.Count(); i++)
 				{
-					int playerID = m_aOldEnqueuedPlayers[i];
+					int playerID = m_aEnqueuedPlayers[i];
 					m_OnPlayerEnqueuedOnSpawnPoint.Invoke(playerID, this);
 				}
 			}
@@ -276,9 +284,9 @@ class PR_SpawnPoint : ScriptComponent
 							{
 								GenericEntity spawnedEntity = SCR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
 								
-								PlayerController playerController = GetGame().GetPlayerManager().GetPlayerController(playerID);
-								playerController.SetControlledEntity(spawnedEntity);							
-								
+								SCR_PlayerController playerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerID));
+								playerController.SetPossessedEntity(spawnedEntity);
+																
 								// TODO: Decrement cost of spawn from supplies
 								
 								m_aEnqueuedPlayers.Remove(i);
