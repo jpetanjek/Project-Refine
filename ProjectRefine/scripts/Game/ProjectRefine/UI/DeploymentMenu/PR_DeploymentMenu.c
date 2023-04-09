@@ -201,8 +201,39 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		widgets.m_SpawnPointNameText.SetText(spawnPointName);
 		
 		// Update deploy button
-		bool deployButtonEnabled = m_SelectedSpawnPoint != null;
-		widgets.m_DeployButtonComponent.SetEnabled(deployButtonEnabled);
+		bool buttonEnabled = false;
+		string warningText = string.Empty;
+		
+		if (!m_SelectedSpawnPoint || !m_SelectedSpawnPoint.m_SpawnPoint)
+		{
+			// Nothing is selected
+		}
+		else
+		{
+			PR_ESpawnCondition condition = PR_SpawnPoint.CanPlayerSpawn(GetGame().GetPlayerController().GetPlayerId());
+			switch (condition)
+			{
+				case PR_ESpawnCondition.SPAWN_AVAILABLE:
+					buttonEnabled = true;
+					break;
+				case PR_ESpawnCondition.NO_GROUP:
+					warningText = "You must join a group!";
+					break;
+				case PR_ESpawnCondition.NO_ROLE:
+					warningText = "You must select a role!";
+					break;
+			}
+		}		
+		
+		SetWarningText(warningText);
+		widgets.m_DeployButtonComponent.SetEnabled(buttonEnabled);
+	}
+	
+	bool DeployConditionGroup()
+	{
+		SCR_GroupsManagerComponent groupsMgr = SCR_GroupsManagerComponent.GetInstance();
+		bool result = groupsMgr.GetPlayerGroup(GetGame().GetPlayerController().GetPlayerId());
+		return result;
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
@@ -258,6 +289,18 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		
 		PR_PlayerControllerDeploymentComponent deploymentComp = PR_PlayerControllerDeploymentComponent.GetLocalInstance();
 		deploymentComp.AskEnqueueAtSpawnPoint(m_SelectedSpawnPoint.m_SpawnPoint);
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
+	void SetWarningText(string s)
+	{
+		if (s == string.Empty)
+			widgets.m_Warning.SetVisible(false);
+		else
+		{
+			widgets.m_Warning.SetVisible(true);
+			widgets.m_WarningText.SetText(s);
+		}
 	}
 }
 

@@ -6,6 +6,13 @@ class PR_SpawnPointClass : ScriptComponentClass
 typedef func OnPlayerEnqueuedOnSpawnPoint;
 void OnPlayerEnqueuedOnSpawnPoint(int playerID, PR_SpawnPoint spawnPoint);
 
+enum PR_ESpawnCondition
+{
+	SPAWN_AVAILABLE,	// All is fine and we can deploy
+	NO_GROUP,
+	NO_ROLE
+}
+
 //------------------------------------------------------------------------------------------------
 /*!
 Component which represents spawn point functionality.
@@ -207,28 +214,25 @@ class PR_SpawnPoint : ScriptComponent
 		return true;
 	}
 	
-	bool CanPlayerSpawn(int playerID)
+	// This code must also work on client, it's used in deployment menu UI
+	static PR_ESpawnCondition CanPlayerSpawn(int playerId)
 	{
-		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
-		if(!groupsManager)
-			return false;
+		// Have group?
+		int myPlayerId = GetGame().GetPlayerController().GetPlayerId();
+		SCR_GroupsManagerComponent groupsMgr = SCR_GroupsManagerComponent.GetInstance();
+		SCR_AIGroup playerGroup = groupsMgr.GetPlayerGroup(myPlayerId);
+		if (!playerGroup)
+			return PR_ESpawnCondition.NO_GROUP;
 		
-		SCR_AIGroup playerGroup = groupsManager.GetPlayerGroup(playerID);
-		if(!playerGroup)
-			return false;
-		
-		// Does he have claimed role?
-		PR_GroupRoleManagerComponent roleManager = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
-        if(!roleManager)
-            return false;
-        
-        // Cannot enqueue if you don't have a claimed role
-        if(!roleManager.GetPlayerRole(playerID))
-            return false;
+		// Have role?
+		PR_GroupRoleManagerComponent groupRoleMgr = PR_GroupRoleManagerComponent.Cast(playerGroup.FindComponent(PR_GroupRoleManagerComponent));
+		if(!groupRoleMgr.GetPlayerRole(myPlayerId))
+			return PR_ESpawnCondition.NO_ROLE;
 		
 		// TODO: Reserved resource check
 		
-		return true;
+		// All good
+		return PR_ESpawnCondition.SPAWN_AVAILABLE;
 	}
 	
 	//! Even if faction owns a spawn point, respawn there might be blocked for various reasons.
@@ -272,7 +276,7 @@ class PR_SpawnPoint : ScriptComponent
 						{
 							// Cannot spawn if you don't have a claimed role
 							PR_Role role = roleManager.GetPlayerRole(playerID);
-							if(role && CanPlayerSpawn(playerID))
+							if(role && CanPlayerSpawn(playerID) == PR_ESpawnCondition.SPAWN_AVAILABLE)
 							{
 								GenericEntity spawnedEntity = SCR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
 								

@@ -19,6 +19,16 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 	FactionManager m_FactionManager;
 	
 	//------------------------------------------------------------------------------------------------
+	static PR_FactionMemberManager GetInstance()
+	{
+		BaseGameMode gm = GetGame().GetGameMode();
+		if (!gm)
+			return null;
+		
+		return PR_FactionMemberManager.Cast(gm.FindComponent(PR_FactionMemberManager));
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	// Events
 	// Server and client event
 	protected ref ScriptInvokerBase<OnFactionMembersChanged> m_OnFactionMembersChanged = new ScriptInvokerBase<OnFactionMembersChanged>();
