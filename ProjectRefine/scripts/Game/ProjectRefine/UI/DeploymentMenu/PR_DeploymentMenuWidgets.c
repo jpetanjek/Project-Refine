@@ -12,9 +12,16 @@ class PR_DeploymentMenuWidgets
 
 	TextWidget m_DeploymentCountdownText;
 
-	HorizontalLayoutWidget m_Warning;
+	HorizontalLayoutWidget m_Warning0;
 
-	TextWidget m_WarningText;
+	TextWidget m_WarningText0;
+
+	HorizontalLayoutWidget m_Warning1;
+
+	TextWidget m_WarningText1;
+
+	ButtonWidget m_DeployButtonOld;
+	SCR_ModularButtonComponent m_DeployButtonOldComponent;
 
 	ButtonWidget m_DeployButton;
 	SCR_ModularButtonComponent m_DeployButtonComponent;
@@ -38,9 +45,16 @@ class PR_DeploymentMenuWidgets
 
 		m_DeploymentCountdownText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_DeploymentCountdownText"));
 
-		m_Warning = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning"));
+		m_Warning0 = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning0"));
 
-		m_WarningText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning.m_WarningText"));
+		m_WarningText0 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning0.m_WarningText0"));
+
+		m_Warning1 = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning1"));
+
+		m_WarningText1 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning1.m_WarningText1"));
+
+		m_DeployButtonOld = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.HorizontalLayout0.m_DeployButtonOld"));
+		m_DeployButtonOldComponent = SCR_ModularButtonComponent.Cast(m_DeployButtonOld.FindHandler(SCR_ModularButtonComponent));
 
 		m_DeployButton = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.HorizontalLayout0.m_DeployButton"));
 		m_DeployButtonComponent = SCR_ModularButtonComponent.Cast(m_DeployButton.FindHandler(SCR_ModularButtonComponent));

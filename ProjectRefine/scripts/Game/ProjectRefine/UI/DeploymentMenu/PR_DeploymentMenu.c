@@ -203,7 +203,10 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		widgets.m_SpawnPointNameText.SetText(spawnPointNameText);
 		
 		// Update elements
-		bool buttonEnabled = false;
+		
+		//------------------------------------------
+		// Warning text 0 and deployment timer
+		bool deploymentBlocked = true;
 		bool buttonToggled = false;
 		string warningText = string.Empty;
 		float deploymentTimeLeft = 0;
@@ -220,7 +223,7 @@ class PR_DeploymentMenu : ChimeraMenuBase
 			{
 				case PR_ESpawnCondition.SPAWN_AVAILABLE:
 				{
-					buttonEnabled = true;
+					deploymentBlocked = false;
 					
 					if (m_SelectedSpawnPoint.m_SpawnPoint.IsPlayerEnqueued(GetGame().GetPlayerController().GetPlayerId()) )
 					{
@@ -240,9 +243,36 @@ class PR_DeploymentMenu : ChimeraMenuBase
 			}
 		}		
 		
-		SetWarningText(warningText);
+		SetWarningText0(warningText);
 		//SetCountdownText(deploymentTimeLeft, showDeploymentCountdown);
 		SetCountdownText(0, false);
+		
+		
+		//------------------------------------------
+		// Warning text 1
+		// This warning text is related to spawn point alone, rergardless of player state
+		
+		string warningText1;
+		if (m_SelectedSpawnPoint && m_SelectedSpawnPoint.m_SpawnPoint)
+		{
+			PR_ESpawnPointStateFlags spFlags = m_SelectedSpawnPoint.m_SpawnPoint.GetStateFlags();
+			if (spFlags & PR_ESpawnPointStateFlags.OCCUPIED_BY_ENEMY)
+			{
+				warningText1 = "Blocked by enemy!";
+				deploymentBlocked = true;
+			}
+		}
+		SetWarningText1(warningText1);
+		
+		// In this case the button is only enabled when toggled
+		// So we can cancel deployment, but can't request it
+		bool buttonEnabled;
+		if (deploymentBlocked)
+			buttonEnabled = buttonToggled;
+		else
+			buttonEnabled = true;
+		
+		// Deployment button
 		widgets.m_DeployButtonComponent.SetEnabled(buttonEnabled);
 		widgets.m_DeployButtonComponent.SetToggled(buttonToggled);
 	}
@@ -317,12 +347,21 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
-	void SetWarningText(string s)
+	// There are two 'warning texts', they can be shown at same time
+	void SetWarningText0(string s)
 	{
-		widgets.m_Warning.SetVisible(!s.IsEmpty());
+		widgets.m_Warning0.SetVisible(!s.IsEmpty());
 		if (!s.IsEmpty())
 		{
-			widgets.m_WarningText.SetText(s);
+			widgets.m_WarningText0.SetText(s);
+		}
+	}
+	void SetWarningText1(string s)
+	{
+		widgets.m_Warning1.SetVisible(!s.IsEmpty());
+		if (!s.IsEmpty())
+		{
+			widgets.m_WarningText1.SetText(s);
 		}
 	}
 	

@@ -785,11 +785,12 @@ class PR_GameMode : SCR_BaseGameMode
 		DiagMenu.RegisterMenu(SCR_DebugMenuID.REFINE_MENU_ID, cheatMenuName, "");
 		
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL, "", "Game Mode Panel", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREAS_STATE, "", "Capture Areas State", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREA_STATE, "", "Capture Area State", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_ASSET_SPAWNER_STATE, "", "Asset Spawner State", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_SPAWN_POINT_STATE, "", "Spawn Point State", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, "", "Show Faction Menu", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, "", "Show Deployment Menu", cheatMenuName);
-		
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_AUTO_DEPLOYMENT_MENU, "", "Disable auto depl. menu", cheatMenuName);
 	}
 	
 	void DrawGameModePanel()

@@ -335,7 +335,7 @@ class PR_CaptureArea : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
-		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREAS_STATE))
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREA_STATE))
 		{
 			// Draw debug text
 			const int COLOR_TEXT = Color.WHITE;

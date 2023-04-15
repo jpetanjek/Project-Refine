@@ -13,6 +13,9 @@ class PR_DeploymentMenuComponent : PR_BaseGameModeComponent
 	
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_DISABLE_AUTO_DEPLOYMENT_MENU))
+			return;
+		
 		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
 		PlayerController pc = GetGame().GetPlayerController();
 		MenuManager menuMgr = GetGame().GetMenuManager();

@@ -13,12 +13,21 @@ enum PR_ESpawnCondition
 	NO_ROLE
 }
 
+enum PR_ESpawnPointStateFlags
+{
+	OCCUPIED_BY_ENEMY = 1<<0
+}
+
 //------------------------------------------------------------------------------------------------
 /*!
 Component which represents spawn point functionality.
 */
 class PR_SpawnPoint : ScriptComponent
 {
+	protected const float ENEMY_EVALUATION_INTERVAL_MS = 1000;
+	// How many enemies must be in radius for this spawn point to be occupied by enemy
+	protected const int ENEMY_COUNT_OCCUPATION_THRESHOLD = 2;
+	
 	protected static ref array<PR_SpawnPoint> s_aAll = {};
 	
 	// Spawn positions for characters
@@ -36,15 +45,24 @@ class PR_SpawnPoint : ScriptComponent
 	[RplProp()]
 	protected float m_fNextRespawnWaveTime_ms; // Replication.Time()
 	protected float m_fRespawnWaveInterval_ms = 7000.0;
-	
+
+	protected float m_fNextEnemyEvaluationTime_ms; // World time
+		
 	// Events
 	// Server and client event
 	protected ref ScriptInvokerBase<OnPlayerEnqueuedOnSpawnPoint> m_OnPlayerEnqueuedOnSpawnPoint = new ScriptInvokerBase<OnPlayerEnqueuedOnSpawnPoint>();
 	
+	// Flags - broadcasted flags representing this spawn point state
+	[RplProp()]
+	protected PR_ESpawnPointStateFlags m_eStateFlags;
+	
+	[Attribute("1.0", uiwidget: UIWidgets.EditBox)]
+	protected float m_fEnemyOccupationRadius;
+	
 	ScriptInvokerBase<OnPlayerEnqueuedOnSpawnPoint> GetOnPlayerEnqueuedOnSpawnPoint()
 	{
 		return m_OnPlayerEnqueuedOnSpawnPoint;
-	}	
+	}
 	
 	//------------------------------------------------------------------------------------------------
 	// Initialization
@@ -81,10 +99,12 @@ class PR_SpawnPoint : ScriptComponent
 		
 		
 		// Subscribe to player chancing faction
-		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(GetGame().GetGameMode().FindComponent(PR_FactionMemberManager));
-		if(factionMemberManager)
+		BaseGameMode gm = GetGame().GetGameMode();
+		if (gm)
 		{
-			factionMemberManager.GetOnPlayerChangedFaction().Insert(OnPlayerChangedFaction);	
+			PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.Cast(gm.FindComponent(PR_FactionMemberManager));
+			if(factionMemberManager)
+				factionMemberManager.GetOnPlayerChangedFaction().Insert(OnPlayerChangedFaction);	
 		}
 		
 		// Subscribe to player disconnect
@@ -96,13 +116,9 @@ class PR_SpawnPoint : ScriptComponent
 	override void OnPostInit(IEntity owner)
 	{
 		if(Replication.IsServer())
-		{
-			SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
-		}
+			SetEventMask(owner, EntityEvent.INIT | EntityEvent.DIAG | EntityEvent.FRAME);
 		else
-		{
-			SetEventMask(owner, EntityEvent.INIT);
-		}
+			SetEventMask(owner, EntityEvent.INIT | EntityEvent.DIAG);
 		
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
@@ -124,10 +140,21 @@ class PR_SpawnPoint : ScriptComponent
 		return m_CaptureArea.GetOwnerFactionId(); // For now we delegate it to spawn point
 	}
 	
+	Faction GetFaction()
+	{
+		return GetGame().GetFactionManager().GetFactionByIndex(GetFactionId());
+	}
+	
 	//! Returns spawn point name
 	string GetName()
 	{
 		return m_CaptureArea.GetName();
+	}
+	
+	//-------------------------------------------------------------------------------------------
+	PR_ESpawnPointStateFlags GetStateFlags()
+	{
+		return m_eStateFlags;
 	}
 	
 	//-------------------------------------------------------------------------------------------
@@ -259,20 +286,13 @@ class PR_SpawnPoint : ScriptComponent
 		return PR_ESpawnCondition.SPAWN_AVAILABLE;
 	}
 	
-	//! Even if faction owns a spawn point, respawn there might be blocked for various reasons.
+	// Conditions related to spawn point alone
 	bool IsRespawnAllowed()
 	{
-		if(Replication.IsServer())
-		{
-			// TODO: Are there any enemy close?
-			// TODO: Does it have signal?
+		if ((m_eStateFlags & PR_ESpawnPointStateFlags.OCCUPIED_BY_ENEMY) == 0)
 			return true;
-		}
 		else
-		{
-			// Check replicated property from server
-			return true;
-		}
+			return false;
 	}
 	
 	// Maybe better FixedFrame?
@@ -323,7 +343,55 @@ class PR_SpawnPoint : ScriptComponent
 			m_fNextRespawnWaveTime_ms = currentTime_ms + m_fRespawnWaveInterval_ms;
 			Replication.BumpMe();
 		}
-	}	
+		
+		// Evaluate if spawn point is occupied by enemies
+		if (GetGame().GetWorld().GetWorldTime() > m_fNextEnemyEvaluationTime_ms)
+		{
+			EvaluateEnemies();
+			m_fNextEnemyEvaluationTime_ms = GetGame().GetWorld().GetWorldTime() + ENEMY_EVALUATION_INTERVAL_MS;
+		}
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Evaluates if spawn point is occupied by enemies
+	void EvaluateEnemies()
+	{
+		PR_ESpawnPointStateFlags oldFlags = m_eStateFlags;
+		
+		Faction thisFaction = GetFaction();
+		vector thisPos = GetOwner().GetOrigin();
+		int nEnemiesInRadius = 0;
+		
+
+		if (m_fEnemyOccupationRadius > 0)
+		{
+			array<SCR_ChimeraCharacter> allCharacters = SCR_ChimeraCharacter.GetAllCharacters();
+		
+			foreach(SCR_ChimeraCharacter character : allCharacters)
+			{
+				if (character.m_DamageManager.IsDestroyed())
+					continue;
+				
+				if (character.m_pFactionComponent.GetAffiliatedFaction() != thisFaction)
+				{
+					if (vector.DistanceXZ(character.GetOrigin(), thisPos) < m_fEnemyOccupationRadius)
+					{
+						nEnemiesInRadius++;
+						if (nEnemiesInRadius >= ENEMY_COUNT_OCCUPATION_THRESHOLD)
+							break;
+					}
+				}
+			}
+		}
+		
+		if (nEnemiesInRadius >= ENEMY_COUNT_OCCUPATION_THRESHOLD)
+			m_eStateFlags |= PR_ESpawnPointStateFlags.OCCUPIED_BY_ENEMY;
+		else
+			m_eStateFlags &= ~PR_ESpawnPointStateFlags.OCCUPIED_BY_ENEMY;
+		
+		if (m_eStateFlags != oldFlags)
+			Replication.BumpMe();	
+	}
 	
 	// Returns world space coordinate of a random spawn position
 	// TODO: Too capture point specific
@@ -348,5 +416,30 @@ class PR_SpawnPoint : ScriptComponent
 	protected void _print(string str, LogLevel logLevel = LogLevel.NORMAL)
 	{
 		Print(string.Format("[PR_SpawnPoint] %1: %2", GetName(), str), logLevel);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override void EOnDiag(IEntity owner, float timeSlice)
+	{
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_SPAWN_POINT_STATE))
+		{
+			// Draw debug text
+			const int COLOR_TEXT = Color.WHITE;
+		 	const int COLOR_BACKGROUND = Color.BLACK;
+			
+			string s;
+			
+			float timeTilSpawnWave_ms = m_fNextRespawnWaveTime_ms - Replication.Time();
+			float timeTillSpawnWave_s = timeTilSpawnWave_ms / 1000.0;
+			s = s + string.Format("Spawn Wave: %1\n", timeTillSpawnWave_s.ToString(4, 1));
+			
+			s = s + string.Format("Flags: %1\n", SCR_Enum.FlagsToString(PR_ESpawnPointStateFlags, m_eStateFlags));
+			
+			vector pos = owner.GetOrigin() + Vector(0, 5, 0);
+			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+			
+			// Cylinder with enemy occupation radius
+			Shape.CreateCylinder(Color.RED, ShapeFlags.VISIBLE | ShapeFlags.ONCE | ShapeFlags.WIREFRAME, GetOwner().GetOrigin(), m_fEnemyOccupationRadius, 40.0);
+		}
 	}
 };

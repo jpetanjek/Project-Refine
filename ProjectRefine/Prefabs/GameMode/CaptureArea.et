@@ -10,6 +10,7 @@ GenericEntity {
    }
   }
   PR_SpawnPoint "{5CB717EFD748B076}" {
+   m_fEnemyOccupationRadius 10
   }
   SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
    MainType Cross

@@ -43,8 +43,37 @@ SizeLayoutWidgetClass {
         Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
        }
       }
+      HorizontalLayoutWidgetClass "{5D1F2841E618889B}" {
+       Name "m_Warning0"
+       Slot LayoutSlot "{5D12A510D44B84D9}" {
+       }
+       {
+        ImageWidgetClass "{5D1F2841E6188898}" {
+         Name "WarningImage"
+         Slot LayoutSlot "{5D12A51027BE757A}" {
+         }
+         Color 0.584 0 0 1
+         Texture "{9DA6A249AD4D71C4}UI/Textures/Icons/icons_wrapperUI-48.imageset"
+         Image "warning"
+         Size 48 48
+        }
+        TextWidgetClass "{5D1F2841E61888E6}" {
+         Name "m_WarningText0"
+         Slot LayoutSlot "{5CC35DDCCFF7FE92}" {
+         }
+         Clipping False
+         Text "You picked the wrong house fool"
+         "Min Font Size" 24
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CE5326424973141}" {
+          Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+         }
+        }
+       }
+      }
       HorizontalLayoutWidgetClass "{5D12A510D44B84CF}" {
-       Name "m_Warning"
+       Name "m_Warning1"
        Slot LayoutSlot "{5D12A510D44B84D9}" {
        }
        {
@@ -58,7 +87,7 @@ SizeLayoutWidgetClass {
          Size 48 48
         }
         TextWidgetClass "{5D12A5103C7160A2}" {
-         Name "m_WarningText"
+         Name "m_WarningText1"
          Slot LayoutSlot "{5CC35DDCCFF7FE92}" {
          }
          Clipping False
@@ -125,7 +154,7 @@ SizeLayoutWidgetClass {
              m_sWidgetName "Text"
              m_sDefault "Deploy"
              m_sHovered "Deploy"
-             m_sActivated "Cancel"
+             m_sActivated "Deploy"
              m_sActivatedHovered "Cancel"
              m_sDisabled "Deploy"
              m_sDisabledActivated "Deploy"
