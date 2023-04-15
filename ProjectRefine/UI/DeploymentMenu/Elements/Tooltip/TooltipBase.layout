@@ -1,0 +1,34 @@
+SizeLayoutWidgetClass {
+ Name "root"
+ Slot FrameWidgetSlot "{5CCF408DA6EAB949}" {
+  SizeToContent 1
+ }
+ WidthOverride 300
+ {
+  OverlayWidgetClass "{5CCF408F7A194B87}" {
+   Name "Overlay0"
+   Slot AlignableSlot "{5CCF408F7A194B95}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   {
+    ImageWidgetClass "{5CCF408F7ECE36EC}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
+     Name "rootFrame0"
+     Slot OverlayWidgetSlot "{5CCF408F7ECE36C7}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0 0 0 1
+    }
+    VerticalLayoutWidgetClass "{5CCF408F47DD40AF}" {
+     Name "m_ButtonsLayout"
+     Slot OverlayWidgetSlot "{5CCF408F47DD40B8}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+      Padding 5 5 5 5
+     }
+    }
+   }
+  }
+ }
+}

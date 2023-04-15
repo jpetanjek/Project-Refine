@@ -1,0 +1,113 @@
+ButtonWidgetClass {
+ Name "GroupMemberLine"
+ Slot LayoutSlot "{5CB40A8688EE0E08}" {
+ }
+ Color 1 1 1 0
+ components {
+  SCR_WidgetExportRuleRoot "{5CB40A85C1A7760C}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+  }
+  PR_GroupMemberLineComponent "{5CB40A85216C3111}" {
+  }
+  SCR_ModularButtonComponent "{5CD5508CEE45C1D8}" {
+   m_aEffects {
+    SCR_ButtonEffectVisibility "{5CD5508CF5027A4D}" {
+     m_eEvents 3
+     m_sWidgetName "ActionButtonVisibilityWrapper"
+     m_bHovered 1
+    }
+   }
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{5CD5508289EDB4A8}" {
+   Name "SizeLayout0"
+   Slot ButtonWidgetSlot "{5CD5508289EDB489}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   AllowHeightOverride 1
+   HeightOverride 32
+   {
+    HorizontalLayoutWidgetClass "{5CB40A869C3E017F}" {
+     Name "HorizontalLayout0"
+     Slot AlignableSlot "{5CD5508289F76439}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      SizeLayoutWidgetClass "{5CD550821A324749}" {
+       Name "ActionButtonSize"
+       Slot LayoutSlot "{5CD550821A3247BA}" {
+       }
+       AllowWidthOverride 1
+       WidthOverride 45
+       {
+        OverlayWidgetClass "{5CD550824EC401A8}" {
+         Name "ActionButtonVisibilityWrapper"
+         Slot AlignableSlot "{5CD550824EC4018D}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+          Padding 0 0 0 0
+         }
+         {
+          ButtonWidgetClass "{5CDF54CF0AD07912}" : "{2F5C9F6C594BB0ED}UI/DeploymentMenu/Elements/ButtonIcon.layout" {
+           Name "m_ActionButton"
+           Slot OverlayWidgetSlot "{5CDF54CF0AD07976}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+            Padding 0 0 0 0
+           }
+           components {
+            SCR_ModularButtonComponent "{5CB3785628029158}" {
+             m_eEventReturnValue 2147483599
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      TextWidgetClass "{5CB40A8616A17784}" {
+       Name "m_PlayerNameText"
+       Slot LayoutSlot "{5CB40A85FAAD2974}" {
+        Padding 10 0 0 0
+        SizeMode Fill
+       }
+       Text "Player Name"
+       "Font Size" 16
+       "Min Font Size" 16
+       "Vertical Alignment" Center
+       FontProperties FontProperties "{5CB40A8632AF0342}" {
+        Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+       }
+      }
+      SizeLayoutWidgetClass "{5CB40A86EA8A843C}" {
+       Name "RoleName"
+       Slot LayoutSlot "{5CB40A86EA8A8417}" {
+       }
+       AllowWidthOverride 1
+       WidthOverride 170
+       {
+        TextWidgetClass "{5CB40A862D0D43FC}" {
+         Name "m_RoleNameText"
+         Slot AlignableSlot "{5CB40A862D0D43CB}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         Text "Role Name"
+         "Font Size" 16
+         "Min Font Size" 16
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CB40A8632AF0342}" {
+          Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

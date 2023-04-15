@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{A8E36B111BA70FBE}Configs/GameMode/PR_RoleList_US.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

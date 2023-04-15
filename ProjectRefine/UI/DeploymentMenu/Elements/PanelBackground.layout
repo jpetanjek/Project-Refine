@@ -1,0 +1,23 @@
+OverlayWidgetClass {
+ Name "Overlay0"
+ Slot LayoutSlot "{5CDF2E25344313BA}" {
+ }
+ {
+  BlurWidgetClass "{5CDF2E250540E86A}" {
+   Name "Blur"
+   Slot OverlayWidgetSlot "{5CDF2E250540E847}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   Intensity 0.3
+  }
+  ImageWidgetClass "{5CDF3122A15642E6}" {
+   Name "Image"
+   Slot OverlayWidgetSlot "{5CDF3122A15642EA}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   Color 0 0.002 0.018 0.992
+  }
+ }
+}

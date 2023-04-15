@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{38EF0B55AA92A5C4}UI/DeploymentMenu/RoleList.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,19 @@
+SCR_AIGroup {
+ ID "5CC53723846E988F"
+ components {
+  AIFormationComponent "{5CC53723846E9775}" {
+  }
+  PR_GroupRoleManagerComponent "{5CC53727566C1ADD}" {
+  }
+  SCR_CallsignGroupComponent "{5CC53723846E977D}" {
+  }
+  RplComponent "{5CC53723846E977E}" {
+   Streamable Disabled
+  }
+ }
+ coords 109.908 1.001 128.093
+ m_bDeleteWhenEmpty 0
+ m_iGroupRadioFrequency 52000
+ m_iMaxMembers 8
+ m_bPlayable 1
+}

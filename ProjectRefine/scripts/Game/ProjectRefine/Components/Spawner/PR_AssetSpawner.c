@@ -14,7 +14,7 @@ class PR_AssetSpawner : GenericEntity
 	// Low frequency update interval of asset spawner
 	protected const float UPDATE_PERIOD_S = 1.0;
 	
-	[Attribute("", UIWidgets.ComboBox, "", category: "Asset Spawner", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
+	[Attribute("", desc: "What asset type to spawn", UIWidgets.ComboBox, "", category: "Asset Spawner", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
 	protected PR_EAssetType m_AssetType;
 	
 	// TODO: move this to prefab
@@ -111,11 +111,11 @@ class PR_AssetSpawner : GenericEntity
 			SCR_Faction faction = SCR_Faction.Cast(factionManager.GetFactionByIndex(m_CaptureArea.GetOwnerFactionId()));
 			if(faction)
 			{
-				PR_EntityAssetList fullAssetList = faction.GetAssetList();
+				PR_AssetList fullAssetList = faction.GetAssetList();
 				if(!fullAssetList)
 					return false;
 				
-				array<PR_EntityInfo> assetList = {};
+				array<PR_Asset> assetList = {};
 				fullAssetList.GetAssetList(assetList);
 				if(assetList.Count() > 0)
 				{
@@ -124,7 +124,7 @@ class PR_AssetSpawner : GenericEntity
 					
 					for(int i = assetList.Count() - 1; i >= 0 ; i--)
 					{
-						PR_EntityInfo asset = assetList.Get(i);
+						PR_Asset asset = assetList.Get(i);
 						if(!asset || (asset && asset.GetAssetType() != m_AssetType))
 						{
 							assetList.Remove(i);
@@ -149,11 +149,11 @@ class PR_AssetSpawner : GenericEntity
 						else
 							_print(string.Format("Didn't find ScriptedDamageManagerComponent on entity: %1", resourceName), LogLevel.ERROR);
 						
-						PR_EntityInfoComponent entityInfoComp = PR_EntityInfoComponent.Cast(m_Target.FindComponent(PR_EntityInfoComponent));
+						PR_AssetInformerComponent entityInfoComp = PR_AssetInformerComponent.Cast(m_Target.FindComponent(PR_AssetInformerComponent));
 						if (entityInfoComp)
 							entityInfoComp.Init(m_AssetType, m_CaptureArea.GetOwnerFactionId());
 						else
-							_print(string.Format("Didn't find PR_EntityInfoComponent on entity: %1", resourceName), LogLevel.ERROR);
+							_print(string.Format("Didn't find PR_AssetInformerComponent on entity: %1", resourceName), LogLevel.ERROR);
 						
 						m_OnAssetSpawned.Invoke(this, m_Target, m_CaptureArea.GetOwnerFactionId());
 						

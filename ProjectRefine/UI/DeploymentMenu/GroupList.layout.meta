@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{949AC0EDAAE45ED7}UI/DeploymentMenu/PR_GroupList.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,304 @@
+OverlayWidgetClass {
+ Name "GroupEntry"
+ Slot LayoutSlot "{5CB37851132A8BEC}" {
+  Padding 0 0 10 0
+ }
+ components {
+  PR_GroupEntryComponent "{5CB40A871BEE2646}" {
+  }
+  SCR_WidgetExportRuleRoot "{5CB40A871888BDA0}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+  }
+ }
+ {
+  VerticalLayoutWidgetClass "{5CB378511F9D7C22}" {
+   Name "VerticalLayout0"
+   Slot OverlayWidgetSlot "{5CB378511F9D7C3C}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   {
+    SizeLayoutWidgetClass "{5CB3785160EE51CE}" {
+     Name "HeaderSize"
+     Slot LayoutSlot "{5CB3785160EE5224}" {
+     }
+     AllowHeightOverride 1
+     HeightOverride 40
+     {
+      HorizontalLayoutWidgetClass "{5CB378528BF6BC41}" {
+       Name "HorizontalLayout0"
+       Slot AlignableSlot "{5CB378528BF6BCA2}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        ButtonWidgetClass "{5CB37853C25A4D81}" : "{D07ED8A849945CCE}UI/DeploymentMenu/Elements/ButtonEmpty.layout" {
+         Name "m_ExpandButton"
+         Slot LayoutSlot "{5CB378557E695658}" {
+         }
+         components {
+          SCR_ModularButtonComponent "{5CB3785628029158}" {
+           m_aEffects {
+            SCR_ButtonEffectColor "{5CDF339C935EF450}" {
+             m_bEnabled 0
+            }
+            SCR_ButtonEffectVisibility "{5CB3785C83440E7D}" {
+             m_eEvents 24576
+             m_sWidgetName "Up"
+             m_bToggledOff 1
+            }
+            SCR_ButtonEffectVisibility "{5CB3785CF320B65E}" {
+             m_eEvents 24576
+             m_sWidgetName "Down"
+             m_bToggledOn 1
+            }
+            SCR_ButtonEffectOpacity "{5CDF41BC76631219}" {
+             m_eEvents 15
+             m_sWidgetName "Overlay0"
+             m_fAnimationTime 0
+             m_fDefault 0.7
+             m_fHovered 1
+             m_fActivated 0.7
+             m_fActivatedHovered 1
+            }
+           }
+           m_bCanBeToggled 1
+           m_bToggledAtStart 1
+          }
+         }
+         {
+          SizeLayoutWidgetClass "{5CB37853F653B731}" {
+           Prefab "{5CB37853F653B731}"
+           AllowWidthOverride 1
+           WidthOverride 24
+           {
+            OverlayWidgetClass "{5CB37853F653B73F}" {
+             Prefab "{5CB37853F653B73F}"
+             Slot AlignableSlot "{5CB37856F0328464}" {
+             }
+             {
+              ImageWidgetClass "{5CB3785346528DF7}" {
+               Name "Up"
+               Slot OverlayWidgetSlot "{5CB3785346528DC3}" {
+               }
+               "Z Order" 10
+               Clipping False
+               Texture "{A47B084D863DD70A}UI/Textures/WidgetLibrary/ButtonSortArrow_16px_UI.edds"
+               Size 16 16
+              }
+              ImageWidgetClass "{5CB3785CA3504C53}" {
+               Name "Down"
+               Slot OverlayWidgetSlot "{5CB3785346528DC3}" {
+               }
+               "Z Order" 11
+               Clipping False
+               Rotation 180
+               Texture "{A47B084D863DD70A}UI/Textures/WidgetLibrary/ButtonSortArrow_16px_UI.edds"
+               Size 16 16
+              }
+              ImageWidgetClass "{5CB37853F653B73D}" {
+               Prefab "{5CB37853F653B73D}"
+               "Is Visible" 0
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        ButtonWidgetClass "{5CDF54CEDB0E3D98}" : "{D07ED8A849945CCE}UI/DeploymentMenu/Elements/ButtonEmpty.layout" {
+         Name "m_ActionButton"
+         Slot LayoutSlot "{5CB378557E695658}" {
+          Padding 0 0 0 0
+         }
+         components {
+          SCR_ModularButtonComponent "{5CB3785628029158}" {
+           m_aEffects {
+            SCR_ButtonEffectColor "{5CDF339C935EF450}" {
+             m_bEnabled 0
+            }
+            SCR_ButtonEffectOpacity "{5CDF54CE1BA89993}" {
+             m_eEvents 15
+             m_sWidgetName "Image"
+             m_fAnimationTime 0
+             m_fDefault 0.7
+             m_fHovered 1
+             m_fActivated 0.7
+             m_fActivatedHovered 1
+            }
+           }
+          }
+         }
+         {
+          SizeLayoutWidgetClass "{5CB37853F653B731}" {
+           Prefab "{5CB37853F653B731}"
+           {
+            OverlayWidgetClass "{5CB37853F653B73F}" {
+             Prefab "{5CB37853F653B73F}"
+             {
+              ImageWidgetClass "{5CDF54CE29093A84}" {
+               Name "Image"
+               Slot OverlayWidgetSlot "{5CDF54CE29093AE1}" {
+               }
+               Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
+               Image "dotsMenu"
+               Size 36 36
+              }
+              ImageWidgetClass "{5CB37853F653B73D}" {
+               Prefab "{5CB37853F653B73D}"
+               "Is Visible" 0
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        SizeLayoutWidgetClass "{5CB3785233CE8B45}" {
+         Name "PlayerCount"
+         Slot LayoutSlot "{5CB3785233CE8BAE}" {
+         }
+         AllowWidthOverride 1
+         WidthOverride 36
+         {
+          TextWidgetClass "{5CB378522107799D}" {
+           Name "m_PlayerCountText"
+           Slot AlignableSlot "{5CD1598AE024C8E4}" {
+           }
+           Text "9/9"
+           "Font Size" 20
+           "Min Font Size" 20
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+           FontProperties FontProperties "{5CB37852F5C50444}" {
+            Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+           }
+          }
+         }
+        }
+        TextWidgetClass "{5CB37852EB937CAE}" {
+         Name "m_GroupNameText"
+         Slot LayoutSlot "{5CB37852EB937C84}" {
+          Padding 8 0 0 0
+         }
+         Text "Group Name"
+         "Font Size" 18
+         "Min Font Size" 18
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CB37852F5C50444}" {
+          Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+         }
+        }
+        TextWidgetClass "{5CD1598AC7510A26}" {
+         Name "m_LeaderNameText"
+         Slot LayoutSlot "{5CB37852EB937C84}" {
+          Padding 10 0 0 0
+          SizeMode Fill
+         }
+         Clipping True
+         Text "Leader Name"
+         "Font Size" 16
+         "Min Font Size" 16
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CB37852F5C50444}" {
+          Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+         }
+        }
+        ImageWidgetClass "{5CD1418C7DFC1470}" {
+         Name "m_LockImage"
+         Slot LayoutSlot "{5CD1418C7DFC14A6}" {
+          HorizontalAlign 1
+          VerticalAlign 1
+         }
+         Color 0.462 0 0 1
+         Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
+         Image "server-locked"
+         Size 40 40
+        }
+        ButtonWidgetClass "{5CB37852788FFEC1}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
+         Name "m_JoinLeaveButton"
+         Slot LayoutSlot "{5CB378557E695658}" {
+         }
+         components {
+          SCR_ModularButtonComponent "{5CB3785628029158}" {
+           m_aEffects {
+            SCR_ButtonEffectColor "{5CDF339C477FFD14}" {
+             m_aTags {
+              "all"
+             }
+            }
+            SCR_ButtonEffectColor "{5CDF339C45DFB336}" {
+             m_aTags {
+              "all"
+             }
+            }
+            SCR_ButtonEffectText "{5CCB1A04BF582151}" {
+             m_aTags {
+              "not_joined"
+             }
+             m_eEvents 19
+             m_sWidgetName "Text"
+             m_sDefault "JOIN"
+             m_sHovered "JOIN"
+             m_sDisabled "JOIN"
+            }
+            SCR_ButtonEffectText "{5CCB1A04FFEEF36E}" {
+             m_aTags {
+              "joined"
+             }
+             m_eEvents 63
+             m_sWidgetName "Text"
+             m_sDefault "LEAVE"
+             m_sHovered "LEAVE"
+             m_sDisabled "LEAVE"
+            }
+            SCR_ButtonEffectText "{5CCB1A04D91EAB7D}" {
+             m_aTags {
+              "full"
+             }
+             m_eEvents 19
+             m_sWidgetName "Text"
+             m_sDefault "FULL"
+             m_sHovered "FULL"
+             m_sDisabled "FULL"
+            }
+           }
+          }
+         }
+         {
+          SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+           Prefab "{5CB37856F029CE83}"
+           AllowWidthOverride 1
+           WidthOverride 83
+           {
+            OverlayWidgetClass "{5CB378554B951C94}" {
+             Prefab "{5CB378554B951C94}"
+             {
+              TextWidgetClass "{5CB378555DCCD4DC}" {
+               Prefab "{5CB378555DCCD4DC}"
+               Text "JOIN"
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+    VerticalLayoutWidgetClass "{5CB40A86A33804AD}" {
+     Name "m_GroupMemberList"
+     Slot LayoutSlot "{5CB40A86A33804B9}" {
+     }
+     components {
+      SCR_WidgetExportRule "{5CB40A8644DD7B34}" {
+       ExportChildWidgets 0
+      }
+     }
+    }
+   }
+  }
+ }
+}

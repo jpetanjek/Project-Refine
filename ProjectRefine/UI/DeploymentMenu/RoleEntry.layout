@@ -1,0 +1,182 @@
+ButtonWidgetClass {
+ Name "RolePanel"
+ Slot LayoutSlot "{5CB4B168EA093526}" {
+  Padding 0 0 0 5
+ }
+ Color 0 0 0 0
+ components {
+  SCR_WidgetExportRuleRoot "{5CCF29C053D02A90}" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+   ScriptAddon "$ProjectRefine:"
+   ScriptClassNamePrefix "PR_"
+  }
+  SCR_ModularButtonComponent "{5CD144D5AAE7EEAB}" {
+   m_aEffects {
+    SCR_ButtonEffectColor "{5CDF54CBDF9ABD9C}" {
+     m_eEvents 63
+     m_sWidgetName "LineBackground"
+     m_fAnimationTime 0
+     m_cDefault 0.001 0.018 0.047 1
+     m_cHovered 0.002 0.034 0.091 1
+     m_cActivated 0.001 0.018 0.047 1
+     m_cActivatedHovered 0.001 0.018 0.047 1
+     m_cDisabled 0.001 0.018 0.047 1
+     m_cDisabledActivated 0.001 0.018 0.047 1
+    }
+    SCR_ButtonEffectVisibility "{5CE1553A66914BF1}" {
+     m_eEvents 63
+     m_sWidgetName "ToggledImage"
+     m_bActivated 1
+     m_bActivatedHovered 1
+     m_bDisabledActivated 1
+    }
+   }
+   m_bCanBeToggled 1
+   m_bToggledOnlyThroughApi 1
+  }
+  PR_RoleEntryComponent "{5CCF29C06BA6DF93}" {
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{5CB4B168359E684D}" {
+   Name "SizeConstraint"
+   Slot ButtonWidgetSlot "{5CB4B168359E6815}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   AllowHeightOverride 1
+   HeightOverride 74
+   {
+    OverlayWidgetClass "{5CB4B1646782D14F}" {
+     Name "LineContent"
+     Slot AlignableSlot "{5CB4B16467816F2E}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      ImageWidgetClass "{5CB4B1646782D14E}" {
+       Name "LineBackground"
+       Slot OverlayWidgetSlot "{56A6DDC5A5263FF2}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0 0 0 1
+      }
+      HorizontalLayoutWidgetClass "{5CD68710965A1A63}" {
+       Name "HorizontalLayout0"
+       Slot OverlayWidgetSlot "{5CD68710965A1A5C}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        VerticalLayoutWidgetClass "{5CB4B164288E5CFA}" {
+         Name "LineElements"
+         Slot LayoutSlot "{5CD68716D1D78F4A}" {
+          HorizontalAlign 3
+          VerticalAlign 0
+          Padding 7 7 0 7
+          SizeMode Fill
+          FillWeight 1
+         }
+         "Fill Origin" Center
+         {
+          TextWidgetClass "{5CB4B165914B410F}" {
+           Name "m_RoleName"
+           Slot LayoutSlot "{5CB4B165914B4127}" {
+            Padding 0 0 0 6
+           }
+           Text "Role Name"
+           "Font Size" 16
+           "Min Font Size" 16
+           FontProperties FontProperties "{5CE155332AFC37C9}" {
+            Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+           }
+          }
+          TextWidgetClass "{5CB4B16594AD1516}" {
+           Name "m_RolePrimary"
+           Slot LayoutSlot "{5CB4B16594AD1534}" {
+            Padding 0 0 0 6
+           }
+           Text "Primary Weapon"
+           "Font Size" 16
+           "Min Font Size" 16
+           FontProperties FontProperties "{5CE15533327D9018}" {
+            Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+           }
+          }
+          TextWidgetClass "{5CB4B1656D49EE97}" {
+           Name "m_RoleSecondary"
+           Slot LayoutSlot "{5CB4B1656D49EEB7}" {
+           }
+           Text "Secondary Weapon"
+           "Font Size" 16
+           "Min Font Size" 16
+           FontProperties FontProperties "{5CE155333BF0590C}" {
+            Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+           }
+          }
+         }
+        }
+        SizeLayoutWidgetClass "{5CE1553BD2AE7D6B}" {
+         Name "Right"
+         Slot LayoutSlot "{5CE1553BD2AE7D5B}" {
+          HorizontalAlign 3
+          FillWeight 1
+         }
+         AllowWidthOverride 1
+         WidthOverride 50
+         {
+          VerticalLayoutWidgetClass "{5CE1553BFC205D01}" {
+           Name "VerticalLayout"
+           Slot AlignableSlot "{5CE1553BD2BAF54B}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            TextWidgetClass "{5CD68710D2CECD63}" {
+             Name "m_RoleAvailability"
+             Slot LayoutSlot "{5CE499FB6295357E}" {
+              Padding 0 5 0 0
+             }
+             Text "9 / 9"
+             "Font Size" 20
+             "Min Font Size" 20
+             "Horizontal Alignment" Center
+             "Vertical Alignment" Center
+             FontProperties FontProperties "{5CE155323AB03AE3}" {
+              Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+             }
+            }
+            ImageWidgetClass "{5CE1553B3404F929}" {
+             Name "ToggledImage"
+             Slot LayoutSlot "{5CE499FB62953558}" {
+              HorizontalAlign 1
+              VerticalAlign 3
+             }
+             Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
+             Image "check"
+             Size 32 32
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      PanelWidgetClass "{5CB4B1644CFEF758}" {
+       Name "Border"
+       Slot OverlayWidgetSlot "{56A6DDC368941F20}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding 3 3 3 3
+       }
+       "Is Visible" 0
+       Color 0.007 0.273 0.799 1
+       style outline_4px
+      }
+     }
+    }
+   }
+  }
+ }
+}

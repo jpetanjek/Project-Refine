@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F9150C6BAB374AB0}UI/layouts/WidgetLibrary/BaseElements/PR_MenuBase.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

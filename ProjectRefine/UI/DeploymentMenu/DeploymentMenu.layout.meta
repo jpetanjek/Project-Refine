@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{EC80BA3CC09774C4}UI/layouts/DeploymentMenu/PR_DeploymentMenu.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

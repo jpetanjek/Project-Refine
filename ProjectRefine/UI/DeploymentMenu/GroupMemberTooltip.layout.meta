@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{8C2232C8A9444731}UI/DeploymentMenu/Elements/Tooltip/GroupMemberTooltip.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,6 @@
+SizeLayoutWidgetClass : "{4292C8C07C6FBBD1}UI/DeploymentMenu/Elements/Tooltip/TooltipBase.layout" {
+ components {
+  PR_GroupTooltipComponent "{5CCF4D25513955C0}" {
+  }
+ }
+}

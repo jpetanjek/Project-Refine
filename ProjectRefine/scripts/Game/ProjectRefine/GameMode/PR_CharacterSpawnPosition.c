@@ -1,5 +1,5 @@
 /*
-Entity for marking character spawn positions in capture areas.
+Entity for marking character spawn positions.
 */
 
 class PR_CharacterSpawnPositionClass : SCR_PositionClass

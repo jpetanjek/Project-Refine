@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{2F5C9F6C594BB0ED}UI/DeploymentMenu/Elements/ButtonIcon.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

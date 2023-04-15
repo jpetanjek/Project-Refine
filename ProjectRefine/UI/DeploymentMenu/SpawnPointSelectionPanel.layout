@@ -1,0 +1,239 @@
+SizeLayoutWidgetClass {
+ Name "SpawnPointSelection"
+ Slot OverlayWidgetSlot "{5CB943CFB3F5F473}" {
+  HorizontalAlign 2
+  VerticalAlign 2
+ }
+ WidthOverride 450
+ AllowMinDesiredWidth 1
+ MinDesiredWidth 550
+ {
+  OverlayWidgetClass "{5CB943C0FFFDD9BF}" {
+   Name "Overlay"
+   Slot AlignableSlot "{5CB943CFB30586CF}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   {
+    OverlayWidgetClass "{5CB943C0CACAB420}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
+     Name "rootFrame0"
+     Slot OverlayWidgetSlot "{5CB943C0CACAB439}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+    }
+    VerticalLayoutWidgetClass "{5CB943C0D53287E2}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5CB943C0D53287FE}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+      Padding 10 10 10 10
+     }
+     {
+      TextWidgetClass "{5D12E842D5051351}" {
+       Name "m_DeploymentCountdownText"
+       Slot LayoutSlot "{5CC35DDCCFF7FE92}" {
+        Padding 0 0 0 10
+       }
+       Clipping False
+       Text "Deploying in 123 ..."
+       "Min Font Size" 24
+       "Vertical Alignment" Center
+       FontProperties FontProperties "{5CE5326424973141}" {
+        Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+       }
+      }
+      HorizontalLayoutWidgetClass "{5D1F2841E618889B}" {
+       Name "m_Warning0"
+       Slot LayoutSlot "{5D12A510D44B84D9}" {
+       }
+       {
+        ImageWidgetClass "{5D1F2841E6188898}" {
+         Name "WarningImage"
+         Slot LayoutSlot "{5D12A51027BE757A}" {
+         }
+         Color 0.584 0 0 1
+         Texture "{9DA6A249AD4D71C4}UI/Textures/Icons/icons_wrapperUI-48.imageset"
+         Image "warning"
+         Size 48 48
+        }
+        TextWidgetClass "{5D1F2841E61888E6}" {
+         Name "m_WarningText0"
+         Slot LayoutSlot "{5CC35DDCCFF7FE92}" {
+         }
+         Clipping False
+         Text "You picked the wrong house fool"
+         "Min Font Size" 24
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CE5326424973141}" {
+          Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+         }
+        }
+       }
+      }
+      HorizontalLayoutWidgetClass "{5D12A510D44B84CF}" {
+       Name "m_Warning1"
+       Slot LayoutSlot "{5D12A510D44B84D9}" {
+       }
+       {
+        ImageWidgetClass "{5D12A51027BE7567}" {
+         Name "WarningImage"
+         Slot LayoutSlot "{5D12A51027BE757A}" {
+         }
+         Color 0.584 0 0 1
+         Texture "{9DA6A249AD4D71C4}UI/Textures/Icons/icons_wrapperUI-48.imageset"
+         Image "warning"
+         Size 48 48
+        }
+        TextWidgetClass "{5D12A5103C7160A2}" {
+         Name "m_WarningText1"
+         Slot LayoutSlot "{5CC35DDCCFF7FE92}" {
+         }
+         Clipping False
+         Text "You picked the wrong house fool"
+         "Min Font Size" 24
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CE5326424973141}" {
+          Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+         }
+        }
+       }
+      }
+      HorizontalLayoutWidgetClass "{5CE53264DBEBD061}" {
+       Name "HorizontalLayout0"
+       Slot LayoutSlot "{5CE53264DBEBD040}" {
+       }
+       {
+        ButtonWidgetClass "{5CE6B1352FD5C3EA}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
+         Name "m_DeployButtonOld"
+         Slot LayoutSlot "{5CB378557E695658}" {
+          Padding 2 2 10 2
+         }
+         "Is Visible" 0
+         {
+          SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+           Prefab "{5CB37856F029CE83}"
+           AllowHeightOverride 1
+           HeightOverride 50
+           {
+            OverlayWidgetClass "{5CB378554B951C94}" {
+             Prefab "{5CB378554B951C94}"
+             {
+              TextWidgetClass "{5CB378555DCCD4DC}" {
+               Prefab "{5CB378555DCCD4DC}"
+               Text "Deploy"
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        ButtonWidgetClass "{5D12E84E7D8A10D4}" : "{1CCCF2A320310F12}UI/DeploymentMenu/Elements/ButtonIconText.layout" {
+         Name "m_DeployButton"
+         Slot LayoutSlot "{5CB378557E695658}" {
+         }
+         components {
+          SCR_ModularButtonComponent "{5CB3785628029158}" {
+           m_aEffects {
+            SCR_ButtonEffectOpacity "{5D12E8519BEBE205}" {
+             m_eEvents 63
+             m_sWidgetName "Image"
+             m_fAnimationTime 0
+             m_fDefault 0.1
+             m_fHovered 0.1
+             m_fActivated 1
+             m_fActivatedHovered 1
+             m_fDisabled 0.1
+             m_fDisabledActivated 0.1
+            }
+            SCR_ButtonEffectText "{5D130A6A924479B9}" {
+             m_eEvents 63
+             m_sWidgetName "Text"
+             m_sDefault "Deploy"
+             m_sHovered "Deploy"
+             m_sActivated "Deploy"
+             m_sActivatedHovered "Cancel"
+             m_sDisabled "Deploy"
+             m_sDisabledActivated "Deploy"
+            }
+           }
+           m_bCanBeToggled 1
+           m_bToggledOnlyThroughApi 1
+          }
+         }
+         {
+          SizeLayoutWidgetClass "{5CB37853F653B731}" {
+           Prefab "{5CB37853F653B731}"
+           AllowHeightOverride 1
+           HeightOverride 50
+           {
+            OverlayWidgetClass "{5CB37853F653B73F}" {
+             Prefab "{5CB37853F653B73F}"
+             {
+              HorizontalLayoutWidgetClass "{5D12E84E36D4C373}" {
+               Prefab "{5D12E84E36D4C373}"
+               {
+                ImageWidgetClass "{5D12E84E003A3E82}" {
+                 Prefab "{5D12E84E003A3E82}"
+                 Slot LayoutSlot "{5D12E8515A5342BE}" {
+                  Padding 2 0 0 0
+                 }
+                 Image "check"
+                 Size 32 32
+                }
+                TextWidgetClass "{5D12E84E358797B5}" {
+                 Prefab "{5D12E84E358797B5}"
+                 Slot LayoutSlot "{5D12E8515A5342E8}" {
+                  Padding 3 0 10 0
+                 }
+                 Text "Deploy"
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        TextWidgetClass "{5CE53264DE399F90}" {
+         Name "Text0"
+         Slot LayoutSlot "{5CC35DDCCFF7FE92}" {
+          Padding 10 0 0 0
+         }
+         Clipping False
+         Text "Spawn point:"
+         "Font Size" 30
+         "Min Font Size" 30
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CE5326424973141}" {
+          Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+         }
+        }
+        TextWidgetClass "{5CB943C0D35711A8}" {
+         Name "m_SpawnPointNameText"
+         Slot LayoutSlot "{5CC35DDCCFF7FE92}" {
+          Padding 10 0 0 0
+          SizeMode Fill
+         }
+         Clipping False
+         Text "-"
+         "Font Size" 30
+         "Min Font Size" 30
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5CE5326434851EEB}" {
+          Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

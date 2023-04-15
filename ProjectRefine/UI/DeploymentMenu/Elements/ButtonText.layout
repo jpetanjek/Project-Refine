@@ -1,0 +1,62 @@
+ButtonWidgetClass {
+ Name "Button"
+ Slot LayoutSlot "{5CB378557E695658}" {
+  Padding 2 2 2 2
+ }
+ Color 1 1 1 0
+ components {
+  SCR_ModularButtonComponent "{5CB3785628029158}" {
+   m_aEffects {
+    SCR_ButtonEffectColor "{5CDF339C477FFD14}" : "{A3127CA3228C8C36}UI/DeploymentMenu/Elements/ButtonEffectBackgroundColor.conf" {
+    }
+    SCR_ButtonEffectColor "{5CDF339C45DFB336}" : "{D5B76602C3AAF7D6}UI/DeploymentMenu/Elements/ButtonEffectTextColor.conf" {
+    }
+   }
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+   Name "SizeLayout0"
+   Slot ButtonWidgetSlot "{5CB37856F029CEE0}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   HeightOverride 40
+   {
+    OverlayWidgetClass "{5CB378554B951C94}" {
+     Name "Overlay0"
+     Slot AlignableSlot "{5CB37856F0328464}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      ImageWidgetClass "{5CB378554EB0291E}" {
+       Name "BG"
+       Slot OverlayWidgetSlot "{5CB378554EB0296B}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.033 0.033 0.033 1
+      }
+      TextWidgetClass "{5CB378555DCCD4DC}" {
+       Name "Text"
+       Slot OverlayWidgetSlot "{5CB378555DCCD535}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding 10 0 10 0
+       }
+       "Font Size" 20
+       "Min Font Size" 20
+       "Horizontal Alignment" Center
+       "Vertical Alignment" Center
+       FontProperties FontProperties "{5CB3785692FBD48F}" {
+        Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+        DisabledColor 1 1 1 1
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

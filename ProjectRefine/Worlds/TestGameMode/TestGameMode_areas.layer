@@ -89,6 +89,7 @@ $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
     m_sName "Airport"
+    m_iInitialOwnerFaction 0
    }
   }
   coords 47.892 2.032 434.957
@@ -116,7 +117,7 @@ $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
      coords -2.971 -0.002 2.364
     }
     {
-     coords -3.964 -0 2.34
+     coords -3.964 0 2.34
     }
    }
   }

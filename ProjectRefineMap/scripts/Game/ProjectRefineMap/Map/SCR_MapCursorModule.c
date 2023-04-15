@@ -223,6 +223,11 @@ modded class SCR_MapCursorModule
 		if (!m_MarkerPlacementToolComponent)
 			return;
 		
+		// Bail if we have a button under cursor
+		Widget widgetUnderCursor = WidgetManager.GetWidgetUnderCursor(); // It returns only buttons, or null
+		if (widgetUnderCursor)
+			return;
+		
 		// Bail if already placing a marker
 		//if (m_bPlacingMarker)
 		//	return;

@@ -1,14 +1,16 @@
+PR_FactionManager PR_FactionManager_USxUSSR1 : "{1D93362B44F48351}Prefabs/Managers/Factions/PR_FactionManager_USxUSSR.et" {
+ coords 9.15 79.397 517.651
+}
 SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
 }
-SCR_FactionManager FactionManager_USxUSSR1 : "{589540B35EBA8CDC}Prefabs/MP/Managers/Factions/FactionManager_USxUSSR.et" {
- Factions {
-  SCR_Faction "{56B2B46E999BF3BF}" {
-   m_aAssetList PR_EntityAssetList "{5C7B00BA9E204AE6}" : "{CBA2DE7317E6BF2A}Configs/GameMode/PR_AssetList_US.conf" {
-   }
+PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
+ components {
+  PR_RespawnSystemComponent "{5CF4BC3BD421E160}" {
+  }
+  SCR_GroupsManagerComponent "{5706EC99934496F5}" {
+   m_sDefaultGroupPrefab "{828C167E28741CAC}Prefabs/Groups/PR_PlayableGroup.et"
   }
  }
-}
-PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 146.67 65.489 364.823
  m_bRandomizeFactions 0
  m_aAreaEntities {
@@ -35,6 +37,9 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  m_fInitialFactionScore1 1000
 }
 RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
+}
+ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
+ coords 0 0 0
 }
 SCR_LoadoutManager : "{97EF4C1A41F63DDB}Prefabs/MP/Managers/Loadouts/LoadoutManager_USxUSSR.et" {
  m_aPlayerLoadouts {

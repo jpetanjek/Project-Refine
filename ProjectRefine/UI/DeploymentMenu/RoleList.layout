@@ -1,0 +1,62 @@
+SizeLayoutWidgetClass {
+ Name "RoleSelection"
+ Slot LayoutSlot "{5CB12386AAF13995}" {
+ }
+ components {
+  SCR_WidgetExportRuleRoot "{5CB4D27B7A610926}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+  }
+  PR_RoleListComponent "{5CB4D27C8039F00C}" {
+  }
+ }
+ AllowWidthOverride 1
+ WidthOverride 260
+ {
+  VerticalLayoutWidgetClass "{5CB1238627B0930E}" {
+   Name "VerticalLayout0"
+   Slot AlignableSlot "{5CB123862D353FD8}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 8 5 5 5
+   }
+   {
+    TextWidgetClass "{5CB12386D69B8627}" {
+     Name "Text0"
+     Slot LayoutSlot "{5CB1544DB3445C45}" {
+      Padding 6 6 0 10
+     }
+     Text "Roles"
+     FontProperties FontProperties "{5CDF41BF84696307}" {
+      Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+     }
+    }
+    SizeLayoutWidgetClass "{5CB12386922384B9}" {
+     Name "SizeLayout0"
+     Slot LayoutSlot "{5CB1544DB3445C57}" {
+     }
+     AllowHeightOverride 1
+     HeightOverride 1000
+     {
+      ScrollLayoutWidgetClass "{5CD12E83B19F38D8}" {
+       Name "ScrollLayout0"
+       Slot AlignableSlot "{5CD144D75ABCD2C3}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        VerticalLayoutWidgetClass "{5CD144D72EF5C58C}" {
+         Name "m_RoleListLayout"
+         Slot AlignableSlot "{5CD144D72EF5C451}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+          Padding 0 0 13 0
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

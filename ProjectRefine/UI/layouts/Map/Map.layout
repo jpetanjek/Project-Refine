@@ -1,0 +1,19 @@
+FrameWidgetClass {
+ {
+  FrameWidgetClass "{5CB566BDDD381811}" {
+   Name "MapUiElementsFrame"
+   Slot FrameWidgetSlot "{5CB566BDDD38186C}" {
+    Anchor 0 0 1 1
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX -1820
+    OffsetRight 0
+    SizeY -1050
+    OffsetBottom 0
+   }
+   "Z Order" 9
+  }
+ }
+}

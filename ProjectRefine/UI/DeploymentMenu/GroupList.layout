@@ -1,0 +1,212 @@
+SizeLayoutWidgetClass {
+ Name "GroupList"
+ Slot LayoutSlot "{5CB123865C601434}" {
+ }
+ components {
+  PR_GroupListComponent "{5CB378545F09D55F}" {
+  }
+  SCR_WidgetExportRuleRoot "{5CB37855B45410C4}" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+   ScriptAddon "$ProjectRefine:"
+   ScriptClassNamePrefix "PR_"
+  }
+ }
+ AllowWidthOverride 1
+ WidthOverride 500
+ {
+  VerticalLayoutWidgetClass "{5CB12388A4524408}" {
+   Name "VerticalLayout0"
+   Slot AlignableSlot "{5CB12388A4524464}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 5 5 5 5
+   }
+   {
+    TextWidgetClass "{5CB12388B6814180}" {
+     Name "Text0"
+     Slot LayoutSlot "{5CB12388B681419A}" {
+      Padding 6 6 0 10
+     }
+     Text "Groups"
+     FontProperties FontProperties "{5CDF41BFBF9DF654}" {
+      Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+     }
+    }
+    SizeLayoutWidgetClass "{5CD1598FDA678EB5}" {
+     Name "ScrollSize"
+     Slot LayoutSlot "{5CD1598FDA678E9F}" {
+      SizeMode Fill
+     }
+     HeightOverride 900
+     {
+      ScrollLayoutWidgetClass "{5CD1598FD6DD86C9}" {
+       Name "ScrollLayout0"
+       Slot AlignableSlot "{5CD1598FDA70D639}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        VerticalLayoutWidgetClass "{5CB12388AB64936E}" {
+         Name "m_GroupListLayout"
+         Slot AlignableSlot "{5CD1598FD6E6B0FD}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+        }
+       }
+      }
+     }
+    }
+    HorizontalLayoutWidgetClass "{5CC91A87BE4DCADF}" {
+     Name "CreateGroup"
+     Slot LayoutSlot "{5CC91A87BE4DCB28}" {
+     }
+     {
+      ButtonWidgetClass "{5CD7358AF2E0C1E4}" : "{D07ED8A849945CCE}UI/DeploymentMenu/Elements/ButtonEmpty.layout" {
+       Name "m_LockButton"
+       Slot LayoutSlot "{5CB378557E695658}" {
+       }
+       components {
+        SCR_ModularButtonComponent "{5CB3785628029158}" {
+         m_aEffects {
+          SCR_ButtonEffectOpacity "{5CB3785704BEB9C5}" {
+           m_bEnabled 0
+          }
+          SCR_ButtonEffectImage "{5CD7358BF7B33E3C}" {
+           m_eEvents 15
+           m_sWidgetName "Image"
+           m_ImageSet "{9DA6A249AD4D71C4}UI/Textures/Icons/icons_wrapperUI-48.imageset"
+           m_Default SCR_ButtonEffectImage_ImageOrImageSet "{5CD7358BFECEB7C5}" {
+            m_ImageName "server-unlocked"
+           }
+           m_Hovered SCR_ButtonEffectImage_ImageOrImageSet "{5CD7358BC7BC1AF3}" {
+            m_ImageName "server-unlocked"
+           }
+           m_Activated SCR_ButtonEffectImage_ImageOrImageSet "{5CD7358BC60BF3AD}" {
+            m_ImageName "server-locked"
+           }
+           m_ActivatedHovered SCR_ButtonEffectImage_ImageOrImageSet "{5CD7358BC5C47727}" {
+            m_ImageName "server-locked"
+           }
+          }
+          SCR_ButtonEffectColor "{5CD7358B1C186D25}" {
+           m_eEvents 15
+           m_sWidgetName "Image"
+           m_fAnimationTime 0
+           m_cDefault 0.546 0.546 0.546 1
+           m_cHovered 0.546 0.546 0.546 1
+           m_cActivated 1 1 1 1
+           m_cActivatedHovered 1 1 1 0.992
+          }
+         }
+         m_bCanBeToggled 1
+        }
+       }
+       {
+        SizeLayoutWidgetClass "{5CB37853F653B731}" {
+         Prefab "{5CB37853F653B731}"
+         AllowWidthOverride 1
+         WidthOverride 50
+         {
+          OverlayWidgetClass "{5CB37853F653B73F}" {
+           Prefab "{5CB37853F653B73F}"
+           {
+            ImageWidgetClass "{5CD7358AC4C5263D}" {
+             Name "Image"
+             Slot OverlayWidgetSlot "{5CD7358AC4C52611}" {
+             }
+             "Z Order" 10
+             Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
+             Image "server-unlocked"
+             Size 48 48
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      ButtonWidgetClass "{5CC91A873C0342DA}" : "{0022F0B45ADBC5AC}UI/layouts/WidgetLibrary/EditBox/WLib_EditBox.layout" {
+       Name "m_GroupNameEditBox"
+       Slot LayoutSlot "{5CC91A873C034306}" {
+        HorizontalAlign 3
+        Padding 4 2 4 2
+        SizeMode Fill
+       }
+       components {
+        SCR_EditBoxComponent "{547290FFBD5B33E9}" {
+         m_sLabel ""
+        }
+       }
+       {
+        VerticalLayoutWidgetClass "{5AA4D27F39EB2514}" {
+         Prefab "{5AA4D27F39EB2514}"
+         {
+          SizeLayoutWidgetClass "{5538C205B27B0F5D}" {
+           Prefab "{5538C205B27B0F5D}"
+           {
+            OverlayWidgetClass "{55367D8E531FD623}" {
+             Prefab "{55367D8E531FD623}"
+             {
+              HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
+               Prefab "{55367D8E4592BC6E}"
+               {
+                OverlayWidgetClass "{5538C2059A570E94}" {
+                 Prefab "{5538C2059A570E94}"
+                 Slot LayoutSlot "{5538C2059A570EB1}" {
+                  FillWeight 8
+                 }
+                 {
+                  HorizontalLayoutWidgetClass "{58D095EE846E2B93}" {
+                   Prefab "{58D095EE846E2B93}"
+                   {
+                    EditBoxWidgetClass "{5538C2058B18F877}" {
+                     Prefab "{5538C2058B18F877}"
+                     components {
+                      EditBoxFilterComponent "{5538D70DF38310BC}" {
+                       m_iCharacterLimit 20
+                      }
+                     }
+                     "Placeholder text" "Group name"
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      ButtonWidgetClass "{5CB378508D921CCA}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
+       Name "m_CreateGroupButton"
+       Slot LayoutSlot "{5CB378557E695658}" {
+       }
+       {
+        SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+         Prefab "{5CB37856F029CE83}"
+         {
+          OverlayWidgetClass "{5CB378554B951C94}" {
+           Prefab "{5CB378554B951C94}"
+           {
+            TextWidgetClass "{5CB378555DCCD4DC}" {
+             Prefab "{5CB378555DCCD4DC}"
+             Text "Create Group"
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

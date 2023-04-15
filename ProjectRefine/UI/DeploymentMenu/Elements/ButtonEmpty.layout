@@ -1,0 +1,44 @@
+ButtonWidgetClass {
+ Name "Button"
+ Slot LayoutSlot "{5CB378557E695658}" {
+  Padding 2 2 2 2
+ }
+ Color 1 1 1 0
+ components {
+  SCR_ModularButtonComponent "{5CB3785628029158}" {
+   m_aEffects {
+    SCR_ButtonEffectColor "{5CDF339C935EF450}" : "{A3127CA3228C8C36}UI/DeploymentMenu/Elements/ButtonEffectBackgroundColor.conf" {
+    }
+   }
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{5CB37853F653B731}" {
+   Name "SizeLayout0"
+   Slot ButtonWidgetSlot "{5CB37856F029CEE0}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   HeightOverride 40
+   {
+    OverlayWidgetClass "{5CB37853F653B73F}" {
+     Name "Overlay0"
+     Slot AlignableSlot "{5CB37856F0328464}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      ImageWidgetClass "{5CB37853F653B73D}" {
+       Name "BG"
+       Slot OverlayWidgetSlot "{5CB378554EB0296B}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.033 0.033 0.033 1
+      }
+     }
+    }
+   }
+  }
+ }
+}

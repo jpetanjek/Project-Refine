@@ -46,7 +46,7 @@ class PR_GameMode : SCR_BaseGameMode
 	protected ref array<float> m_aFactionScore = {}; //!! It's synchronized via replication
 	
 	// Game mode stage
-	[RplProp (onRplName: "OnGameModeChangedClient")]
+	[RplProp(onRplName: "OnGameModeChangedClient")]
 	protected PR_EGameModeStage m_eGameModeStage = PR_EGameModeStage.PREPARATION;
 	
 	// Events
@@ -214,22 +214,23 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
-	override void EOnDiag(IEntity owner, float timeSlice)
-	{
-		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL))
-			DrawGameModePanel();
-	}
-	
-	//-------------------------------------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
 		
 		InitDiagMenu();
 		
+		if(Replication.IsClient())
+			return;
+		
 		SCR_AIGroup.GetOnPlayerRemoved().Insert(OnGroupPlayerRemoved);
 		
 		m_GroupManager = SCR_GroupsManagerComponent.GetInstance();
+		
+		if(m_GroupManager)
+		{
+			m_GroupManager.GetOnPlayableGroupCreated().Insert(Event_OnPlayableGroupCreated);
+		}
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -578,6 +579,14 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
+	array<PR_CaptureArea> GetCaptureAreas()
+	{
+		array<PR_CaptureArea> a = {};
+		a.Copy(m_aAreas);
+		return a;
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
 	// Assets
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -616,6 +625,44 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
+	// Roles
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	
+	void Event_OnPlayableGroupCreated(SCR_AIGroup group)
+	{
+		if(Replication.IsClient())
+			return;
+		
+		if (!group)
+			return;
+		
+		PR_GroupRoleManagerComponent groupRoleManagerComponent = PR_GroupRoleManagerComponent.Cast(group.FindComponent(PR_GroupRoleManagerComponent));
+		
+		if(!groupRoleManagerComponent)
+			return;
+		
+		// Hard coded group initialization for now
+		// Get faction of group
+		SCR_Faction groupFaction = SCR_Faction.Cast(group.GetFaction());
+		PR_RoleList fullRoleList = groupFaction.GetRoleList();
+		if(fullRoleList == null)
+			return;
+				
+		array<PR_Role> roleList = {};
+		fullRoleList.GetRoleList(roleList);
+		
+		array<int> roleAvailability = {};
+		
+		for(int i = 0; i < roleList.Count(); i++)
+		{
+			roleAvailability.Insert(roleList[i].GetDefaultCount());
+		}
+		
+		groupRoleManagerComponent.InitializeAvailability(roleAvailability);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
 	// Called by asset spawner
 	void OnAssetSpawned(PR_AssetSpawner spawner, IEntity entity, int factionId)
 	{
@@ -634,10 +681,10 @@ class PR_GameMode : SCR_BaseGameMode
 		FactionManager fm = GetGame().GetFactionManager();
 		
 		// Not character - probably vehicle
-		PR_EntityInfoComponent infoComp = PR_EntityInfoComponent.Cast(entity.FindComponent(PR_EntityInfoComponent));
+		PR_AssetInformerComponent infoComp = PR_AssetInformerComponent.Cast(entity.FindComponent(PR_AssetInformerComponent));
 		if (!infoComp)
 		{
-			_print(string.Format("Didn't find PR_EntityInfoComponent on entity: %1, %2", entity, entity.GetPrefabData().GetPrefabName()));
+			_print(string.Format("Didn't find PR_AssetInformerComponent on entity: %1, %2", entity, entity.GetPrefabData().GetPrefabName()));
 			return;
 		}
 		
@@ -738,8 +785,12 @@ class PR_GameMode : SCR_BaseGameMode
 		DiagMenu.RegisterMenu(SCR_DebugMenuID.REFINE_MENU_ID, cheatMenuName, "");
 		
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL, "", "Game Mode Panel", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREAS_STATE, "", "Capture Areas State", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREA_STATE, "", "Capture Area State", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_ASSET_SPAWNER_STATE, "", "Asset Spawner State", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_SPAWN_POINT_STATE, "", "Spawn Point State", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, "", "Show Faction Menu", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, "", "Show Deployment Menu", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_AUTO_DEPLOYMENT_MENU, "", "Disable auto depl. menu", cheatMenuName);
 	}
 	
 	void DrawGameModePanel()
@@ -759,5 +810,46 @@ class PR_GameMode : SCR_BaseGameMode
 		DbgUI.Text(" ");
 		
 		DbgUI.End();
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	override void EOnDiag(IEntity owner, float timeSlice)
+	{
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL))
+			DrawGameModePanel();
+		
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU))
+		{
+			// Assign faction to all players
+			array<int>  allPlayers = {};
+			GetGame().GetPlayerManager().GetAllPlayers(allPlayers);
+			foreach (int playerId : allPlayers)
+			{
+				SCR_RespawnSystemComponent.GetInstance().SetPlayerFaction(playerId, 0);
+			}
+			
+			RpcDo_DiagOpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
+			Rpc(RpcDo_DiagOpenMenu, ChimeraMenuPreset.RefineDeploymentMenu);
+			
+			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, 0);
+		}
+		
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU))
+		{
+			MenuManager mm = GetGame().GetMenuManager();
+			RpcDo_DiagOpenMenu(ChimeraMenuPreset.RefineFactionSelectionMenu);
+			Rpc(RpcDo_DiagOpenMenu, ChimeraMenuPreset.RefineFactionSelectionMenu);
+			
+			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, 0);
+		}
+	}
+	
+	// Just for debugging - opens deployment menu for everyone
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+	void RpcDo_DiagOpenMenu(int menuId)
+	{	
+		MenuManager mm = GetGame().GetMenuManager();
+		mm.CloseMenuByPreset(menuId);
+		mm.OpenMenu(menuId);
 	}
 }

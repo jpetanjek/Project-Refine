@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{D9138750E10BDAA4}Configs/GameMode/PR_AssetList_USSR.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}
