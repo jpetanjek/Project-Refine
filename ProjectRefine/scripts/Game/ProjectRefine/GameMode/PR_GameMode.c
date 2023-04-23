@@ -791,6 +791,11 @@ class PR_GameMode : SCR_BaseGameMode
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, "", "Show Faction Menu", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, "", "Show Deployment Menu", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_AUTO_DEPLOYMENT_MENU, "", "Disable auto depl. menu", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_SUPPLY_HOLDER_INFO, "", "Display Supply info", cheatMenuName);
+		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_HOLDER_IDX, "", "Holder IDX", cheatMenuName, "0, 128, 0, 1");
+		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_SUPPLY_AMOUNT, "", "Supply amount", cheatMenuName, "0, 1000, 100, 100");
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GIVE_SUPPLY, "", "Give Supply", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_TAKE_SUPPLY, "", "Take Supply", cheatMenuName);
 	}
 	
 	void DrawGameModePanel()
