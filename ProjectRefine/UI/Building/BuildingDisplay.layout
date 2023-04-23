@@ -1,0 +1,96 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ components {
+  SCR_WidgetExportRuleRoot "{5D2EE8BD5F55E127}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
+   DestinationPath "{C676C380D098DC73}scripts/Game/ProjectRefine/UI/Building"
+   GenerateFullWidgetPath 0
+  }
+ }
+ {
+  FrameWidgetClass "{5D2ECD3F47503CBD}" {
+   Name "Frame0"
+   Slot FrameWidgetSlot "{5D2ECD3F47503CE6}" {
+    Anchor 0.5 0.8 0.5 0.8
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX 1400
+    OffsetRight -1400
+    SizeY 200
+    OffsetBottom -200
+    Alignment 0.5 0.5
+   }
+   {
+    HorizontalLayoutWidgetClass "{5D2ECD3FAA6CB584}" {
+     Name "m_EntryNames"
+     Slot FrameWidgetSlot "{5D2ECD3FAA6CB5E3}" {
+      Anchor 0.5 0.5 0.5 0.5
+      PositionX -100
+      OffsetLeft -100
+      PositionY 0
+      OffsetTop 0
+      SizeX 100
+      OffsetRight 0
+      SizeY 60
+      OffsetBottom -60
+      Alignment 0 0.5
+      SizeToContent 1
+     }
+     {
+      SizeLayoutWidgetClass "{5D2ECD3F9BC7328B}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+       Name "EntryName0"
+       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       }
+       AllowWidthOverride 1
+       WidthOverride 200
+      }
+      SizeLayoutWidgetClass "{5D2ECD3FEAF29DF9}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+       Name "EntryName1"
+       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       }
+      }
+      SizeLayoutWidgetClass "{5D2ECD3FEA307668}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+       Name "EntryName2"
+       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       }
+      }
+      SizeLayoutWidgetClass "{5D2ECD39E3E6A44D}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+       Name "EntryName3"
+       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       }
+      }
+      SizeLayoutWidgetClass "{5D2ECD39E32FB356}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+       Name "EntryName4"
+       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       }
+      }
+      SizeLayoutWidgetClass "{5D2ECD39E2D5197C}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+       Name "EntryName5"
+       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       }
+      }
+     }
+    }
+    ImageWidgetClass "{5D2ECD38A0F17499}" {
+     Name "Image0"
+     Slot FrameWidgetSlot "{5D2ECD38A0F174F4}" {
+      Anchor 0.5 0.5 0.5 0.5
+      PositionX 0
+      OffsetLeft 0
+      PositionY 10
+      OffsetTop 10
+      SizeX 32
+      OffsetRight -32
+      SizeY 32
+      OffsetBottom -42
+      Alignment 0.5 0
+     }
+     Rotation 270
+     Texture "{45AAA018767160BD}UI/Textures/WidgetLibrary/PagingArrow.edds"
+     Size 100 100
+    }
+   }
+  }
+ }
+}
