@@ -7,7 +7,7 @@ class PR_SupplyHolderComponentClass : ScriptComponentClass
 //! Makes a entity able to carry supplies
 class PR_SupplyHolderComponent : ScriptComponent
 {
-	[RplProp()]
+	[Attribute("0", desc: "Starting supply amount."),RplProp()]
 	int m_iSupply; // Current supply count
 	
 	[Attribute("0", desc: "Maximum supplies this component can hold."), RplProp()]
@@ -31,16 +31,25 @@ class PR_SupplyHolderComponent : ScriptComponent
 	
 	Physics m_physComponent;
 	
+	RplComponent m_RplComponent;
+	
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
 		
-		SetEventMask(owner, EntityEvent.FIXEDFRAME | EntityEvent.DIAG);
-		owner.SetFlags(EntityFlags.ACTIVE, true);
+		SetEventMask(owner, EntityEvent.INIT);
 		
 		m_aAllHolders.Insert(this);
 		
 		m_physComponent = owner.GetPhysics();
+		
+		m_RplComponent = RplComponent.Cast(owner.FindComponent(RplComponent));
+	}
+	
+	override void EOnInit(IEntity owner)
+	{
+		SetEventMask(owner, EntityEvent.FRAME | EntityEvent.DIAG);
+		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
 	
 	void ~PR_SupplyHolderComponent()
@@ -50,15 +59,14 @@ class PR_SupplyHolderComponent : ScriptComponent
 			m_aAllHolders.Remove(idx);
 	}
 	
-	override void EOnFixedFrame(IEntity owner, float timeSlice)
+	override void EOnFrame(IEntity owner, float timeSlice)
 	{
 		m_fElapsedTime += timeSlice;
-		
 		if(m_fElapsedTime >= 1)
 		{
 			m_fElapsedTime = 0;
 			
-			if(Replication.IsClient())
+			if(m_RplComponent && m_RplComponent.IsProxy())
 			{
 				if(m_bCanTransact)
 				{
@@ -178,6 +186,10 @@ class PR_SupplyHolderComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
+		int amount = DiagMenu.GetValue(SCR_DebugMenuID.REFINE_SUPPLY_AMOUNT);
+		int holderIdx = DiagMenu.GetValue(SCR_DebugMenuID.REFINE_HOLDER_IDX);
+		int targetIdx = DiagMenu.GetValue(SCR_DebugMenuID.REFINE_TARGET_IDX);
+		
 		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_SUPPLY_HOLDER_INFO))
 		{
 			// Draw debug text
@@ -185,6 +197,17 @@ class PR_SupplyHolderComponent : ScriptComponent
 		 	const int COLOR_BACKGROUND = Color.BLACK;
 			
 			string s;
+			
+			s = s + string.Format("IDX: %1\n", m_aAllHolders.Find(this));
+			
+			if(m_aAllHolders.IsIndexValid(holderIdx))
+			{
+				int thisIdx = m_aAllHolders[holderIdx].m_aAvailableHolders.Find(this);
+				if(m_aAllHolders[holderIdx].m_aAvailableHolders.IsIndexValid(thisIdx))
+				{
+					s = s + string.Format("Available IDX: %1\n", thisIdx);
+				}
+			}
 			
 			s = s + string.Format("Supply: %1\n", m_iSupply);
 			
@@ -196,23 +219,24 @@ class PR_SupplyHolderComponent : ScriptComponent
 			Shape.CreateCylinder(Color.RED, ShapeFlags.VISIBLE | ShapeFlags.ONCE | ShapeFlags.WIREFRAME, GetOwner().GetOrigin(), m_fRange, 40.0);
 		}
 		
-		int amount = DiagMenu.GetValue(SCR_DebugMenuID.REFINE_SUPPLY_AMOUNT);
-		int holderIdx = DiagMenu.GetValue(SCR_DebugMenuID.REFINE_HOLDER_IDX);
 		
-		if(m_aAvailableHolders.IsIndexValid(holderIdx))
+		
+		if(m_aAvailableHolders.IsIndexValid(targetIdx) && holderIdx == m_aAllHolders.Find(this))
 		{
-			RplComponent rplComponent = RplComponent.Cast(m_aAvailableHolders[holderIdx].GetOwner().FindComponent(RplComponent));
+			RplComponent rplComponent = RplComponent.Cast(m_aAvailableHolders[targetIdx].GetOwner().FindComponent(RplComponent));
 			RplId target = rplComponent.Id();
 			if(target.IsValid())
 			{
 				if(DiagMenu.GetBool(SCR_DebugMenuID.REFINE_TAKE_SUPPLY))
 				{
+					Print("TAKE SUPPLY");
 					Rpc(SupplyAction, target, amount, true);
 				}
 				
 				if(DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GIVE_SUPPLY))
 				{
-					Rpc(SupplyAction, target, amount, false);
+					Print("GIVE SUPPLY");
+					Rpc(SupplyAction, target, amount, false); // Move this to PlayerController/ actions
 				}
 			}
 		}		

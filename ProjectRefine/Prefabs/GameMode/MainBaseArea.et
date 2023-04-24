@@ -7,6 +7,12 @@ GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
   PR_SpawnPoint "{5CB717EFD748B076}" {
    m_fEnemyOccupationRadius 0
   }
+  PR_SupplyHolderComponent "{5D312A22CE019BD8}" {
+   m_iSupply 500
+   m_iMaxSupplies 1000
+   m_fRange 3000
+   m_fTransferSpeed 100
+  }
  }
  {
   PR_PreparationPhaseCollider : "{947F4D9721642331}Prefabs/GameMode/PR_PreparationPhaseCollider.et" {
