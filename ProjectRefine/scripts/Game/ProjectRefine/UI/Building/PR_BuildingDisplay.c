@@ -3,6 +3,9 @@ class PR_BuildingEntry
 {
 	[Attribute(desc: "Name to be shown in UI")]
 	string m_sDisplayName;
+	
+	[Attribute(desc: "Description to be shown in UI")]
+	string m_sDescription;
 }
 
 [BaseContainerProps(configRoot: true), BaseContainerCustomTitleField("m_sDisplayName")]
@@ -47,11 +50,21 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	
 	protected ref PR_BuildingDisplayWidgets widgets = new PR_BuildingDisplayWidgets();
 	
-	// Stack of entries which are added as we go deeper into the menu
+	// Root of currently open building entry configuration
+	protected PR_BuildingEntryCategory m_BuildingEntryRoot;
+	
+	// Stack of entries and last child entry IDs which are added as we go deeper into the menu
 	protected ref array<PR_BuildingEntry> m_aEntryStack = {};
+	protected ref array<int> m_aChildEntryIdStack = {};
 	
 	// ID of current entry when a category is open
 	protected int m_iCurrentEntryId;
+	
+	protected bool m_bActive;
+	
+	
+	// Constants
+	protected const float ANIMATION_FADE_IN_SPEED = 6.0;
 	
 	override event void OnStartDraw(IEntity owner)
 	{
@@ -61,9 +74,10 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		InputManager im = GetGame().GetInputManager();
 		im.AddActionListener("PR_BuildingPrev", EActionTrigger.DOWN, Callback_OnPrev);
 		im.AddActionListener("PR_BuildingNext", EActionTrigger.DOWN, Callback_OnNext); 
+		im.AddActionListener("PR_BuildingOpen", EActionTrigger.DOWN, Callback_OnOpen);
+		im.AddActionListener("PR_BuildingClose", EActionTrigger.DOWN, Callback_OnClose);
 		
-		// Temporary
-		OpenEntry(m_BuildingEntry);
+		Deactivate();
 	}
 	
 	override event void OnStopDraw(IEntity owner)
@@ -71,13 +85,53 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		InputManager im = GetGame().GetInputManager();
 		im.RemoveActionListener("PR_BuildingPrev", EActionTrigger.DOWN, Callback_OnPrev);
 		im.RemoveActionListener("PR_BuildingNext", EActionTrigger.DOWN, Callback_OnNext); 
+		im.RemoveActionListener("PR_BuildingOpen", EActionTrigger.DOWN, Callback_OnOpen);
+		im.RemoveActionListener("PR_BuildingClose", EActionTrigger.DOWN, Callback_OnClose);
 	}
 	
 	override event void UpdateValues(IEntity owner, float timeSlice)
 	{
-		GetGame().GetInputManager().ActivateContext("PR_BuildingContext", 0);
+		InputManager im = GetGame().GetInputManager();
+
+		if (m_bActive)
+			im.ActivateContext("PR_BuildingContext", 0);
 	}
 
+	//----------------------------------------------------------------
+	// Activation and deactivation
+	
+	static void ActivateBuilding()
+	{
+		PlayerController pc = GetGame().GetPlayerController();
+		HUDManagerComponent hudMgr = HUDManagerComponent.Cast(pc.FindComponent(HUDManagerComponent));
+		array<BaseInfoDisplay> displays = {};
+		hudMgr.GetInfoDisplays(displays);
+		foreach (BaseInfoDisplay display : displays)
+		{
+			PR_BuildingDisplay buildingDisplay = PR_BuildingDisplay.Cast(display);
+			if (buildingDisplay)
+			{
+				buildingDisplay.Activate(PR_BuildingEntryCategory.Cast(buildingDisplay.m_BuildingEntry));
+				return;
+			}
+		}
+	}
+	
+	protected void Deactivate()
+	{
+		m_bActive = false;
+		GetRootWidget().SetVisible(false);
+	}
+	
+	protected void Activate(PR_BuildingEntryCategory buildingEntryRoot)
+	{
+		m_BuildingEntryRoot = buildingEntryRoot;
+		m_iCurrentEntryId = 0;
+		GetRootWidget().SetVisible(true);
+		OpenEntry(m_BuildingEntryRoot);
+		m_bActive = true;
+	}
+	
 	
 	//----------------------------------------------------------------
 	// Entry operations
@@ -85,46 +139,62 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	// Going into the hierarchy
 	void OpenEntry(PR_BuildingEntry entry)
 	{
-		m_aEntryStack.Insert(entry);
+		// Save ID of currently selected child
+		if (!m_aChildEntryIdStack.IsEmpty())
+			m_aChildEntryIdStack[m_aChildEntryIdStack.Count()-1] = m_iCurrentEntryId;
 		
-		ProcessEntry(entry);
+		// Push new entry to stack
+		m_aEntryStack.Insert(entry);
+		m_aChildEntryIdStack.Insert(0);
+		
+		ProcessEntry(entry, 0);
 	}
 	
 	// Going back rowards the root
 	void CloseEntry()
 	{
-		m_aEntryStack.Remove(m_aEntryStack.Count()-1); // Remove last
+		int size = m_aEntryStack.Count();
 		
-		ProcessEntry(m_aEntryStack[m_aEntryStack.Count()-1]); // Open the entry before last
+		m_aEntryStack.Remove(size-1); // Remove last
+		m_aChildEntryIdStack.Remove(size-1);
+		size = size - 1;
+		
+		if (size > 0)
+		{
+			int prevChildId = m_aChildEntryIdStack[size-1];
+			ProcessEntry(m_aEntryStack[size-1], prevChildId); // Open the entry before last
+		}
+		else
+			Deactivate();
 	}
 	
-	// Going to next entry in a category
-	void NextEntry()
+	// Going to next/prev entry in a category
+	void CycleEntry(int offsetSign)
 	{
 		PR_BuildingEntryCategory category = GetCurrentCategory();
 		
-		if (m_iCurrentEntryId == category.m_aEntries.Count()-1)
-			return;
+		int count = category.m_aEntries.Count();
+		if (offsetSign > 0)
+		{
+			m_iCurrentEntryId++;
+			if (m_iCurrentEntryId >= count)
+				m_iCurrentEntryId = 0;
+		}
+		else
+		{
+			m_iCurrentEntryId--;
+			if (m_iCurrentEntryId < 0)
+				m_iCurrentEntryId = count-1;
+		}
 		
-		m_iCurrentEntryId++;
 		SetEntriesXPos(m_iCurrentEntryId, true);
+		SetDescriptionText(m_iCurrentEntryId);
 	}
 	
-	// Going to previous entry in a category
-	void PrevEntry()
-	{
-		PR_BuildingEntryCategory category = GetCurrentCategory();
-		
-		if (m_iCurrentEntryId == 0)
-			return;
-		
-		m_iCurrentEntryId--;
-		SetEntriesXPos(m_iCurrentEntryId, true);
-	}
-	
-	void ProcessEntry(PR_BuildingEntry entry)
+	void ProcessEntry(PR_BuildingEntry entry, int childEntryId)
 	{
 		PR_BuildingEntryCategory category = PR_BuildingEntryCategory.Cast(entry);
+		
 		if (category)
 		{
 			// Show category
@@ -140,13 +210,24 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 				wText.SetText(e.m_sDisplayName);
 			}
 			
-			m_iCurrentEntryId = 0;
-			SetEntriesXPos(0, false);
+			m_iCurrentEntryId = childEntryId;
+			
+			// Animate entry names position
+			SetEntriesXPos(m_iCurrentEntryId, false);
+			
+			// Animate entry names opacity
+			widgets.m_EntryNames.SetOpacity(0);
+			AnimateWidget.Opacity(widgets.m_EntryNames, 1, ANIMATION_FADE_IN_SPEED);
+			
+			SetDescriptionText(m_iCurrentEntryId);
 		}
 		else if (PR_BuildingEntryAsset.Cast(entry))
 		{
 			// Start building mode
 		}
+		
+		// Entry name
+		widgets.m_CurrentEntryNameText.SetText(entry.m_sDisplayName);
 	}
 	
 	//----------------------------------------------------------------
@@ -181,6 +262,14 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			FrameSlot.SetPosX(widgets.m_EntryNames, CalculateEntriesXPos(id));
 	}
 	
+	void SetDescriptionText(int id)
+	{
+		widgets.m_DescriptionText.SetText(GetCurrentCategory().m_aEntries[id].m_sDescription);
+		
+		widgets.m_DescriptionText.SetOpacity(0);
+		AnimateWidget.Opacity(widgets.m_DescriptionText, 1.0, ANIMATION_FADE_IN_SPEED);
+	}
+	
 	float CalculateEntriesXPos(int id)
 	{
 		const float entryWidth = 200;
@@ -196,7 +285,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (!GetCurrentCategory())
 			return;
 		
-		NextEntry();
+		CycleEntry(1);
 	}
 	
 	void Callback_OnPrev()
@@ -205,6 +294,22 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (!GetCurrentCategory())
 			return;
 		
-		PrevEntry();
+		CycleEntry(-1);
+	}
+	
+	void Callback_OnOpen()
+	{
+		PR_BuildingEntryCategory category = GetCurrentCategory();
+		
+		if (!category)
+			return;
+		
+		PR_BuildingEntry currentEntry = category.m_aEntries[m_iCurrentEntryId];
+		OpenEntry(currentEntry);
+	}
+	
+	void Callback_OnClose()
+	{
+		CloseEntry();
 	}
 }

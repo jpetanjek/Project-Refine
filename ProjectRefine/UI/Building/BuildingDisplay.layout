@@ -22,6 +22,29 @@ FrameWidgetClass {
     Alignment 0.5 0.5
    }
    {
+    TextWidgetClass "{5D315C0BB1858C8C}" {
+     Name "m_DescriptionText"
+     Slot FrameWidgetSlot "{5D315C0BB1858C9B}" {
+      Anchor 0 0 1 0.4
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX -1300
+      OffsetRight 0
+      SizeY -50
+      OffsetBottom 0
+     }
+     Text "The Yamaha FZS600 Fazer is a sport motorcycle produced by Yamaha between 1998 and 2004. It is the predecessor of the Yamaha FZ6. During its production run, it underwent several changes before being discontinued in 2004 due to European emissions laws coming into force."
+     "Horizontal Alignment" Center
+     "Vertical Alignment" Center
+     Wrap 1
+     FontProperties FontProperties "{5D315C0B9661D38A}" {
+      Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+      OutlineSize 3
+      OutlineColor 0 0 0 0.502
+     }
+    }
     HorizontalLayoutWidgetClass "{5D2ECD3FAA6CB584}" {
      Name "m_EntryNames"
      Slot FrameWidgetSlot "{5D2ECD3FAA6CB5E3}" {
@@ -44,6 +67,7 @@ FrameWidgetClass {
        }
        AllowWidthOverride 1
        WidthOverride 200
+       HeightOverride 24
       }
       SizeLayoutWidgetClass "{5D2ECD3FEAF29DF9}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
        Name "EntryName1"
@@ -89,6 +113,21 @@ FrameWidgetClass {
      Rotation 270
      Texture "{45AAA018767160BD}UI/Textures/WidgetLibrary/PagingArrow.edds"
      Size 100 100
+    }
+    TextWidgetClass "{5D315319BB9FD335}" : "{0C3F7DC8494C8308}UI/Building/EntryNameText.layout" {
+     Name "m_CurrentEntryNameText"
+     Slot FrameWidgetSlot "{5D315319BB9FD30E}" {
+      Anchor 0.5 0.5 0.5 0.5
+      PositionX 0
+      OffsetLeft 0
+      PositionY 50
+      OffsetTop 50
+      OffsetRight -100
+      OffsetBottom -80
+      Alignment 0.5 0
+      SizeToContent 1
+     }
+     Clipping False
     }
    }
   }

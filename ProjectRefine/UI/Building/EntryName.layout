@@ -4,21 +4,12 @@ SizeLayoutWidgetClass {
  }
  AllowWidthOverride 1
  WidthOverride 200
+ AllowHeightOverride 1
+ HeightOverride 32
  {
-  TextWidgetClass "{5D2EE8BAE9747005}" {
+  TextWidgetClass "{5D315319B0F97C4D}" : "{0C3F7DC8494C8308}UI/Building/EntryNameText.layout" {
    Name "NameText"
    Slot AlignableSlot "{5D2ECD3FFBD8A397}" {
-    HorizontalAlign 3
-    VerticalAlign 3
-    Padding 0 4 0 4
-   }
-   Text "Entry Name"
-   "Font Size" 22
-   "Min Font Size" 22
-   "Horizontal Alignment" Center
-   "Vertical Alignment" Center
-   FontProperties FontProperties "{5D2ECD3FE30ED8A8}" {
-    Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
    }
   }
  }
