@@ -32,7 +32,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 	Physics m_physComponent;
 	
 	RplComponent m_RplComponent;
-	
+		
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
@@ -115,49 +115,20 @@ class PR_SupplyHolderComponent : ScriptComponent
 		}
 	}
 	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void SupplyAction(RplId target, int amount, bool take) // If the target will take or give supplies
-	{
-		RplComponent rplComponent = RplComponent.Cast(Replication.FindItem(target));
-		if(!rplComponent)
-			return;
-		
-		GenericEntity entity = GenericEntity.Cast(rplComponent.GetEntity());
-		if(!entity)
-			return;
-		
-		PR_SupplyHolderComponent component = PR_SupplyHolderComponent.Cast(entity.FindComponent(PR_SupplyHolderComponent));
-		if(component)
-			return;
-		
-		vector thisTransform[4];
-		vector cmpTransform[4];
-		GetOwner().GetWorldTransform(thisTransform);
-		entity.GetWorldTransform(cmpTransform);
-		float distance = vector.Distance(thisTransform, cmpTransform);
-		
-		if(distance > m_fRange)
-			return;
-		
-		if(take)
-		{
-			TakeSupplies(component, amount); 
-		}
-		else
-		{
-			GiveSupplies(component, amount);
-		}
-	}
-	
 	bool GiveSupplies(PR_SupplyHolderComponent taker, int amount)
-	{		
+	{
+		if(m_RplComponent.IsProxy())
+			return false;
+		
+		Print("Server got GiveSupplies request");
+		
 		if(!m_bCanTransact || !taker.m_bCanTransact)
 			return false;
 		
 		if(m_iSupply >= amount && (taker.m_iSupply + amount) < taker.m_iMaxSupplies)
 		{
-			m_iSupply -= amount;
-			taker.m_iSupply += amount;
+			SetSupply(m_iSupply - amount);
+			taker.SetSupply(taker.m_iSupply + amount);
 			
 			Replication.BumpMe();
 			
@@ -168,25 +139,34 @@ class PR_SupplyHolderComponent : ScriptComponent
 	
 	bool TakeSupplies(PR_SupplyHolderComponent giver, int amount)
 	{
+		if(m_RplComponent.IsProxy())
+			return false;
+		
+		Print("Server got GiveSupplies request");
+		
 		if(!m_bCanTransact || !giver.m_bCanTransact)
 			return false;
 		
 		if(giver.m_iSupply >= amount && (m_iSupply + amount) < m_iMaxSupplies)
 		{
-			giver.m_iSupply -= amount;	
-			m_iSupply += amount;
-			
-			Replication.BumpMe();
-			
+			giver.SetSupply(giver.m_iSupply - amount);	
+			SetSupply(m_iSupply + amount);
+						
 			return true;
 		}
 		return false;
 	}
 	
+	protected void SetSupply(int amount)
+	{
+		m_iSupply = amount;
+		Replication.BumpMe();
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
-		int amount = DiagMenu.GetValue(SCR_DebugMenuID.REFINE_SUPPLY_AMOUNT);
+		int amount = 100 + DiagMenu.GetValue(SCR_DebugMenuID.REFINE_SUPPLY_AMOUNT);
 		int holderIdx = DiagMenu.GetValue(SCR_DebugMenuID.REFINE_HOLDER_IDX);
 		int targetIdx = DiagMenu.GetValue(SCR_DebugMenuID.REFINE_TARGET_IDX);
 		
@@ -214,29 +194,36 @@ class PR_SupplyHolderComponent : ScriptComponent
 			s = s + string.Format("In range count: %1\n", m_aAvailableHolders.Count());
 			
 			vector pos = owner.GetOrigin() + Vector(0, 5, 0);
-			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+			if(holderIdx == m_aAllHolders.Find(this))
+				DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_RED);
+			else if(m_aAllHolders.IsIndexValid(holderIdx) && targetIdx == m_aAllHolders[holderIdx].m_aAvailableHolders.Find(this))
+				DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_GREEN);
+			else
+				DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+
 			
 			Shape.CreateCylinder(Color.RED, ShapeFlags.VISIBLE | ShapeFlags.ONCE | ShapeFlags.WIREFRAME, GetOwner().GetOrigin(), m_fRange, 40.0);
 		}
 		
-		
-		
-		if(m_aAvailableHolders.IsIndexValid(targetIdx) && holderIdx == m_aAllHolders.Find(this))
+		if(m_aAvailableHolders.IsIndexValid(targetIdx) && holderIdx == m_aAllHolders.Find(this) && m_RplComponent)
 		{
 			RplComponent rplComponent = RplComponent.Cast(m_aAvailableHolders[targetIdx].GetOwner().FindComponent(RplComponent));
 			RplId target = rplComponent.Id();
+						
 			if(target.IsValid())
 			{
 				if(DiagMenu.GetBool(SCR_DebugMenuID.REFINE_TAKE_SUPPLY))
 				{
 					Print("TAKE SUPPLY");
-					Rpc(SupplyAction, target, amount, true);
+					PR_PC_SupplyHolderInformerComponent.GetLocalPlayerControllerSupplyHolderInformerComponent().RequestSupplyAction(m_RplComponent.Id(), target, amount, true);
+					DiagMenu.SetValue(SCR_DebugMenuID.REFINE_TAKE_SUPPLY, false);
 				}
 				
 				if(DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GIVE_SUPPLY))
 				{
 					Print("GIVE SUPPLY");
-					Rpc(SupplyAction, target, amount, false); // Move this to PlayerController/ actions
+					PR_PC_SupplyHolderInformerComponent.GetLocalPlayerControllerSupplyHolderInformerComponent().RequestSupplyAction(m_RplComponent.Id(), target, amount, false);
+					DiagMenu.SetValue(SCR_DebugMenuID.REFINE_GIVE_SUPPLY, false);
 				}
 			}
 		}		

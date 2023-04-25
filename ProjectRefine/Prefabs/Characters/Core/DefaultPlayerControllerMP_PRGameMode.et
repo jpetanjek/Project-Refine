@@ -1,6 +1,8 @@
 SCR_PlayerController : "{225E51284CC95CFA}Prefabs/Characters/Core/DefaultPlayerControllerMP.et" {
  ID "1A9BA6BEFA06E3B1"
  components {
+  PR_PC_SupplyHolderInformerComponent "{5D33229BB4866990}" {
+  }
   PR_PlayerControllerDeploymentComponent "{5D11466126162781}" {
   }
   PR_PlayerControllerRoleComponent "{5CD70807C988CB3E}" {
