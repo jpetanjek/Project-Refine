@@ -13,7 +13,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 	[Attribute("0", desc: "Maximum supplies this component can hold."), RplProp()]
 	int m_iMaxSupplies;
 	
-	protected ref array<PR_SupplyHolderComponent> m_aAvailableHolders = {};
+	ref array<PR_SupplyHolderComponent> m_aAvailableHolders = {};
 	
 	// Server only
 	protected static ref array<PR_SupplyHolderComponent> m_aAllHolders = {};
@@ -80,7 +80,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 		}
 	}
 	
-	void GetAvailableHolders()
+	protected void GetAvailableHolders()
 	{
 		// Fill in m_aAvailableHolders from m_aAllHolders
 		m_aAvailableHolders.Clear();
@@ -99,7 +99,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 		}
 	}
 	
-	void SetTransactionAvailability()
+	protected void SetTransactionAvailability()
 	{
 		// Check speed and set variable
 		if(m_physComponent)
