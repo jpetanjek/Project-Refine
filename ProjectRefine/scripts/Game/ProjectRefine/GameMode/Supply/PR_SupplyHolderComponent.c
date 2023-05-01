@@ -55,7 +55,11 @@ class PR_SupplyHolderComponent : ScriptComponent
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 		
 		if(m_RplComponent && !m_RplComponent.IsProxy())
-			PR_SupplyHolderManger.GetInstance().Register(this);
+		{
+			PR_SupplyHolderManger instance = PR_SupplyHolderManger.GetInstance();
+			if(instance)
+				instance.Register(this);
+		}
 	}
 	
 	void ~PR_SupplyHolderComponent()
@@ -72,13 +76,16 @@ class PR_SupplyHolderComponent : ScriptComponent
 	{
 		// Fill in m_aAvailableHolders from m_aAllHolders
 		m_aAvailableHolders.Clear();
+		int thisIdx = m_aAllHolders.Find(this);
 		for(int i = 0; i < m_aAllHolders.Count(); i++)
 		{
+			if(i == thisIdx)
+				continue;
 			vector thisTransform[4];
 			vector cmpTransform[4];
 			GetOwner().GetWorldTransform(thisTransform);
 			m_aAllHolders[i].GetOwner().GetWorldTransform(cmpTransform);
-			float distance = vector.Distance(thisTransform, cmpTransform);
+			float distance = vector.Distance(thisTransform[3], cmpTransform[3]);
 			
 			if(distance <= m_fRange)
 			{
@@ -114,7 +121,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 		if(!m_bCanTransact || !taker.m_bCanTransact)
 			return false;
 		
-		if(m_iSupply >= amount && (taker.m_iSupply + amount) < taker.m_iMaxSupplies)
+		if(m_iSupply >= amount && (taker.m_iSupply + amount) <= taker.m_iMaxSupplies)
 		{
 			SetSupply(m_iSupply - amount);
 			taker.SetSupply(taker.m_iSupply + amount);
@@ -136,7 +143,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 		if(!m_bCanTransact || !giver.m_bCanTransact)
 			return false;
 		
-		if(giver.m_iSupply >= amount && (m_iSupply + amount) < m_iMaxSupplies)
+		if(giver.m_iSupply >= amount && (m_iSupply + amount) <= m_iMaxSupplies)
 		{
 			giver.SetSupply(giver.m_iSupply - amount);	
 			SetSupply(m_iSupply + amount);

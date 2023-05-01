@@ -8,9 +8,9 @@ GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
    m_fEnemyOccupationRadius 0
   }
   PR_SupplyHolderComponent "{5D312A22CE019BD8}" {
-   m_iSupply 500
-   m_iMaxSupplies 1000
-   m_fRange 3000
+   m_iSupply 10000
+   m_iMaxSupplies 10000
+   m_fRange 300
    m_fTransferSpeed 100
   }
  }

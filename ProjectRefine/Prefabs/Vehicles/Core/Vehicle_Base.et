@@ -3,10 +3,5 @@ Vehicle {
  components {
   PR_AssetInformerComponent "{5C8751585FAD9FA7}" {
   }
-  PR_SupplyHolderComponent "{5D312A278424B082}" {
-   m_iMaxSupplies 1000
-   m_fRange 100
-   m_fTransferSpeed 100
-  }
  }
 }

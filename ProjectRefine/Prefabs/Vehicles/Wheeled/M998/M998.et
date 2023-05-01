@@ -1,0 +1,38 @@
+Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
+ ID "BBCBA43A9778AE21"
+ components {
+  PR_SupplyHolderComponent "{5D432585F583BFB4}" {
+   m_iMaxSupplies 500
+   m_fRange 10
+   m_fTransferSpeed 10
+  }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   additionalActions {
+    PR_SupplyTargetUserAction "{5D432EBBF2A877E9}" {
+     ParentContextList {
+      "cargo"
+     }
+     UIInfo UIInfo "{5D432EBBCACDE391}" {
+     }
+     "Sort Priority" 1
+    }
+    PR_LoadSuppliesUserAction "{5D432EBBF073BA61}" {
+     ParentContextList {
+      "cargo"
+     }
+     UIInfo UIInfo "{5D432EBBC3FF52D7}" {
+     }
+     "Sort Priority" 2
+    }
+    PR_UnloadSuppliesUserAction "{5D432EBBF7537D6F}" {
+     ParentContextList {
+      "cargo"
+     }
+     UIInfo UIInfo "{5D432EBBC6E4C8CC}" {
+     }
+     "Sort Priority" 3
+    }
+   }
+  }
+ }
+}
