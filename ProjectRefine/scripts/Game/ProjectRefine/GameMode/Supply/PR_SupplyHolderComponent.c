@@ -32,7 +32,10 @@ class PR_SupplyHolderComponent : ScriptComponent
 	Physics m_physComponent;
 	
 	RplComponent m_RplComponent;
-		
+	
+	PR_SupplyHolderComponent m_ActionTarget;
+	
+	//------------------------------------------------------------------------------------------------
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
@@ -48,8 +51,11 @@ class PR_SupplyHolderComponent : ScriptComponent
 	
 	override void EOnInit(IEntity owner)
 	{
-		SetEventMask(owner, EntityEvent.FRAME | EntityEvent.DIAG);
+		SetEventMask(owner, EntityEvent.DIAG);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
+		
+		if(m_RplComponent && !m_RplComponent.IsProxy())
+			PR_SupplyHolderManger.GetInstance().Register(this);
 	}
 	
 	void ~PR_SupplyHolderComponent()
@@ -57,30 +63,12 @@ class PR_SupplyHolderComponent : ScriptComponent
 		int idx = m_aAllHolders.Find(this);
 		if(m_aAllHolders.IsIndexValid(idx))
 			m_aAllHolders.Remove(idx);
+		
+		m_aAvailableHolders.Clear();
+		m_aAvailableHolders = null;
 	}
 	
-	override void EOnFrame(IEntity owner, float timeSlice)
-	{
-		m_fElapsedTime += timeSlice;
-		if(m_fElapsedTime >= 1)
-		{
-			m_fElapsedTime = 0;
-			
-			if(m_RplComponent && m_RplComponent.IsProxy())
-			{
-				if(m_bCanTransact)
-				{
-					GetAvailableHolders();
-				}
-			}
-			else
-			{
-				SetTransactionAvailability();
-			}
-		}
-	}
-	
-	protected void GetAvailableHolders()
+	void GetAvailableHolders()
 	{
 		// Fill in m_aAvailableHolders from m_aAllHolders
 		m_aAvailableHolders.Clear();
@@ -99,7 +87,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 		}
 	}
 	
-	protected void SetTransactionAvailability()
+	void SetTransactionAvailability()
 	{
 		// Check speed and set variable
 		if(m_physComponent)
@@ -115,6 +103,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 		}
 	}
 	
+	//------------------------------------------------------------------------------------------------	
 	bool GiveSupplies(PR_SupplyHolderComponent taker, int amount)
 	{
 		if(m_RplComponent.IsProxy())

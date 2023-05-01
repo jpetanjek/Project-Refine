@@ -6,7 +6,7 @@ class PR_LoadSuppliesUserAction : ScriptedUserAction
 		
 	protected PR_SupplyHolderComponent m_SupplyHolder;
 	protected PR_PC_SupplyHolderInformerComponent m_PcSupplyHolder;
-	protected RplId m_HolderRplId;
+	protected RplId m_HolderRplId = RplId.Invalid();
 	
 	//------------------------------------------------------------------------------------------------
 	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
@@ -43,14 +43,14 @@ class PR_LoadSuppliesUserAction : ScriptedUserAction
 		
 		if(!m_HolderRplId.IsValid())
 		{
-			m_HolderRplId = Replication.FindId(m_SupplyHolder);
+			m_HolderRplId = Replication.FindId(m_SupplyHolder.m_RplComponent);
 		}
 		
 		// Target
-		if(m_SupplyHolder.m_aAvailableHolders.IsEmpty())
+		if(!m_SupplyHolder.m_ActionTarget)
 			return;
 		
-		RplId targetRplId = Replication.FindId(m_SupplyHolder.m_aAvailableHolders[0]);
+		RplId targetRplId = Replication.FindId(m_SupplyHolder.m_ActionTarget.m_RplComponent);
 		if(targetRplId.IsValid())
 		{
 			m_PcSupplyHolder.RequestSupplyAction(m_HolderRplId, targetRplId, 100, true);
@@ -118,21 +118,18 @@ class PR_LoadSuppliesUserAction : ScriptedUserAction
 		if (!m_SupplyHolder || m_SupplyHolder.m_aAvailableHolders.IsEmpty())
 			return false;
 		
-		PR_SupplyHolderComponent target = m_SupplyHolder.m_aAvailableHolders[0];
+		PR_SupplyHolderComponent target = m_SupplyHolder.m_ActionTarget;
 		if (!target || target.m_iSupply <= 0)
 			return false;
 				
-		outName = "#AR-Campaign_Action_LoadSupplies-UC";
+		outName = "LOAD SUPPLIES";
 		
-		if (target.m_iSupply >= 100)
-		{
-			ActionNameParams[0] = "100";
-		}
-		else
-		{
-			ActionNameParams[0] = target.m_iSupply.ToString();
-			outName = "#AR-Campaign_Action_LoadSuppliesPartial-UC";
-		}
+		outName += " (";
+		outName += m_SupplyHolder.m_iSupply.ToString();
+		outName += "/";
+		outName += m_SupplyHolder.m_iMaxSupplies.ToString();
+		outName += ")";
+		
 		return true;
 	}
 	
@@ -148,7 +145,7 @@ class PR_LoadSuppliesUserAction : ScriptedUserAction
 		if (m_SupplyHolder.m_aAvailableHolders.IsEmpty())
 			return SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW;
 		
-		PR_SupplyHolderComponent target = m_SupplyHolder.m_aAvailableHolders[0];
+		PR_SupplyHolderComponent target = m_SupplyHolder.m_ActionTarget;
 		if (!target)
 		{
 			return SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW;

@@ -1,17 +1,47 @@
 //! Action to unload supplies from a Supply truck in Campaign
-class PR_UnloadSuppliesUserAction : ScriptedUserAction
+class PR_SupplyTargetUserAction : ScriptedUserAction
 {	
-	protected int m_iCanUnloadSuppliesResult = SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW;
+	protected int m_iCanTargetSupplyResult = SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW;
 	protected float m_fNextConditionCheck;
 		
 	protected PR_SupplyHolderComponent m_SupplyHolder;
 	protected PR_PC_SupplyHolderInformerComponent m_PcSupplyHolder;
-	protected RplId m_HolderRplId = RplId.Invalid();
+	protected RplId m_HolderRplId;
+	
+	protected int m_iSelectionIdx = 0;
 	
 	//------------------------------------------------------------------------------------------------
 	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
 	{
 		m_SupplyHolder = PR_SupplyHolderComponent.Cast(pOwnerEntity.FindComponent(PR_SupplyHolderComponent));
+	}
+	
+	protected void RefreshTarget()
+	{
+		// Target
+		if(!m_SupplyHolder || m_SupplyHolder.m_aAvailableHolders.IsEmpty())
+			return;
+		
+		// If we got to end, loop back to start
+		if(m_SupplyHolder.m_aAvailableHolders.Count() == m_iSelectionIdx)
+		{
+			m_iSelectionIdx = 0;
+		}
+		
+		// If we have corrupted info go to new end
+		if(!m_SupplyHolder.m_aAvailableHolders.IsIndexValid(m_iSelectionIdx))
+		{
+			m_iSelectionIdx = m_SupplyHolder.m_aAvailableHolders.Count() - 1;
+		}
+		
+		if( m_SupplyHolder.m_aAvailableHolders.IsIndexValid(m_iSelectionIdx))
+		{
+			m_SupplyHolder.m_ActionTarget = m_SupplyHolder.m_aAvailableHolders[m_iSelectionIdx];
+		}
+		else
+		{
+			m_SupplyHolder.m_ActionTarget = null;
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -26,7 +56,7 @@ class PR_UnloadSuppliesUserAction : ScriptedUserAction
 	
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
-	{
+	{		
 		if(!m_PcSupplyHolder)
 		{
 			// Find local player controller
@@ -38,53 +68,33 @@ class PR_UnloadSuppliesUserAction : ScriptedUserAction
 			m_PcSupplyHolder = PR_PC_SupplyHolderInformerComponent.Cast(playerController.FindComponent(PR_PC_SupplyHolderInformerComponent));
 		}
 		
-		if (!m_PcSupplyHolder)
+		if (!m_PcSupplyHolder || !m_SupplyHolder)
 			return;
 		
 		if(!m_HolderRplId.IsValid())
 		{
-			m_HolderRplId = Replication.FindId(m_SupplyHolder.m_RplComponent);
+			m_HolderRplId = Replication.FindId(m_SupplyHolder);
 		}
 		
-		// Target
-		if(!m_SupplyHolder.m_ActionTarget)
-			return;
+		// Increment selection
+		m_iSelectionIdx++;
 		
-		RplId targetRplId = Replication.FindId(m_SupplyHolder.m_ActionTarget.m_RplComponent);
-		if(targetRplId.IsValid())
-		{
-			m_PcSupplyHolder.RequestSupplyAction(m_HolderRplId, targetRplId, 100, false);
-		}
+		RefreshTarget();
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
 	{
-		switch (m_iCanUnloadSuppliesResult)
-		{
+		switch (m_iCanTargetSupplyResult)
+		{			
 			case SCR_CampaignSuppliesInteractionFeedback.EMPTY:
 			{
-				SetCannotPerformReason("#AR-Campaign_Action_SupplyTruckEmpty-UC");
-				//SetCannotPerformReason("EMPTY");
-				break;
-			}
-			
-			case SCR_CampaignSuppliesInteractionFeedback.BASE_ENEMY:
-			{
-				SetCannotPerformReason("#AR-Campaign_Action_WrongBase-UC");
-				//SetCannotPerformReason("ENEMY BASE");
-				break;
-			}
-			
-			case SCR_CampaignSuppliesInteractionFeedback.BASE_FULL:
-			{
-				SetCannotPerformReason("#AR-Campaign_Action_BaseFull-UC");
-				//SetCannotPerformReason("STORAGE FULL");
+				SetCannotPerformReason("NO SUPPLY HOLDERS CLOSE ENOUGH");
 				break;
 			}
 		}
 		
-		if (m_iCanUnloadSuppliesResult == SCR_CampaignSuppliesInteractionFeedback.POSSIBLE)
+		if (m_iCanTargetSupplyResult == SCR_CampaignSuppliesInteractionFeedback.POSSIBLE)
 			return true;
 		else
 			return false;
@@ -93,13 +103,18 @@ class PR_UnloadSuppliesUserAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
 	{
+		if(m_SupplyHolder.m_RplComponent && m_SupplyHolder.m_RplComponent.IsProxy() && m_SupplyHolder.m_bCanTransact)
+		{
+			m_SupplyHolder.GetAvailableHolders();
+		}
+		
 		if (Replication.Time() >= m_fNextConditionCheck)
 		{
-			m_iCanUnloadSuppliesResult = CanUnloadSupplies(user);
+			m_iCanTargetSupplyResult = CanTargetSupplies(user);
 			m_fNextConditionCheck += 250;
 		}
 		
-		if (m_iCanUnloadSuppliesResult == SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW)
+		if (m_iCanTargetSupplyResult == SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW)
 			return false;
 		else
 			return true;
@@ -115,53 +130,43 @@ class PR_UnloadSuppliesUserAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool GetActionNameScript(out string outName)
 	{
-		if (!m_SupplyHolder || m_SupplyHolder.m_aAvailableHolders.IsEmpty() || m_SupplyHolder.m_iSupply <= 0)
+		if (!m_SupplyHolder || m_SupplyHolder.m_aAvailableHolders.IsEmpty())
 			return false;
 		
-		PR_SupplyHolderComponent target = m_SupplyHolder.m_ActionTarget;
-		if (!target || target.m_iSupply >= target.m_iMaxSupplies)
+		if (!m_SupplyHolder.m_ActionTarget)
 			return false;
-
-		outName = "UNLOAD SUPPLIES";
+		
+		outName = m_SupplyHolder.m_ActionTarget.GetOwner().GetName();
+		if(outName.IsEmpty())
+		{
+			outName = m_SupplyHolder.m_ActionTarget.GetOwner().GetPrefabData().GetPrefabName();
+			int lastSlash = outName.LastIndexOf("/") + 1;
+			int lastDot = outName.LastIndexOf(".et") - lastSlash;
+			outName = outName.Substring(lastSlash, lastDot);
+		}
 		
 		outName += " (";
-		outName += m_SupplyHolder.m_iSupply.ToString();
+		outName +=  m_SupplyHolder.m_ActionTarget.m_iSupply.ToString();
 		outName += "/";
-		outName += m_SupplyHolder.m_iMaxSupplies.ToString();
+		outName +=  m_SupplyHolder.m_ActionTarget.m_iMaxSupplies.ToString();
 		outName += ")";
-		
+	
 		return true;
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	//! Check the availability of this user action
-	//! \param player Player trying to unload supplies
-	int CanUnloadSupplies(IEntity player)
-	{
+	//! \param player Player trying to target
+	int CanTargetSupplies(IEntity player)
+	{		
+		RefreshTarget();
+		
 		if (!player || !m_SupplyHolder)
 			return SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW;
 		
 		// Target
 		if (m_SupplyHolder.m_aAvailableHolders.IsEmpty())
-			return SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW;
-		
-		PR_SupplyHolderComponent target = m_SupplyHolder.m_ActionTarget;
-		if (!target)
-			return SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW;
-		
-		RplId targetRplId = Replication.FindId(target);
-		if (!targetRplId.IsValid())
-			return SCR_CampaignSuppliesInteractionFeedback.DO_NOT_SHOW;
-		
-		if (target.m_iSupply >= target.m_iMaxSupplies)
-		{
-			return SCR_CampaignSuppliesInteractionFeedback.BASE_FULL;
-		}
-		
-		if (m_SupplyHolder.m_iSupply <= 0)
-		{
 			return SCR_CampaignSuppliesInteractionFeedback.EMPTY;
-		}
 		
 		return SCR_CampaignSuppliesInteractionFeedback.POSSIBLE;
 	}

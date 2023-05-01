@@ -6,7 +6,8 @@ class PR_PC_SupplyHolderInformerComponentClass : ScriptComponentClass
 //------------------------------------------------------------------------------------------------
 //! Relays supply holder requests from client to server.
 class PR_PC_SupplyHolderInformerComponent : ScriptComponent
-{
+{	
+	//------------------------------------------------------------------------------------------------
 	override void OnPostInit(IEntity owner)
 	{
 		SetEventMask(owner, EntityEvent.INIT);
