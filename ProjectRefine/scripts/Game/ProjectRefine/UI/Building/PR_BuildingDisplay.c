@@ -1,47 +1,3 @@
-[BaseContainerProps(), BaseContainerCustomTitleField("m_sDisplayName")]
-class PR_BuildingEntry
-{
-	[Attribute(desc: "Name to be shown in UI")]
-	string m_sDisplayName;
-	
-	[Attribute(desc: "Description to be shown in UI")]
-	string m_sDescription;
-}
-
-[BaseContainerProps(configRoot: true), BaseContainerCustomTitleField("m_sDisplayName")]
-class PR_BuildingEntryCategory : PR_BuildingEntry
-{
-	[Attribute()]
-	ref array<ref PR_BuildingEntry> m_aEntries;
-}
-
-[BaseContainerProps(), PR_BuildingEntryAssetCustomTitleAttribute()]
-class PR_BuildingEntryAsset : PR_BuildingEntry
-{
-	[Attribute("", UIWidgets.ResourceNamePicker, "Prefab of asset", "et")]
-	ResourceName m_sPrefab;
-	
-	[Attribute("0", UIWidgets.EditBox, "Cost of asset")]
-	float m_fCost;
-}
-
-class PR_BuildingEntryAssetCustomTitleAttribute : BaseContainerCustomTitle
-{	
-	override bool _WB_GetCustomTitle(BaseContainer source, out string title)
-	{
-		string displayName;
-		float cost;
-		source.Get("m_sDisplayName", displayName);
-		source.Get("m_fCost", cost);
-		
-		title = string.Format("%1 - %2", cost.ToString(), displayName);
-		
-		return true;
-	}
-}
-
-
-
 class PR_BuildingDisplay : SCR_InfoDisplay
 {
 	// Temporary we store configuration of buildables here
@@ -62,6 +18,8 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	
 	protected bool m_bActive;
 	
+	protected ref PR_BuildingPreviewMode m_PreviewMode = new PR_BuildingPreviewMode();
+	
 	
 	// Constants
 	protected const float ANIMATION_FADE_IN_SPEED = 6.0;
@@ -76,6 +34,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		im.AddActionListener("PR_BuildingNext", EActionTrigger.DOWN, Callback_OnNext); 
 		im.AddActionListener("PR_BuildingOpen", EActionTrigger.DOWN, Callback_OnOpen);
 		im.AddActionListener("PR_BuildingClose", EActionTrigger.DOWN, Callback_OnClose);
+		im.AddActionListener("PR_BuildingRotate", EActionTrigger.VALUE, Callback_OnRotate);
 		
 		Deactivate();
 	}
@@ -87,6 +46,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		im.RemoveActionListener("PR_BuildingNext", EActionTrigger.DOWN, Callback_OnNext); 
 		im.RemoveActionListener("PR_BuildingOpen", EActionTrigger.DOWN, Callback_OnOpen);
 		im.RemoveActionListener("PR_BuildingClose", EActionTrigger.DOWN, Callback_OnClose);
+		im.RemoveActionListener("PR_BuildingRotate", EActionTrigger.VALUE, Callback_OnRotate);
 	}
 	
 	override event void UpdateValues(IEntity owner, float timeSlice)
@@ -94,7 +54,10 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		InputManager im = GetGame().GetInputManager();
 
 		if (m_bActive)
+		{
+			m_PreviewMode.Update(timeSlice);
 			im.ActivateContext("PR_BuildingContext", 0);
+		}
 	}
 
 	//----------------------------------------------------------------
@@ -121,6 +84,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	{
 		m_bActive = false;
 		GetRootWidget().SetVisible(false);
+		m_PreviewMode.Deactivate();
 	}
 	
 	protected void Activate(PR_BuildingEntryCategory buildingEntryRoot)
@@ -139,21 +103,50 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	// Going into the hierarchy
 	void OpenEntry(PR_BuildingEntry entry)
 	{
-		// Save ID of currently selected child
-		if (!m_aChildEntryIdStack.IsEmpty())
-			m_aChildEntryIdStack[m_aChildEntryIdStack.Count()-1] = m_iCurrentEntryId;
+		PR_BuildingEntryCategory category = PR_BuildingEntryCategory.Cast(entry);
+		PR_BuildingEntryAsset asset = PR_BuildingEntryAsset.Cast(entry);
 		
-		// Push new entry to stack
-		m_aEntryStack.Insert(entry);
-		m_aChildEntryIdStack.Insert(0);
-		
-		ProcessEntry(entry, 0);
+		if (category)
+		{
+			// We are opening a new category
+			// Save ID of currently selected child
+			if (!m_aChildEntryIdStack.IsEmpty())
+				m_aChildEntryIdStack[m_aChildEntryIdStack.Count()-1] = m_iCurrentEntryId;
+			
+			// Push new entry to stack
+			m_aEntryStack.Insert(entry);
+			m_aChildEntryIdStack.Insert(0);
+			
+			ProcessCategory(category, 0);
+		}
+		else if (asset)
+		{
+			// Try to place the asset
+			vector transform[4];
+			bool posValid;
+			m_PreviewMode.GetAndValidateTransform(transform, posValid);
+			
+			if (posValid)
+			{
+				EntitySpawnParams sp = new EntitySpawnParams();
+				sp.TransformMode = ETransformMode.WORLD;
+				for (int i = 0; i < 4; i++)
+					sp.Transform[i] = transform[i];
+				sp.Parent = null;
+				sp.Scale = 1.0;
+				GetGame().SpawnEntityPrefab(Resource.Load(asset.m_sPrefab), GetGame().GetWorld(), sp);
+			}
+		}
 	}
 	
 	// Going back rowards the root
 	void CloseEntry()
 	{
 		int size = m_aEntryStack.Count();
+		
+		// Deactivate preview mode for current entry
+		if (GetCurrentAsset())
+			m_PreviewMode.Deactivate();
 		
 		m_aEntryStack.Remove(size-1); // Remove last
 		m_aChildEntryIdStack.Remove(size-1);
@@ -162,14 +155,16 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (size > 0)
 		{
 			int prevChildId = m_aChildEntryIdStack[size-1];
-			ProcessEntry(m_aEntryStack[size-1], prevChildId); // Open the entry before last
+			// Open the entry before last
+			// It is guaranteed to be a category, otherwise is impossible
+			ProcessCategory(PR_BuildingEntryCategory.Cast(m_aEntryStack[size-1]), prevChildId);
 		}
 		else
 			Deactivate();
 	}
 	
 	// Going to next/prev entry in a category
-	void CycleEntry(int offsetSign)
+	void CycleCategoryChildEntry(int offsetSign)
 	{
 		PR_BuildingEntryCategory category = GetCurrentCategory();
 		
@@ -188,46 +183,68 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		}
 		
 		SetEntriesXPos(m_iCurrentEntryId, true);
-		SetDescriptionText(m_iCurrentEntryId);
+		SetDescriptionText(category.m_aEntries[m_iCurrentEntryId].m_sDescription);
+		
+		PR_BuildingEntry currentChildEntry = category.m_aEntries[m_iCurrentEntryId];
+		ProcessCategoryChildEntry(currentChildEntry);
 	}
 	
-	void ProcessEntry(PR_BuildingEntry entry, int childEntryId)
+	// Processes entry - category or asset
+	void ProcessCategory(PR_BuildingEntryCategory category, int childEntryId)
+	{		
+		// Create entry name widgets
+		while (widgets.m_EntryNames.GetChildren())
+			widgets.m_EntryNames.GetChildren().RemoveFromHierarchy();
+		
+		foreach (PR_BuildingEntry e : category.m_aEntries)
+		{
+			Widget w = GetGame().GetWorkspace().CreateWidgets("{761FCDF0F144F139}UI/Building/EntryName.layout", widgets.m_EntryNames);
+			TextWidget wText = TextWidget.Cast(w.FindAnyWidget("NameText"));
+			wText.SetText(e.m_sDisplayName);
+		}
+		
+		m_iCurrentEntryId = childEntryId;
+		
+		// Animate entry names position
+		SetEntriesXPos(m_iCurrentEntryId, false);
+		
+		// Animate entry names opacity
+		widgets.m_EntryNames.SetOpacity(0);
+		AnimateWidget.Opacity(widgets.m_EntryNames, 1, ANIMATION_FADE_IN_SPEED);
+		
+		SetDescriptionText(category.m_aEntries[m_iCurrentEntryId].m_sDescription);
+		
+		SetDebugText("Browsing category");
+		
+		PR_BuildingEntry currentChildEntry = category.m_aEntries[m_iCurrentEntryId];
+		ProcessCategoryChildEntry(currentChildEntry);
+		
+		//else if (asset)
+		//{
+		//	// Start building mode
+		//	m_PreviewMode.Activate(asset.m_sPrefab, asset.m_bOrientToSurface);
+		//	
+		//	SetDebugText("Placing asset");
+		//}
+		
+		// Entry name
+		widgets.m_CurrentEntryNameText.SetText(category.m_sDisplayName);
+	}
+	
+	// Processes child entry of a category, if we are browsing a category
+	void ProcessCategoryChildEntry(PR_BuildingEntry entry)
 	{
 		PR_BuildingEntryCategory category = PR_BuildingEntryCategory.Cast(entry);
+		PR_BuildingEntryAsset asset = PR_BuildingEntryAsset.Cast(entry);
 		
 		if (category)
 		{
-			// Show category
-			
-			// Create entry name widgets
-			while (widgets.m_EntryNames.GetChildren())
-				widgets.m_EntryNames.GetChildren().RemoveFromHierarchy();
-			
-			foreach (PR_BuildingEntry e : category.m_aEntries)
-			{
-				Widget w = GetGame().GetWorkspace().CreateWidgets("{761FCDF0F144F139}UI/Building/EntryName.layout", widgets.m_EntryNames);
-				TextWidget wText = TextWidget.Cast(w.FindAnyWidget("NameText"));
-				wText.SetText(e.m_sDisplayName);
-			}
-			
-			m_iCurrentEntryId = childEntryId;
-			
-			// Animate entry names position
-			SetEntriesXPos(m_iCurrentEntryId, false);
-			
-			// Animate entry names opacity
-			widgets.m_EntryNames.SetOpacity(0);
-			AnimateWidget.Opacity(widgets.m_EntryNames, 1, ANIMATION_FADE_IN_SPEED);
-			
-			SetDescriptionText(m_iCurrentEntryId);
+			m_PreviewMode.Deactivate();
 		}
-		else if (PR_BuildingEntryAsset.Cast(entry))
+		else if (asset)
 		{
-			// Start building mode
+			m_PreviewMode.Activate(asset.m_sPrefab, asset.m_bOrientToSurface);
 		}
-		
-		// Entry name
-		widgets.m_CurrentEntryNameText.SetText(entry.m_sDisplayName);
 	}
 	
 	//----------------------------------------------------------------
@@ -243,6 +260,17 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	PR_BuildingEntryAsset GetCurrentAsset()
 	{
 		return PR_BuildingEntryAsset.Cast(m_aEntryStack[m_aEntryStack.Count()-1]);
+	}
+	
+	// Returns currently selected child asset, if current entry is a category
+	PR_BuildingEntryAsset GetCurrentChildAsset()
+	{
+		PR_BuildingEntryCategory category = PR_BuildingEntryCategory.Cast(m_aEntryStack[m_aEntryStack.Count()-1]);
+		if (!category)
+			return null;
+		
+		PR_BuildingEntry currentChildEntry = category.m_aEntries[m_iCurrentEntryId];
+		return PR_BuildingEntryAsset.Cast(currentChildEntry);;
 	}
 	
 	//----------------------------------------------------------------
@@ -262,9 +290,9 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			FrameSlot.SetPosX(widgets.m_EntryNames, CalculateEntriesXPos(id));
 	}
 	
-	void SetDescriptionText(int id)
+	void SetDescriptionText(string description)
 	{
-		widgets.m_DescriptionText.SetText(GetCurrentCategory().m_aEntries[id].m_sDescription);
+		widgets.m_DescriptionText.SetText(description);
 		
 		widgets.m_DescriptionText.SetOpacity(0);
 		AnimateWidget.Opacity(widgets.m_DescriptionText, 1.0, ANIMATION_FADE_IN_SPEED);
@@ -272,8 +300,14 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	
 	float CalculateEntriesXPos(int id)
 	{
-		const float entryWidth = 200;
+		const float entryWidth = 250; // Check width of EntryName.layout
 		return -(id * entryWidth) - 0.5*entryWidth;
+	}
+	
+	void SetDebugText(string text)
+	{
+		widgets.m_DebugText.SetText(text);
+		widgets.m_DebugText.SetVisible(true);
 	}
 	
 	//----------------------------------------------------------------
@@ -285,7 +319,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (!GetCurrentCategory())
 			return;
 		
-		CycleEntry(1);
+		CycleCategoryChildEntry(1);
 	}
 	
 	void Callback_OnPrev()
@@ -294,9 +328,10 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (!GetCurrentCategory())
 			return;
 		
-		CycleEntry(-1);
+		CycleCategoryChildEntry(-1);
 	}
 	
+	// Same action for opening category or placing asset
 	void Callback_OnOpen()
 	{
 		PR_BuildingEntryCategory category = GetCurrentCategory();
@@ -311,5 +346,25 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	void Callback_OnClose()
 	{
 		CloseEntry();
+	}
+	
+	void Callback_OnRotate(float value)
+	{
+		if (!m_bActive) // This one is called even if context is not active, somehow
+			return;
+		
+		if (!GetCurrentChildAsset())
+			return;
+		
+		if (value == 0)
+			return;
+		
+		int direction = 0;
+		if (value > 0)
+			direction = 1;
+		else if (value < 0)
+			direction = -1;
+		
+		m_PreviewMode.CycleDirection(direction);
 	}
 }

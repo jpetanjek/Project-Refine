@@ -3,7 +3,7 @@ SizeLayoutWidgetClass {
  Slot LayoutSlot "{5D2ECD3FF70ECB7D}" {
  }
  AllowWidthOverride 1
- WidthOverride 200
+ WidthOverride 250
  AllowHeightOverride 1
  HeightOverride 32
  {

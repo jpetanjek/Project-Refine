@@ -22,6 +22,27 @@ FrameWidgetClass {
     Alignment 0.5 0.5
    }
    {
+    TextWidgetClass "{5D42B661888F96CC}" : "{0C3F7DC8494C8308}UI/Building/EntryNameText.layout" {
+     Name "m_DebugText"
+     Slot FrameWidgetSlot "{5D42B661888F972E}" {
+      Anchor 1 1 1 1
+      PositionX -200
+      OffsetLeft -200
+      PositionY -40
+      OffsetTop -40
+      SizeX 114.7
+      OffsetRight 85.3
+      SizeY 22
+      OffsetBottom 18
+      Alignment 0.5 0.5
+      SizeToContent 1
+     }
+     Clipping False
+     Color 0.071 0.561 0.192 1
+     Rotation 0
+     Pivot 0.5 0.5
+     Text "Debug Text"
+    }
     TextWidgetClass "{5D315C0BB1858C8C}" {
      Name "m_DescriptionText"
      Slot FrameWidgetSlot "{5D315C0BB1858C9B}" {

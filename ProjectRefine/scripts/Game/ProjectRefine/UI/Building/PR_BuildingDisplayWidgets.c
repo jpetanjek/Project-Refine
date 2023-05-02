@@ -6,6 +6,8 @@ class PR_BuildingDisplayWidgets
 	static const ResourceName s_sLayout = "{0044C602AFE26E8E}UI/Building/BuildingDisplay.layout";
 	ResourceName GetLayout() { return s_sLayout; }
 
+	TextWidget m_DebugText;
+
 	TextWidget m_DescriptionText;
 
 	HorizontalLayoutWidget m_EntryNames;
@@ -14,6 +16,8 @@ class PR_BuildingDisplayWidgets
 
 	bool Init(Widget root)
 	{
+		m_DebugText = TextWidget.Cast(root.FindAnyWidget("m_DebugText"));
+
 		m_DescriptionText = TextWidget.Cast(root.FindAnyWidget("m_DescriptionText"));
 
 		m_EntryNames = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_EntryNames"));

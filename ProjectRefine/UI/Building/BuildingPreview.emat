@@ -1,0 +1,8 @@
+MatPBRBasic {
+ Color 0 0.376 0 1
+ Emissive 0 1 0.008 0
+ EmissiveLV -10.158
+ SortBias -8
+ SpecularMul 0.288
+ RoughnessScale 0.864
+}
