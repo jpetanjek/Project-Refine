@@ -1,0 +1,49 @@
+GenericEntity {
+ ID "5D452E2229BD43F8"
+ coords 0 0 0
+ {
+  GenericEntity : "{0133284E3BDEAEC4}Prefabs/Props/Civilian/Ashtray_01_Full_yellow.et" {
+   ID "5D452E2229BD43D8"
+   coords 0.416 0.9 0.282
+   angleY 36.221
+  }
+  GenericEntity : "{0958E6B949501D00}Prefabs/Props/Military/Generators/GeneratorPortable_US_01.et" {
+   ID "5D452E2229BD43E9"
+   coords 0.974 0 0.194
+   angleY 8.932
+  }
+  GenericEntity : "{13891AA1F5833C4A}Prefabs/Props/Civilian/Notebook_01_Double.et" {
+   ID "5D452E2229BD43DC"
+   coords 0.12 0.9 0.248
+   angleY 148.79
+  }
+  GenericEntity : "{303A087C47C1A7B2}Prefabs/MP/Campaign/Assets/CampaignBuildingMap.et" {
+   ID "5D452E2229BD43C1"
+   coords -0.174 0.987 -0.059
+   angleX 87.007
+   angleY 0
+   angleZ -6.034
+   scale 0.61
+  }
+  GenericEntity : "{34736979381CA219}Prefabs/Props/Military/Radios/RadioStation_ANGRC160_01.et" {
+   ID "5D452E2229BD43D1"
+   coords 0.377 0.9 -0.148
+   angleY -6.752
+  }
+  StaticModelEntity : "{39C308BBB5945B85}Prefabs/Props/Military/Furniture/ChairMilitary_US_02.et" {
+   ID "5D452E2229BD43D2"
+   coords 0.113 0 0.295
+   angleY -157.155
+  }
+  StaticModelEntity : "{7762F50A860DD074}Prefabs/Props/Military/Furniture/TableMilitary_US_01.et" {
+   ID "5D452E2229BD43D7"
+   coords 0 0 0
+   angleY 0
+  }
+  GenericEntity : "{C84DF17F96616C76}Prefabs/Props/Military/Manuals/Manual_US_01.et" {
+   ID "5D452E2229BD43C2"
+   coords -0.455 0.9 0.161
+   angleY 35.036
+  }
+ }
+}
