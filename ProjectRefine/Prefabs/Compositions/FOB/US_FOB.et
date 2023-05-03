@@ -1,0 +1,125 @@
+GenericEntity {
+ ID "5D47370FE3389AD9"
+ coords 8.098 3.61 3.252
+ {
+  $grp GenericEntity : "{5040D5BB29F06E43}Prefabs/Props/Military/Sandbags/Sandbag_01_single_plastic.et" {
+   {
+    ID "5D47370FE33A390D"
+    coords -7.987 -1.411 -4.851
+   }
+   {
+    ID "5D47370FE33A3912"
+    coords -7.279 -1.433 -4.728
+   }
+   {
+    ID "5D47370FE33BE41C"
+    coords -8.649 -1.375 -5.013
+   }
+   {
+    ID "5D47370FE33BE41D"
+    coords -7.418 -1.396 2.661
+   }
+  }
+  $grp GenericEntity : "{BBE13893AEA69C0C}Prefabs/Props/Military/Sandbags/Sandbag_01_foundation_plastic.et" {
+   {
+    ID "5D47370FE3389AC4"
+    coords -8.098 -3.61 -3.252
+   }
+   {
+    ID "5D47370FE33A3913"
+    coords -8.098 -3.61 1.248
+    angleY 180
+   }
+  }
+  $grp GenericEntity : "{CC66836BF4E211F9}Prefabs/Props/Military/Camps/Duckboard_01.et" {
+   {
+    ID "5D47370FE3389AB3"
+    coords -6.471 -1.346 -3.186
+   }
+   {
+    ID "5D47370FE338E8C7"
+    coords -6.57 -1.386 1.393
+   }
+   {
+    ID "5D47370FE33B5FD6"
+    coords -8.265 -1.326 -4.124
+    angleY -90
+   }
+   {
+    ID "5D47370FE33B5FD8"
+    coords -9.613 -1.425 1.227
+   }
+   {
+    ID "5D47370FE33B5FD9"
+    coords -9.699 -1.422 -3.574
+   }
+   {
+    ID "5D47370FE33BB9D4"
+    coords -8.183 -1.402 -1.735
+    angleY -90
+   }
+   {
+    ID "5D47370FE33BB9D5"
+    coords -8.198 -1.326 -2.902
+    angleY -90
+   }
+   {
+    ID "5D47370FE33BB9D7"
+    coords -8.117 -1.433 -0.63
+    angleY -90
+   }
+   {
+    ID "5D47370FE33BE418"
+    coords -8.053 -1.329 1.821
+    angleY -90
+   }
+   {
+    ID "5D47370FE33BE419"
+    coords -8.123 -1.327 0.569
+    angleY -90
+   }
+  }
+  $grp GenericEntity : "{F29A05EBA7063E7C}Prefabs/Props/Military/Sandbags/Sandbag_01_wall_solid_plastic.et" {
+   {
+    ID "5D47370FE3389ACA"
+    coords -6.374 -3.567 -1.773
+    angleY -90
+   }
+   {
+    ID "5D47370FE3389ACB"
+    coords -9.528 -3.596 -1.808
+    angleY -90
+   }
+   {
+    ID "5D47370FE3389ACC"
+    coords -7.275 -3.602 -4.946
+    angleY -180
+   }
+   {
+    ID "5D47370FE3389ACD"
+    coords -7.297 -3.602 2.884
+    angleY -180
+   }
+   {
+    ID "5D47370FE338E209"
+    coords -6.284 -3.602 -0.085
+    angleY -90
+   }
+   {
+    ID "5D47370FE338E20F"
+    coords -9.057 -3.571 -4.908
+    angleY -180
+   }
+   {
+    ID "5D47370FE338E8C4"
+    coords -9.442 -3.618 -0.256
+    angleY -90
+   }
+   {
+    ID "5D47370FE338E8C5"
+    coords -8.97 -3.419 2.659
+    angleY -180
+   }
+  }
+ }
+}
