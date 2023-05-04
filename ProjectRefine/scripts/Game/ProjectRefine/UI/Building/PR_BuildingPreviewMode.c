@@ -69,10 +69,13 @@ class PR_BuildingPreviewMode
 		SCR_Global.SetMaterial(m_PreviewEntity, material, true);
 		
 		// Debugging
+		// Draws a sphere at snap position
+		/*
 		int debugColor = Color.RED;
 		if (posValid)
 			debugColor = Color.GREEN;
-		Shape.CreateSphere(debugColor, ShapeFlags.VISIBLE | ShapeFlags.ONCE, transform[3], 0.2);	
+		Shape.CreateSphere(debugColor, ShapeFlags.VISIBLE | ShapeFlags.ONCE, transform[3], 0.2);
+		*/
 	}
 	
 	void CycleDirection(int dir)
@@ -165,6 +168,56 @@ class PR_BuildingPreviewMode
 	// Validates position, returns true if it's free
 	protected bool ValidatePosition(vector transform[4])
 	{
-		return true;
+		// Bounding box of whole composition
+		// Might be too conservative for huge complex compositions, but for simple ones it's fine for now
+		vector bbMinLocal, bbMaxLocal;
+		m_PreviewEntity.GetPreviewBounds(bbMinLocal, bbMaxLocal);
+		
+		// Shrink BB to allow some overlap
+		ShrinkBoundBox(bbMinLocal, bbMaxLocal);
+		
+		// Fill Trace Param
+		TraceOBB paramOBB = new TraceOBB();
+		paramOBB.Mat[0] = transform[0];
+		paramOBB.Mat[1] = transform[1];
+		paramOBB.Mat[2] = transform[2];
+		paramOBB.Start = transform[3];
+		paramOBB.Flags = TraceFlags.ENTS;
+		//paramOBB.ExcludeArray = excludeArray;
+		paramOBB.LayerMask = EPhysicsLayerPresets.Projectile;
+		paramOBB.Mins = bbMinLocal;
+		paramOBB.Maxs = bbMaxLocal;
+		
+		/*
+		// Draws the bounding box
+		Shape box = Shape.Create(ShapeType.BBOX, 0x70FF0000, ShapeFlags.ONCE | ShapeFlags.TRANSP, bbMinLocal, bbMaxLocal);
+		vector tbox[4];
+		tbox[0] = transform[0];
+		tbox[1] = transform[1];
+		tbox[2] = transform[2];
+		tbox[3] = transform[3]; // + Vector(0, halfHeight, 0);
+		box.SetMatrix(tbox);
+		*/
+		
+		GetGame().GetWorld().TracePosition(paramOBB, null);
+		
+		return paramOBB.TraceEnt == null;
+	}
+	
+	protected static void ShrinkBoundBox(inout vector bbMin, inout vector bbMax)
+	{
+		// By how many meters in each dimension we will shrink the BB
+		const float shrinkSize = 0.2;
+		
+		vector bbSize = bbMax - bbMin;
+		
+		for (int i = 0; i < 3; i++)
+		{
+			if (bbSize[i] > 2*shrinkSize)
+			{
+				bbMax[i] = bbMax[i] - shrinkSize;
+				bbMin[i] = bbMin[i] + shrinkSize;
+			}
+		}
 	}
 }
