@@ -791,6 +791,7 @@ class PR_GameMode : SCR_BaseGameMode
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, "", "Show Faction Menu", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, "", "Show Deployment Menu", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_AUTO_DEPLOYMENT_MENU, "", "Disable auto depl. menu", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_OPEN_BUILDING_DISPLAY, "", "Open Building Display", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_SUPPLY_HOLDER_INFO, "", "Display Supply info", cheatMenuName);
 		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_HOLDER_IDX, "", "Holder IDX", cheatMenuName, "0, 128, 0, 1");
 		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_TARGET_IDX, "", "Target IDX", cheatMenuName, "0, 128, 0, 1");
@@ -847,6 +848,12 @@ class PR_GameMode : SCR_BaseGameMode
 			Rpc(RpcDo_DiagOpenMenu, ChimeraMenuPreset.RefineFactionSelectionMenu);
 			
 			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, 0);
+		}
+		
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_OPEN_BUILDING_DISPLAY))
+		{
+			PR_BuildingDisplay.ActivateBuilding();
+			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_OPEN_BUILDING_DISPLAY, 0);
 		}
 	}
 	

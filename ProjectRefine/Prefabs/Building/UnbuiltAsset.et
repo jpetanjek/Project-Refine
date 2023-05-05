@@ -1,0 +1,58 @@
+GenericEntity {
+ ID "5D4AE6DB8A04894F"
+ components {
+  Hierarchy "{5D4AE6DAB7681CC8}" {
+  }
+  RplComponent "{5D4AE6DAB09A5162}" {
+  }
+ }
+ {
+  StaticModelEntity : "{0E8C1D00E6FA76CE}Prefabs/Compositions/Misc/SubCompositions/DirtPile_Cluttered_US_01.et" {
+   ID "5D4AE6DB8A048948"
+   coords 0 0.43 0
+  }
+  $grp GenericEntity : "{B3E8911E396DE447}Prefabs/Props/Services/FireExtinguisherBox_01_Shovel.et" {
+   {
+    ID "5D4AE6DB8A048950"
+    components {
+     Hierarchy "{5D4AE6DB97B6B5BD}" {
+     }
+    }
+    coords 0.19 0.716 -0.428
+    angleX 17.796
+    angleZ -164.633
+   }
+   {
+    ID "5D4AE6DBC4A87896"
+    components {
+     Hierarchy "{5D4AE6DB97B6B5BD}" {
+     }
+    }
+    coords 0.4 0.674 -0.205
+    angleX 17.796
+    angleY -51.164
+    angleZ -164.633
+   }
+  }
+  GenericEntity : "{BCE07A58672955B9}Prefabs/Props/Civilian/Bucket_01.et" {
+   ID "5D4AE6DB8A048954"
+   components {
+    Hierarchy "{5D4AE6DB9B739A3E}" {
+    }
+   }
+   coords 0 0.107 -0.556
+   angleX 14.255
+  }
+  GenericEntity : "{D0B44EB8DBEDDA97}Prefabs/Props/Civilian/Bucket_02.et" {
+   ID "5D4AE6DB8A048955"
+   components {
+    Hierarchy "{5D4AE6DB9CF667E4}" {
+    }
+   }
+   coords 0.158 0.634 0.328
+   angleX -66.413
+   angleY -54.261
+   angleZ -49.84
+  }
+ }
+}

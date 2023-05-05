@@ -1,6 +1,8 @@
 SCR_PlayerController : "{225E51284CC95CFA}Prefabs/Characters/Core/DefaultPlayerControllerMP.et" {
  ID "1A9BA6BEFA06E3B1"
  components {
+  PR_BuildingPlayerControllerComponent "{5D4AE6CAABEED5C3}" {
+  }
   PR_PC_SupplyHolderInformerComponent "{5D33229BB4866990}" {
   }
   PR_PlayerControllerDeploymentComponent "{5D11466126162781}" {
@@ -14,6 +16,11 @@ SCR_PlayerController : "{225E51284CC95CFA}Prefabs/Characters/Core/DefaultPlayerC
     }
     PR_GameModeDisplay "{5B3B35CB78C23706}" {
      m_LayoutPath "{92C7C20511C737EE}UI/GameModeDisplay/GameModeDisplay.layout"
+    }
+    PR_BuildingDisplay "{5D2EC19AACF187E3}" {
+     m_LayoutPath "{0044C602AFE26E8E}UI/Building/BuildingDisplay.layout"
+     m_BuildingEntry PR_BuildingEntryCategory "{5D2EE8827223C382}" : "{EAF728C66BF30329}Configs/GameMode/PR_Building_US.conf" {
+     }
     }
    }
   }
