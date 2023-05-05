@@ -128,6 +128,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			
 			if (posValid)
 			{
+				/*
 				EntitySpawnParams sp = new EntitySpawnParams();
 				sp.TransformMode = ETransformMode.WORLD;
 				for (int i = 0; i < 4; i++)
@@ -135,6 +136,9 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 				sp.Parent = null;
 				sp.Scale = 1.0;
 				GetGame().SpawnEntityPrefab(Resource.Load(asset.m_sPrefab), GetGame().GetWorld(), sp);
+				*/
+				
+				PR_BuildingPlayerControllerComponent.GetLocalInstance().AskBuild(asset.m_sPrefab, transform);
 			}
 		}
 	}
@@ -218,14 +222,6 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		
 		PR_BuildingEntry currentChildEntry = category.m_aEntries[m_iCurrentEntryId];
 		ProcessCategoryChildEntry(currentChildEntry);
-		
-		//else if (asset)
-		//{
-		//	// Start building mode
-		//	m_PreviewMode.Activate(asset.m_sPrefab, asset.m_bOrientToSurface);
-		//	
-		//	SetDebugText("Placing asset");
-		//}
 		
 		// Entry name
 		widgets.m_CurrentEntryNameText.SetText(category.m_sDisplayName);

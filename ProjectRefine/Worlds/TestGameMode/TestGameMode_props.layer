@@ -1,3 +1,52 @@
+$grp GenericEntity {
+ {
+  components {
+   MeshObject "{5D4359878D43954F}" {
+    Object "{987D10CBDD2F2AAF}Assets/Props/Military/Sandbags/Sandbag_01_bunker.xob"
+    Materials {
+     MaterialAssignClass "{5D435987EB75CB5B}" {
+      SourceMaterial "Sandbags_01_Bunker"
+      AssignedMaterial "{A3DAAE3F27033DC1}UI/Building/BuildingPreview.emat"
+     }
+     MaterialAssignClass "{5D435987EB75CBBF}" {
+      SourceMaterial "Sandbags_01_MLOD"
+      AssignedMaterial "{A3DAAE3F27033DC1}UI/Building/BuildingPreview.emat"
+     }
+     MaterialAssignClass "{5D435987EB75CBBB}" {
+      SourceMaterial "Sandbags_01_roof"
+      AssignedMaterial "{A3DAAE3F27033DC1}UI/Building/BuildingPreview.emat"
+     }
+    }
+   }
+  }
+  coords 116.823 5.48 404.004
+ }
+ {
+  components {
+   MeshObject "{5D4359878D43954F}" {
+    Object "{987D10CBDD2F2AAF}Assets/Props/Military/Sandbags/Sandbag_01_bunker.xob"
+    Materials {
+     MaterialAssignClass "{5D435984CF67E08A}" {
+      SourceMaterial "Sandbags_01_Bunker"
+      AssignedMaterial "{0C74705225C528E8}UI/Building/BuildingPreviewInvalid.emat"
+     }
+     MaterialAssignClass "{5D435984CF67E0E7}" {
+      SourceMaterial "Sandbags_01_MLOD"
+      AssignedMaterial "{0C74705225C528E8}UI/Building/BuildingPreviewInvalid.emat"
+     }
+     MaterialAssignClass "{5D435984CF67E0E3}" {
+      SourceMaterial "Sandbags_01_roof"
+      AssignedMaterial "{0C74705225C528E8}UI/Building/BuildingPreviewInvalid.emat"
+     }
+    }
+   }
+  }
+  coords 119.898 4.614 410.462
+ }
+}
+GenericEntity : "{41A666D90504519C}Prefabs/Building/UnbuiltAsset.et" {
+ coords 49.74 2.001 473.57
+}
 $grp GenericEntity : "{AF73AC93750884CA}Prefabs/Structures/Signs/Warnings/SignBendDoubleLeft_01_pole.et" {
  {
   coords 47.164 2.001 475.654
