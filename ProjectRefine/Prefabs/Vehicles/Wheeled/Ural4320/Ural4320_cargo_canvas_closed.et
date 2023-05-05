@@ -1,0 +1,38 @@
+GenericEntity : "{5F533EBE61514610}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320_cargo_canvas.et" {
+ ID "4B42E71698F5739C"
+ components {
+  PR_SupplyHolderComponent "{5D431BD041A0E005}" {
+   m_iMaxSupplies 3000
+   m_fRange 10
+   m_fTransferSpeed 10
+  }
+  ActionsManagerComponent "{2CD4A765B4482F53}" {
+   additionalActions {
+    PR_SupplyTargetUserAction "{5D431BD6B2289305}" {
+     ParentContextList {
+      "door_rear"
+     }
+     UIInfo UIInfo "{5D431BD6B4B1E5C4}" {
+     }
+     "Sort Priority" 1
+    }
+    PR_LoadSuppliesUserAction "{5D431BD6B1CA9968}" {
+     ParentContextList {
+      "door_rear"
+     }
+     UIInfo UIInfo "{5D431BD68F1AC0B8}" {
+     }
+     "Sort Priority" 2
+    }
+    PR_UnloadSuppliesUserAction "{5D431BD6B0B2A8FD}" {
+     ParentContextList {
+      "door_rear"
+     }
+     UIInfo UIInfo "{5D431BD6817AFCE6}" {
+     }
+     "Sort Priority" 3
+    }
+   }
+  }
+ }
+}

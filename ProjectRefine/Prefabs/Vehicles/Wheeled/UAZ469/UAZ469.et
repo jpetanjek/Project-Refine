@@ -1,0 +1,38 @@
+Vehicle : "{99F1610551D54D17}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469_base.et" {
+ ID "44EC665ABD2FF04B"
+ components {
+  PR_SupplyHolderComponent "{5D431BD074D371F7}" {
+   m_iMaxSupplies 300
+   m_fRange 10
+   m_fTransferSpeed 10
+  }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   additionalActions {
+    PR_SupplyTargetUserAction "{5D431BD6D89AAB6A}" {
+     ParentContextList {
+      "door_rear"
+     }
+     UIInfo UIInfo "{5D431BD6A9BF4BD0}" {
+     }
+     "Sort Priority" 1
+    }
+    PR_LoadSuppliesUserAction "{5D431BD6DE41097C}" {
+     ParentContextList {
+      "door_rear"
+     }
+     UIInfo UIInfo "{5D431BD6A2B7A0DC}" {
+     }
+     "Sort Priority" 2
+    }
+    PR_UnloadSuppliesUserAction "{5D431BD6DD7C08C0}" {
+     ParentContextList {
+      "door_rear"
+     }
+     UIInfo UIInfo "{5D431BD6BA423FC9}" {
+     }
+     "Sort Priority" 3
+    }
+   }
+  }
+ }
+}

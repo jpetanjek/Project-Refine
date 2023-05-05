@@ -1,0 +1,38 @@
+Vehicle : "{1C5FE7B7FF49BB8D}Prefabs/Vehicles/Wheeled/BTR70/BTR70_Base.et" {
+ ID "BBCBA43A9778AE21"
+ components {
+  PR_SupplyHolderComponent "{5D431BD0DEC5825D}" {
+   m_iMaxSupplies 300
+   m_fRange 10
+   m_fTransferSpeed 10
+  }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   additionalActions {
+    PR_SupplyTargetUserAction "{5D431BD568A4A816}" {
+     ParentContextList {
+      "fuel_cap_l" "fuel_cap_r"
+     }
+     UIInfo UIInfo "{5D431BD55465E0DA}" {
+     }
+     "Sort Priority" 1
+    }
+    PR_LoadSuppliesUserAction "{5D431BD56E8B4BED}" {
+     ParentContextList {
+      "fuel_cap_l" "fuel_cap_r"
+     }
+     UIInfo UIInfo "{5D431BD52210AEC6}" {
+     }
+     "Sort Priority" 2
+    }
+    PR_UnloadSuppliesUserAction "{5D431BD56CEEEA1F}" {
+     ParentContextList {
+      "fuel_cap_l" "fuel_cap_r"
+     }
+     UIInfo UIInfo "{5D431BD53A5AA41B}" {
+     }
+     "Sort Priority" 3
+    }
+   }
+  }
+ }
+}

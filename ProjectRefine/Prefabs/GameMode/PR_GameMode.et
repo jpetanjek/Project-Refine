@@ -7,6 +7,8 @@ PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
   }
   PR_NotificationsGameModeComponent "{5C6D3C8E31A7307F}" {
   }
+  PR_SupplyHolderManger "{5D4299A11D62EF88}" {
+  }
   SCR_GroupsManagerComponent "{5706EC99934496F5}" {
    m_sDefaultGroupPrefab "{828C167E28741CAC}Prefabs/Groups/PR_PlayableGroup.et"
    m_iPlayableGroupFrequencyOffset 100
