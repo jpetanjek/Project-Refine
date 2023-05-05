@@ -168,6 +168,10 @@ class PR_BuildingPreviewMode
 	// Validates position, returns true if it's free
 	protected bool ValidatePosition(vector transform[4])
 	{
+		// Can't place on water or below it
+		if (transform[3][1] < GetGame().GetWorld().GetOceanBaseHeight() + 0.01)
+			return false;
+		
 		// Bounding box of whole composition
 		// Might be too conservative for huge complex compositions, but for simple ones it's fine for now
 		vector bbMinLocal, bbMaxLocal;

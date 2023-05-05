@@ -35,6 +35,8 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		im.AddActionListener("PR_BuildingOpen", EActionTrigger.DOWN, Callback_OnOpen);
 		im.AddActionListener("PR_BuildingClose", EActionTrigger.DOWN, Callback_OnClose);
 		im.AddActionListener("PR_BuildingRotate", EActionTrigger.VALUE, Callback_OnRotate);
+		im.AddActionListener("CharacterFire", EActionTrigger.DOWN, Callback_OnFire);
+		im.AddActionListener("CharacterWeaponADS", EActionTrigger.DOWN, Callback_OnAds);
 		
 		Deactivate();
 	}
@@ -47,6 +49,8 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		im.RemoveActionListener("PR_BuildingOpen", EActionTrigger.DOWN, Callback_OnOpen);
 		im.RemoveActionListener("PR_BuildingClose", EActionTrigger.DOWN, Callback_OnClose);
 		im.RemoveActionListener("PR_BuildingRotate", EActionTrigger.VALUE, Callback_OnRotate);
+		im.RemoveActionListener("CharacterFire", EActionTrigger.DOWN, Callback_OnFire);
+		im.RemoveActionListener("CharacterWeaponADS", EActionTrigger.DOWN, Callback_OnAds);
 	}
 	
 	override event void UpdateValues(IEntity owner, float timeSlice)
@@ -218,8 +222,6 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		
 		SetDescriptionText(category.m_aEntries[m_iCurrentEntryId].m_sDescription);
 		
-		SetDebugText("Browsing category");
-		
 		PR_BuildingEntry currentChildEntry = category.m_aEntries[m_iCurrentEntryId];
 		ProcessCategoryChildEntry(currentChildEntry);
 		
@@ -300,12 +302,6 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		return -(id * entryWidth) - 0.5*entryWidth;
 	}
 	
-	void SetDebugText(string text)
-	{
-		widgets.m_DebugText.SetText(text);
-		widgets.m_DebugText.SetVisible(true);
-	}
-	
 	//----------------------------------------------------------------
 	// Input callbacks
 	
@@ -362,5 +358,16 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			direction = -1;
 		
 		m_PreviewMode.CycleDirection(direction);
+	}
+	
+	// Quickly close the building mode when we want to fire
+	void Callback_OnFire()
+	{
+		Deactivate();
+	}
+	
+	void Callback_OnAds()
+	{
+		Deactivate();
 	}
 }

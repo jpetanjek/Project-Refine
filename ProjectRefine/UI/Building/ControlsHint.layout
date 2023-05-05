@@ -1,0 +1,43 @@
+HorizontalLayoutWidgetClass {
+ Name "ControlsHint"
+ Slot FrameWidgetSlot "{5D4B42F5B1F41C74}" {
+  Anchor 0.5 0.5 0.5 0.5
+  PositionX 130
+  OffsetLeft 130
+  PositionY 100
+  OffsetTop 100
+  SizeX 100
+  OffsetRight -230
+  SizeY 30
+  OffsetBottom -130
+  Alignment 0.5 0.5
+  SizeToContent 1
+ }
+ Clipping False
+ {
+  RichTextWidgetClass "{5D4B42F6E7BBA2A1}" {
+   Name "HintKey"
+   Slot LayoutSlot "{5D4B42F5B434073E}" {
+   }
+   Color 0.761 0.386 0.078 1
+   Text "<action name='PR_BuildingNext' scale='1.25'/>"
+   "Font Size" 20
+   "Min Font Size" 20
+   "Horizontal Alignment" Center
+   "Vertical Alignment" Center
+   "Shadow Offset" 2 2
+   "Shadow Color" 0 0 0 0.498
+  }
+  TextWidgetClass "{5D4B42F6DF88F04D}" {
+   Name "HintText"
+   Slot LayoutSlot "{5D4B42F6DF88F0A3}" {
+    Padding 5 0 0 0
+   }
+   FontProperties FontProperties "{5D4B42F631B04E9E}" {
+    Font "{EABA4FE9D014CCEF}UI/Fonts/RobotoCondensed/RobotoCondensed_Bold.fnt"
+    OutlineSize 3
+    OutlineColor 0 0 0 0.502
+   }
+  }
+ }
+}

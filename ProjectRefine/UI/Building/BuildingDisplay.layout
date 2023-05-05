@@ -10,53 +10,237 @@ FrameWidgetClass {
   FrameWidgetClass "{5D2ECD3F47503CBD}" {
    Name "Frame0"
    Slot FrameWidgetSlot "{5D2ECD3F47503CE6}" {
-    Anchor 0.5 0.8 0.5 0.8
+    Anchor 0.5 0.7 0.5 1
     PositionX 0
     OffsetLeft 0
-    PositionY 0
+    PositionY 108
     OffsetTop 0
     SizeX 1400
     OffsetRight -1400
-    SizeY 200
-    OffsetBottom -200
-    Alignment 0.5 0.5
+    SizeY -84
+    OffsetBottom 0
+    Alignment 0.5 0
    }
    {
-    TextWidgetClass "{5D42B661888F96CC}" : "{0C3F7DC8494C8308}UI/Building/EntryNameText.layout" {
-     Name "m_DebugText"
-     Slot FrameWidgetSlot "{5D42B661888F972E}" {
-      Anchor 1 1 1 1
-      PositionX -200
-      OffsetLeft -200
+    HorizontalLayoutWidgetClass "{5D4B42F64C01F984}" : "{CB35D203E90F1322}UI/Building/ControlsHint.layout" {
+     Name "HintSelect"
+     Slot FrameWidgetSlot "{5D4B42F5B1F41C74}" {
+      Anchor 0.5 1 0.5 1
+      PositionX 180
+      OffsetLeft 180
       PositionY -40
       OffsetTop -40
-      SizeX 114.7
-      OffsetRight 85.3
-      SizeY 22
-      OffsetBottom 18
+      SizeX 100
+      OffsetRight -280
+      SizeY 30
+      OffsetBottom 10
+     }
+     {
+      RichTextWidgetClass "{5D4B42F6E7BBA2A1}" {
+       Prefab "{5D4B42F6E7BBA2A1}"
+       Text "<action name='PR_BuildingOpen' scale='1.25'/>"
+      }
+      TextWidgetClass "{5D4B42F6DF88F04D}" {
+       Prefab "{5D4B42F6DF88F04D}"
+       Text "Select/Place"
+      }
+     }
+    }
+    HorizontalLayoutWidgetClass "{5D4B42F932F5E20E}" : "{CB35D203E90F1322}UI/Building/ControlsHint.layout" {
+     Name "HintRotate"
+     Slot FrameWidgetSlot "{5D4B42F5B1F41C74}" {
+      Anchor 0.5 1 0.5 1
+      PositionX 0
+      OffsetLeft 0
+      PositionY -40
+      OffsetTop -40
+      SizeX 100
+      OffsetRight -100
+      SizeY 30
+      OffsetBottom 10
+     }
+     {
+      RichTextWidgetClass "{5D4B42F6E7BBA2A1}" {
+       Prefab "{5D4B42F6E7BBA2A1}"
+       Text "<action name='PR_BuildingRotate' scale='1.25'/>"
+      }
+      TextWidgetClass "{5D4B42F6DF88F04D}" {
+       Prefab "{5D4B42F6DF88F04D}"
+       Text "Rotate"
+      }
+     }
+    }
+    HorizontalLayoutWidgetClass "{5D4B42F9B165B133}" : "{CB35D203E90F1322}UI/Building/ControlsHint.layout" {
+     Name "HintBack"
+     Slot FrameWidgetSlot "{5D4B42F5B1F41C74}" {
+      Anchor 0.5 1 0.5 1
+      PositionX -180
+      OffsetLeft -180
+      PositionY -40
+      OffsetTop -40
+      SizeX 100
+      OffsetRight 80
+      SizeY 30
+      OffsetBottom 10
+     }
+     {
+      RichTextWidgetClass "{5D4B42F6E7BBA2A1}" {
+       Prefab "{5D4B42F6E7BBA2A1}"
+       Text "<action name='PR_BuildingClose' scale='1.25'/>"
+      }
+      TextWidgetClass "{5D4B42F6DF88F04D}" {
+       Prefab "{5D4B42F6DF88F04D}"
+       Text "Back"
+      }
+     }
+    }
+    HorizontalLayoutWidgetClass "{5D4B42F5B1F41C66}" {
+     Name "HintNext"
+     Slot FrameWidgetSlot "{5D4B42F5B1F41C74}" {
+      Anchor 0.5 0.5 0.5 0.5
+      PositionX 180
+      OffsetLeft 180
+      PositionY 45
+      OffsetTop 45
+      SizeX 100
+      OffsetRight -280
+      SizeY 30
+      OffsetBottom -75
       Alignment 0.5 0.5
       SizeToContent 1
      }
      Clipping False
-     Color 0.071 0.561 0.192 1
-     Rotation 0
-     Pivot 0.5 0.5
-     Text "Debug Text"
+     {
+      RichTextWidgetClass "{5D4B42F5B4340724}" {
+       Name "HintText"
+       Slot LayoutSlot "{5D4B42F5B434073E}" {
+       }
+       Color 0.761 0.386 0.078 1
+       Text "<action name='PR_BuildingNext' scale='1.25'/>"
+       "Font Size" 20
+       "Min Font Size" 20
+       "Horizontal Alignment" Center
+       "Vertical Alignment" Center
+       "Shadow Offset" 2 2
+       "Shadow Color" 0 0 0 0.498
+      }
+      OverlayWidgetClass "{5D4B42F42B4A2EC6}" {
+       Name "Overlay0"
+       Slot LayoutSlot "{5D4B42F42B4A2EDD}" {
+       }
+       {
+        ImageWidgetClass "{5D4B42F420012465}" {
+         Name "ArrowShadow"
+         Slot OverlayWidgetSlot "{5D4B42F83D707589}" {
+         }
+         Color 0 0 0 1
+         Texture "{0250208EA4A9AB25}UI/Textures/Icons/icons_wrapperUI-32-glow.imageset"
+         Image "play"
+         Size 32 32
+        }
+        ImageWidgetClass "{5D4B42F569517C22}" {
+         Name "Arrow"
+         Slot OverlayWidgetSlot "{5D4B42F83D7075EB}" {
+         }
+         Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
+         Image "play"
+         Size 32 32
+        }
+       }
+      }
+     }
     }
-    TextWidgetClass "{5D315C0BB1858C8C}" {
-     Name "m_DescriptionText"
-     Slot FrameWidgetSlot "{5D315C0BB1858C9B}" {
-      Anchor 0 0 1 0.4
+    HorizontalLayoutWidgetClass "{5D4B42F4198D645C}" {
+     Name "HintPrev"
+     Slot FrameWidgetSlot "{5D4B42F5B1F41C74}" {
+      Anchor 0.5 0.5 0.5 0.5
+      PositionX -180
+      OffsetLeft -180
+      PositionY 45
+      OffsetTop 45
+      SizeX 100
+      OffsetRight 80
+      SizeY 30
+      OffsetBottom -75
+      Alignment 0.5 0.5
+      SizeToContent 1
+     }
+     Clipping False
+     "Fill Origin" Right
+     {
+      RichTextWidgetClass "{5D4B42F4198D645D}" {
+       Name "HintText"
+       Slot LayoutSlot "{5D4B42F5B434073E}" {
+       }
+       Clipping False
+       Color 0.761 0.386 0.078 1
+       Text "<action name='PR_BuildingPrev' scale='1.25'/>"
+       "Font Size" 20
+       "Min Font Size" 20
+       "Horizontal Alignment" Center
+       "Vertical Alignment" Center
+       "Shadow Offset" 2 2
+       "Shadow Color" 0 0 0 0.498
+      }
+      OverlayWidgetClass "{5D4B42F4198D645B}" {
+       Name "Overlay0"
+       Slot LayoutSlot "{5D4B42F42B4A2EDD}" {
+       }
+       {
+        ImageWidgetClass "{5D4B42F4198D6458}" {
+         Name "ArrowShadow"
+         Slot OverlayWidgetSlot "{5D4B42F4198D6462}" {
+         }
+         Color 0 0 0 1
+         Rotation 180
+         Texture "{0250208EA4A9AB25}UI/Textures/Icons/icons_wrapperUI-32-glow.imageset"
+         Image "play"
+         Size 32 32
+        }
+        ImageWidgetClass "{5D4B42F4198D6459}" {
+         Name "Arrow"
+         Slot OverlayWidgetSlot "{5D4B42F4198D6441}" {
+         }
+         Rotation 180
+         Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
+         Image "play"
+         Size 32 32
+        }
+       }
+      }
+     }
+    }
+    ImageWidgetClass "{5D4B42F2FEED4542}" {
+     Name "Image1"
+     Slot FrameWidgetSlot "{5D4B42F2FEED455E}" {
+      Anchor 0 0 1 1
       PositionX 0
       OffsetLeft 0
       PositionY 0
       OffsetTop 0
       SizeX -1300
       OffsetRight 0
-      SizeY -50
+      SizeY -170
       OffsetBottom 0
      }
-     Text "The Yamaha FZS600 Fazer is a sport motorcycle produced by Yamaha between 1998 and 2004. It is the predecessor of the Yamaha FZ6. During its production run, it underwent several changes before being discontinued in 2004 due to European emissions laws coming into force."
+     "Is Visible" 0
+     Opacity 0.345
+     Color 0.502 0 0 1
+    }
+    TextWidgetClass "{5D315C0BB1858C8C}" {
+     Name "m_DescriptionText"
+     Slot FrameWidgetSlot "{5D315C0BB1858C9B}" {
+      Anchor 0 0 1 0.5
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX 0
+      OffsetRight 0
+      SizeY -32.4
+      OffsetBottom 0
+     }
+     Text "The Yamaha FZS600 Fazer is a sport motorcycle produced by Yamaha between 1998 and 2004. It is the predecessor of the Yamaha FZ6."
      "Horizontal Alignment" Center
      "Vertical Alignment" Center
      Wrap 1
@@ -70,70 +254,45 @@ FrameWidgetClass {
      Name "m_EntryNames"
      Slot FrameWidgetSlot "{5D2ECD3FAA6CB5E3}" {
       Anchor 0.5 0.5 0.5 0.5
-      PositionX -100
-      OffsetLeft -100
+      PositionX -125
+      OffsetLeft -125
       PositionY 0
       OffsetTop 0
       SizeX 100
-      OffsetRight 0
+      OffsetRight 25
       SizeY 60
       OffsetBottom -60
       Alignment 0 0.5
       SizeToContent 1
      }
+     Clipping False
      {
-      SizeLayoutWidgetClass "{5D2ECD3F9BC7328B}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+      SizeLayoutWidgetClass "{5D4B42F29DB72ECB}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
        Name "EntryName0"
-       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       Slot LayoutSlot "{5D2ECD3FF70ECB7D}" {
        }
-       AllowWidthOverride 1
-       WidthOverride 200
-       HeightOverride 24
       }
-      SizeLayoutWidgetClass "{5D2ECD3FEAF29DF9}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+      SizeLayoutWidgetClass "{5D4B42F2E317521A}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
        Name "EntryName1"
-       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       Slot LayoutSlot "{5D2ECD3FF70ECB7D}" {
        }
       }
-      SizeLayoutWidgetClass "{5D2ECD3FEA307668}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+      SizeLayoutWidgetClass "{5D4B42F2E33796D6}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
        Name "EntryName2"
-       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       Slot LayoutSlot "{5D2ECD3FF70ECB7D}" {
        }
       }
-      SizeLayoutWidgetClass "{5D2ECD39E3E6A44D}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+      SizeLayoutWidgetClass "{5D4B42F2E3520495}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
        Name "EntryName3"
-       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       Slot LayoutSlot "{5D2ECD3FF70ECB7D}" {
        }
       }
-      SizeLayoutWidgetClass "{5D2ECD39E32FB356}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
+      SizeLayoutWidgetClass "{5D4B42F2E299A587}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
        Name "EntryName4"
-       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
-       }
-      }
-      SizeLayoutWidgetClass "{5D2ECD39E2D5197C}" : "{761FCDF0F144F139}UI/Building/EntryName.layout" {
-       Name "EntryName5"
-       Slot LayoutSlot "{5D2ECD3F8AD21F12}" {
+       Slot LayoutSlot "{5D2ECD3FF70ECB7D}" {
        }
       }
      }
-    }
-    ImageWidgetClass "{5D2ECD38A0F17499}" {
-     Name "Image0"
-     Slot FrameWidgetSlot "{5D2ECD38A0F174F4}" {
-      Anchor 0.5 0.5 0.5 0.5
-      PositionX 0
-      OffsetLeft 0
-      PositionY 10
-      OffsetTop 10
-      SizeX 32
-      OffsetRight -32
-      SizeY 32
-      OffsetBottom -42
-      Alignment 0.5 0
-     }
-     Rotation 270
-     Texture "{45AAA018767160BD}UI/Textures/WidgetLibrary/PagingArrow.edds"
-     Size 100 100
     }
     TextWidgetClass "{5D315319BB9FD335}" : "{0C3F7DC8494C8308}UI/Building/EntryNameText.layout" {
      Name "m_CurrentEntryNameText"
@@ -149,6 +308,43 @@ FrameWidgetClass {
       SizeToContent 1
      }
      Clipping False
+    }
+    OverlayWidgetClass "{5D4B42F743E0DE05}" {
+     Name "ArrowUp"
+     Slot FrameWidgetSlot "{5D4B42F743E0DEA3}" {
+      Anchor 0.5 0.5 0.5 0.5
+      PositionX 0
+      OffsetLeft 0
+      PositionY 30
+      OffsetTop 30
+      SizeX 100
+      OffsetRight -100
+      SizeY 30
+      OffsetBottom -60
+      Alignment 0.5 0.5
+      SizeToContent 1
+     }
+     {
+      ImageWidgetClass "{5D4B42F743E0DE02}" {
+       Name "ArrowShadow"
+       Slot OverlayWidgetSlot "{5D4B42F743E0DDFC}" {
+       }
+       Color 0 0 0 1
+       Rotation 270
+       Texture "{0250208EA4A9AB25}UI/Textures/Icons/icons_wrapperUI-32-glow.imageset"
+       Image "play"
+       Size 32 32
+      }
+      ImageWidgetClass "{5D4B42F743E0DE03}" {
+       Name "Arrow"
+       Slot OverlayWidgetSlot "{5D4B42F743E0DE28}" {
+       }
+       Rotation 270
+       Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
+       Image "play"
+       Size 32 32
+      }
+     }
     }
    }
   }
