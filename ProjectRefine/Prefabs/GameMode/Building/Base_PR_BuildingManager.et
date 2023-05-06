@@ -1,0 +1,13 @@
+PR_BuildingManager {
+ ID "5D4D08349FC16379"
+ components {
+  RplComponent "{5D4D0834A947FEEC}" {
+  }
+ }
+ coords 59.818 52.672 293.904
+ m_sFoundationPrefab "{41A666D90504519C}Prefabs/Building/UnbuiltAsset.et"
+ m_iMaxHealth 100
+ m_iPlacedHealth 30
+ m_iFinalStageHealth 90
+ m_iDisableHealth 50
+}

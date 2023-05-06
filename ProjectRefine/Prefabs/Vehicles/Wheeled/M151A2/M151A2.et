@@ -14,6 +14,7 @@ Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
      }
      UIInfo UIInfo "{5D429992A05D18A9}" {
      }
+     Duration 0
      "Sort Priority" 1
     }
     PR_LoadSuppliesUserAction "{5D429992CB72F57B}" {
@@ -22,6 +23,7 @@ Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
      }
      UIInfo UIInfo "{5D4299924689C25E}" {
      }
+     Duration 0
      "Sort Priority" 2
     }
     PR_UnloadSuppliesUserAction "{5D429992CAB90F02}" {
@@ -30,6 +32,7 @@ Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
      }
      UIInfo UIInfo "{5D4299925D7277A7}" {
      }
+     Duration 0
      "Sort Priority" 3
     }
    }

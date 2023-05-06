@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{F109C8DFC6DB0C92}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_canvas_closed_MERDC.et"
+ Name "{B58AD4A5301C2482}Prefabs/GameMode/Building/Base_PR_BuildingManager.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

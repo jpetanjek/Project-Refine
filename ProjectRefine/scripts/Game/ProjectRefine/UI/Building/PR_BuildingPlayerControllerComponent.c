@@ -37,6 +37,20 @@ class PR_BuildingPlayerControllerComponent : ScriptComponent
 		GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), sp);
 	}
 	
+	void AskBuildAction(RplId target)
+	{
+		Rpc(Rpc_AskBuildAction, target);	
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void Rpc_AskBuildAction(RplId target)
+	{
+		RplComponent rplComponentTarget = RplComponent.Cast(Replication.FindItem(target));
+		PR_BuildingManager entityTarget = PR_BuildingManager.Cast(rplComponentTarget.GetEntity());
+		
+		// TODO: Some classes can build faster than others
+		entityTarget.Build(5);
+	}
 	
 	/*
 	//------------------------------------------------------------------------------------------------

@@ -13,7 +13,9 @@ GenericEntity : "{4AFBDAC4EE3FADBB}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_
       "door_rear"
      }
      UIInfo UIInfo "{5D431BD518125187}" {
+      Name "test3"
      }
+     Duration 0
      "Sort Priority" 1
     }
     PR_LoadSuppliesUserAction "{5D431BD5031FD878}" {
@@ -21,7 +23,9 @@ GenericEntity : "{4AFBDAC4EE3FADBB}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_
       "door_rear"
      }
      UIInfo UIInfo "{5D431BD511611B62}" {
+      Name "test2"
      }
+     Duration 0
      "Sort Priority" 2
     }
     PR_UnloadSuppliesUserAction "{5D431BD502DBAB77}" {
@@ -29,7 +33,9 @@ GenericEntity : "{4AFBDAC4EE3FADBB}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_
       "door_rear"
      }
      UIInfo UIInfo "{5D431BD514A832A7}" {
+      Name "test"
      }
+     Duration 0
      "Sort Priority" 3
     }
    }

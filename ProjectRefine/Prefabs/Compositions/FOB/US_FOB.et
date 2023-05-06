@@ -1,5 +1,9 @@
 GenericEntity {
  ID "5D4B2DD1CCD3495E"
+ components {
+  RplComponent "{5D4D083945FFE5B7}" {
+  }
+ }
  {
   $grp GenericEntity : "{BBE13893AEA69C0C}Prefabs/Props/Military/Sandbags/Sandbag_01_foundation_plastic.et" {
    {

@@ -14,6 +14,7 @@ Vehicle : "{99F1610551D54D17}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469_base.et" {
      }
      UIInfo UIInfo "{5D431BD6A9BF4BD0}" {
      }
+     Duration 0
      "Sort Priority" 1
     }
     PR_LoadSuppliesUserAction "{5D431BD6DE41097C}" {
@@ -22,6 +23,7 @@ Vehicle : "{99F1610551D54D17}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469_base.et" {
      }
      UIInfo UIInfo "{5D431BD6A2B7A0DC}" {
      }
+     Duration 0
      "Sort Priority" 2
     }
     PR_UnloadSuppliesUserAction "{5D431BD6DD7C08C0}" {
@@ -30,6 +32,7 @@ Vehicle : "{99F1610551D54D17}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469_base.et" {
      }
      UIInfo UIInfo "{5D431BD6BA423FC9}" {
      }
+     Duration 0
      "Sort Priority" 3
     }
    }

@@ -20,6 +20,9 @@ class PR_BuildingManager: GenericEntity
 	[Attribute("1", desc: "Health when placed")]
 	int m_iPlacedHealth;
 	
+	[Attribute(desc: "Place as already built")]
+	bool m_bPlacedBuilt;
+	
 	[Attribute("1", desc: "Health at which we switch to final prefab and entity is enabled")]
 	int m_iFinalStageHealth;
 	
@@ -34,6 +37,7 @@ class PR_BuildingManager: GenericEntity
 	
 	IEntity m_Final;
 	
+	[RplProp()]
 	int m_iHealth = 1;
 	
 	bool m_bEnabled = false;
@@ -41,15 +45,16 @@ class PR_BuildingManager: GenericEntity
 	bool m_bIsBuilt = false;
 	
 	bool m_bHealthChanged = false;
-	
-	float m_fElapsed = 0;
-	
+		
 	//---------------------	
 	override void EOnInit(IEntity owner)
 	{
 		m_iHealth = m_iPlacedHealth;
 		
-		m_Foundation = CreateStage( m_sFoundationPrefab );
+		if(m_bPlacedBuilt)
+			Built();
+		else
+			m_Foundation = CreateStage( m_sFoundationPrefab );
 		
 		m_RplComponent = RplComponent.Cast(owner.FindComponent(RplComponent));
 		
@@ -74,9 +79,9 @@ class PR_BuildingManager: GenericEntity
 		RuntimeLogic();
 	}
 	
-	IEntity CreateStage(ResourceName prefab)
+	protected IEntity CreateStage(ResourceName prefab)
 	{
-		EntitySpawnParams sp;
+		EntitySpawnParams sp = EntitySpawnParams();
 		sp.TransformMode = ETransformMode.WORLD;
 		GetTransform(sp.Transform);
 		
@@ -88,12 +93,14 @@ class PR_BuildingManager: GenericEntity
 	
 	void Build(int amount)
 	{
+		int iHealthBefore = m_iHealth;
 		m_iHealth += amount;
 		Math.ClampInt(m_iHealth, 0, m_iMaxHealth);
-		m_bHealthChanged = true;
+		if(m_iHealth != iHealthBefore)
+			m_bHealthChanged = true;
 	}
 	
-	void RuntimeLogic()
+	protected void RuntimeLogic()
 	{
 		if(!m_bHealthChanged)
 			return;
@@ -109,7 +116,6 @@ class PR_BuildingManager: GenericEntity
 				if(m_iHealth >= m_iFinalStageHealth)
 				{
 					Built();
-					Enable(true);
 				}
 			}
 			else
@@ -121,17 +127,21 @@ class PR_BuildingManager: GenericEntity
 			}
 		}
 		m_bHealthChanged = false;
+		
+		Replication.BumpMe();
 	}
 	
-	void Enable(bool value)
+	protected void Enable(bool value)
 	{
 		m_bEnabled = value;
 		// TODO Enable Spawn point
 	}
 	
-	void Built()
+	protected void Built()
 	{
+		Enable(true);
 		m_bIsBuilt = true;
+		
 		// Delete foundation
 		if( m_Foundation )
 			delete m_Foundation;

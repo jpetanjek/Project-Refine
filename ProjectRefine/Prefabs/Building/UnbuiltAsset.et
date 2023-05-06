@@ -3,6 +3,27 @@ GenericEntity {
  components {
   Hierarchy "{5D4AE6DAB7681CC8}" {
   }
+  ActionsManagerComponent "{5D4D2C7EEEFE4BA2}" {
+   ActionContexts {
+    UserActionContext "{5D4D2C7EE3C06B05}" {
+     UIInfo UIInfo "{5D4D2C7EDC614BF2}" {
+     }
+     ContextName "BuildLocation"
+     Position PointInfo "{5D4D2C7EE739D7BA}" {
+      Offset 0 1 0
+     }
+    }
+   }
+   additionalActions {
+    PR_BuildUserAction "{5D4D2C7E86D63F32}" {
+     ParentContextList {
+      "BuildLocation"
+     }
+     UIInfo UIInfo "{5D4D2C7E995D6F45}" {
+     }
+    }
+   }
+  }
   RplComponent "{5D4AE6DAB09A5162}" {
   }
  }
