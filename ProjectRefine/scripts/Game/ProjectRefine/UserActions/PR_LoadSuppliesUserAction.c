@@ -119,7 +119,7 @@ class PR_LoadSuppliesUserAction : ScriptedUserAction
 			return false;
 		
 		PR_SupplyHolderComponent target = m_SupplyHolder.m_ActionTarget;
-		if (!target || target.m_iSupply <= 0)
+		if (!target)
 			return false;
 				
 		outName = "LOAD SUPPLIES";

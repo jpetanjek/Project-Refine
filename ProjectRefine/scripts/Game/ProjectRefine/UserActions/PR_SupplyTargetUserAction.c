@@ -136,13 +136,23 @@ class PR_SupplyTargetUserAction : ScriptedUserAction
 		if (!m_SupplyHolder.m_ActionTarget)
 			return false;
 		
-		outName = m_SupplyHolder.m_ActionTarget.GetOwner().GetName();
-		if(outName.IsEmpty())
+		outName += "[";
+		outName += (m_SupplyHolder.m_aAvailableHolders.Find(m_SupplyHolder.m_ActionTarget) + 1).ToString();
+		outName += "/";
+		outName += m_SupplyHolder.m_aAvailableHolders.Count().ToString();
+		outName += "] ";
+		
+		string localName = m_SupplyHolder.m_ActionTarget.GetOwner().GetName();
+		if(localName.IsEmpty())
 		{
-			outName = m_SupplyHolder.m_ActionTarget.GetOwner().GetPrefabData().GetPrefabName();
-			int lastSlash = outName.LastIndexOf("/") + 1;
-			int lastDot = outName.LastIndexOf(".et") - lastSlash;
-			outName = outName.Substring(lastSlash, lastDot);
+			localName = m_SupplyHolder.m_ActionTarget.GetOwner().GetPrefabData().GetPrefabName();
+			int lastSlash = localName.LastIndexOf("/") + 1;
+			int lastDot = localName.LastIndexOf(".et") - lastSlash;
+			outName += localName.Substring(lastSlash, lastDot);
+		}
+		else
+		{
+			outName += localName;
 		}
 		
 		outName += " (";

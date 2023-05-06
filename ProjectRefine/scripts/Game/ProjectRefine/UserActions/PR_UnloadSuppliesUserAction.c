@@ -115,11 +115,11 @@ class PR_UnloadSuppliesUserAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool GetActionNameScript(out string outName)
 	{
-		if (!m_SupplyHolder || m_SupplyHolder.m_aAvailableHolders.IsEmpty() || m_SupplyHolder.m_iSupply <= 0)
+		if (!m_SupplyHolder || m_SupplyHolder.m_aAvailableHolders.IsEmpty())
 			return false;
 		
 		PR_SupplyHolderComponent target = m_SupplyHolder.m_ActionTarget;
-		if (!target || target.m_iSupply >= target.m_iMaxSupplies)
+		if (!target)
 			return false;
 
 		outName = "UNLOAD SUPPLIES";
