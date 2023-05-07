@@ -40,12 +40,29 @@ class PR_BuildingManager: GenericEntity
 	[RplProp()]
 	int m_iHealth = 1;
 	
+	// Faction which has created this
+	[RplProp()]
+	int m_iOwnerFactionId = -1;
+	
 	bool m_bEnabled = false;
 	
 	bool m_bIsBuilt = false;
 	
 	bool m_bHealthChanged = false;
-		
+	
+	//---------------------
+	// Must be called after initial entity is created
+	void Init(int ownerFactionId)
+	{
+		m_iOwnerFactionId = ownerFactionId;
+		Replication.BumpMe();
+	}
+	
+	int GetOwnerFactionId()
+	{
+		return m_iOwnerFactionId;
+	}
+	
 	//---------------------	
 	override void EOnInit(IEntity owner)
 	{
@@ -60,7 +77,6 @@ class PR_BuildingManager: GenericEntity
 		
 		if(m_RplComponent && !m_RplComponent.IsProxy())
 		{
-			SetEventMask(EntityEvent.FRAME);
 			SetFlags(EntityFlags.ACTIVE, true);
 		}
 	}
@@ -68,15 +84,20 @@ class PR_BuildingManager: GenericEntity
 	void ~PR_BuildingManager()
 	{
 		if( m_Foundation )
-			delete m_Foundation;
+			SCR_EntityHelper.DeleteEntityAndChildren(m_Foundation);
 		
 		if( m_Final )
-			delete m_Final;
+			SCR_EntityHelper.DeleteEntityAndChildren(m_Final);
 	}
 	
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
-		RuntimeLogic();
+		if (m_bHealthChanged)
+		{
+			UpdateHealthLogic();
+			m_bHealthChanged = false;
+			ClearEventMask(EntityEvent.FRAME);
+		}
 	}
 	
 	protected IEntity CreateStage(ResourceName prefab)
@@ -97,17 +118,18 @@ class PR_BuildingManager: GenericEntity
 		m_iHealth += amount;
 		Math.ClampInt(m_iHealth, 0, m_iMaxHealth);
 		if(m_iHealth != iHealthBefore)
+		{
+			// Activate EOnFrame event, run the logic in EOnFrame, then reset it
+			SetEventMask(EntityEvent.FRAME);
 			m_bHealthChanged = true;
+		}
 	}
 	
-	protected void RuntimeLogic()
+	protected void UpdateHealthLogic()
 	{
-		if(!m_bHealthChanged)
-			return;
-		
-		if(m_iHealth == 0)
+		if(m_iHealth <= 0)
 		{
-			delete this;
+			SCR_EntityHelper.DeleteEntityAndChildren(this);
 		}
 		else
 		{
@@ -116,6 +138,7 @@ class PR_BuildingManager: GenericEntity
 				if(m_iHealth >= m_iFinalStageHealth)
 				{
 					Built();
+					Enable(true); // Enable after entity is created
 				}
 			}
 			else
@@ -126,27 +149,45 @@ class PR_BuildingManager: GenericEntity
 					Enable(true);
 			}
 		}
-		m_bHealthChanged = false;
 		
 		Replication.BumpMe();
+		
 	}
 	
 	protected void Enable(bool value)
 	{
 		m_bEnabled = value;
-		// TODO Enable Spawn point
+		
+		// Call events on event handlers
+		array<Managed> eventHandlers = {};
+		m_Final.FindComponents(PR_BuildableEventHandlerComponent, eventHandlers);
+		foreach (Managed managed : eventHandlers)
+		{
+			PR_BuildableEventHandlerComponent buildingEventHandler = PR_BuildableEventHandlerComponent.Cast(managed);
+			buildingEventHandler.OnEnabled(this, value);
+		}
 	}
 	
 	protected void Built()
 	{
-		Enable(true);
 		m_bIsBuilt = true;
 		
 		// Delete foundation
 		if( m_Foundation )
-			delete m_Foundation;
-		
+		{
+			SCR_EntityHelper.DeleteEntityAndChildren(m_Foundation);
+		}
+			
 		// Create final
 		m_Final = CreateStage(m_sFinalPrefab);
+		
+		// Call events on event handlers
+		array<Managed> eventHandlers = {};
+		m_Final.FindComponents(PR_BuildableEventHandlerComponent, eventHandlers);
+		foreach (Managed managed : eventHandlers)
+		{
+			PR_BuildableEventHandlerComponent buildingEventHandler = PR_BuildableEventHandlerComponent.Cast(managed);
+			buildingEventHandler.OnBuild(this);
+		}
 	}
 }

@@ -25,4 +25,12 @@ modded class SCR_Faction
 	{
 		return m_aRoleList;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Returns index of faction within FactionManager
+	int GetId()
+	{
+		FactionManager fm = GetGame().GetFactionManager();
+		return fm.GetFactionIndex(this);
+	}
 }

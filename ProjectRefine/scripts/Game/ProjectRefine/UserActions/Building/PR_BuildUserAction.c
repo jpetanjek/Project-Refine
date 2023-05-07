@@ -2,7 +2,7 @@
 class PR_BuildUserAction : ScriptedUserAction
 {
 	protected PR_BuildingManager m_BuildingManager;
-	protected PR_BuildingPlayerControllerComponent m_BuildingPC;
+	protected PR_PC_BuildingComponent m_BuildingPC;
 	protected RplId m_TargetRplId = RplId.Invalid();
 
 	protected int m_iBuildResult;
@@ -35,7 +35,7 @@ class PR_BuildUserAction : ScriptedUserAction
 				return;
 			
 			// Find network component to send RPC to server
-			m_BuildingPC = PR_BuildingPlayerControllerComponent.Cast(playerController.FindComponent(PR_BuildingPlayerControllerComponent));
+			m_BuildingPC = PR_PC_BuildingComponent.Cast(playerController.FindComponent(PR_PC_BuildingComponent));
 		}
 		
 		if(!m_BuildingPC)

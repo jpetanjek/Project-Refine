@@ -161,15 +161,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		}
 		else if (asset)
 		{
-			// Try to place the asset
-			vector transform[4];
-			bool posValid;
-			m_PreviewMode.GetAndValidateTransform(transform, posValid);
-			
-			if (posValid)
-			{				
-				PR_BuildingPlayerControllerComponent.GetLocalInstance().AskBuild(asset.m_sPrefab, transform);
-			}
+			TryPlaceAsset(asset);
 		}
 	}
 	
@@ -195,6 +187,19 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		}
 		else
 			Deactivate();
+	}
+	
+	void TryPlaceAsset(PR_BuildingEntryAsset asset)
+	{
+		// Try to place the asset
+		vector transform[4];
+		bool posValid;
+		m_PreviewMode.GetAndValidateTransform(transform, posValid);
+		
+		if (posValid)
+		{				
+			PR_PC_BuildingComponent.GetLocalInstance().AskBuild(asset.m_sBuildingManagerPrefab, transform);
+		}
 	}
 	
 	// Going to next/prev entry in a category

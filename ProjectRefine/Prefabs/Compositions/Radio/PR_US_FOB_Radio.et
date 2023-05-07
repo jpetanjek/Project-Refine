@@ -1,5 +1,21 @@
 GenericEntity {
  ID "5D452E2229BD43F8"
+ components {
+  Hierarchy "{5D4F643015CC9B86}" {
+  }
+  PR_BuildableFobEventHandlerComponent "{5D4F32B46DED66F0}" {
+  }
+  PR_FobComponent "{5D4ECE8C68382882}" {
+  }
+  PR_SupplyHolderComponent "{5D4F51A5D34E36E8}" {
+   m_iMaxSupplies 999999
+   m_fRange 200
+   m_fTransferSpeed 50
+  }
+  RplComponent "{5D4F32BA169FA4AE}" {
+   Streamable Disabled
+  }
+ }
  coords 0 0 0
  {
   GenericEntity : "{0133284E3BDEAEC4}Prefabs/Props/Civilian/Ashtray_01_Full_yellow.et" {

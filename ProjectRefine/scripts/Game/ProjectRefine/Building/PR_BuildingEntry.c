@@ -26,8 +26,11 @@ enum PR_EAssetBuildingRules
 [BaseContainerProps(), PR_BuildingEntryAssetCustomTitleAttribute()]
 class PR_BuildingEntryAsset : PR_BuildingEntry
 {
-	[Attribute("", UIWidgets.ResourceNamePicker, "Prefab of asset", "et")]
+	[Attribute("", UIWidgets.ResourceNamePicker, "Prefab of asset, used only for preview.", "et")]
 	ResourceName m_sPrefab;
+	
+	[Attribute("", UIWidgets.ResourceNamePicker, "Prefab of building manager for this asset, used for actual building.", "et")]
+	ResourceName m_sBuildingManagerPrefab;
 	
 	[Attribute("0", UIWidgets.EditBox, "Cost of asset")]
 	float m_fCost;

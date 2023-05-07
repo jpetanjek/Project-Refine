@@ -56,6 +56,9 @@ GenericEntity {
    components {
     Hierarchy "{5D4EA80AAFAC6BFE}" {
     }
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
    }
    coords 0 0.429 0
   }
