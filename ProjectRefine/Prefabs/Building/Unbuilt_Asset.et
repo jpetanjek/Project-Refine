@@ -1,40 +1,16 @@
 GenericEntity {
- ID "5D4AE6DB8A04894F"
+ ID "5D4EA80AE8FBF18F"
  components {
   Hierarchy "{5D4AE6DAB7681CC8}" {
-  }
-  ActionsManagerComponent "{5D4D2C7EEEFE4BA2}" {
-   ActionContexts {
-    UserActionContext "{5D4D2C7EE3C06B05}" {
-     UIInfo UIInfo "{5D4D2C7EDC614BF2}" {
-     }
-     ContextName "BuildLocation"
-     Position PointInfo "{5D4D2C7EE739D7BA}" {
-      Offset 0 1 0
-     }
-    }
-   }
-   additionalActions {
-    PR_BuildUserAction "{5D4D2C7E86D63F32}" {
-     ParentContextList {
-      "BuildLocation"
-     }
-     UIInfo UIInfo "{5D4D2C7E995D6F45}" {
-     }
-    }
-   }
   }
   RplComponent "{5D4AE6DAB09A5162}" {
   }
  }
+ coords 0 0 0
  {
-  StaticModelEntity : "{0E8C1D00E6FA76CE}Prefabs/Compositions/Misc/SubCompositions/DirtPile_Cluttered_US_01.et" {
-   ID "5D4AE6DB8A048948"
-   coords 0 0.43 0
-  }
   $grp GenericEntity : "{B3E8911E396DE447}Prefabs/Props/Services/FireExtinguisherBox_01_Shovel.et" {
    {
-    ID "5D4AE6DB8A048950"
+    ID "5D4EA80AE8FBF074"
     components {
      Hierarchy "{5D4AE6DB97B6B5BD}" {
      }
@@ -44,7 +20,7 @@ GenericEntity {
     angleZ -164.633
    }
    {
-    ID "5D4AE6DBC4A87896"
+    ID "5D4EA80AE8FBF076"
     components {
      Hierarchy "{5D4AE6DB97B6B5BD}" {
      }
@@ -56,7 +32,7 @@ GenericEntity {
    }
   }
   GenericEntity : "{BCE07A58672955B9}Prefabs/Props/Civilian/Bucket_01.et" {
-   ID "5D4AE6DB8A048954"
+   ID "5D4EA80AE8FBF07F"
    components {
     Hierarchy "{5D4AE6DB9B739A3E}" {
     }
@@ -65,7 +41,7 @@ GenericEntity {
    angleX 14.255
   }
   GenericEntity : "{D0B44EB8DBEDDA97}Prefabs/Props/Civilian/Bucket_02.et" {
-   ID "5D4AE6DB8A048955"
+   ID "5D4EA80AE8FBF07E"
    components {
     Hierarchy "{5D4AE6DB9CF667E4}" {
     }
@@ -74,6 +50,14 @@ GenericEntity {
    angleX -66.413
    angleY -54.261
    angleZ -49.84
+  }
+  StaticModelEntity : "{DF649B29EC7635F3}Prefabs/Structures/Military/Fortifications/DirtPile_01/DirtPile_01_small.et" {
+   ID "5D4EA80AE8FBF062"
+   components {
+    Hierarchy "{5D4EA80AAFAC6BFE}" {
+    }
+   }
+   coords 0 0.429 0
   }
  }
 }

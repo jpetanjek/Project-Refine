@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{E5054E5BE5F115C7}Prefabs/GameMode/Building/US_FOB_PR_BuildingManager.et"
+ Name "{A7FD47BEC8622DD0}Prefabs/GameMode/Building/PR_US_FOB.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

@@ -1,11 +1,45 @@
 PR_BuildingManager {
  ID "5D4D08349FC16379"
  components {
+  MeshObject "{5D4EA80C23ED51E0}" {
+   Object "{85E21F4FAEF9C8E3}system/wbdata/MaterialEditor/MaterialCube.xob"
+   Materials {
+    MaterialAssignClass "{5D4EA80ECB054A4C}" {
+     SourceMaterial "DummyMaterial"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+   }
+  }
+  RigidBody "{5D4EA80C21707146}" {
+  }
+  ActionsManagerComponent "{5D4EA80CB2F84DA0}" {
+   ActionContexts {
+    UserActionContext "{5D4EA80C0E387EE2}" {
+     UIInfo UIInfo "{5D4EA80C0C3A2F21}" {
+     }
+     ContextName "BuildPoint"
+     Position PointInfo "{5D4EA80C022DF719}" {
+      Offset 0 0.7513 0
+     }
+     Radius 3
+    }
+   }
+   additionalActions {
+    PR_BuildUserAction "{5D4EA80C1F85AD94}" {
+     ParentContextList {
+      "BuildPoint"
+     }
+     UIInfo UIInfo "{5D4EA80C137E14C1}" {
+     }
+     VisibilityRange 5
+    }
+   }
+  }
   RplComponent "{5D4D0834A947FEEC}" {
   }
  }
  coords 59.818 52.672 293.904
- m_sFoundationPrefab "{41A666D90504519C}Prefabs/Building/UnbuiltAsset.et"
+ m_sFoundationPrefab "{70C57A99B7209CF7}Prefabs/Building/UA3.et"
  m_iMaxHealth 100
  m_iPlacedHealth 30
  m_iFinalStageHealth 90

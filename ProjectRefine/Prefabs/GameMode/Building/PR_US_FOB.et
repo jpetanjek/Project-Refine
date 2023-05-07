@@ -1,0 +1,5 @@
+PR_BuildingManager : "{B58AD4A5301C2482}Prefabs/GameMode/Building/Base_PR_BuildingManager.et" {
+ ID "5D4D08349FC16379"
+ coords 0 0 0
+ m_sFinalPrefab "{544BD45A2E17ED0E}Prefabs/Compositions/FOB/US_FOB.et"
+}
