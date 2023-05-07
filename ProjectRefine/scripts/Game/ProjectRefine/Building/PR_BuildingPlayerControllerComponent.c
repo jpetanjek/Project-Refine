@@ -52,6 +52,21 @@ class PR_BuildingPlayerControllerComponent : ScriptComponent
 		entityTarget.Build(5);
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	void AskUnbuildAction(RplId target)
+	{
+		Rpc(Rpc_AskUnbuildAction, target);	
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void Rpc_AskUnbuildAction(RplId target)
+	{
+		RplComponent rplComponentTarget = RplComponent.Cast(Replication.FindItem(target));
+		PR_BuildingManager entityTarget = PR_BuildingManager.Cast(rplComponentTarget.GetEntity());
+		
+		// TODO: Some classes can build faster than others
+		entityTarget.Build(-5);
+	}
 	/*
 	//------------------------------------------------------------------------------------------------
 	override void EOnFrame(IEntity owner, float timeSlice)

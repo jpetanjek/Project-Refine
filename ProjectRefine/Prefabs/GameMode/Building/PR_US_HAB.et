@@ -1,5 +1,13 @@
 PR_BuildingManager : "{B58AD4A5301C2482}Prefabs/GameMode/Building/Base_PR_BuildingManager.et" {
  ID "5D4D08349FC16379"
+ components {
+  ActionsManagerComponent "{5D4EA80CB2F84DA0}" {
+   additionalActions {
+    PR_UnbuildUserAction "{5D4F1464438A0FA8}" {
+    }
+   }
+  }
+ }
  coords 0 0 0
  m_sFinalPrefab "{544BD45A2E17ED0E}Prefabs/Compositions/FOB/US_FOB.et"
 }

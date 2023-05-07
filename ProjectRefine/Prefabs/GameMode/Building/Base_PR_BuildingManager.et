@@ -33,13 +33,22 @@ PR_BuildingManager {
      }
      VisibilityRange 5
     }
+    PR_UnbuildUserAction "{5D4F1464438A0FA8}" {
+     ParentContextList {
+      "BuildPoint"
+     }
+     UIInfo UIInfo "{5D4F146445221CBE}" {
+     }
+     VisibilityRange 5
+     "Sort Priority" 1
+    }
    }
   }
   RplComponent "{5D4D0834A947FEEC}" {
   }
  }
  coords 59.818 52.672 293.904
- m_sFoundationPrefab "{70C57A99B7209CF7}Prefabs/Building/UA3.et"
+ m_sFoundationPrefab "{70C57A99B7209CF7}Prefabs/Building/Unbuilt_Asset.et"
  m_iMaxHealth 100
  m_iPlacedHealth 30
  m_iFinalStageHealth 90
