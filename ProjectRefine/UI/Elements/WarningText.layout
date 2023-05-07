@@ -1,0 +1,47 @@
+HorizontalLayoutWidgetClass {
+ Name "m_Warning1"
+ Slot LayoutSlot "{5D12A510D44B84D9}" {
+ }
+ {
+  OverlayWidgetClass "{5D4D4DD316279999}" {
+   Name "Overlay0"
+   Slot LayoutSlot "{5D4D4DD3162799FE}" {
+   }
+   {
+    ImageWidgetClass "{5D4D4DD314BA0AEF}" {
+     Name "WarningImageShadow"
+     Slot OverlayWidgetSlot "{5D4D4DD314BA0AB9}" {
+     }
+     Color 0 0 0 1
+     Texture "{5D85FA1AA039B2F8}UI/Textures/Icons/icons_wrapperUI-48-glow.imageset"
+     Image "warning"
+     Size 48 48
+    }
+    ImageWidgetClass "{5D12A51027BE7567}" {
+     Name "WarningImage"
+     Slot OverlayWidgetSlot {
+     }
+     Color 0.584 0 0 1
+     Texture "{9DA6A249AD4D71C4}UI/Textures/Icons/icons_wrapperUI-48.imageset"
+     Image "warning"
+     Size 48 48
+    }
+   }
+  }
+  TextWidgetClass "{5D12A5103C7160A2}" {
+   Name "WarningText"
+   Slot LayoutSlot "{5CC35DDCCFF7FE92}" {
+   }
+   Clipping False
+   Text "You picked the wrong house fool"
+   "Min Font Size" 24
+   "Horizontal Alignment" Center
+   "Vertical Alignment" Center
+   FontProperties FontProperties "{5CE5326424973141}" {
+    Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+    OutlineSize 2
+    OutlineColor 0 0 0 0.498
+   }
+  }
+ }
+}

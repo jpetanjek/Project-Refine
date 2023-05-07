@@ -36,7 +36,7 @@ class PR_BuildingPreviewMode
 		
 		SCR_BasePreviewEntity previewEntity = SCR_BasePreviewEntity.SpawnPreview(previewEntries, PREVIEW_PREFAB, GetGame().GetWorld(), spawnParams, PREVIEW_MATERIAL);
 		m_PreviewEntity = previewEntity;
-		UpdatePreviewEntity();
+		Update(0, false);
 	}
 	
 	void Deactivate()
@@ -47,35 +47,27 @@ class PR_BuildingPreviewMode
 		}
 	}
 	
-	void Update(float timeSlice)
+	// canBuildExternal - specifies whether building is available based on external conditions,
+	// which are not related to asset placement
+	void Update(float timeSlice, bool canBuildExternal)
 	{
 		if (m_PreviewEntity)
-			UpdatePreviewEntity();
-	}
-	
-	void UpdatePreviewEntity()
-	{
-		vector transform[4];
-		bool posValid;
-		GetAndValidateTransform(transform, posValid);
-		
-		m_PreviewEntity.SetTransform(transform);
-		
-		ResourceName material;
-		if (posValid)
-			material = PREVIEW_MATERIAL;
-		else
-			material = PREVIEW_MATERIAL_INVALID;
-		SCR_Global.SetMaterial(m_PreviewEntity, material, true);
-		
-		// Debugging
-		// Draws a sphere at snap position
-		/*
-		int debugColor = Color.RED;
-		if (posValid)
-			debugColor = Color.GREEN;
-		Shape.CreateSphere(debugColor, ShapeFlags.VISIBLE | ShapeFlags.ONCE, transform[3], 0.2);
-		*/
+		{
+			vector transform[4];
+			bool posValid;
+			GetAndValidateTransform(transform, posValid);
+			
+			bool canBuild = posValid && canBuildExternal;
+			
+			m_PreviewEntity.SetTransform(transform);
+			
+			ResourceName material;
+			if (canBuild)
+				material = PREVIEW_MATERIAL;
+			else
+				material = PREVIEW_MATERIAL_INVALID;
+			SCR_Global.SetMaterial(m_PreviewEntity, material, true);
+		}
 	}
 	
 	void CycleDirection(int dir)

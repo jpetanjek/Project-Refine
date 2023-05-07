@@ -59,11 +59,47 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 
 		if (m_bActive)
 		{
-			m_PreviewMode.Update(timeSlice);
+			bool enoughResources;
+			CheckBuildConditions(enoughResources);
+			
+			bool canBuild = enoughResources; // Add more conditions later
+			UpdateSourcePanel(enoughResources);
+			
+			m_PreviewMode.Update(timeSlice, canBuild);
+			
 			im.ActivateContext("PR_BuildingContext", 0);
 		}
 	}
-
+	
+	// Updates panel with building provider and resource count
+	protected void UpdateSourcePanel(bool resourcesOk)
+	{
+		PR_BuildingEntryAsset asset = GetCurrentChildAsset();
+		
+		if (asset)
+			widgets.m_ResourcesWarning.SetVisible(!resourcesOk);
+		else
+			widgets.m_ResourcesWarning.SetVisible(false);
+		
+		widgets.m_ResourcesAmountText.SetText(GetResources().ToString());
+	}
+	
+	protected void CheckBuildConditions(out bool resourcesOk)
+	{
+		PR_BuildingEntryAsset asset = GetCurrentChildAsset();
+		
+		if (!asset)
+			return;
+		
+		float resources = GetResources();
+		resourcesOk = asset.m_fCost < resources;
+	}
+	
+	protected float GetResources()
+	{
+		return 25.0;
+	}
+	
 	//----------------------------------------------------------------
 	// Activation and deactivation
 	
@@ -131,17 +167,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			m_PreviewMode.GetAndValidateTransform(transform, posValid);
 			
 			if (posValid)
-			{
-				/*
-				EntitySpawnParams sp = new EntitySpawnParams();
-				sp.TransformMode = ETransformMode.WORLD;
-				for (int i = 0; i < 4; i++)
-					sp.Transform[i] = transform[i];
-				sp.Parent = null;
-				sp.Scale = 1.0;
-				GetGame().SpawnEntityPrefab(Resource.Load(asset.m_sPrefab), GetGame().GetWorld(), sp);
-				*/
-				
+			{				
 				PR_BuildingPlayerControllerComponent.GetLocalInstance().AskBuild(asset.m_sPrefab, transform);
 			}
 		}
@@ -153,8 +179,8 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		int size = m_aEntryStack.Count();
 		
 		// Deactivate preview mode for current entry
-		if (GetCurrentAsset())
-			m_PreviewMode.Deactivate();
+		//if (GetCurrentAsset())
+		//	m_PreviewMode.Deactivate();
 		
 		m_aEntryStack.Remove(size-1); // Remove last
 		m_aChildEntryIdStack.Remove(size-1);
@@ -209,6 +235,14 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			Widget w = GetGame().GetWorkspace().CreateWidgets("{761FCDF0F144F139}UI/Building/EntryName.layout", widgets.m_EntryNames);
 			TextWidget wText = TextWidget.Cast(w.FindAnyWidget("NameText"));
 			wText.SetText(e.m_sDisplayName);
+			
+			PR_BuildingEntryNameComponent entryNameComp = PR_BuildingEntryNameComponent.Cast(w.FindHandler(PR_BuildingEntryNameComponent));
+			
+			PR_BuildingEntryAsset entryAsset = PR_BuildingEntryAsset.Cast(e);
+			if (entryAsset)
+				entryNameComp.Init(entryAsset.m_sDisplayName, cost: entryAsset.m_fCost, costVisible: true);
+			else
+				entryNameComp.Init(e.m_sDisplayName, costVisible: false);
 		}
 		
 		m_iCurrentEntryId = childEntryId;
@@ -255,7 +289,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	}
 	
 	// Returns current asset
-	PR_BuildingEntryAsset GetCurrentAsset()
+	PR_BuildingEntryAsset GetCurrentAsset2()
 	{
 		return PR_BuildingEntryAsset.Cast(m_aEntryStack[m_aEntryStack.Count()-1]);
 	}
@@ -279,7 +313,8 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (animate)
 		{
 			float endPosX = CalculateEntriesXPos(id);
-			float endPos[2] = {endPosX, 0};
+			float endPosY = FrameSlot.GetPosY(widgets.m_EntryNames);
+			float endPos[2] = {endPosX, endPosY};
 			WidgetAnimationPosition animation = AnimateWidget.Position(widgets.m_EntryNames, endPos, 6);
 			if (animation)
 				animation.SetCurve(EAnimationCurve.EASE_OUT_SINE);
@@ -288,18 +323,18 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			FrameSlot.SetPosX(widgets.m_EntryNames, CalculateEntriesXPos(id));
 	}
 	
+	float CalculateEntriesXPos(int id)
+	{
+		const float entryWidth = 250; // Check width of EntryName.layout
+		return -(id * entryWidth) - 0.5*entryWidth;
+	}
+	
 	void SetDescriptionText(string description)
 	{
 		widgets.m_DescriptionText.SetText(description);
 		
 		widgets.m_DescriptionText.SetOpacity(0);
 		AnimateWidget.Opacity(widgets.m_DescriptionText, 1.0, ANIMATION_FADE_IN_SPEED);
-	}
-	
-	float CalculateEntriesXPos(int id)
-	{
-		const float entryWidth = 250; // Check width of EntryName.layout
-		return -(id * entryWidth) - 0.5*entryWidth;
 	}
 	
 	//----------------------------------------------------------------

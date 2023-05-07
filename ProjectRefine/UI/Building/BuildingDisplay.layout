@@ -10,18 +10,147 @@ FrameWidgetClass {
   FrameWidgetClass "{5D2ECD3F47503CBD}" {
    Name "Frame0"
    Slot FrameWidgetSlot "{5D2ECD3F47503CE6}" {
-    Anchor 0.5 0.7 0.5 1
+    Anchor 0.5 0 0.5 1
     PositionX 0
     OffsetLeft 0
-    PositionY 108
+    PositionY 540
     OffsetTop 0
     SizeX 1400
     OffsetRight -1400
-    SizeY -84
+    SizeY -540
     OffsetBottom 0
     Alignment 0.5 0
    }
    {
+    VerticalLayoutWidgetClass "{5D4EA5C2FE6A0306}" {
+     Name "Warnings"
+     Slot FrameWidgetSlot "{5D4EA5C2FE6A0311}" {
+      Anchor 0.5 1 0.5 1
+      PositionX 0
+      OffsetLeft 0
+      PositionY -293.7
+      OffsetTop -293.7
+      SizeX 100
+      OffsetRight -100
+      SizeY 30
+      OffsetBottom 263.7
+      Alignment 0.5 1
+      SizeToContent 1
+     }
+     {
+      HorizontalLayoutWidgetClass "{5D4D4DD4955F4CF1}" : "{E7F4EC45944BD478}UI/Elements/WarningText.layout" {
+       Name "m_ResourcesWarning"
+       Slot LayoutSlot "{5D12A510D44B84D9}" {
+       }
+       {
+        OverlayWidgetClass "{5D4D4DD316279999}" {
+         Prefab "{5D4D4DD316279999}"
+         Slot LayoutSlot "{5D4D4DD3162799FE}" {
+         }
+        }
+        TextWidgetClass "{5D12A5103C7160A2}" {
+         Prefab "{5D12A5103C7160A2}"
+         Text "Insufficient resources"
+        }
+       }
+      }
+     }
+    }
+    VerticalLayoutWidgetClass "{5D4D4DD5815D6B8C}" {
+     Name "m_SourcePanel"
+     Slot FrameWidgetSlot "{5D4D4DD5815D6B9B}" {
+      Anchor 0 1 0 1
+      PositionX 80
+      OffsetLeft 80
+      PositionY -140
+      OffsetTop -140
+      SizeX 100
+      OffsetRight -180
+      SizeY 30
+      OffsetBottom 110
+      Alignment 0 0
+      SizeToContent 1
+     }
+     Clipping False
+     {
+      HorizontalLayoutWidgetClass "{5D4D4DD590A0851C}" {
+       Name "BuildingSource"
+       Slot LayoutSlot "{5D4D4DD590A08569}" {
+        Padding 0 0 0 5
+       }
+       {
+        TextWidgetClass "{5D4D4DD5E566E4C7}" {
+         Name "BuildingFromText"
+         Slot LayoutSlot "{5D4EA5C4AE637834}" {
+         }
+         Text "Building from:"
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         Wrap 1
+         FontProperties FontProperties "{5D315C0B9661D38A}" {
+          Font "{EABA4FE9D014CCEF}UI/Fonts/RobotoCondensed/RobotoCondensed_Bold.fnt"
+          OutlineSize 3
+          OutlineColor 0 0 0 0.502
+         }
+        }
+        TextWidgetClass "{5D4D4DD522D32136}" {
+         Name "m_SourceNameText"
+         Slot LayoutSlot "{5D4D4DD522D320F7}" {
+          Padding 10 0 0 0
+         }
+         Text "Source Name"
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         Wrap 1
+         FontProperties FontProperties "{5D315C0B9661D38A}" {
+          Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+          OutlineSize 3
+          OutlineColor 0 0 0 0.502
+         }
+        }
+       }
+      }
+      HorizontalLayoutWidgetClass "{5D4D4DD564E733AD}" {
+       Name "Resources"
+       Slot LayoutSlot "{5D4D4DD590A08569}" {
+       }
+       {
+        TextWidgetClass "{5D4D4DD564E733AA}" {
+         Name "ResourcesText"
+         Slot LayoutSlot "{5D4D4DD564E73332}" {
+         }
+         Text "Resources:"
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         Wrap 1
+         FontProperties FontProperties "{5D315C0B9661D38A}" {
+          Font "{EABA4FE9D014CCEF}UI/Fonts/RobotoCondensed/RobotoCondensed_Bold.fnt"
+          OutlineSize 3
+          OutlineColor 0 0 0 0.502
+         }
+        }
+        TextWidgetClass "{5D4D4DD564E733A8}" {
+         Name "m_ResourcesAmountText"
+         Slot LayoutSlot "{5D4D4DD522D320F7}" {
+          Padding 40 0 0 0
+         }
+         Color 0.761 0.386 0.078 1
+         Text "123"
+         "Font Size" 26
+         "Min Font Size" 26
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         Wrap 1
+         FontProperties FontProperties "{5D315C0B9661D38A}" {
+          Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+          OutlineSize 3
+          OutlineColor 0 0 0 0.502
+         }
+        }
+       }
+      }
+     }
+    }
     HorizontalLayoutWidgetClass "{5D4B42F64C01F984}" : "{CB35D203E90F1322}UI/Building/ControlsHint.layout" {
      Name "HintSelect"
      Slot FrameWidgetSlot "{5D4B42F5B1F41C74}" {
@@ -97,15 +226,15 @@ FrameWidgetClass {
     HorizontalLayoutWidgetClass "{5D4B42F5B1F41C66}" {
      Name "HintNext"
      Slot FrameWidgetSlot "{5D4B42F5B1F41C74}" {
-      Anchor 0.5 0.5 0.5 0.5
+      Anchor 0.5 1 0.5 1
       PositionX 180
       OffsetLeft 180
-      PositionY 45
-      OffsetTop 45
+      PositionY -117
+      OffsetTop -117
       SizeX 100
       OffsetRight -280
       SizeY 30
-      OffsetBottom -75
+      OffsetBottom 87
       Alignment 0.5 0.5
       SizeToContent 1
      }
@@ -153,15 +282,15 @@ FrameWidgetClass {
     HorizontalLayoutWidgetClass "{5D4B42F4198D645C}" {
      Name "HintPrev"
      Slot FrameWidgetSlot "{5D4B42F5B1F41C74}" {
-      Anchor 0.5 0.5 0.5 0.5
+      Anchor 0.5 1 0.5 1
       PositionX -180
       OffsetLeft -180
-      PositionY 45
-      OffsetTop 45
+      PositionY -117
+      OffsetTop -117
       SizeX 100
       OffsetRight 80
       SizeY 30
-      OffsetBottom -75
+      OffsetBottom 87
       Alignment 0.5 0.5
       SizeToContent 1
      }
@@ -230,15 +359,15 @@ FrameWidgetClass {
     TextWidgetClass "{5D315C0BB1858C8C}" {
      Name "m_DescriptionText"
      Slot FrameWidgetSlot "{5D315C0BB1858C9B}" {
-      Anchor 0 0 1 0.5
-      PositionX 0
-      OffsetLeft 0
-      PositionY 0
-      OffsetTop 0
-      SizeX 0
-      OffsetRight 0
-      SizeY -32.4
-      OffsetBottom 0
+      Anchor 0.5 1 0.5 1
+      PositionX -700
+      OffsetLeft -700
+      PositionY -280
+      OffsetTop -280
+      SizeX 1400
+      OffsetRight -700
+      SizeY 64
+      OffsetBottom 216
      }
      Text "The Yamaha FZS600 Fazer is a sport motorcycle produced by Yamaha between 1998 and 2004. It is the predecessor of the Yamaha FZ6."
      "Horizontal Alignment" Center
@@ -253,15 +382,15 @@ FrameWidgetClass {
     HorizontalLayoutWidgetClass "{5D2ECD3FAA6CB584}" {
      Name "m_EntryNames"
      Slot FrameWidgetSlot "{5D2ECD3FAA6CB5E3}" {
-      Anchor 0.5 0.5 0.5 0.5
+      Anchor 0.5 1 0.5 1
       PositionX -125
       OffsetLeft -125
-      PositionY 0
-      OffsetTop 0
+      PositionY -172
+      OffsetTop -172
       SizeX 100
       OffsetRight 25
-      SizeY 60
-      OffsetBottom -60
+      SizeY 30
+      OffsetBottom 142
       Alignment 0 0.5
       SizeToContent 1
      }
@@ -297,13 +426,15 @@ FrameWidgetClass {
     TextWidgetClass "{5D315319BB9FD335}" : "{0C3F7DC8494C8308}UI/Building/EntryNameText.layout" {
      Name "m_CurrentEntryNameText"
      Slot FrameWidgetSlot "{5D315319BB9FD30E}" {
-      Anchor 0.5 0.5 0.5 0.5
+      Anchor 0.5 1 0.5 1
       PositionX 0
       OffsetLeft 0
-      PositionY 50
-      OffsetTop 50
+      PositionY -112
+      OffsetTop -112
+      SizeX 100
       OffsetRight -100
-      OffsetBottom -80
+      SizeY 30
+      OffsetBottom 82
       Alignment 0.5 0
       SizeToContent 1
      }
@@ -312,15 +443,15 @@ FrameWidgetClass {
     OverlayWidgetClass "{5D4B42F743E0DE05}" {
      Name "ArrowUp"
      Slot FrameWidgetSlot "{5D4B42F743E0DEA3}" {
-      Anchor 0.5 0.5 0.5 0.5
+      Anchor 0.5 1 0.5 1
       PositionX 0
       OffsetLeft 0
-      PositionY 30
-      OffsetTop 30
+      PositionY -130
+      OffsetTop -130
       SizeX 100
       OffsetRight -100
       SizeY 30
-      OffsetBottom -60
+      OffsetBottom 100
       Alignment 0.5 0.5
       SizeToContent 1
      }

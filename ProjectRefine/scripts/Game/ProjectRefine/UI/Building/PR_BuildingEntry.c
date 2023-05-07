@@ -17,6 +17,12 @@ class PR_BuildingEntryCategory : PR_BuildingEntry
 	ref array<ref PR_BuildingEntry> m_aEntries;
 }
 
+enum PR_EAssetBuildingRules
+{
+	GENERIC,
+	BASE_ONLY
+}
+
 [BaseContainerProps(), PR_BuildingEntryAssetCustomTitleAttribute()]
 class PR_BuildingEntryAsset : PR_BuildingEntry
 {
@@ -28,6 +34,9 @@ class PR_BuildingEntryAsset : PR_BuildingEntry
 	
 	[Attribute("1", UIWidgets.CheckBox, "Orient asset to surface normal")]
 	bool m_bOrientToSurface;
+	
+	[Attribute("0", UIWidgets.ComboBox, enums: ParamEnumArray.FromEnum(PR_EAssetBuildingRules))]
+	PR_EAssetBuildingRules m_eAssetBuildingRules;
 }
 
 class PR_BuildingEntryAssetCustomTitleAttribute : BaseContainerCustomTitle
@@ -43,4 +52,4 @@ class PR_BuildingEntryAssetCustomTitleAttribute : BaseContainerCustomTitle
 		
 		return true;
 	}
-}
+} 

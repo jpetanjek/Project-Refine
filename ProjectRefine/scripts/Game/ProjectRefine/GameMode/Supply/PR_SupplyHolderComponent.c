@@ -16,7 +16,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 	ref array<PR_SupplyHolderComponent> m_aAvailableHolders = {};
 	
 	// Server only
-	protected static ref array<PR_SupplyHolderComponent> m_aAllHolders = {};
+	protected static ref array<PR_SupplyHolderComponent> s_aAllHolders = {};
 	
 	[RplProp()]
 	bool m_bCanTransact = true; // We don't allow for transacting of supplies if you are moving etc.
@@ -42,7 +42,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 		
 		SetEventMask(owner, EntityEvent.INIT);
 		
-		m_aAllHolders.Insert(this);
+		s_aAllHolders.Insert(this);
 		
 		m_physComponent = owner.GetPhysics();
 		
@@ -64,9 +64,9 @@ class PR_SupplyHolderComponent : ScriptComponent
 	
 	void ~PR_SupplyHolderComponent()
 	{
-		int idx = m_aAllHolders.Find(this);
-		if(m_aAllHolders.IsIndexValid(idx))
-			m_aAllHolders.Remove(idx);
+		int idx = s_aAllHolders.Find(this);
+		if(s_aAllHolders.IsIndexValid(idx))
+			s_aAllHolders.Remove(idx);
 		
 		m_aAvailableHolders.Clear();
 		m_aAvailableHolders = null;
@@ -74,24 +74,29 @@ class PR_SupplyHolderComponent : ScriptComponent
 	
 	void GetAvailableHolders()
 	{
-		// Fill in m_aAvailableHolders from m_aAllHolders
+		// Fill in m_aAvailableHolders from s_aAllHolders
 		m_aAvailableHolders.Clear();
-		int thisIdx = m_aAllHolders.Find(this);
-		for(int i = 0; i < m_aAllHolders.Count(); i++)
+		int thisIdx = s_aAllHolders.Find(this);
+		for(int i = 0; i < s_aAllHolders.Count(); i++)
 		{
 			if(i == thisIdx)
 				continue;
 			vector thisTransform[4];
 			vector cmpTransform[4];
 			GetOwner().GetWorldTransform(thisTransform);
-			m_aAllHolders[i].GetOwner().GetWorldTransform(cmpTransform);
+			s_aAllHolders[i].GetOwner().GetWorldTransform(cmpTransform);
 			float distance = vector.Distance(thisTransform[3], cmpTransform[3]);
 			
 			if(distance <= m_fRange)
 			{
-				m_aAvailableHolders.Insert(m_aAllHolders[i]);
+				m_aAvailableHolders.Insert(s_aAllHolders[i]);
 			} 
 		}
+	}
+	
+	static array<PR_SupplyHolderComponent> GetAll()
+	{
+		return s_aAllHolders;
 	}
 	
 	void SetTransactionAvailability()
@@ -174,12 +179,12 @@ class PR_SupplyHolderComponent : ScriptComponent
 			
 			string s;
 			
-			s = s + string.Format("IDX: %1\n", m_aAllHolders.Find(this));
+			s = s + string.Format("IDX: %1\n", s_aAllHolders.Find(this));
 			
-			if(m_aAllHolders.IsIndexValid(holderIdx))
+			if(s_aAllHolders.IsIndexValid(holderIdx))
 			{
-				int thisIdx = m_aAllHolders[holderIdx].m_aAvailableHolders.Find(this);
-				if(m_aAllHolders[holderIdx].m_aAvailableHolders.IsIndexValid(thisIdx))
+				int thisIdx = s_aAllHolders[holderIdx].m_aAvailableHolders.Find(this);
+				if(s_aAllHolders[holderIdx].m_aAvailableHolders.IsIndexValid(thisIdx))
 				{
 					s = s + string.Format("Available IDX: %1\n", thisIdx);
 				}
@@ -190,9 +195,9 @@ class PR_SupplyHolderComponent : ScriptComponent
 			s = s + string.Format("In range count: %1\n", m_aAvailableHolders.Count());
 			
 			vector pos = owner.GetOrigin() + Vector(0, 5, 0);
-			if(holderIdx == m_aAllHolders.Find(this))
+			if(holderIdx == s_aAllHolders.Find(this))
 				DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_RED);
-			else if(m_aAllHolders.IsIndexValid(holderIdx) && targetIdx == m_aAllHolders[holderIdx].m_aAvailableHolders.Find(this))
+			else if(s_aAllHolders.IsIndexValid(holderIdx) && targetIdx == s_aAllHolders[holderIdx].m_aAvailableHolders.Find(this))
 				DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_GREEN);
 			else
 				DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
@@ -201,7 +206,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 			Shape.CreateCylinder(Color.RED, ShapeFlags.VISIBLE | ShapeFlags.ONCE | ShapeFlags.WIREFRAME, GetOwner().GetOrigin(), m_fRange, 40.0);
 		}
 		
-		if(m_aAvailableHolders.IsIndexValid(targetIdx) && holderIdx == m_aAllHolders.Find(this) && m_RplComponent)
+		if(m_aAvailableHolders.IsIndexValid(targetIdx) && holderIdx == s_aAllHolders.Find(this) && m_RplComponent)
 		{
 			RplComponent rplComponent = RplComponent.Cast(m_aAvailableHolders[targetIdx].GetOwner().FindComponent(RplComponent));
 			RplId target = rplComponent.Id();

@@ -2,14 +2,34 @@ SizeLayoutWidgetClass {
  Name "EntryName"
  Slot LayoutSlot "{5D2ECD3FF70ECB7D}" {
  }
+ components {
+  PR_BuildingEntryNameComponent "{5D4D42956BD99986}" {
+   m_ColorAvailable 1 0.022 0 1
+   m_ColorUnavailable 1 0.022 0 1
+  }
+ }
  AllowWidthOverride 1
  WidthOverride 250
- AllowHeightOverride 1
  HeightOverride 32
  {
-  TextWidgetClass "{5D315319B0F97C4D}" : "{0C3F7DC8494C8308}UI/Building/EntryNameText.layout" {
-   Name "NameText"
-   Slot AlignableSlot "{5D2ECD3FFBD8A397}" {
+  VerticalLayoutWidgetClass "{5D4D42918D26E15B}" {
+   Name "HorizontalLayout0"
+   Slot AlignableSlot "{5D4D42918D26E1BD}" {
+   }
+   {
+    TextWidgetClass "{5D315319B0F97C4D}" : "{0C3F7DC8494C8308}UI/Building/EntryNameText.layout" {
+     Name "NameText"
+     Slot LayoutSlot "{5D4D4295180DBC89}" {
+      SizeMode Auto
+     }
+    }
+    TextWidgetClass "{5D4D4291946D9A51}" : "{0C3F7DC8494C8308}UI/Building/EntryNameText.layout" {
+     Name "CostText"
+     Slot LayoutSlot "{5D4D4291946D9A7F}" {
+      Padding 0 5 0 0
+     }
+     Text "999"
+    }
    }
   }
  }

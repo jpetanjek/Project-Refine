@@ -4,15 +4,15 @@ $grp GenericEntity {
    MeshObject "{5D4359878D43954F}" {
     Object "{987D10CBDD2F2AAF}Assets/Props/Military/Sandbags/Sandbag_01_bunker.xob"
     Materials {
-     MaterialAssignClass "{5D435987EB75CB5B}" {
+     MaterialAssignClass "{5D4EA5C70645D837}" {
       SourceMaterial "Sandbags_01_Bunker"
       AssignedMaterial "{A3DAAE3F27033DC1}UI/Building/BuildingPreview.emat"
      }
-     MaterialAssignClass "{5D435987EB75CBBF}" {
+     MaterialAssignClass "{5D4EA5C70645D80C}" {
       SourceMaterial "Sandbags_01_MLOD"
       AssignedMaterial "{A3DAAE3F27033DC1}UI/Building/BuildingPreview.emat"
      }
-     MaterialAssignClass "{5D435987EB75CBBB}" {
+     MaterialAssignClass "{5D4EA5C70645D809}" {
       SourceMaterial "Sandbags_01_roof"
       AssignedMaterial "{A3DAAE3F27033DC1}UI/Building/BuildingPreview.emat"
      }
