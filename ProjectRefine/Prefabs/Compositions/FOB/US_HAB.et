@@ -1,6 +1,8 @@
 GenericEntity {
  ID "5D4B2DD1CCD3495E"
  components {
+  Hierarchy "{5D50A7D7F038424E}" {
+  }
   RplComponent "{5D4D083945FFE5B7}" {
   }
  }
@@ -8,10 +10,18 @@ GenericEntity {
   $grp GenericEntity : "{BBE13893AEA69C0C}Prefabs/Props/Military/Sandbags/Sandbag_01_foundation_plastic.et" {
    {
     ID "5D4B2DD1CCD3494D"
+    components {
+     Hierarchy "{5D50A7D7F4B82055}" {
+     }
+    }
     coords 0 0 -2
    }
    {
     ID "5D4B2DD1CCD3494E"
+    components {
+     Hierarchy "{5D50A7D7CDE1B416}" {
+     }
+    }
     coords 0 0 2.5
     angleY 180
    }
@@ -19,46 +29,82 @@ GenericEntity {
   $grp GenericEntity : "{CC66836BF4E211F9}Prefabs/Props/Military/Camps/Duckboard_01.et" {
    {
     ID "5D4B2DD1CCD022D9"
+    components {
+     Hierarchy "{5D50A7D7C04E27F6}" {
+     }
+    }
     coords 0.032 2.226 2.67
     angleX -1.49
    }
    {
     ID "5D4B2DD1CCD08268"
+    components {
+     Hierarchy "{5D50A7D7DBE88163}" {
+     }
+    }
     coords 0 2.155 1.198
     angleY -90
    }
    {
     ID "5D4B2DD1CCD08269"
+    components {
+     Hierarchy "{5D50A7D7D9FA7002}" {
+     }
+    }
     coords -1.196 2.225 2.659
     angleX -1.49
    }
    {
     ID "5D4B2DD1CCD0826F"
+    components {
+     Hierarchy "{5D50A7D7DE2BE94A}" {
+     }
+    }
     coords 0 2.149 -1.259
     angleY -90
    }
    {
     ID "5D4B2DD1CCD0A3D0"
+    components {
+     Hierarchy "{5D50A7D7DCCB1C79}" {
+     }
+    }
     coords -1.224 2.223 -1.986
     angleX 1.418
    }
    {
     ID "5D4B2DD1CCD0A3D2"
+    components {
+     Hierarchy "{5D50A7D7D2D952BC}" {
+     }
+    }
     coords 1.253 2.222 -1.868
     angleX 1.418
    }
    {
     ID "5D4B2DD1CCD0A3D3"
+    components {
+     Hierarchy "{5D50A7D7D0D7DD7F}" {
+     }
+    }
     coords 0.004 2.201 -1.909
     angleX 1.418
    }
    {
     ID "5D4B2DD1CCD0C5DE"
+    components {
+     Hierarchy "{5D50A7D7D6D2D56C}" {
+     }
+    }
     coords 1.266 2.206 2.721
     angleX -1.49
    }
    {
     ID "5D4B2DD1CCD0C5DF"
+    components {
+     Hierarchy "{5D50A7D7D4E98649}" {
+     }
+    }
     coords 0 2.164 -0.038
     angleY -90
    }
@@ -66,41 +112,73 @@ GenericEntity {
   $grp GenericEntity : "{F29A05EBA7063E7C}Prefabs/Props/Military/Sandbags/Sandbag_01_wall_solid_plastic.et" {
    {
     ID "5D4B2DD1CCD0C5D0"
+    components {
+     Hierarchy "{5D50A7D7AA8F0329}" {
+     }
+    }
     coords 1.5 0 -0.5
     angleY -90
    }
    {
     ID "5D4B2DD1CCD0C5D3"
+    components {
+     Hierarchy "{5D50A7D7A8ADC4DE}" {
+     }
+    }
     coords -1 0 4
     angleY -180
    }
    {
     ID "5D4B2DD1CCD33CA2"
+    components {
+     Hierarchy "{5D50A7D7AEBD1475}" {
+     }
+    }
     coords 1 0 4
     angleY -180
    }
    {
     ID "5D4B2DD1CCD33CA4"
+    components {
+     Hierarchy "{5D50A7D7ACFC17FD}" {
+     }
+    }
     coords 1 0 -3.5
     angleY -180
    }
    {
     ID "5D4B2DD1CCD33CA5"
+    components {
+     Hierarchy "{5D50A7D7A203C3B0}" {
+     }
+    }
     coords -1.5 0 0.5
     angleY -90
    }
    {
     ID "5D4B2DD1CCD34930"
+    components {
+     Hierarchy "{5D50A7D7A049185D}" {
+     }
+    }
     coords -1.5 0 -0.5
     angleY -90
    }
    {
     ID "5D4B2DD1CCD34932"
+    components {
+     Hierarchy "{5D50A7D7A67A3471}" {
+     }
+    }
     coords -1 0 -3.5
     angleY -180
    }
    {
     ID "5D4B2DD1CCD34933"
+    components {
+     Hierarchy "{5D50A7D7A5BD7582}" {
+     }
+    }
     coords 1.5 0 0.5
     angleY -90
    }
