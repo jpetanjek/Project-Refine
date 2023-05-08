@@ -69,7 +69,12 @@ class PR_PC_BuildingComponent : ScriptComponent
 	protected void Rpc_AskBuildAction(RplId target)
 	{
 		RplComponent rplComponentTarget = RplComponent.Cast(Replication.FindItem(target));
+		if(!rplComponentTarget)
+			return;
+		
 		PR_BuildingManager entityTarget = PR_BuildingManager.Cast(rplComponentTarget.GetEntity());
+		if(!entityTarget)
+			return;
 		
 		// TODO: Some classes can build faster than others
 		entityTarget.Build(5);
@@ -87,7 +92,12 @@ class PR_PC_BuildingComponent : ScriptComponent
 	protected void Rpc_AskUnbuildAction(RplId target)
 	{
 		RplComponent rplComponentTarget = RplComponent.Cast(Replication.FindItem(target));
+		if(!rplComponentTarget)
+			return;
+		
 		PR_BuildingManager entityTarget = PR_BuildingManager.Cast(rplComponentTarget.GetEntity());
+		if(!entityTarget)
+			return;
 		
 		// TODO: Some classes can build faster than others
 		entityTarget.Build(-5);

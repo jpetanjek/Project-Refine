@@ -65,20 +65,26 @@ class PR_BuildingManager: GenericEntity
 	
 	//---------------------	
 	override void EOnInit(IEntity owner)
-	{
-		m_iHealth = m_iPlacedHealth;
-		
-		if(m_bPlacedBuilt)
-			Built();
-		else
-			m_Foundation = CreateStage( m_sFoundationPrefab );
-		
+	{		
 		m_RplComponent = RplComponent.Cast(owner.FindComponent(RplComponent));
 		
 		if(m_RplComponent && !m_RplComponent.IsProxy())
 		{
 			SetFlags(EntityFlags.ACTIVE, true);
 		}
+		
+		if(m_bPlacedBuilt)
+		{
+			m_iHealth = m_iMaxHealth;
+			Built();
+		}
+		else
+		{
+			m_iHealth = m_iPlacedHealth;
+			m_Foundation = CreateStage( m_sFoundationPrefab );
+
+		}
+			
 	}
 	
 	void ~PR_BuildingManager()
@@ -129,7 +135,7 @@ class PR_BuildingManager: GenericEntity
 	{
 		if(m_iHealth <= 0)
 		{
-			SCR_EntityHelper.DeleteEntityAndChildren(this);
+			delete this;
 		}
 		else
 		{
