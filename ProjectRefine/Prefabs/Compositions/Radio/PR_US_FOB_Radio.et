@@ -20,16 +20,43 @@ GenericEntity {
  {
   GenericEntity : "{0133284E3BDEAEC4}Prefabs/Props/Civilian/Ashtray_01_Full_yellow.et" {
    ID "5D452E2229BD43D8"
+   components {
+    Hierarchy "{5D5094141EA13DD6}" {
+    }
+   }
    coords 0.416 0.9 0.282
    angleY 36.221
   }
   GenericEntity : "{0958E6B949501D00}Prefabs/Props/Military/Generators/GeneratorPortable_US_01.et" {
    ID "5D452E2229BD43E9"
+   components {
+    SignalsManagerComponent "{54F46126E0EFDCD5}" {
+     Enabled 0
+    }
+    SoundComponent "{54F4612B268CB2BA}" {
+     Enabled 0
+    }
+    Hierarchy "{5D50941462DA97DE}" {
+    }
+    ActionsManagerComponent "{5298C80DC0D5555E}" {
+     Enabled 0
+    }
+    RplComponent "{5624A8936A5D644E}" {
+     Enabled 0
+    }
+   }
    coords 0.974 0 0.194
    angleY 8.932
   }
   GenericEntity : "{13891AA1F5833C4A}Prefabs/Props/Civilian/Notebook_01_Double.et" {
    ID "5D452E2229BD43DC"
+   components {
+    Hierarchy "{5D509414655F6257}" {
+    }
+    RplComponent "{5624A88DC2D9928D}" {
+     Enabled 0
+    }
+   }
    coords 0.12 0.9 0.248
    angleY 148.79
   }
@@ -43,21 +70,37 @@ GenericEntity {
   }
   GenericEntity : "{34736979381CA219}Prefabs/Props/Military/Radios/RadioStation_ANGRC160_01.et" {
    ID "5D452E2229BD43D1"
+   components {
+    Hierarchy "{5D5094146F664C7A}" {
+    }
+   }
    coords 0.377 0.9 -0.148
    angleY -6.752
   }
   StaticModelEntity : "{39C308BBB5945B85}Prefabs/Props/Military/Furniture/ChairMilitary_US_02.et" {
    ID "5D452E2229BD43D2"
+   components {
+    Hierarchy "{5D5094147AD99ABE}" {
+    }
+   }
    coords 0.113 0 0.295
    angleY -157.155
   }
   StaticModelEntity : "{7762F50A860DD074}Prefabs/Props/Military/Furniture/TableMilitary_US_01.et" {
    ID "5D452E2229BD43D7"
+   components {
+    Hierarchy "{5D5094147FEE3891}" {
+    }
+   }
    coords 0 0 0
    angleY 0
   }
   GenericEntity : "{C84DF17F96616C76}Prefabs/Props/Military/Manuals/Manual_US_01.et" {
    ID "5D452E2229BD43C2"
+   components {
+    Hierarchy "{5D5094147C77A3C5}" {
+    }
+   }
    coords -0.455 0.9 0.161
    angleY 35.036
   }
