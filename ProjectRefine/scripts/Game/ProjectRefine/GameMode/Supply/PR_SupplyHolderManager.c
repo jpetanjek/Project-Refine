@@ -50,11 +50,7 @@ class PR_SupplyHolderManger : PR_BaseGameModeComponent
 	
 	void Unregister(PR_SupplyHolderComponent removeMe)
 	{
-		int idx = m_aActiveSupplyHolders.Find(removeMe);
-		if(m_aActiveSupplyHolders.IsIndexValid(idx))
-		{
-			m_aActiveSupplyHolders.Remove(idx);
-		}
+		m_aActiveSupplyHolders.RemoveItem(removeMe);
 	}
 	
 	override void EOnFrame(IEntity owner, float timeSlice)

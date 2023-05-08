@@ -68,6 +68,11 @@ class PR_SupplyHolderComponent : ScriptComponent
 		if(s_aAllHolders.IsIndexValid(idx))
 			s_aAllHolders.Remove(idx);
 		
+		// Unregister, don't check m_RplComponent, when the destructor runs the RplComponent is already null
+		PR_SupplyHolderManger instance = PR_SupplyHolderManger.GetInstance();
+		if(instance)
+			instance.Unregister(this);
+		
 		m_aAvailableHolders.Clear();
 		m_aAvailableHolders = null;
 	}
