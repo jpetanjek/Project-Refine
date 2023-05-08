@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{05593D2B1E94E29F}Worlds/FrontlineGameMode/Eden_Lamentin_Harbour_Frontline.ent"
+ Configurations {
+  ENTResourceClass PC {
+  }
+  ENTResourceClass XBOX_ONE : PC {
+  }
+  ENTResourceClass XBOX_SERIES : PC {
+  }
+  ENTResourceClass PS4 : PC {
+  }
+  ENTResourceClass HEADLESS : PC {
+  }
+ }
+}

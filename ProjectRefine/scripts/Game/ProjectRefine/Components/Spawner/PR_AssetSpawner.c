@@ -14,7 +14,7 @@ class PR_AssetSpawner : GenericEntity
 	// Low frequency update interval of asset spawner
 	protected const float UPDATE_PERIOD_S = 1.0;
 	
-	[Attribute("", desc: "What asset type to spawn", UIWidgets.ComboBox, "", category: "Asset Spawner", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
+	[Attribute("", UIWidgets.ComboBox, "", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
 	protected PR_EAssetType m_AssetType;
 	
 	// TODO: move this to prefab

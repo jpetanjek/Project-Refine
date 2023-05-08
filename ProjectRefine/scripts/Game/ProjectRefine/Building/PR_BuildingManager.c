@@ -135,7 +135,7 @@ class PR_BuildingManager: GenericEntity
 	{
 		if(m_iHealth <= 0)
 		{
-			delete this;
+			SCR_EntityHelper.DeleteEntityAndChildren(this);
 		}
 		else
 		{
