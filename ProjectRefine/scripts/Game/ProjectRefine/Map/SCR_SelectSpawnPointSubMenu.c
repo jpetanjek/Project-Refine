@@ -37,9 +37,10 @@ modded class SCR_SelectSpawnPointSubMenu
 				SCR_CampaignBase base = SCR_CampaignBase.Cast(sp.GetParent());
 				spName = base.GetBaseName();
 
+				/*
 				if (base.GetType() == CampaignBaseType.MAIN)
 					m_DefaultSpawnPointId = id;
-
+				*/
 			}
 			/*
 			else if ((sp.GetParent() != null ) && sp.GetParent().Type() == GenericEntity)

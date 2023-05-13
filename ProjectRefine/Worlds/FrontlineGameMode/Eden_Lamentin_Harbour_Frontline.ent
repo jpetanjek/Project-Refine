@@ -10,3 +10,6 @@ Layer GameMode {
 Layer CaptureAreas {
  Index 2
 }
+Layer Props {
+ Index 3
+}

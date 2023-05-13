@@ -25,7 +25,7 @@ modded class SCR_AIGroup
 			if (groupsManager)
 			{
 				groupsManager.RegisterGroup(this);
-				groupsManager.ClaimFrequency(GetGroupFrequency(), GetFaction());
+				//groupsManager.ClaimFrequency(GetGroupFrequency(), GetFaction());
 				groupsManager.OnGroupCreated(this);
 			}
 		}

@@ -1,0 +1,250 @@
+GenericEntity : "{01969A28078FCA69}Prefabs/Compositions/Misc/SubCompositions/BarrelClutter_02.et" {
+ coords 5362.222 19.497 9956.958
+}
+GenericEntity : "{028D9156F90205DE}Prefabs/Props/Military/Camps/ConstructionMaterialPacked_WoodPlanks_01_US.et" {
+ coords 5568.025 22.562 10058.302
+}
+$grp StaticModelEntity : "{0E8C1D00E6FA76CE}Prefabs/Compositions/Misc/SubCompositions/DirtPile_Cluttered_US_01.et" {
+ {
+  coords 4939.897 0.781 8489.496
+ }
+ {
+  coords 4935.773 0.995 8518.608
+ }
+ {
+  coords 4968.842 0.687 8493.718
+ }
+}
+GenericEntity : "{13FD3EC5D111AD6D}Prefabs/Props/Forest/WoodPile/WoodPile_01_A.et" {
+ coords 5510.324 26.748 9844.417
+}
+GenericEntity : "{14DDB40171F949A9}Prefabs/Props/Military/Camps/ConstructionMaterialPacked_WoodPlanks_01_USSR.et" {
+ coords 5610.042 26.95 9853.895
+ angleX 0.809
+ angleZ -3.414
+}
+$grp GenericEntity : "{1A1CE09F7BCA6650}Prefabs/Props/Wrecks/S105_wreck_static.et" {
+ {
+  coords 4868.413 28.656 11652.848
+  angleY 41.286
+ }
+ {
+  coords 5312.17 21.248 9846.772
+  angleY -43.964
+ }
+ {
+  coords 5545.617 23.385 9921.286
+  angleY 107.701
+  angleZ -3.218
+ }
+}
+GenericEntity : "{1D1BBD7F52F71839}Prefabs/Props/Forest/WoodPile/WoodPile_02_scattered.et" {
+ coords 5554.172 28.341 9858.674
+ angleY 45
+}
+$grp Tree : "{1DF7655ED7FBDF2D}Prefabs/Vegetation/Tree/t_betula_pendula_stem_01.et" {
+ {
+  coords 5674.345 0 10044.088
+ }
+ {
+  coords 5564.694 -0.001 9805.256
+  angleY 56.103
+ }
+}
+$grp GenericEntity : "{24DE47095BD6BE7B}Prefabs/Props/Agriculture/Farm/HayBale_01_square_big.et" {
+ {
+  coords 5655.972 24.056 10077.108
+  angleY 0
+ }
+ {
+  coords 5686.32 23.969 10073.989
+  angleY 0
+ }
+ {
+  coords 5632.472 24.416 10081.093
+  angleY 0
+ }
+ {
+  coords 5600.344 23.203 10071.285
+  angleY 0
+ }
+ {
+  coords 5706.468 24.241 10072.606
+  angleY 0
+ }
+ {
+  coords 5728.906 24.719 10071.009
+  angleY 0
+ }
+ {
+  coords 5600.577 24.853 10111.228
+  angleY 0
+ }
+ {
+  coords 5625.662 25.913 10113.789
+  angleY 0
+ }
+ {
+  coords 5661.611 26.293 10112.532
+  angleY 0
+ }
+ {
+  coords 5683.752 26.344 10113.361
+  angleY 0
+ }
+ {
+  coords 5700.687 26.585 10112.111
+  angleY 0
+ }
+ {
+  coords 5722.933 26.551 10109.73
+  angleY 0
+ }
+ {
+  coords 5687.121 27.756 10139.589
+  angleY 0
+ }
+ {
+  coords 5704.561 27.778 10138.795
+  angleY 0
+ }
+ {
+  coords 5685.981 28.469 10162.994
+  angleY 0
+ }
+ {
+  coords 5703.735 28.68 10163.716
+  angleY 0
+ }
+ {
+  coords 5741.426 24.175 10057.946
+  angleY 0
+ }
+ {
+  coords 5742.78 24.2 10057.925
+  angleY 0
+ }
+ {
+  coords 5744.097 24.217 10057.805
+  angleY 0
+ }
+ {
+  coords 5745.452 24.21 10057.664
+  angleY 0
+ }
+ {
+  coords 5746.822 24.173 10057.577
+  angleY 0
+ }
+}
+GenericEntity : "{2B34038FAC07EF1A}Prefabs/Props/Industrial/Pallets/MarsBoxContainer_01_Wood.et" {
+ coords 5622.945 27.258 9852.972
+ angleY 166.905
+}
+$grp GenericEntity : "{3386EAA823BE462E}Prefabs/Props/Wrecks/UAZ469_wreck_static.et" {
+ {
+  coords 4797.109 27.651 11612.75
+  angleY -142.506
+ }
+ {
+  coords 5310.633 20.895 9839.119
+  angleY -133.015
+ }
+}
+Tree : "{3470A1B83A51196A}Prefabs/Vegetation/Tree/t_betula_pendula_stump_01.et" {
+ coords 5691.307 0 10041.911
+}
+GenericEntity : "{361EEFE7B91BF9E8}Prefabs/Compositions/Misc/SubCompositions/BarrelMetalGroup_01.et" {
+ coords 5363.73 19.446 9958.493
+ angleY 0
+}
+GenericEntity : "{451BE00A37C69679}Prefabs/Structures/Military/Radar/ApproachRadar_TPN19_01/ApproachRadar_TPN19_01_generator.et" {
+ coords 4934.295 114.515 8525.202
+}
+GenericEntity : "{46B71B9E370BE7C0}Prefabs/Props/Forest/WoodPile/WoodPile_01_End_B.et" {
+ coords 5343.362 17.107 10098.104
+ angleX -5.513
+ angleY 65.901
+}
+StaticModelEntity : "{8A31FBB992F930E4}Prefabs/Structures/Agriculture/Manure/ManurePile_01.et" {
+ coords 5542.416 -0.11 10107.095
+ angleY -85.046
+}
+GenericEntity : "{AC3DCB3D059AE5D0}Prefabs/Compositions/Misc/SubCompositions/Sandbag_short_Cluttered_USSR_01.et" {
+ coords 4936.512 114.722 8525.157
+}
+$grp GenericEntity : "{AE300E34EA8FF40C}Prefabs/Props/Wrecks/Ural4320_wreck_static.et" {
+ {
+  coords 4802.445 28.905 11605.873
+  angleX -6.237
+  angleY 69.897
+  angleZ 92.277
+ }
+ {
+  coords 4796.266 27.682 11621.18
+  angleX -5.222
+  angleZ 10.31
+ }
+}
+StaticModelEntity : "{B9AEDBE988F20A1A}Prefabs/Structures/Infrastructure/Towers/AntennaR404_01/AntennaR404_01.et" {
+ coords 4952.323 115.842 8506.122
+ angleY 126.571
+}
+GenericEntity : "{C7BE6D1395342D32}Prefabs/Props/Agriculture/WaterTank_01_v1.et" {
+ coords 5337.436 17.947 10095.902
+ angleX 7.678
+ angleY -35.405
+ angleZ 4.216
+}
+GenericEntity : "{D93EF3E97E06D435}Prefabs/Compositions/Misc/SubCompositions/BarrelClutter_04.et" {
+ coords 5570.476 22.718 10058.183
+}
+$grp GenericEntity : "{E537DCDB9B3F2278}Prefabs/Props/Agriculture/Farm/HayPile_01.et" {
+ {
+  coords 5595.97 23.012 10064.743
+  angleY 0
+ }
+ {
+  coords 5643.983 26.899 10130.495
+  angleY 0
+ }
+ {
+  coords 5630.266 26.472 10125.605
+  angleY 0
+ }
+ {
+  coords 5606.832 25.509 10124.548
+  angleY 0
+ }
+ {
+  coords 5595.29 24.716 10125.63
+  angleY 0
+ }
+ {
+  coords 5649.76 27.708 10154.492
+  angleY 0
+ }
+ {
+  coords 5638.174 27.199 10156.101
+  angleY 0
+ }
+ {
+  coords 5614.608 25.851 10172.552
+  angleY 0
+ }
+ {
+  coords 5603.319 25.115 10174.615
+  angleY 0
+ }
+ {
+  coords 5622.995 26.362 10185.105
+  angleY 0
+ }
+ {
+  coords 5656.493 27.985 10184.288
+  angleY 0
+ }
+}
+GenericEntity : "{F8E2A60A2B254C0B}Prefabs/Props/Forest/WoodPile/WoodPile_01_base.et" {
+ coords 5718.112 29.001 10169.991
+}

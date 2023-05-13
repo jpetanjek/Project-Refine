@@ -1,105 +1,109 @@
 $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
- MainBase_US_0 {
+ MainBase_South_0 {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
-    m_sName "US Main Base"
+    m_sName "Main Base South"
     m_iInitialOwnerFaction 0
    }
   }
-  coords 6322.549 81.363 4788.957
+  coords 4776.01 130.625 7771.068
   {
+   PR_PreparationPhaseCollider {
+    ID "5C992516FD18EDD2"
+    coords 0 0 0
+   }
    $grp PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
     {
-     coords -27.959 -7.28 -36.062
-     angleY -30
+     coords 7.64 -0.104 -19.641
+     angleY 150
      m_AssetType TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords -21.772 -5.397 -33.762
-     angleY -30
+     coords 1.453 0.124 -21.941
+     angleY 150
      m_AssetType TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords 13.429 1.389 2.672
+     coords 13.429 -0.304 2.672
      angleY -90
      m_AssetType ARMED_TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords -30.893 0.751 24.704
+     coords -30.893 0.619 24.704
      angleY 135
      m_AssetType SUPPLY
      m_fWaitTime 1
     }
     {
-     coords -25.139 1.475 30.325
+     coords -25.139 0.502 30.325
      angleY -45
      m_AssetType SUPPLY
      m_fWaitTime 1
     }
     {
-     coords -19.441 2.177 35.251
+     coords -19.441 0.384 35.251
      angleY -45
      m_AssetType SUPPLY
      m_fWaitTime 1
     }
     {
-     coords -6.384 2.417 35.614
+     coords -6.384 0.64 35.614
      m_AssetType TROOP_TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords 3.665 2.123 28.763
+     coords 3.665 0.35 28.763
      angleY 30
      m_AssetType ARMORED_TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords -43.165 -0.398 16.297
+     coords -43.165 0.355 16.297
      angleY 90
      m_AssetType TROOP_TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords 17.269 2.971 15.978
+     coords 17.269 -0.077 15.978
      angleY 30
      m_AssetType ARMED_TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords -15.643 -4.682 -32.352
-     angleY -30
+     coords -4.676 0.38 -23.351
+     angleY 150
      m_AssetType TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords -9.879 -3.078 -28.328
-     angleY -30
+     coords -10.44 0.682 -27.375
+     angleY 150
      m_AssetType TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords 1.36 -1.757 -23.042
-     angleY -30
+     coords -21.679 1.317 -32.661
+     angleY 150
      m_AssetType TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords 6.308 -1.061 -20.92
-     angleY -30
+     coords -26.627 1.679 -34.783
+     angleY 150
      m_AssetType TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords -4.27 -2.582 -24.702
-     angleY -30
+     coords -16.049 1.002 -31.001
+     angleY 150
      m_AssetType TRANSPORT
      m_fWaitTime 1
     }
     {
-     coords 9.407 2.042 23.276
+     coords 9.407 0.083 23.276
      angleY 45
      m_AssetType ARMORED_TRANSPORT
      m_fWaitTime 1
@@ -107,51 +111,204 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
    }
    $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
     {
-     coords 20.096 -1.642 19.636
+     coords 20.096 -0.032 19.636
      angleY -45
     }
     {
-     coords -19.565 -1.188 8.701
+     coords -19.565 0.861 8.701
     }
     {
-     coords 0.384 0.747 17.111
+     coords 0.384 0.116 17.111
     }
     {
-     coords -3.038 1.272 24.204
+     coords -3.038 0.448 24.204
     }
     {
-     coords -22.913 -0.802 11.705
+     coords -22.913 0.909 11.705
     }
     {
-     coords -14.004 -2.719 -17.571
+     coords -14.004 0.844 -17.571
     }
    }
   }
  }
- MainBase_USSR_6 {
+ MainBase_North_6 {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
-    m_sName "USSR Main Base"
+    m_sName "Main Base North"
     m_iInitialOwnerFaction 1
    }
   }
-  coords 5951.608 199.448 7473.998
+  coords 5262.27 1.54 12061.954
+  angleY -89.562
+  {
+   PR_PreparationPhaseCollider {
+    ID "5C992516FD18EDD2"
+    coords 0 -0.001 0
+   }
+   $grp PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
+    {
+     coords 5855.714 -1.54 10799.451
+     angleY -30
+     m_AssetType TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords -7.879 0.911 -17.553
+     angleY -150
+     m_AssetType TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords 20.205 -0.503 0.454
+     angleY -90
+     m_AssetType ARMED_TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords -24.118 0.222 22.486
+     angleY 135
+     m_AssetType SUPPLY
+     m_fWaitTime 1
+    }
+    {
+     coords -18.364 -0.016 28.108
+     angleY -45
+     m_AssetType SUPPLY
+     m_fWaitTime 1
+    }
+    {
+     coords -12.666 -0.183 33.033
+     angleY -45
+     m_AssetType SUPPLY
+     m_fWaitTime 1
+    }
+    {
+     coords 0.395 0.345 33.397
+     m_AssetType TROOP_TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords 10.439 -0.009 26.546
+     angleY 30
+     m_AssetType ARMORED_TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords -36.39 1.042 14.08
+     angleY 90
+     m_AssetType TROOP_TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords 24.044 0.019 13.761
+     angleY 30
+     m_AssetType ARMED_TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords -12.164 0.911 -12.95
+     angleY -150
+     m_AssetType TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords -18.53 -0.355 -9.969
+     angleY -150
+     m_AssetType TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords -28.731 0.747 -2.879
+     angleY -150
+     m_AssetType TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords -33.042 0.632 0.341
+     angleY -150
+     m_AssetType TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords -24.478 0.245 -6.926
+     angleY -150
+     m_AssetType TRANSPORT
+     m_fWaitTime 1
+    }
+    {
+     coords 16.181 -0.065 21.059
+     angleY 45
+     m_AssetType ARMORED_TRANSPORT
+     m_fWaitTime 1
+    }
+   }
+   $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+    {
+     coords 26.872 -0.069 17.419
+     angleY -45
+    }
+    {
+     coords -24.91 -1.54 -25.904
+     angleY -180
+    }
+    {
+     coords 7.156 0.013 14.894
+    }
+    {
+     coords 3.734 0.059 21.987
+    }
+    {
+     coords -21.562 0.664 -28.909
+     angleY -180
+    }
+    {
+     coords -25.788 -1.54 -18.92
+     angleY -120
+    }
+   }
+  }
  }
 }
 $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
  CaptureArea_4 {
-  coords 2881.081 109.839 6342.576
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+   }
+  }
+  coords 4477.755 14.163 10678.002
  }
  CaptureArea_2 {
-  coords 3120.462 119.063 5224.431
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+   }
+  }
+  coords 5590.681 27.887 9822.268
  }
  CaptureArea_3 {
-  coords 1263.757 37.109 6043.009
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+   }
+  }
+  coords 5418.572 45.322 10498.101
  }
  CaptureArea_1 {
-  coords 5174.284 14.18 3970.439
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+   }
+  }
+  coords 5044.561 115.824 8541.796
  }
  CaptureArea_5 {
-  coords 4726.274 162.033 7001.262
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+   }
+  }
+  coords 4658.354 24.742 11186.06
  }
 }
