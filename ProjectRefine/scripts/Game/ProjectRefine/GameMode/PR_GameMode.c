@@ -25,6 +25,9 @@ class PR_GameMode : SCR_BaseGameMode
 	[Attribute(desc: "All areas, including main bases, in their order of capture.")]
 	protected ref array<ref PR_EntityLink> m_aAreaEntities;
 	
+	[Attribute("-1", UIWidgets.EditBox, desc: "Faction which, when it caputres a point, it becomes un-capcurable")]
+	protected int m_iInvadingFaction;
+	
 	[Attribute(desc: "Main base of first faction")]
 	protected ref PR_EntityLink m_MainBaseEntity0;
 	[Attribute(desc: "Main base of second faction")]
@@ -61,6 +64,13 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Public functions
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Returns invading faction
+	int GetInvadingFaction()
+	{
+		return m_iInvadingFaction;
+	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Returns area at given position

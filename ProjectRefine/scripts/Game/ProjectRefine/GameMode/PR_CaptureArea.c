@@ -28,6 +28,9 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("true", UIWidgets.CheckBox, desc: "True if area is capturable by soldier occupation, false if not.")]
 	protected bool m_bCapturable;
 	
+	[Attribute("false", UIWidgets.CheckBox, desc: "Invasion defender Main")]
+	protected bool m_bDefenderMain;
+	
 	// Called whenever any of state variables changes. It's not associated to m_eState only!
 	ref ScriptInvoker<PR_CaptureArea> m_OnAnyPropertyChanged = new ScriptInvoker<PR_CaptureArea>();
 	
@@ -207,6 +210,9 @@ class PR_CaptureArea : ScriptComponent
 					// Max points, now captured
 					m_iOwnerFaction = m_iPointsOwnerFaction; // New owner is the faction which has been capturing
 					m_eState = PR_EAreaState.CAPTURED;
+					
+					if(m_iOwnerFaction == PR_GameMode.Cast(GetGame().GetGameMode()).GetInvadingFaction())
+						m_bCapturable = false;
 					
 					m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction);
 				}
