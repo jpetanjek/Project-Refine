@@ -25,7 +25,7 @@ modded class SCR_AIGroup
 			if (groupsManager)
 			{
 				groupsManager.RegisterGroup(this);
-				//groupsManager.ClaimFrequency(GetGroupFrequency(), GetFaction());
+				groupsManager.ClaimFrequency(GetRadioFrequency(), GetFaction());
 				groupsManager.OnGroupCreated(this);
 			}
 		}
@@ -39,6 +39,7 @@ modded class SCR_AIGroup
 		s_OnCustomDescChanged.Invoke();
 		reader.ReadString(m_sCustomName);
 		s_OnCustomNameChanged.Invoke();
+		reader.ReadString(m_sGroupFlag);
 		
 		RplId groupID;
 		reader.ReadRplId(groupID);
@@ -48,8 +49,7 @@ modded class SCR_AIGroup
 		
 		reader.ReadInt(m_iDescriptionAuthorID);
 		reader.ReadInt(m_iNameAuthorID);
-
-
+		
 		return true;
     }	
 }
