@@ -1,6 +1,8 @@
 Vehicle : "{99F1610551D54D17}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469_base.et" {
  ID "44EC665ABD2FF04B"
  components {
+  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D3F408EFF4}" : "{2FD10E574D43D979}Prefabs/Vehicles/PR_BuildingProviderVehicle.ct" {
+  }
   PR_SupplyHolderComponent "{5D431BD074D371F7}" {
    m_iMaxSupplies 300
    m_fRange 10

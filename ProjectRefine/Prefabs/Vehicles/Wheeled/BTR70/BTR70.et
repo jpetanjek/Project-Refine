@@ -1,6 +1,8 @@
 Vehicle : "{1C5FE7B7FF49BB8D}Prefabs/Vehicles/Wheeled/BTR70/BTR70_Base.et" {
  ID "BBCBA43A9778AE21"
  components {
+  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D05FF73E43}" : "{2FD10E574D43D979}Prefabs/Vehicles/PR_BuildingProviderVehicle.ct" {
+  }
   PR_SupplyHolderComponent "{5D431BD0DEC5825D}" {
    m_iMaxSupplies 300
    m_fRange 10

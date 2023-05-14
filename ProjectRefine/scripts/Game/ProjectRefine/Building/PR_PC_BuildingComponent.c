@@ -17,15 +17,30 @@ class PR_PC_BuildingComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	// Creation of asset
 	
-	void AskBuild(ResourceName buildingMgrPrefab, vector transform[4])
+	void AskBuild(ResourceName buildingMgrPrefab, PR_BuildingProviderBaseComponent buildingProvider, int cost, vector transform[4])
 	{
-		Rpc(RpcAsk_Build, buildingMgrPrefab, transform[0], transform[1], transform[2], transform[3]);
+		IEntity buildingProviderEntity = buildingProvider.GetOwner();
+		RplId rplId = RplComponent.Cast(buildingProvider.GetOwner().FindComponent(RplComponent)).Id();
+		Rpc(RpcAsk_Build, buildingMgrPrefab, rplId, cost, transform[0], transform[1], transform[2], transform[3]);
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void RpcAsk_Build(ResourceName buildingMgrPrefab, vector vAside, vector vUp, vector vDir, vector vPos)
+	protected void RpcAsk_Build(ResourceName buildingMgrPrefab, RplId rplId, int cost, vector vAside, vector vUp, vector vDir, vector vPos)
 	{
-		// todo verity position
+		RplComponent rplComp = RplComponent.Cast(Replication.FindItem(rplId));
+		if (!rplComp)
+			return;
+		
+		PR_BuildingProviderBaseComponent buildingProvider = PR_BuildingProviderBaseComponent.Cast(rplComp.GetEntity().FindComponent(PR_BuildingProviderBaseComponent));
+		
+		if (!buildingProvider)
+			return;
+		
+		// Verity supply count
+		if (buildingProvider.GetSupply() < cost)
+			return;
+		
+		// todo verity position, not sure how to do it now
 		
 		EntitySpawnParams sp = new EntitySpawnParams();
 		sp.TransformMode = ETransformMode.WORLD;
@@ -55,6 +70,9 @@ class PR_PC_BuildingComponent : ScriptComponent
 				buildingMgr.Init(factionId);
 			}
 		}
+		
+		// Consume supplies from building provider
+		buildingProvider.AddSupplies(-cost);
 	}
 	
 	//------------------------------------------------------------------------------------------------

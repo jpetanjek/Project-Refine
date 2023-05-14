@@ -59,45 +59,63 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 
 		if (m_bActive)
 		{
-			bool enoughResources;
-			CheckBuildConditions(enoughResources);
+			PR_BuildingEntryAsset asset = GetCurrentChildAsset();
+			PR_BuildingProviderBaseComponent buildingProvider = FindBuildingProvider();
 			
-			bool canBuild = enoughResources; // Add more conditions later
-			UpdateSourcePanel(enoughResources);
+			//-------------------------------------
+			// Check building conditions
+			bool enoughResources = 0;
+			int supplyCount = 0;
+			if (buildingProvider)
+			{
+				supplyCount = buildingProvider.GetSupply();
+				if (asset)
+					enoughResources = supplyCount >= asset.m_iCost;
+			}
 			
+			bool canBuild = buildingProvider && enoughResources;
+			
+			//-------------------------------------
+			// Update preview mode
 			m_PreviewMode.Update(timeSlice, canBuild);
+			
+			//-------------------------------------
+			// Update the UI elements
+			
+			// Resources count
+			widgets.m_ResourcesAmountText.SetText(supplyCount.ToString());
+			
+			// Resources warning
+			widgets.m_ResourcesWarning.SetVisible(asset != null && !enoughResources);
+			
+			// Building source name
+			string sourceNameText;
+			if (!buildingProvider)
+				sourceNameText = "-";
+			else
+			{
+				PR_FobComponent fob = PR_FobComponent.Cast(buildingProvider.GetOwner().FindComponent(PR_FobComponent));
+				if (fob)
+					sourceNameText = "FOB";
+				else
+				{
+					// Find root entity, since supply holder can be attached to slot
+					IEntity holderRootEntity = buildingProvider.GetOwner();
+					while (holderRootEntity.GetParent())
+						holderRootEntity = holderRootEntity.GetParent();
+					
+					// Vehicle?
+					SCR_EditableEntityComponent editableComp = SCR_EditableEntityComponent.Cast(holderRootEntity.FindComponent(SCR_EditableEntityComponent));
+					if (editableComp)
+						sourceNameText = editableComp.GetDisplayName();
+					else
+						sourceNameText = buildingProvider.GetOwner().ToString();
+				}
+			}
+			widgets.m_SourceNameText.SetText(sourceNameText);
 			
 			im.ActivateContext("PR_BuildingContext", 0);
 		}
-	}
-	
-	// Updates panel with building provider and resource count
-	protected void UpdateSourcePanel(bool resourcesOk)
-	{
-		PR_BuildingEntryAsset asset = GetCurrentChildAsset();
-		
-		if (asset)
-			widgets.m_ResourcesWarning.SetVisible(!resourcesOk);
-		else
-			widgets.m_ResourcesWarning.SetVisible(false);
-		
-		widgets.m_ResourcesAmountText.SetText(GetResources().ToString());
-	}
-	
-	protected void CheckBuildConditions(out bool resourcesOk)
-	{
-		PR_BuildingEntryAsset asset = GetCurrentChildAsset();
-		
-		if (!asset)
-			return;
-		
-		float resources = GetResources();
-		resourcesOk = asset.m_fCost < resources;
-	}
-	
-	protected float GetResources()
-	{
-		return 25.0;
 	}
 	
 	//----------------------------------------------------------------
@@ -141,7 +159,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	// Entry operations
 	
 	// Going into the hierarchy
-	void OpenEntry(PR_BuildingEntry entry)
+	protected void OpenEntry(PR_BuildingEntry entry)
 	{
 		PR_BuildingEntryCategory category = PR_BuildingEntryCategory.Cast(entry);
 		PR_BuildingEntryAsset asset = PR_BuildingEntryAsset.Cast(entry);
@@ -166,13 +184,9 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	}
 	
 	// Going back rowards the root
-	void CloseEntry()
+	protected void CloseEntry()
 	{
 		int size = m_aEntryStack.Count();
-		
-		// Deactivate preview mode for current entry
-		//if (GetCurrentAsset())
-		//	m_PreviewMode.Deactivate();
 		
 		m_aEntryStack.Remove(size-1); // Remove last
 		m_aChildEntryIdStack.Remove(size-1);
@@ -189,21 +203,47 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			Deactivate();
 	}
 	
-	void TryPlaceAsset(PR_BuildingEntryAsset asset)
+	protected void TryPlaceAsset(PR_BuildingEntryAsset asset)
 	{
+		PR_BuildingProviderBaseComponent buildingProvider = FindBuildingProvider();
+		if (!buildingProvider)
+			return;
+		
+		if (buildingProvider.GetSupply() < asset.m_iCost)
+			return;
+		
 		// Try to place the asset
 		vector transform[4];
 		bool posValid;
 		m_PreviewMode.GetAndValidateTransform(transform, posValid);
 		
-		if (posValid)
-		{				
-			PR_PC_BuildingComponent.GetLocalInstance().AskBuild(asset.m_sBuildingManagerPrefab, transform);
-		}
+		if (!posValid)
+			return;
+		
+		PR_PC_BuildingComponent.GetLocalInstance().AskBuild(asset.m_sBuildingManagerPrefab, buildingProvider, asset.m_iCost, transform);
+	}
+	
+	// Resolves the supply holder from which we are building
+	protected PR_BuildingProviderBaseComponent FindBuildingProvider()
+	{
+		IEntity myEntity = GetGame().GetPlayerController().GetControlledEntity();
+		if (!myEntity)
+			return null;
+		
+		vector myPos = myEntity.GetOrigin();
+		
+		SCR_Faction myFaction = SCR_Faction.Cast(PR_FactionMemberManager.GetLocalPlayerFaction());
+		if (!myFaction)
+			return null;
+		int myFactionId = myFaction.GetId();
+		
+		PR_BuildingProviderBaseComponent buildingProvider = PR_BuildingProviderBaseComponent.FindBuildingProvider(myFactionId, myPos);
+		
+		return buildingProvider;
 	}
 	
 	// Going to next/prev entry in a category
-	void CycleCategoryChildEntry(int offsetSign)
+	protected void CycleCategoryChildEntry(int offsetSign)
 	{
 		PR_BuildingEntryCategory category = GetCurrentCategory();
 		
@@ -229,7 +269,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	}
 	
 	// Processes entry - category or asset
-	void ProcessCategory(PR_BuildingEntryCategory category, int childEntryId)
+	protected void ProcessCategory(PR_BuildingEntryCategory category, int childEntryId)
 	{		
 		// Create entry name widgets
 		while (widgets.m_EntryNames.GetChildren())
@@ -245,7 +285,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			
 			PR_BuildingEntryAsset entryAsset = PR_BuildingEntryAsset.Cast(e);
 			if (entryAsset)
-				entryNameComp.Init(entryAsset.m_sDisplayName, cost: entryAsset.m_fCost, costVisible: true);
+				entryNameComp.Init(entryAsset.m_sDisplayName, cost: entryAsset.m_iCost, costVisible: true);
 			else
 				entryNameComp.Init(e.m_sDisplayName, costVisible: false);
 		}
@@ -269,7 +309,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	}
 	
 	// Processes child entry of a category, if we are browsing a category
-	void ProcessCategoryChildEntry(PR_BuildingEntry entry)
+	protected void ProcessCategoryChildEntry(PR_BuildingEntry entry)
 	{
 		PR_BuildingEntryCategory category = PR_BuildingEntryCategory.Cast(entry);
 		PR_BuildingEntryAsset asset = PR_BuildingEntryAsset.Cast(entry);
@@ -288,19 +328,13 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	// Stack operations
 	
 	// Returns current category
-	PR_BuildingEntryCategory GetCurrentCategory()
+	protected PR_BuildingEntryCategory GetCurrentCategory()
 	{
 		return PR_BuildingEntryCategory.Cast(m_aEntryStack[m_aEntryStack.Count()-1]);
 	}
 	
-	// Returns current asset
-	PR_BuildingEntryAsset GetCurrentAsset2()
-	{
-		return PR_BuildingEntryAsset.Cast(m_aEntryStack[m_aEntryStack.Count()-1]);
-	}
-	
 	// Returns currently selected child asset, if current entry is a category
-	PR_BuildingEntryAsset GetCurrentChildAsset()
+	protected PR_BuildingEntryAsset GetCurrentChildAsset()
 	{
 		PR_BuildingEntryCategory category = PR_BuildingEntryCategory.Cast(m_aEntryStack[m_aEntryStack.Count()-1]);
 		if (!category)
@@ -313,7 +347,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	//----------------------------------------------------------------
 	// Widget operations
 	
-	void SetEntriesXPos(int id, bool animate)
+	protected void SetEntriesXPos(int id, bool animate)
 	{
 		if (animate)
 		{
@@ -328,13 +362,13 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			FrameSlot.SetPosX(widgets.m_EntryNames, CalculateEntriesXPos(id));
 	}
 	
-	float CalculateEntriesXPos(int id)
+	protected float CalculateEntriesXPos(int id)
 	{
 		const float entryWidth = 250; // Check width of EntryName.layout
 		return -(id * entryWidth) - 0.5*entryWidth;
 	}
 	
-	void SetDescriptionText(string description)
+	protected void SetDescriptionText(string description)
 	{
 		widgets.m_DescriptionText.SetText(description);
 		
@@ -345,7 +379,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	//----------------------------------------------------------------
 	// Input callbacks
 	
-	void Callback_OnNext()
+	protected void Callback_OnNext()
 	{
 		// Ignore if not browsing a category
 		if (!GetCurrentCategory())
@@ -354,7 +388,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		CycleCategoryChildEntry(1);
 	}
 	
-	void Callback_OnPrev()
+	protected void Callback_OnPrev()
 	{
 		// Ignore if not browsing a category
 		if (!GetCurrentCategory())
@@ -364,7 +398,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	}
 	
 	// Same action for opening category or placing asset
-	void Callback_OnOpen()
+	protected void Callback_OnOpen()
 	{
 		PR_BuildingEntryCategory category = GetCurrentCategory();
 		
@@ -375,12 +409,12 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		OpenEntry(currentEntry);
 	}
 	
-	void Callback_OnClose()
+	protected void Callback_OnClose()
 	{
 		CloseEntry();
 	}
 	
-	void Callback_OnRotate(float value)
+	protected void Callback_OnRotate(float value)
 	{
 		if (!m_bActive) // This one is called even if context is not active, somehow
 			return;
@@ -401,12 +435,12 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	}
 	
 	// Quickly close the building mode when we want to fire
-	void Callback_OnFire()
+	protected void Callback_OnFire()
 	{
 		Deactivate();
 	}
 	
-	void Callback_OnAds()
+	protected void Callback_OnAds()
 	{
 		Deactivate();
 	}

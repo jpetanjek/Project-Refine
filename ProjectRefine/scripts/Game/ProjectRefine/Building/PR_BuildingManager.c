@@ -50,11 +50,19 @@ class PR_BuildingManager: GenericEntity
 	
 	bool m_bHealthChanged = false;
 	
+	bool m_bInitialized = false;
+	
 	//---------------------
 	// Must be called after initial entity is created
 	void Init(int ownerFactionId)
 	{
 		m_iOwnerFactionId = ownerFactionId;
+		
+		if (!m_bInitialized && m_Final)
+			CallFinalInitEvents();		
+		
+		m_bInitialized = true;
+		
 		Replication.BumpMe();
 	}
 	
@@ -188,6 +196,14 @@ class PR_BuildingManager: GenericEntity
 		m_Final = CreateStage(m_sFinalPrefab);
 		
 		// Call events on event handlers
+		
+		// At this moment it might be not initialized
+		if (m_bInitialized)
+			CallFinalInitEvents();
+	}
+	
+	protected void CallFinalInitEvents()
+	{
 		array<Managed> eventHandlers = {};
 		m_Final.FindComponents(PR_BuildableEventHandlerComponent, eventHandlers);
 		foreach (Managed managed : eventHandlers)

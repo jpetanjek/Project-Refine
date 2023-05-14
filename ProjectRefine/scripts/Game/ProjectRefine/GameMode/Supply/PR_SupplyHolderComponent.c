@@ -163,6 +163,13 @@ class PR_SupplyHolderComponent : ScriptComponent
 		return false;
 	}
 	
+	// For adding/consuming supplies by external systems, not other supply holders
+	void AddSupplies(int amount)
+	{
+		m_iSupply = Math.ClampInt(m_iSupply + amount, 0, m_iMaxSupplies);
+		Replication.BumpMe();
+	}
+	
 	protected void SetSupply(int amount)
 	{
 		m_iSupply = amount;

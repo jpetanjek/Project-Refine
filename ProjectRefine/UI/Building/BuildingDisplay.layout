@@ -54,20 +54,36 @@ FrameWidgetClass {
         }
        }
       }
+      HorizontalLayoutWidgetClass "{5D513D13A2D026A9}" : "{E7F4EC45944BD478}UI/Elements/WarningText.layout" {
+       Name "m_RoleWarning"
+       Slot LayoutSlot "{5D12A510D44B84D9}" {
+       }
+       {
+        OverlayWidgetClass "{5D4D4DD316279999}" {
+         Prefab "{5D4D4DD316279999}"
+         Slot LayoutSlot "{5D4D4DD3162799FE}" {
+         }
+        }
+        TextWidgetClass "{5D12A5103C7160A2}" {
+         Prefab "{5D12A5103C7160A2}"
+         Text "You picked the wrong role fool!"
+        }
+       }
+      }
      }
     }
     VerticalLayoutWidgetClass "{5D4D4DD5815D6B8C}" {
      Name "m_SourcePanel"
      Slot FrameWidgetSlot "{5D4D4DD5815D6B9B}" {
-      Anchor 0 1 0 1
-      PositionX 80
-      OffsetLeft 80
-      PositionY -140
-      OffsetTop -140
+      Anchor 0.5 1 0.5 1
+      PositionX 270
+      OffsetLeft 270
+      PositionY -127
+      OffsetTop -127
       SizeX 100
-      OffsetRight -180
+      OffsetRight -370
       SizeY 30
-      OffsetBottom 110
+      OffsetBottom 97
       Alignment 0 0
       SizeToContent 1
      }

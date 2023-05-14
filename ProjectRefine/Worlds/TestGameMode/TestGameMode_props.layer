@@ -1,3 +1,11 @@
+CommentEntity {
+ coords 417.235 2.298 169.292
+ m_Comment "FOB"
+ m_FaceCamera 1
+ m_VisibleIngame 1
+ m_TextBackground 1
+ m_BackgroundColor 0.061 0.061 0.061
+}
 $grp GenericEntity {
  {
   components {
@@ -19,7 +27,7 @@ $grp GenericEntity {
     }
    }
   }
-  coords 116.823 5.48 404.004
+  coords 132.963 7.004 402.996
  }
  {
   components {
@@ -41,11 +49,11 @@ $grp GenericEntity {
     }
    }
   }
-  coords 119.898 4.614 410.462
+  coords 137.455 6.98 397.583
  }
-}
-GenericEntity : "{41A666D90504519C}Prefabs/Building/UnbuiltAsset.et" {
- coords 49.74 2.001 473.57
+ {
+  coords 49.74 2.001 473.57
+ }
 }
 $grp GenericEntity : "{AF73AC93750884CA}Prefabs/Structures/Signs/Warnings/SignBendDoubleLeft_01_pole.et" {
  {
@@ -72,4 +80,40 @@ $grp GenericEntity : "{AF73AC93750884CA}Prefabs/Structures/Signs/Warnings/SignBe
   coords 43.418 2.007 438.19
   angleY -170.282
  }
+}
+GenericEntity TestFob_US : "{CE070995505D521B}Prefabs/Compositions/Radio/PR_US_FOB_Radio.et" {
+ components {
+  PR_SupplyHolderComponent "{5D4F51A5D34E36E8}" {
+   m_iSupply 5000
+  }
+ }
+ coords 415.886 2.001 168.139
+ userScript "	// code here"\
+ "	bool m_bInitialized = false;"
+ constructor ""\
+ "		//Print(\"Constructor\");"\
+ "		SetEventMask(EntityEvent.FRAME);"\
+ "		Activate();"\
+ "	"
+ EOnFrame ""\
+ "		//Print(\"123\");"\
+ "		if (!m_bInitialized)"\
+ "		{"\
+ "			PR_FobComponent fob = PR_FobComponent.Cast(owner.FindComponent(PR_FobComponent));"\
+ "			fob.Init(0);"\
+ "			"\
+ "			m_bInitialized = true;"\
+ "		}"\
+ "	"
+}
+Vehicle M151A1 : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
+ components {
+  PR_SupplyHolderComponent "{5D431BD0BCA7B5E8}" {
+   m_iSupply 300
+  }
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 8980.1
+  }
+ }
+ coords 83.086 2.001 468.706
 }

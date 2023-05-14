@@ -1,6 +1,8 @@
 GenericEntity : "{4AFBDAC4EE3FADBB}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_canvas.et" {
  ID "4B42E71698F5739C"
  components {
+  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D39FE743B2}" : "{2FD10E574D43D979}Prefabs/Vehicles/PR_BuildingProviderVehicle.ct" {
+  }
   PR_SupplyHolderComponent "{5D431BD0839E9A62}" {
    m_iMaxSupplies 3000
    m_fRange 50

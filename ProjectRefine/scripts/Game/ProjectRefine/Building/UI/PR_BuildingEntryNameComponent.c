@@ -9,7 +9,7 @@ class PR_BuildingEntryNameComponent : ScriptedWidgetComponent
 		m_wCostText = TextWidget.Cast(w.FindAnyWidget("CostText"));
 	}
 	
-	void Init(string name, float cost = 0, bool costVisible = false)
+	void Init(string name, int cost = 0, bool costVisible = false)
 	{
 		m_wNameText.SetText(name);
 		

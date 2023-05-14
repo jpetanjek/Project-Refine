@@ -35,26 +35,30 @@ class PR_FobComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	static array<PR_FobComponent> FindFobAtPosition(int ownerFactionId, vector posWorld)
+	static PR_FobComponent FindFobAtPosition(int ownerFactionId, vector posWorld)
 	{
-		array<PR_FobComponent> a = {};
-		
 		foreach (PR_FobComponent fob : s_aAll)
 		{
 			if (fob.m_iOwnerFaction != ownerFactionId)
 				continue;
 			
 			if (vector.DistanceXZ(fob.GetOwner().GetOrigin(), posWorld) < fob.GetRange())
-				a.Insert(fob);
+				return fob;
 		}
 		
-		return a;
+		return null;
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	float GetRange()
 	{
 		return m_SupplyHolder.m_fRange;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	int GetOwnerFactionId()
+	{
+		return m_iOwnerFaction;
 	}
 	
 	//------------------------------------------------------------------------------------------------

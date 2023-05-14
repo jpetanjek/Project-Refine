@@ -217,4 +217,14 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 		FactionMembersChanged();
 		m_OnPlayerChangedFaction.Invoke(playerID, factionIdx);
 	}
+	
+	static Faction GetLocalPlayerFaction()
+    {
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.GetInstance();
+		if(!factionMemberManager)
+			return null;
+		
+		int playerID = SCR_PlayerController.GetLocalPlayerId();
+		return factionMemberManager.GetPlayerFaction(playerID);
+    }
 }

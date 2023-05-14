@@ -1,6 +1,8 @@
 Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
  ID "BBCBA43A9778AE21"
  components {
+  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D3F018A48E}" : "{2FD10E574D43D979}Prefabs/Vehicles/PR_BuildingProviderVehicle.ct" {
+  }
   PR_SupplyHolderComponent "{5D432585F583BFB4}" {
    m_iMaxSupplies 500
    m_fRange 10

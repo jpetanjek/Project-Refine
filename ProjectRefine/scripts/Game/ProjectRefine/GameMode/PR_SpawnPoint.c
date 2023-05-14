@@ -301,7 +301,8 @@ class PR_SpawnPoint : ScriptComponent
 		float currentTime_ms = Replication.Time();
 		
 		// If respawn timer has ticked down
-		if(currentTime_ms >= m_fNextRespawnWaveTime_ms)
+		bool disableDeploymentChecks = DiagMenu.GetBool(SCR_DebugMenuID.REFINE_DISABLE_DEPLOYMENT_COUNTDOWN);
+		if((currentTime_ms >= m_fNextRespawnWaveTime_ms) || disableDeploymentChecks)
 		{
 			// Spawn players
 			if (IsRespawnAllowed())

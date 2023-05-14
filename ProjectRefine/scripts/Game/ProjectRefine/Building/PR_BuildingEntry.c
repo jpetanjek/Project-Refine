@@ -33,7 +33,7 @@ class PR_BuildingEntryAsset : PR_BuildingEntry
 	ResourceName m_sBuildingManagerPrefab;
 	
 	[Attribute("0", UIWidgets.EditBox, "Cost of asset")]
-	float m_fCost;
+	int m_iCost;
 	
 	[Attribute("1", UIWidgets.CheckBox, "Orient asset to surface normal")]
 	bool m_bOrientToSurface;
@@ -47,9 +47,9 @@ class PR_BuildingEntryAssetCustomTitleAttribute : BaseContainerCustomTitle
 	override bool _WB_GetCustomTitle(BaseContainer source, out string title)
 	{
 		string displayName;
-		float cost;
+		int cost;
 		source.Get("m_sDisplayName", displayName);
-		source.Get("m_fCost", cost);
+		source.Get("m_iCost", cost);
 		
 		title = string.Format("%1 - %2", cost.ToString(), displayName);
 		
