@@ -182,12 +182,12 @@ modded class SCR_PlayerControllerGroupComponent
 		// Squad radio - frequency depends on group
 		SCR_AIGroup myGroup = groupsManager.GetPlayerGroup(pc.GetPlayerId());
 		int squadRadioFrequency;
-		/*
 		if (myGroup)
-			squadRadioFrequency = myGroup.GetGroupFrequency();							// In a group
+			squadRadioFrequency = myGroup.GetRadioFrequency();							// In a group
 		else
 			squadRadioFrequency = groupsManager.GetSquadlessRadioFrequency(myFaction);	// Not in a group
 		
+		/* TODO FIX RADIO
 		squadRadio.TogglePower(true);
 		squadRadio.SetFrequency(squadRadioFrequency);
 		*/
@@ -195,8 +195,10 @@ modded class SCR_PlayerControllerGroupComponent
 		if (commanderRadio)
 		{
 			int commanderRadioFrequency = groupsManager.GetCommanderRadioFrequency(myFaction);
-			//commanderRadio.TogglePower(true);
-			//commanderRadio.SetFrequency(commanderRadioFrequency);
+			/* TODO FIX RADIO
+			commanderRadio.TogglePower(true);
+			commanderRadio.SetFrequency(commanderRadioFrequency);
+			*/
 		}
 	}
 	

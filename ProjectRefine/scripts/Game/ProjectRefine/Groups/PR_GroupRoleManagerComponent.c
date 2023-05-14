@@ -157,11 +157,12 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	
 	override void OnPostInit(IEntity owner)
 	{
+		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
+		group.GetOnPlayerLeaderChanged().Insert(OnPlayerLeaderChanged);
+		
 		if(Replication.IsClient())
 			return;
 		
-		SCR_AIGroup group = SCR_AIGroup.Cast(GetOwner());
-		group.GetOnPlayerLeaderChanged().Insert(OnPlayerLeaderChanged);
 		group.GetOnPlayerRemoved().Insert(OnPlayerRemoved);
 	}
 	
@@ -203,11 +204,8 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 		m_iLeaderId = playerID;
 		Replication.BumpMe();
 		
-		if(Replication.IsServer())
-		{
-			OnAvailabilityChangedClient();
-			OnRoleClaimsChangedClient();			
-		}
+		OnAvailabilityChangedClient();
+		OnRoleClaimsChangedClient();			
 	}
 	
 	void OnPlayerRemoved(SCR_AIGroup group, int playerID)
@@ -297,6 +295,7 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	
 		if(group.IsPlayerLeader(playerID))
 		{
+			//PrintFormat("Role %1, Limit %2", role.m_eRoleLimitation, PR_ERoleLimitation.SQUAD_LEAD_ONLY);
 			if(role.m_eRoleLimitation != PR_ERoleLimitation.SQUAD_LEAD_ONLY)
 				return false;
 		}
