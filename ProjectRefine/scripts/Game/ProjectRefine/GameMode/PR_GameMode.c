@@ -794,22 +794,25 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		DiagMenu.RegisterMenu(SCR_DebugMenuID.REFINE_MENU_ID, cheatMenuName, "");
 		
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL, "", "Game Mode Panel", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREA_STATE, "", "Capture Area State", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_ASSET_SPAWNER_STATE, "", "Asset Spawner State", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_SPAWN_POINT_STATE, "", "Spawn Point State", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, "", "Show Faction Menu", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, "", "Show Deployment Menu", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_DEPLOYMENT_COUNTDOWN, "", "Disable Depl. Countdown", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_AUTO_DEPLOYMENT_MENU, "", "Disable auto depl. menu", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_OPEN_BUILDING_DISPLAY, "", "Open Building Display", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_BUILDING_PROVIDER_STATE, "", "Building Provider State", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_SUPPLY_HOLDER_INFO, "", "Display Supply info", cheatMenuName);
-		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_HOLDER_IDX, "", "Holder IDX", cheatMenuName, "0, 128, 0, 1");
-		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_TARGET_IDX, "", "Target IDX", cheatMenuName, "0, 128, 0, 1");
-		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_SUPPLY_AMOUNT, "", "Supply amount", cheatMenuName, "0, 1000, 100, 100");
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GIVE_SUPPLY, "", "Give Supply", cheatMenuName);
-		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_TAKE_SUPPLY, "", "Take Supply", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREA_STATE, "",		"Show Capture Areas", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_ASSET_SPAWNER_STATE, "",		"Show Asset Spawners", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_SPAWN_POINT_STATE, "", 		"Show Spawn Points", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_BUILDING_PROVIDER_STATE, "", 	"Show Building Providers", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_SHOW_SUPPLY_HOLDER_INFO, "", 		"Show Supply Holders", cheatMenuName);
+		
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL, "", 				"Open Game Mode Panel", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_OPEN_BUILDING_DISPLAY, "", 		"Open Building Display", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_OPEN_DEPLOYMENT_MENU, "", 			"Open Deployment Menu", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_OPEN_FACTION_MENU, "", 			"Open Faction Menu", cheatMenuName);
+		
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_DEPLOYMENT_COUNTDOWN, "", 	"Disable Depl. Countdown", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_AUTO_DEPLOYMENT_MENU, "", 	"Disable Auto Depl. Menu", cheatMenuName);
+		
+		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_HOLDER_IDX, "", 					"Supply: Holder IDX", cheatMenuName, "0, 128, 0, 1");
+		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_TARGET_IDX, "", 					"Supply: Target IDX", cheatMenuName, "0, 128, 0, 1");
+		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_SUPPLY_AMOUNT, "", 				"Supply: Amount", cheatMenuName, "0, 1000, 100, 100");
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_GIVE_SUPPLY, "", 					"Supply: Give", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_TAKE_SUPPLY, "", 					"Supply: Take", cheatMenuName);
 		
 	}
 	
@@ -838,7 +841,7 @@ class PR_GameMode : SCR_BaseGameMode
 		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GAME_MODE_PANEL))
 			DrawGameModePanel();
 		
-		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU))
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_OPEN_DEPLOYMENT_MENU))
 		{
 			// Assign faction to all players
 			array<int>  allPlayers = {};
@@ -851,16 +854,16 @@ class PR_GameMode : SCR_BaseGameMode
 			RpcDo_DiagOpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
 			Rpc(RpcDo_DiagOpenMenu, ChimeraMenuPreset.RefineDeploymentMenu);
 			
-			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_DEPLOYMENT_MENU, 0);
+			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_OPEN_DEPLOYMENT_MENU, 0);
 		}
 		
-		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU))
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_OPEN_FACTION_MENU))
 		{
 			MenuManager mm = GetGame().GetMenuManager();
 			RpcDo_DiagOpenMenu(ChimeraMenuPreset.RefineFactionSelectionMenu);
 			Rpc(RpcDo_DiagOpenMenu, ChimeraMenuPreset.RefineFactionSelectionMenu);
 			
-			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_SHOW_FACTION_MENU, 0);
+			DiagMenu.SetValue(SCR_DebugMenuID.REFINE_OPEN_FACTION_MENU, 0);
 		}
 		
 		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_OPEN_BUILDING_DISPLAY))
