@@ -60,6 +60,7 @@ class PR_BuildingPreviewMode
 			bool canBuild = posValid && canBuildExternal;
 			
 			m_PreviewEntity.SetTransform(transform);
+			m_PreviewEntity.Update();
 			
 			ResourceName material;
 			if (canBuild)
