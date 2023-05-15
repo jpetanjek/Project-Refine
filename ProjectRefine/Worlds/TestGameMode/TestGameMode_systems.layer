@@ -25,6 +25,8 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
    m_sEntityName "MainBase1"
   }
  }
+ m_bInvasion 1
+ m_iInvadingFaction 0
  m_MainBaseEntity0 PR_EntityLink "{5C5EDD58EA01F250}" {
   m_sEntityName "MainBase0"
  }

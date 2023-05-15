@@ -28,9 +28,6 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("true", UIWidgets.CheckBox, desc: "True if area is capturable by soldier occupation, false if not.")]
 	protected bool m_bCapturable;
 	
-	[Attribute("false", UIWidgets.CheckBox, desc: "Invasion defender Main", category: "Invasion")]
-	protected bool m_bDefenderMain;
-	
 	// Called whenever any of state variables changes. It's not associated to m_eState only!
 	ref ScriptInvoker<PR_CaptureArea> m_OnAnyPropertyChanged = new ScriptInvoker<PR_CaptureArea>();
 	

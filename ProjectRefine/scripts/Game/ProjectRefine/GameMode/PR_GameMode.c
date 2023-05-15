@@ -25,19 +25,22 @@ class PR_GameMode : SCR_BaseGameMode
 	[Attribute(desc: "All areas, including main bases, in their order of capture.")]
 	protected ref array<ref PR_EntityLink> m_aAreaEntities;
 	
+	[Attribute("0", UIWidgets.EditBox, desc: "Invasion version of Game Mode?", category: "Invasion")]
+	protected bool m_bInvasion;
+	
 	[Attribute("-1", UIWidgets.EditBox, desc: "Faction which, when it caputres a point, it becomes un-capcurable", category: "Invasion")]
 	protected int m_iInvadingFaction;
 	
-	[Attribute(desc: "Main base of first faction")]
+	[Attribute(desc: "Main base of first (invading) faction")]
 	protected ref PR_EntityLink m_MainBaseEntity0;
-	[Attribute(desc: "Main base of second faction")]
+	[Attribute(desc: "Main base of second (defending) faction")]
 	protected ref PR_EntityLink m_MainBaseEntity1;
 	
 	// Attributes - faction score
-	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of first faction")]
+	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of first (invading) faction")]
 	protected float m_fInitialFactionScore0;
 	
-	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of second faction")]
+	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of second (defending) faction")]
 	protected float m_fInitialFactionScore1;
 	
 	// Pointers to areas
@@ -172,7 +175,22 @@ class PR_GameMode : SCR_BaseGameMode
 					linked.Insert(m_aAreas[i+1]); // Add next area
 				
 				PR_CaptureArea area = m_aAreas[i];
-				int initialOwnerFactionId = area.GetInitialOwnerFactionId();
+				int initialOwnerFactionId = -1;
+				if(m_bInvasion)
+				{
+					if(m_MainBaseArea1 == area)
+					{
+						initialOwnerFactionId = area.GetInitialOwnerFactionId();
+					}
+					else
+					{
+						initialOwnerFactionId = m_MainBaseArea0.GetInitialOwnerFactionId();
+					}
+				}
+				else
+				{
+					initialOwnerFactionId = area.GetInitialOwnerFactionId();
+				}
 				if (initialOwnerFactionId != -1)
 					initialOwnerFactionId = factionIds[initialOwnerFactionId];
 				area.Init(linked, initialOwnerFactionId);
