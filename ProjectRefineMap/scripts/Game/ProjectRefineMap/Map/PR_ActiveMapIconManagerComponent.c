@@ -14,7 +14,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	
 	protected SCR_EditorManagerEntity m_EditorManager;
 
-	protected ref PR_ConfigJson m_ConfigJson = new PR_ConfigJson();
+	protected ref SCR_MissionHeader m_ConfigMissionHeader;
 
 	void PR_ActiveMapIconManagerComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
@@ -28,7 +28,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	static PR_ActiveMapIconManagerComponent GetInstance()
 	{
 		return s_Instance;
-	}	
+	}
 	
 	override void OnPostInit(IEntity owner)
 	{
@@ -47,13 +47,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 		
 		if (Replication.IsServer()) {
-			if (FileIO.FileExist("$profile:lab6Markers.json")) {
-				m_ConfigJson.LoadFromFile("$profile:lab6Markers.json");
-				Print("file loaded");
-			} else {
-				m_ConfigJson.SaveToFile("$profile:lab6Markers.json");
-				Print("file saved");
-			}
+			m_ConfigMissionHeader = SCR_MissionHeader.Cast(GetGame().GetMissionHeader());
 		}
 	}
 	
@@ -252,17 +246,20 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		if (activeMapIcon != null)
 		{
 			IEntity owner = target.GetOwner();
-
-			if (!m_ConfigJson.ShowCharactersMarkers) {
-				SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(owner);
-				if (character)
-					return null;
-			}
-
-			if (!m_ConfigJson.ShowVehicleMarkers) {
-				BaseVehicle vehicle = BaseVehicle.Cast(owner);
-				if (vehicle)
-					return null;
+			
+			// read server config file to show players/vehicles or not
+			if (m_ConfigMissionHeader) {
+				if (m_ConfigMissionHeader.ShowCharactersMarkers == "false") {
+					SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(owner);
+					if (character)
+						return null;
+				}
+	
+				if (m_ConfigMissionHeader.ShowVehicleMarkers == "false") {
+					BaseVehicle vehicle = BaseVehicle.Cast(owner);
+					if (vehicle)
+						return null;
+				}
 			}
 
 			m_AllMarkers.Insert(activeMapIcon);
