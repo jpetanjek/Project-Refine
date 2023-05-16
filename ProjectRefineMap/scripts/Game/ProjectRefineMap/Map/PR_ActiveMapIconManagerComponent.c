@@ -249,13 +249,13 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			
 			// read server config file to show players/vehicles or not
 			if (m_ConfigMissionHeader) {
-				if (m_ConfigMissionHeader.ShowCharactersMarkers == "false") {
+				if (m_ConfigMissionHeader.LabSix_ShowCharactersMarkers == "false") {
 					SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(owner);
 					if (character)
 						return null;
 				}
 	
-				if (m_ConfigMissionHeader.ShowVehicleMarkers == "false") {
+				if (m_ConfigMissionHeader.LabSix_ShowVehicleMarkers == "false") {
 					BaseVehicle vehicle = BaseVehicle.Cast(owner);
 					if (vehicle)
 						return null;
