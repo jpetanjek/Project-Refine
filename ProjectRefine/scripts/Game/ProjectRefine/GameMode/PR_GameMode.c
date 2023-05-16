@@ -444,7 +444,7 @@ class PR_GameMode : SCR_BaseGameMode
 			
 			if (ownedAreasDifference > 0)
 			{
-				AddFactionScore(factionId, (int)(-1 * timeSlice)); // !!! Change score decrease rate!
+				AddFactionScore(factionId, -1); // !!! Change score decrease rate!
 			}
 		}
 		
