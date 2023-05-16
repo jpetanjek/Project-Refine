@@ -38,10 +38,10 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	// Attributes - faction score
 	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of first (invading) faction")]
-	protected float m_fInitialFactionScore0;
+	protected int m_fInitialFactionScore0;
 	
 	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of second (defending) faction")]
-	protected float m_fInitialFactionScore1;
+	protected int m_fInitialFactionScore1;
 	
 	// Pointers to areas
 	protected ref array<PR_CaptureArea> m_aAreas = {}; // Array with all capture areas. It's parallel to m_aAreaEntities array.
@@ -49,7 +49,7 @@ class PR_GameMode : SCR_BaseGameMode
 	protected PR_CaptureArea m_MainBaseArea1;
 	
 	// Score of each faction
-	protected ref array<float> m_aFactionScore = {}; //!! It's synchronized via replication
+	protected ref array<int> m_aFactionScore = {}; //!! It's synchronized via replication
 	
 	// Game mode stage
 	[RplProp(onRplName: "OnGameModeChangedClient")]
@@ -444,14 +444,14 @@ class PR_GameMode : SCR_BaseGameMode
 			
 			if (ownedAreasDifference > 0)
 			{
-				AddFactionScore(factionId, -1.0 * timeSlice); // !!! Change score decrease rate!
+				AddFactionScore(factionId, (int)(-1 * timeSlice)); // !!! Change score decrease rate!
 			}
 		}
 		
 		
 		//---------------------------------------------
 		// End game if some faction has depleted points
-		float minScore = 1.0;
+		float minScore = 1;
 		int factionIdMinScore = -1;
 		for (int i = 0; i < nFactions; i++)
 		{
@@ -480,7 +480,7 @@ class PR_GameMode : SCR_BaseGameMode
 			fm.GetFactionsList(factions);
 			int nFactions = factions.Count();
 			
-			float minScore = 1.0;
+			float minScore = 1;
 			int factionIdMinScore = -1;
 			for (int i = 0; i < nFactions; i++)
 			{
@@ -559,28 +559,28 @@ class PR_GameMode : SCR_BaseGameMode
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Call this to add or remove faction points.
 	// points - can be negative or positive
-	void AddFactionScore(int factionId, float points)
+	void AddFactionScore(int factionId, int points)
 	{
 		if (!IsMaster())
 		{
 			Print("AddFactionPoints() must be called only on master!", LogLevel.ERROR);
 			return;
 		}
-		float newScore = m_aFactionScore[factionId] + points;
+		int newScore = m_aFactionScore[factionId] + points;
 		RpcDo_SetFactionScore(factionId, newScore);
 		Rpc(RpcDo_SetFactionScore, factionId, newScore);
 		Replication.BumpMe();
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
-	float GetFactionScore(int factionId)
+	int GetFactionScore(int factionId)
 	{
 		return m_aFactionScore[factionId];
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
-	protected void RpcDo_SetFactionScore(int factionId, float score)
+	protected void RpcDo_SetFactionScore(int factionId, int score)
 	{
 		m_aFactionScore[factionId] = score;
 	}
@@ -596,6 +596,10 @@ class PR_GameMode : SCR_BaseGameMode
 		int areaId = m_aAreas.Find(area);
 		RpcDo_OnCaptureAreaFactionChanged(areaId, oldFactionId, newFactionId);
 		Rpc(RpcDo_OnCaptureAreaFactionChanged, areaId, oldFactionId, newFactionId);
+		
+		// Add tickets to faction that newly captured the point
+		if(newFactionId != -1 && m_eGameModeStage == PR_EGameModeStage.LIVE)
+			AddFactionScore(newFactionId, 60);
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -656,7 +660,7 @@ class PR_GameMode : SCR_BaseGameMode
 		FactionManager fm = GetGame().GetFactionManager();
 		int factionId = fm.GetFactionIndex(faction);
 		
-		float cost = GetAssetCost(PR_EAssetType.SOLDIER);
+		int cost = GetAssetCost(PR_EAssetType.SOLDIER);
 		AddFactionScore(factionId, -cost);
 	}
 	
@@ -724,27 +728,27 @@ class PR_GameMode : SCR_BaseGameMode
 			return;
 		}
 		
-		float cost = GetAssetCost(infoComp.GetAssetType());
+		int cost = GetAssetCost(infoComp.GetAssetType());
 		AddFactionScore(infoComp.GetInitialFactionId(), -cost);
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Returns cost of asset
-	static float GetAssetCost(PR_EAssetType assetType)
+	static int GetAssetCost(PR_EAssetType assetType)
 	{
 		switch(assetType)
 		{
-			case PR_EAssetType.SOLDIER:						return 1.0;
-			case PR_EAssetType.TRANSPORT:					return 4.0;
-			case PR_EAssetType.ARMORED_TRANSPORT:			return 6.0;
-			case PR_EAssetType.TROOP_TRANSPORT:				return 5.0;
-			case PR_EAssetType.ARMED_TRANSPORT:				return 10.0;
-			case PR_EAssetType.FUEL:						return 6.0;
-			case PR_EAssetType.SUPPLY:						return 5.0;
-			case PR_EAssetType.COMMAND:						return 20.0;
-			case PR_EAssetType.ARMORED_PERSONEL_CARRIER:	return 30.0;
+			case PR_EAssetType.SOLDIER:						return 1;
+			case PR_EAssetType.TRANSPORT:					return 4;
+			case PR_EAssetType.ARMORED_TRANSPORT:			return 6;
+			case PR_EAssetType.TROOP_TRANSPORT:				return 5;
+			case PR_EAssetType.ARMED_TRANSPORT:				return 10;
+			case PR_EAssetType.FUEL:						return 6;
+			case PR_EAssetType.SUPPLY:						return 5;
+			case PR_EAssetType.COMMAND:						return 20;
+			case PR_EAssetType.ARMORED_PERSONEL_CARRIER:	return 30;
 		}
-		return 1.0;
+		return 1;
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -783,7 +787,7 @@ class PR_GameMode : SCR_BaseGameMode
 		int nFactions = m_aFactionScore.Count();
 		writer.WriteInt(nFactions);
 		for (int i = 0; i < nFactions; i++)
-			writer.WriteFloat(m_aFactionScore[i]);
+			writer.WriteInt(m_aFactionScore[i]);
 		
 		return true;
 	}
@@ -802,8 +806,8 @@ class PR_GameMode : SCR_BaseGameMode
 			m_aFactionScore.Resize(nFactions);
 		for (int i = 0; i < nFactions; i++)
 		{
-			float score;
-			if (!reader.ReadFloat(score))
+			int score;
+			if (!reader.ReadInt(score))
 				return false;
 			m_aFactionScore[i] = score;
 		}
