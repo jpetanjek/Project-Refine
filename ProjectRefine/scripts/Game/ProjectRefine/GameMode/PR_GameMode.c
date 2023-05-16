@@ -25,8 +25,8 @@ class PR_GameMode : SCR_BaseGameMode
 	[Attribute(desc: "All areas, including main bases, in their order of capture.")]
 	protected ref array<ref PR_EntityLink> m_aAreaEntities;
 	
-	[Attribute("0", UIWidgets.EditBox, desc: "Invasion version of Game Mode?", category: "Invasion")]
-	protected bool m_bInvasion;
+	[Attribute("0", UIWidgets.ComboBox, desc: "Archetype of Game Mode", category: "Game Mode Options", ParamEnumArray.FromEnum(PR_GameModeArchetype) )]
+	protected PR_GameModeArchetype m_bGameModeArchetype;
 	
 	[Attribute("-1", UIWidgets.EditBox, desc: "Faction which, when it caputres a point, it becomes un-capcurable", category: "Invasion")]
 	protected int m_iInvadingFaction;
@@ -69,11 +69,19 @@ class PR_GameMode : SCR_BaseGameMode
 	// Public functions
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
+	// Returns Game Mode Archetype
+	int GetArchetype()
+	{
+		return m_bGameModeArchetype;
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
 	// Returns invading faction
 	int GetInvadingFaction()
 	{
 		return m_iInvadingFaction;
 	}
+	
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Returns area at given position
@@ -176,7 +184,7 @@ class PR_GameMode : SCR_BaseGameMode
 				
 				PR_CaptureArea area = m_aAreas[i];
 				int initialOwnerFactionId = -1;
-				if(m_bInvasion)
+				if(m_bGameModeArchetype == PR_GameModeArchetype.FRONTLINE)
 				{
 					if(m_MainBaseArea1 == area)
 					{
@@ -899,4 +907,10 @@ class PR_GameMode : SCR_BaseGameMode
 		mm.CloseMenuByPreset(menuId);
 		mm.OpenMenu(menuId);
 	}
+}
+
+enum PR_GameModeArchetype
+{
+	STRIKE_AND_HOLD, // Able to capture any active capture area
+	FRONTLINE // Only one team is able to capture areas
 }
