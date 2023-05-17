@@ -3,6 +3,10 @@ PR_BuildingManager : "{B58AD4A5301C2482}Prefabs/GameMode/Building/PR_BaseBuildin
  components {
   MeshObject "{5D4EA80C23ED51E0}" {
   }
+  PR_SupplyHolderComponent "{5D632AF362C73D7C}" {
+   m_iMaxSupplies 5000
+   m_fRange 10
+  }
   RigidBody "{5D4EA80C21707146}" {
   }
   ActionsManagerComponent "{5D4EA80CB2F84DA0}" {
