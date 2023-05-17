@@ -21,6 +21,9 @@ class PR_AssetSpawner : GenericEntity
 	[Attribute("20", UIWidgets.Slider, "Wait time", "0 1200 1")]
 	private float m_fWaitTime;
 	
+	[Attribute("false", UIWidgets.CheckBox, desc: "Spawn at round start?")]
+	protected bool m_bSpawnAtStart;
+	
 	protected float m_fDeltaTime = 0;		// Timer for periodic updates
 	
 	protected PR_CaptureArea m_CaptureArea;	// Assigned Capture Area
@@ -64,24 +67,21 @@ class PR_AssetSpawner : GenericEntity
 		if (!m_CaptureArea)
 			return;
 		
-		// First spawn
-		if(!m_Target && !m_bDestroyed)
+		if(!m_Target && m_bSpawnAtStart)
 		{
 			if (TrySpawnAsset())
 				m_bDestroyed = false;
 		}
-		else if (m_bDestroyed)
+			
+		if(!m_Target && m_fTimer >= m_fWaitTime)
 		{
-			// Subsequent
-			if (m_fTimer >= m_fWaitTime)
-			{
-				if (TrySpawnAsset())
-					m_bDestroyed = false;
-			}
-			else
-			{
-				m_fTimer += m_fDeltaTime;
-			}
+			if (TrySpawnAsset())
+				m_bDestroyed = false;
+		}
+		
+		if(!m_Target)
+		{
+			m_fTimer += m_fDeltaTime;
 		}
 		
 		// At the end of logic reset the low frequency update timer

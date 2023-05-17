@@ -76,9 +76,16 @@ class PR_BuildingManager: GenericEntity
 	{		
 		m_RplComponent = RplComponent.Cast(owner.FindComponent(RplComponent));
 		
+		if(!m_RplComponent)
+			return;
+		
 		if(m_RplComponent && !m_RplComponent.IsProxy())
 		{
 			SetFlags(EntityFlags.ACTIVE, true);
+		}
+		else if (m_RplComponent && m_RplComponent.IsProxy())
+		{
+			return;
 		}
 		
 		if(m_bPlacedBuilt)
@@ -90,7 +97,6 @@ class PR_BuildingManager: GenericEntity
 		{
 			m_iHealth = m_iPlacedHealth;
 			m_Foundation = CreateStage( m_sFoundationPrefab );
-
 		}
 			
 	}

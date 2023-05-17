@@ -10,6 +10,35 @@ PR_BuildingManager : "{B58AD4A5301C2482}Prefabs/GameMode/Building/PR_BaseBuildin
   RigidBody "{5D4EA80C21707146}" {
   }
   ActionsManagerComponent "{5D4EA80CB2F84DA0}" {
+   additionalActions {
+    PR_SupplyTargetUserAction "{5D632AF07BCD0AEB}" {
+     ParentContextList {
+      "BuildPoint"
+     }
+     UIInfo UIInfo "{5D632AF07CE33550}" {
+     }
+     VisibilityRange 5
+     "Sort Priority" 2
+    }
+    PR_LoadSuppliesUserAction "{5D632AF058C9B32F}" {
+     ParentContextList {
+      "BuildPoint"
+     }
+     UIInfo UIInfo "{5D632AF0530D5C83}" {
+     }
+     VisibilityRange 5
+     "Sort Priority" 3
+    }
+    PR_UnloadSuppliesUserAction "{5D632AF02857C4E3}" {
+     ParentContextList {
+      "BuildPoint"
+     }
+     UIInfo UIInfo "{5D632AF02CF238A6}" {
+     }
+     VisibilityRange 5
+     "Sort Priority" 4
+    }
+   }
   }
  }
  m_sFinalPrefab "{CE070995505D521B}Prefabs/Compositions/Radio/PR_US_FOB_Radio.et"
