@@ -103,9 +103,9 @@ class PR_SupplyTargetUserAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
 	{
-		if(m_SupplyHolder.m_RplComponent && m_SupplyHolder.m_RplComponent.IsProxy() && m_SupplyHolder.m_bCanTransact)
+		if(/*m_SupplyHolder.m_RplComponent && m_SupplyHolder.m_RplComponent.IsProxy() &&*/ m_SupplyHolder.m_bCanTransact)
 		{
-			m_SupplyHolder.GetAvailableHolders();
+			m_SupplyHolder.UpdateAvailableHolders();
 		}
 		
 		if (Replication.Time() >= m_fNextConditionCheck)

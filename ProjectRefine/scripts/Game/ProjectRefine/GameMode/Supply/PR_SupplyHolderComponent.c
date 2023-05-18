@@ -77,7 +77,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 		m_aAvailableHolders = null;
 	}
 	
-	void GetAvailableHolders()
+	void UpdateAvailableHolders()
 	{
 		// Fill in m_aAvailableHolders from s_aAllHolders
 		m_aAvailableHolders.Clear();
