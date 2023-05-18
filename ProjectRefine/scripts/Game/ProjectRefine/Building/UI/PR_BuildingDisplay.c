@@ -73,7 +73,10 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 					enoughResources = supplyCount >= asset.m_iCost;
 			}
 			
-			bool canBuild = buildingProvider && enoughResources;
+			bool isLeader = IsLeader();
+			bool buildingAllowedHere = IsBuildingAllowedAtMyPos();
+			
+			bool canBuild = buildingProvider && enoughResources && isLeader && buildingAllowedHere;
 			
 			//-------------------------------------
 			// Update preview mode
@@ -87,6 +90,12 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			
 			// Resources warning
 			widgets.m_ResourcesWarning.SetVisible(asset != null && !enoughResources);
+			
+			// Role (leader) warning
+			widgets.m_SquadLeaderRoleWarning.SetVisible(!isLeader);
+			
+			// Building not allowed here warning
+			widgets.m_BuildingAreaRestrictedWarning.SetVisible(!buildingAllowedHere);
 			
 			// Building source name
 			string sourceNameText;
@@ -116,6 +125,30 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			
 			im.ActivateContext("PR_BuildingContext", 0);
 		}
+	}
+	bool IsLeader()
+	{
+		SCR_AIGroup group = SCR_GroupsManagerComponent.GetLocalPlayerGroup();
+		if (!group)
+			return null;
+		int playerId = GetGame().GetPlayerController().GetPlayerId();
+		return group.IsPlayerLeader(playerId);
+	}
+	bool IsBuildingAllowedAtMyPos()
+	{
+		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
+		if (!gm)
+			return true;
+		
+		IEntity myEntity = GetGame().GetPlayerController().GetControlledEntity();
+		if (!myEntity)
+			return false;
+		
+		PR_CaptureArea captureArea = gm.GetAreaAtPos(myEntity.GetOrigin());
+		if (!captureArea)
+			return true;
+		
+		return !gm.IsMainBaseArea(captureArea);
 	}
 	
 	//----------------------------------------------------------------

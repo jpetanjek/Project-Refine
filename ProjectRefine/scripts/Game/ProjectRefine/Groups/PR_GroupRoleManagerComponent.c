@@ -154,6 +154,29 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	ref ScriptInvokerBase<OnRoleClaimsChangedDelegate> m_OnRoleClaimsChanged = new ScriptInvokerBase<OnRoleClaimsChangedDelegate>();
 	static ref ScriptInvokerBase<OnPlayerClaimedRoleChangedDelegate> m_OnPlayerClaimedRoleChanged = new ScriptInvokerBase<OnPlayerClaimedRoleChangedDelegate>();
 
+	// Returns PR_GroupRoleManagerComponent of local player. It is attached to player's group.
+	static PR_GroupRoleManagerComponent GetLocalInstance()
+	{
+		int playerId = GetGame().GetPlayerController().GetPlayerId();
+		
+		// Find player's group
+		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
+		if (!groupsManager)
+			return null;
+			
+		SCR_AIGroup group = groupsManager.GetPlayerGroup(playerId);
+		if(!group)
+			return null;
+		
+		PR_GroupRoleManagerComponent groupRoleManager = PR_GroupRoleManagerComponent.Cast(group.FindComponent(PR_GroupRoleManagerComponent));
+		if(!groupRoleManager)
+			return null;
+		
+		
+		return groupRoleManager;
+	}
+	
+	
 	
 	override void OnPostInit(IEntity owner)
 	{
@@ -330,6 +353,17 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 			return null;
 		
 		return GetRole(index);
+	}
+	
+	static PR_Role GetLocalPlayerRole()
+	{
+		int playerId = GetGame().GetPlayerController().GetPlayerId();
+		
+		PR_GroupRoleManagerComponent mgr = GetLocalInstance();
+		if (!mgr)
+			return null;
+		
+		return mgr.GetPlayerRole(playerId);
 	}
 	
 	// Check this before you spawn a player

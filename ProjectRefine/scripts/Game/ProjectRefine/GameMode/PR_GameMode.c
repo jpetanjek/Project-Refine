@@ -97,6 +97,13 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
+	// Returns true if given capture area is a main base
+	bool IsMainBaseArea(PR_CaptureArea area)
+	{
+		return (area == m_MainBaseArea0) || (area == m_MainBaseArea1);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
 	void PR_GameMode(IEntitySource src, IEntity parent)
 	{
 		int mask = EntityEvent.INIT | EntityEvent.FRAME | EntityEvent.DIAG;

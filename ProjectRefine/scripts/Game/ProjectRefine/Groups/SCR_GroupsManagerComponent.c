@@ -6,6 +6,21 @@ modded class SCR_GroupsManagerComponent
 	[Attribute(desc: "Array of frequencies for squadless players. One frequency per faction.")]
 	ref array<int> m_iSquadlessFrequencies;
 	
+	static SCR_AIGroup GetLocalPlayerGroup()
+	{
+		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
+		if (!groupsManager)
+			return null;
+		
+		int playerId = GetGame().GetPlayerController().GetPlayerId();
+		
+		SCR_AIGroup group = groupsManager.GetPlayerGroup(playerId);
+		if(!group)
+			return null;
+		
+		return group;
+	}
+	
 	// Returns a commander radio frequency for given faction
 	int GetCommanderRadioFrequency(notnull Faction faction)
 	{

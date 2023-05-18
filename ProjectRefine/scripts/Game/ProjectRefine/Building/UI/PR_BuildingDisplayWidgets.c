@@ -6,7 +6,11 @@ class PR_BuildingDisplayWidgets
 	static const ResourceName s_sLayout = "{0044C602AFE26E8E}UI/Building/BuildingDisplay.layout";
 	ResourceName GetLayout() { return s_sLayout; }
 
+	HorizontalLayoutWidget m_BuildingAreaRestrictedWarning;
+
 	HorizontalLayoutWidget m_ResourcesWarning;
+
+	HorizontalLayoutWidget m_SquadLeaderRoleWarning;
 
 	VerticalLayoutWidget m_SourcePanel;
 
@@ -22,7 +26,11 @@ class PR_BuildingDisplayWidgets
 
 	bool Init(Widget root)
 	{
+		m_BuildingAreaRestrictedWarning = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_BuildingAreaRestrictedWarning"));
+
 		m_ResourcesWarning = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_ResourcesWarning"));
+
+		m_SquadLeaderRoleWarning = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_SquadLeaderRoleWarning"));
 
 		m_SourcePanel = VerticalLayoutWidget.Cast(root.FindAnyWidget("m_SourcePanel"));
 

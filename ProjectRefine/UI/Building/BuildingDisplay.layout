@@ -2,7 +2,7 @@ FrameWidgetClass {
  Name "rootFrame"
  components {
   SCR_WidgetExportRuleRoot "{5D2EE8BD5F55E127}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
-   DestinationPath "{C676C380D098DC73}scripts/Game/ProjectRefine/UI/Building"
+   DestinationPath "{EB75C9B7D0072CD2}scripts/Game/ProjectRefine/Building/UI"
    GenerateFullWidgetPath 0
   }
  }
@@ -38,6 +38,17 @@ FrameWidgetClass {
       SizeToContent 1
      }
      {
+      HorizontalLayoutWidgetClass "{5D6539CD377F479E}" : "{E7F4EC45944BD478}UI/Elements/WarningText.layout" {
+       Name "m_BuildingAreaRestrictedWarning"
+       Slot LayoutSlot "{5D12A510D44B84D9}" {
+       }
+       {
+        TextWidgetClass "{5D12A5103C7160A2}" {
+         Prefab "{5D12A5103C7160A2}"
+         Text "Building is not allowed here"
+        }
+       }
+      }
       HorizontalLayoutWidgetClass "{5D4D4DD4955F4CF1}" : "{E7F4EC45944BD478}UI/Elements/WarningText.layout" {
        Name "m_ResourcesWarning"
        Slot LayoutSlot "{5D12A510D44B84D9}" {
@@ -55,7 +66,7 @@ FrameWidgetClass {
        }
       }
       HorizontalLayoutWidgetClass "{5D513D13A2D026A9}" : "{E7F4EC45944BD478}UI/Elements/WarningText.layout" {
-       Name "m_RoleWarning"
+       Name "m_SquadLeaderRoleWarning"
        Slot LayoutSlot "{5D12A510D44B84D9}" {
        }
        {
@@ -66,7 +77,7 @@ FrameWidgetClass {
         }
         TextWidgetClass "{5D12A5103C7160A2}" {
          Prefab "{5D12A5103C7160A2}"
-         Text "You picked the wrong role fool!"
+         Text "Only a squad leader can build"
         }
        }
       }

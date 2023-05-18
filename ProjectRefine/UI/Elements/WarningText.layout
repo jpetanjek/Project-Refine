@@ -12,14 +12,13 @@ HorizontalLayoutWidgetClass {
      Name "WarningImageShadow"
      Slot OverlayWidgetSlot "{5D4D4DD314BA0AB9}" {
      }
-     Color 0 0 0 1
      Texture "{5D85FA1AA039B2F8}UI/Textures/Icons/icons_wrapperUI-48-glow.imageset"
      Image "warning"
      Size 48 48
     }
     ImageWidgetClass "{5D12A51027BE7567}" {
      Name "WarningImage"
-     Slot OverlayWidgetSlot {
+     Slot OverlayWidgetSlot "{5D6539CD3818443F}" {
      }
      Color 0.584 0 0 1
      Texture "{9DA6A249AD4D71C4}UI/Textures/Icons/icons_wrapperUI-48.imageset"
