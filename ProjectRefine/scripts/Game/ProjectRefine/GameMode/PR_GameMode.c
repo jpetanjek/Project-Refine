@@ -407,6 +407,13 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 		
 		//---------------------------------------------
+		// Resuply main bases
+		PR_SupplyHolderComponent main_0_supply = PR_SupplyHolderComponent.Cast(m_MainBaseArea0.FindComponent(PR_SupplyHolderComponent));
+		PR_SupplyHolderComponent main_1_supply = PR_SupplyHolderComponent.Cast(m_MainBaseArea1.FindComponent(PR_SupplyHolderComponent));
+		main_0_supply.AddSupplies(100);
+		main_1_supply.AddSupplies(100);
+
+		//---------------------------------------------
 		// Update factions score
 		
 		FactionManager fm = GetGame().GetFactionManager();
