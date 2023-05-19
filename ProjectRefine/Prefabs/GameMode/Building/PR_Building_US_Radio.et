@@ -3,41 +3,10 @@ PR_BuildingManager : "{B58AD4A5301C2482}Prefabs/GameMode/Building/PR_BaseBuildin
  components {
   MeshObject "{5D4EA80C23ED51E0}" {
   }
-  PR_SupplyHolderComponent "{5D632AF362C73D7C}" {
-   m_iMaxSupplies 5000
-   m_fRange 10
-  }
   RigidBody "{5D4EA80C21707146}" {
   }
   ActionsManagerComponent "{5D4EA80CB2F84DA0}" {
    additionalActions {
-    PR_SupplyTargetUserAction "{5D632AF07BCD0AEB}" {
-     ParentContextList {
-      "BuildPoint"
-     }
-     UIInfo UIInfo "{5D632AF07CE33550}" {
-     }
-     VisibilityRange 5
-     "Sort Priority" 2
-    }
-    PR_LoadSuppliesUserAction "{5D632AF058C9B32F}" {
-     ParentContextList {
-      "BuildPoint"
-     }
-     UIInfo UIInfo "{5D632AF0530D5C83}" {
-     }
-     VisibilityRange 5
-     "Sort Priority" 3
-    }
-    PR_UnloadSuppliesUserAction "{5D632AF02857C4E3}" {
-     ParentContextList {
-      "BuildPoint"
-     }
-     UIInfo UIInfo "{5D632AF02CF238A6}" {
-     }
-     VisibilityRange 5
-     "Sort Priority" 4
-    }
    }
   }
  }

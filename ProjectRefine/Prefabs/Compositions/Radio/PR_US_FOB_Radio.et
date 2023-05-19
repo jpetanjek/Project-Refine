@@ -14,6 +14,44 @@ GenericEntity {
    m_fRange 200
    m_fTransferSpeed 50
   }
+  ActionsManagerComponent "{5D66FB790A1CE416}" {
+   ActionContexts {
+    UserActionContext "{5D66FB7908233ADE}" {
+     UIInfo UIInfo "{5D66FB7903DAD1DF}" {
+     }
+     ContextName "Supply point"
+     Position PointInfo "{5D66FB7918213921}" {
+     }
+     Radius 3
+    }
+   }
+   additionalActions {
+    PR_SupplyTargetUserAction "{5D66FB78E54952AE}" {
+     ParentContextList {
+      "Supply point"
+     }
+     UIInfo UIInfo "{5D66FB78FC9E3DDB}" {
+     }
+     "Sort Priority" 1
+    }
+    PR_LoadSuppliesUserAction "{5D66FB78FBFE84A0}" {
+     ParentContextList {
+      "Supply point"
+     }
+     UIInfo UIInfo "{5D66FB78CD771561}" {
+     }
+     "Sort Priority" 2
+    }
+    PR_UnloadSuppliesUserAction "{5D66FB78F8722B5D}" {
+     ParentContextList {
+      "Supply point"
+     }
+     UIInfo UIInfo "{5D66FB78C89F47D1}" {
+     }
+     "Sort Priority" 3
+    }
+   }
+  }
   RplComponent "{5D4F32BA169FA4AE}" {
    Streamable Disabled
   }
