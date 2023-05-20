@@ -35,13 +35,7 @@ SCR_ChimeraCharacter : "{D864A7C6EF92C953}Prefabs/Characters/Factions/BLUFOR/US_
     ItemsInitConfigurationItem "{5D68BD99050B2670}" {
      TargetStorage "Prefabs/Items/Equipment/Backpacks/Backpack_ALICE_Medium_assembled.et"
      PrefabsToSpawn {
-      "{49FFE8F373F55960}Prefabs/Weapons/Explosives/Mine_M15AT/Mine_M15AT.et" "{49FFE8F373F55960}Prefabs/Weapons/Explosives/Mine_M15AT/Mine_M15AT.et"
-     }
-    }
-    ItemsInitConfigurationItem "{5D68BD9AFB1C93F8}" {
-     TargetStorage "Prefabs/Characters/Vests/Vest_ALICE/Vest_ALICE_firstaid.et"
-     PrefabsToSpawn {
-      "{EC13D4E934B2ADD8}Prefabs/Items/Demining/MineFlags/MineFlag_US.et" "{EC13D4E934B2ADD8}Prefabs/Items/Demining/MineFlags/MineFlag_US.et" "{EC13D4E934B2ADD8}Prefabs/Items/Demining/MineFlags/MineFlag_US.et"
+      "{49FFE8F373F55960}Prefabs/Weapons/Explosives/Mine_M15AT/Mine_M15AT.et" "{49FFE8F373F55960}Prefabs/Weapons/Explosives/Mine_M15AT/Mine_M15AT.et" "{EC13D4E934B2ADD8}Prefabs/Items/Demining/MineFlags/MineFlag_US.et" "{EC13D4E934B2ADD8}Prefabs/Items/Demining/MineFlags/MineFlag_US.et" "{EC13D4E934B2ADD8}Prefabs/Items/Demining/MineFlags/MineFlag_US.et"
      }
     }
     ItemsInitConfigurationItem "{5D68BD9ACF87A433}" {

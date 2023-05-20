@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{BDAAC3C80EE305B0}Prefabs/Characters/Factions/OPFOR/USSR_Army/PR_Character_USSR_Medic.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

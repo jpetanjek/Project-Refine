@@ -12,6 +12,28 @@ SCR_ChimeraCharacter : "{0F6689B491641155}Prefabs/Characters/Factions/BLUFOR/US_
     }
    }
   }
+  SCR_InventoryStorageManagerComponent "{520EA1D2DB118DE5}" {
+   InitialInventoryItems {
+    ItemsInitConfigurationItem "{5A24B6035F9481AF}" {
+     PrefabsToSpawn + {
+      "{627255315038152A}Prefabs/Weapons/Magazines/Magazine_762x51_M14_20rnd_SpecialBall.et" "{627255315038152A}Prefabs/Weapons/Magazines/Magazine_762x51_M14_20rnd_SpecialBall.et"
+     }
+    }
+    ItemsInitConfigurationItem "{54A49B42D138207E}" {
+    }
+    ItemsInitConfigurationItem "{5538C29D4709645E}" {
+     PrefabsToSpawn + {
+      "{627255315038152A}Prefabs/Weapons/Magazines/Magazine_762x51_M14_20rnd_SpecialBall.et" "{627255315038152A}Prefabs/Weapons/Magazines/Magazine_762x51_M14_20rnd_SpecialBall.et" "{627255315038152A}Prefabs/Weapons/Magazines/Magazine_762x51_M14_20rnd_SpecialBall.et"
+     }
+    }
+    ItemsInitConfigurationItem "{5D694806E320D7BC}" {
+     TargetStorage "Prefabs/Characters/Uniforms/Jacket_US_BDU.et"
+     PrefabsToSpawn {
+      "{627255315038152A}Prefabs/Weapons/Magazines/Magazine_762x51_M14_20rnd_SpecialBall.et" "{627255315038152A}Prefabs/Weapons/Magazines/Magazine_762x51_M14_20rnd_SpecialBall.et" "{627255315038152A}Prefabs/Weapons/Magazines/Magazine_762x51_M14_20rnd_SpecialBall.et"
+     }
+    }
+   }
+  }
  }
  coords 0 0 0
 }

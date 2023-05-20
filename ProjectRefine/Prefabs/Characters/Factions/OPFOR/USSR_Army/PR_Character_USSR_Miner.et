@@ -1,0 +1,35 @@
+SCR_ChimeraCharacter : "{9E7B5F14298A00D8}Prefabs/Characters/Factions/OPFOR/USSR_Army/PR_Character_USSR.et" {
+ ID "200D264F0EEA1A28"
+ components {
+  CharacterGrenadeSlotComponent "{5A6CDA0CCF43068E}" {
+   WeaponTemplate "{77EAE5E07DC4678A}Prefabs/Weapons/Grenades/Smoke_RDG2.et"
+  }
+  CharacterWeaponSlotComponent "{520EA1D2F659CFB7}" {
+   WeaponTemplate "{D6EF54367CECE1D9}Prefabs/Weapons/Explosives/Mine_TM62M/Mine_TM62M.et"
+  }
+  BaseLoadoutManagerComponent "{520EA1D2DB11821E}" {
+   Slots {
+    LoadoutSlotInfo Hat {
+     Prefab "{22963D69CA50EB9E}Prefabs/Characters/HeadGear/Helmet_SSh68_01/Helmet_SSh68_01_net.et"
+    }
+    LoadoutSlotInfo Jacket {
+     Prefab "{D262D2102B9931C6}Prefabs/Characters/Uniforms/Jacket_M88_rolledup.et"
+    }
+    LoadoutSlotInfo Back {
+     Prefab "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et"
+    }
+   }
+  }
+  SCR_InventoryStorageManagerComponent "{520EA1D2DB118DE5}" {
+   InitialInventoryItems {
+    ItemsInitConfigurationItem "{5D693B056DC18C15}" {
+     TargetStorage "Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et"
+     PrefabsToSpawn {
+      "{D6EF54367CECE1D9}Prefabs/Weapons/Explosives/Mine_TM62M/Mine_TM62M.et" "{D6EF54367CECE1D9}Prefabs/Weapons/Explosives/Mine_TM62M/Mine_TM62M.et" "{AC67BAB9763A3977}Prefabs/Items/Demining/MineFlags/MineFlag_USSR.et" "{AC67BAB9763A3977}Prefabs/Items/Demining/MineFlags/MineFlag_USSR.et" "{AC67BAB9763A3977}Prefabs/Items/Demining/MineFlags/MineFlag_USSR.et"
+     }
+    }
+   }
+  }
+ }
+ coords 0 0 0
+}
