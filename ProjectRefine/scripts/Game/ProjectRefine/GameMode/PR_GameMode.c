@@ -48,6 +48,10 @@ class PR_GameMode : SCR_BaseGameMode
 	protected PR_CaptureArea m_MainBaseArea0;
 	protected PR_CaptureArea m_MainBaseArea1;
 	
+	// Pointer to supply holder of main base
+	PR_SupplyHolderComponent m_Main0_supply;
+	PR_SupplyHolderComponent m_Main1_supply;
+	
 	// Score of each faction
 	protected ref array<int> m_aFactionScore = {}; //!! It's synchronized via replication
 	
@@ -408,10 +412,17 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		//---------------------------------------------
 		// Resuply main bases
-		PR_SupplyHolderComponent main_0_supply = PR_SupplyHolderComponent.Cast(m_MainBaseArea0.FindComponent(PR_SupplyHolderComponent));
-		PR_SupplyHolderComponent main_1_supply = PR_SupplyHolderComponent.Cast(m_MainBaseArea1.FindComponent(PR_SupplyHolderComponent));
-		main_0_supply.AddSupplies(100);
-		main_1_supply.AddSupplies(100);
+		if(!m_Main0_supply && m_MainBaseArea0)
+			m_Main0_supply = PR_SupplyHolderComponent.Cast(m_MainBaseArea0.GetOwner().FindComponent(PR_SupplyHolderComponent));
+		
+		if(!m_Main1_supply && m_MainBaseArea1)
+			m_Main1_supply = PR_SupplyHolderComponent.Cast(m_MainBaseArea1.GetOwner().FindComponent(PR_SupplyHolderComponent));
+		
+		if(m_Main0_supply)
+			m_Main0_supply.AddSupplies(100);
+		
+		if(m_Main1_supply)
+			m_Main1_supply.AddSupplies(100);
 
 		//---------------------------------------------
 		// Update factions score
