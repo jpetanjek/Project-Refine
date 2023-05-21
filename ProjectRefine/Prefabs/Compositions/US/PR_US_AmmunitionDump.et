@@ -1,0 +1,28 @@
+GenericEntity {
+ ID "5D6B1C29ED01704A"
+ {
+  GenericEntity : "{1A942A9E6D0CD0F2}Prefabs/Systems/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Explosives_US.et" {
+   ID "5D6B1C29ED01703E"
+   coords 0.376 0.456 -0.243
+   angleY 179.251
+  }
+  GenericEntity : "{36D873BC68DC0215}Prefabs/Props/Military/MilitaryCrates/CrateStack_01/Dst/CrateStack_01_Dst_3_NoDecal.et" {
+   ID "5D6B1C29ED017029"
+  }
+  GenericEntity : "{5FFD91CF507BFFFB}Prefabs/Systems/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Ammunition_US.et" {
+   ID "5D6B1C29ED01702F"
+   coords -0.23 0.456 -0.25
+   angleY -176.505
+  }
+  GenericEntity : "{891EF8A5FB7162F1}Prefabs/Systems/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Medical_US.et" {
+   ID "5D6B1C29ED017024"
+   coords -0.872 0 -0.438
+   angleY -87.608
+  }
+  GenericEntity : "{C026AEDDA55DB43C}Prefabs/Systems/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Launcher_US.et" {
+   ID "5D6B1C29ED017022"
+   coords -0.014 0 -0.675
+   angleY 179.034
+  }
+ }
+}
