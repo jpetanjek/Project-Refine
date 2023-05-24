@@ -1,6 +1,19 @@
 GenericEntity {
  ID "5D452E2229BD43F8"
  components {
+  MeshObject "{5D713C9769E81E09}" {
+   Object "{85E21F4FAEF9C8E3}system/wbdata/MaterialEditor/MaterialCube.xob"
+   Materials {
+    MaterialAssignClass "{5D713C96ED06324C}" {
+     SourceMaterial "DummyMaterial"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+   }
+   LODFactors {
+    0
+   }
+   ObjectHeightmapBias 0
+  }
   Hierarchy "{5D4F643015CC9B86}" {
   }
   PR_BuildableFobEventHandlerComponent "{5D4F32B46DED66F0}" {
@@ -14,6 +27,8 @@ GenericEntity {
    m_fRange 200
    m_fTransferSpeed 50
   }
+  RigidBody "{5D713C976FDD042B}" {
+  }
   ActionsManagerComponent "{5D66FB790A1CE416}" {
    ActionContexts {
     UserActionContext "{5D66FB7908233ADE}" {
@@ -22,7 +37,7 @@ GenericEntity {
      ContextName "Supply point"
      Position PointInfo "{5D66FB7918213921}" {
      }
-     Radius 3
+     Radius 20
     }
    }
    additionalActions {
@@ -56,7 +71,7 @@ GenericEntity {
    Streamable Disabled
   }
  }
- coords 0 0 0
+ coords 0 0.519 0
  {
   GenericEntity : "{0133284E3BDEAEC4}Prefabs/Props/Civilian/Ashtray_01_Full_yellow.et" {
    ID "5D452E2229BD43D8"
@@ -64,7 +79,7 @@ GenericEntity {
     Hierarchy "{5D5094141EA13DD6}" {
     }
    }
-   coords 0.416 0.9 0.282
+   coords 0.416 0.381 0.282
    angleY 36.221
   }
   GenericEntity : "{0958E6B949501D00}Prefabs/Props/Military/Generators/GeneratorPortable_US_01.et" {
@@ -85,7 +100,7 @@ GenericEntity {
      Enabled 0
     }
    }
-   coords 0.974 0 0.194
+   coords 0.974 -0.519 0.194
    angleY 8.932
   }
   GenericEntity : "{13891AA1F5833C4A}Prefabs/Props/Civilian/Notebook_01_Double.et" {
@@ -97,7 +112,7 @@ GenericEntity {
      Enabled 0
     }
    }
-   coords 0.12 0.9 0.248
+   coords 0.12 0.381 0.248
    angleY 148.79
   }
   GenericEntity : "{303A087C47C1A7B2}Prefabs/MP/Campaign/Assets/CampaignBuildingMap.et" {
@@ -107,7 +122,7 @@ GenericEntity {
      Enabled 0
     }
    }
-   coords -0.174 0.987 -0.059
+   coords -0.174 0.468 -0.059
    angleX 87.007
    angleY 0
    angleZ -6.034
@@ -119,7 +134,7 @@ GenericEntity {
     Hierarchy "{5D5094146F664C7A}" {
     }
    }
-   coords 0.377 0.9 -0.148
+   coords 0.377 0.381 -0.148
    angleY -6.752
   }
   StaticModelEntity : "{39C308BBB5945B85}Prefabs/Props/Military/Furniture/ChairMilitary_US_02.et" {
@@ -128,7 +143,7 @@ GenericEntity {
     Hierarchy "{5D5094147AD99ABE}" {
     }
    }
-   coords 0.113 0 0.295
+   coords 0.113 -0.519 0.295
    angleY -157.155
   }
   StaticModelEntity : "{7762F50A860DD074}Prefabs/Props/Military/Furniture/TableMilitary_US_01.et" {
@@ -137,7 +152,7 @@ GenericEntity {
     Hierarchy "{5D5094147FEE3891}" {
     }
    }
-   coords 0 0 0
+   coords 0 -0.519 0
    angleY 0
   }
   GenericEntity : "{C84DF17F96616C76}Prefabs/Props/Military/Manuals/Manual_US_01.et" {
@@ -146,7 +161,7 @@ GenericEntity {
     Hierarchy "{5D5094147C77A3C5}" {
     }
    }
-   coords -0.455 0.9 0.161
+   coords -0.455 0.381 0.161
    angleY 35.036
   }
  }
