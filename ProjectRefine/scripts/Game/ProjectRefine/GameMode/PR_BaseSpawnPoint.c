@@ -11,7 +11,7 @@ enum PR_ESpawnCondition
 enum PR_ESpawnPointStateFlags
 {
 	OCCUPIED_BY_ENEMY	= 1<<0,
-	ACTIVE 				= 1<<1 finish this later
+	ACTIVE 				= 1<<1// finish this later
 }
 
 
