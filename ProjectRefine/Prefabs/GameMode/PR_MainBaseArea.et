@@ -4,7 +4,7 @@ GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
   PR_CaptureArea "{5B156B902CEA1626}" {
    m_bCapturable 0
   }
-  PR_SpawnPoint "{5CB717EFD748B076}" {
+  PR_SpawnPointMainBase "{5D6B110829511A44}" {
    m_fEnemyOccupationRadius 0
   }
   PR_SupplyHolderComponent "{5D312A22CE019BD8}" {

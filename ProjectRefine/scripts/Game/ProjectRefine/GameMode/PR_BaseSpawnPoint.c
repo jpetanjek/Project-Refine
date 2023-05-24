@@ -1,10 +1,5 @@
-[EntityEditorProps(category: "GameScripted/ScriptWizard", description: "ScriptWizard generated script file.")]
-class PR_SpawnPointClass : ScriptComponentClass
-{
-};
-
 typedef func OnPlayerEnqueuedOnSpawnPoint;
-void OnPlayerEnqueuedOnSpawnPoint(int playerID, PR_SpawnPoint spawnPoint);
+void OnPlayerEnqueuedOnSpawnPoint(int playerID, PR_BaseSpawnPoint spawnPoint);
 
 enum PR_ESpawnCondition
 {
@@ -15,26 +10,31 @@ enum PR_ESpawnCondition
 
 enum PR_ESpawnPointStateFlags
 {
-	OCCUPIED_BY_ENEMY = 1<<0
+	OCCUPIED_BY_ENEMY	= 1<<0,
+	ACTIVE 				= 1<<1 finish this later
 }
+
+
+
+[EntityEditorProps(category: "GameScripted/ScriptWizard", description: "ScriptWizard generated script file.")]
+class PR_BaseSpawnPointClass : ScriptComponentClass
+{
+};
 
 //------------------------------------------------------------------------------------------------
 /*!
 Component which represents spawn point functionality.
 */
-class PR_SpawnPoint : ScriptComponent
+class PR_BaseSpawnPoint : ScriptComponent
 {
 	protected const float ENEMY_EVALUATION_INTERVAL_MS = 1000;
 	// How many enemies must be in radius for this spawn point to be occupied by enemy
 	protected const int ENEMY_COUNT_OCCUPATION_THRESHOLD = 2;
 	
-	protected static ref array<PR_SpawnPoint> s_aAll = {};
+	protected static ref array<PR_BaseSpawnPoint> s_aAll = {};
 	
 	// Spawn positions for characters
 	protected ref array<PR_CharacterSpawnPosition> m_aSpawnPositions = {};
-
-	// TODO: Too capture area specific
-	protected PR_CaptureArea m_CaptureArea; // Temporary, might get removed later
 	
 	[RplProp(onRplName: "EnqueuedPlayersChanged")]
 	protected ref array<int> m_aEnqueuedPlayers = {};
@@ -66,20 +66,18 @@ class PR_SpawnPoint : ScriptComponent
 	
 	//------------------------------------------------------------------------------------------------
 	// Initialization
-	void PR_SpawnPoint(IEntityComponentSource src, IEntity ent, IEntity parent)
+	void PR_BaseSpawnPoint(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
 		s_aAll.Insert(this);
 	}
 	
-	void ~PR_SpawnPoint()
+	void ~PR_BaseSpawnPoint()
 	{
 		s_aAll.RemoveItem(this);
 	}
 
 	override void EOnInit(IEntity owner)
 	{
-		m_CaptureArea = PR_CaptureArea.Cast(owner.FindComponent(PR_CaptureArea));
-		
 		// Search for PR_CharacterSpawnPosition entities and pass them to spawn point
 		IEntity childEntity = GetOwner().GetChildren();
 		int nCharSpawnPosAdded = 0;
@@ -122,33 +120,31 @@ class PR_SpawnPoint : ScriptComponent
 		
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Virtual functions. They must be implemented in base classes.
+	
+	// Must return ID of owner faction
+	int GetOwnerFactionId() { return -1; }
+	
+	// Must return name for UI
+	string GetName();
 		
 	//------------------------------------------------------------------------------------------------
 	// Getters
 	
 	//! Returns all spawn points
-	static array<PR_SpawnPoint> GetAll()
+	static array<PR_BaseSpawnPoint> GetAll()
 	{
-		array<PR_SpawnPoint> a = {};
+		array<PR_BaseSpawnPoint> a = {};
 		a.Copy(s_aAll);
 		return a;
 	}
 	
-	//! Returns ID of faction which is allowed to spawn here
-	int GetFactionId()
-	{
-		return m_CaptureArea.GetOwnerFactionId(); // For now we delegate it to spawn point
-	}
-	
+	// Returns owner faction
 	Faction GetFaction()
 	{
-		return GetGame().GetFactionManager().GetFactionByIndex(GetFactionId());
-	}
-	
-	//! Returns spawn point name
-	string GetName()
-	{
-		return m_CaptureArea.GetName();
+		return GetGame().GetFactionManager().GetFactionByIndex(GetOwnerFactionId());
 	}
 	
 	//-------------------------------------------------------------------------------------------
@@ -199,7 +195,7 @@ class PR_SpawnPoint : ScriptComponent
 	void OnPlayerChangedFaction(int playerID, int newFactionIdx)
 	{
 		// Remove him from queue if he is enqueued && is not same faction any more
-		if(newFactionIdx != GetFactionId())
+		if(newFactionIdx != GetOwnerFactionId())
 		{
 			DequeuePlayer(playerID);
 		}
@@ -245,7 +241,7 @@ class PR_SpawnPoint : ScriptComponent
 		if(!factionMemberManager)
 			return false;
 		
-		if(GetFactionId() != factionMemberManager.GetPlayerFactionIndex(playerID))
+		if(GetOwnerFactionId() != factionMemberManager.GetPlayerFactionIndex(playerID))
 			return false;
 		
 		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
@@ -407,10 +403,13 @@ class PR_SpawnPoint : ScriptComponent
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// UI Logic
-	bool IsAvailable()
+	/*
+	// We don't use it?
+	bool IsAvailable2()
 	{
 		return IsRespawnAllowed() && CanPlayerEnqueue(SCR_PlayerController.GetLocalPlayerId());
 	}
+	*/
 
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Debug

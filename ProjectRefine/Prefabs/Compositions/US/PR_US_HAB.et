@@ -3,10 +3,26 @@ GenericEntity {
  components {
   Hierarchy "{5D50A7D7F038424E}" {
   }
+  PR_BuildableSpawnPointFobEventHandlerComponent "{5D6B110B41D1A796}" {
+  }
+  PR_SpawnPointFob "{5D6B1112C34BC1FE}" {
+   m_fEnemyOccupationRadius 15
+  }
   RplComponent "{5D4D083945FFE5B7}" {
   }
  }
  {
+  $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+   {
+    ID "5D6AF46A93F6630D"
+    coords 0 0.004 1.6
+   }
+   {
+    ID "5D6AF46AE96DB4E8"
+    coords 0 0.003 -1.6
+    angleY 180
+   }
+  }
   $grp GenericEntity : "{BBE13893AEA69C0C}Prefabs/Props/Military/Sandbags/Sandbag_01_foundation_plastic.et" {
    {
     ID "5D4B2DD1CCD3494D"

@@ -1,10 +1,12 @@
-$grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
+$grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
  MainBase0 {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
     m_fRadius 20
     m_sName "Epic Main Base"
     m_iInitialOwnerFaction 0
+   }
+   PR_SpawnPointMainBase "{5D6B110829511A44}" {
    }
   }
   coords 58.633 2.001 484.239
@@ -65,6 +67,8 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
     m_sName "Seaport"
     m_iInitialOwnerFaction 1
    }
+   PR_SpawnPointMainBase "{5D6B110829511A44}" {
+   }
   }
   coords 33.194 2.095 352.663
   {
@@ -84,7 +88,7 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
   }
  }
 }
-$grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
+$grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
  Area0 {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {

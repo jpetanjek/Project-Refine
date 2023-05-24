@@ -1,3 +1,6 @@
+typedef func PR_OnFobDestroyed;
+void PR_OnFobDestroyed(PR_FobComponent fob);
+
 [EntityEditorProps(category: "GameScripted/ScriptWizard", description: "ScriptWizard generated script file.")]
 class PR_FobComponentClass : ScriptComponentClass
 {
@@ -12,6 +15,8 @@ class PR_FobComponent : ScriptComponent
 	protected int m_iOwnerFaction = -1;
 	
 	protected PR_SupplyHolderComponent m_SupplyHolder;
+	
+	ref ScriptInvokerBase<PR_OnFobDestroyed> m_OnDestroyed = new ScriptInvokerBase<PR_OnFobDestroyed>();
 	
 	protected static ref array<PR_FobComponent> s_aAll = {};
 	
@@ -84,6 +89,8 @@ class PR_FobComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void ~PR_FobComponent()
 	{
+		m_OnDestroyed.Invoke(this);
+		
 		s_aAll.RemoveItem(this);
 	}
 
