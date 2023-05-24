@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{8D936DEC6B42C0A3}Prefabs/Compositions/USSR/PR_USSR_HAB2.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

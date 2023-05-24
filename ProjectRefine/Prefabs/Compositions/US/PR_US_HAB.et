@@ -29,6 +29,9 @@ GenericEntity {
     components {
      Hierarchy "{5D50A7D7F4B82055}" {
      }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
+     }
     }
     coords 0 0 -2
    }
@@ -36,6 +39,9 @@ GenericEntity {
     ID "5D4B2DD1CCD3494E"
     components {
      Hierarchy "{5D50A7D7CDE1B416}" {
+     }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
      }
     }
     coords 0 0 2.5
@@ -131,6 +137,9 @@ GenericEntity {
     components {
      Hierarchy "{5D50A7D7AA8F0329}" {
      }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
+     }
     }
     coords 1.5 0 -0.5
     angleY -90
@@ -139,6 +148,9 @@ GenericEntity {
     ID "5D4B2DD1CCD0C5D3"
     components {
      Hierarchy "{5D50A7D7A8ADC4DE}" {
+     }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
      }
     }
     coords -1 0 4
@@ -149,6 +161,9 @@ GenericEntity {
     components {
      Hierarchy "{5D50A7D7AEBD1475}" {
      }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
+     }
     }
     coords 1 0 4
     angleY -180
@@ -157,6 +172,9 @@ GenericEntity {
     ID "5D4B2DD1CCD33CA4"
     components {
      Hierarchy "{5D50A7D7ACFC17FD}" {
+     }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
      }
     }
     coords 1 0 -3.5
@@ -167,6 +185,9 @@ GenericEntity {
     components {
      Hierarchy "{5D50A7D7A203C3B0}" {
      }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
+     }
     }
     coords -1.5 0 0.5
     angleY -90
@@ -175,6 +196,9 @@ GenericEntity {
     ID "5D4B2DD1CCD34930"
     components {
      Hierarchy "{5D50A7D7A049185D}" {
+     }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
      }
     }
     coords -1.5 0 -0.5
@@ -185,6 +209,9 @@ GenericEntity {
     components {
      Hierarchy "{5D50A7D7A67A3471}" {
      }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
+     }
     }
     coords -1 0 -3.5
     angleY -180
@@ -193,6 +220,9 @@ GenericEntity {
     ID "5D4B2DD1CCD34933"
     components {
      Hierarchy "{5D50A7D7A5BD7582}" {
+     }
+     SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+      Enabled 0
      }
     }
     coords 1.5 0 0.5
