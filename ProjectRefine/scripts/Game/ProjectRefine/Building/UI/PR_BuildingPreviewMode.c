@@ -36,7 +36,7 @@ class PR_BuildingPreviewMode
 		
 		SCR_BasePreviewEntity previewEntity = SCR_BasePreviewEntity.SpawnPreview(previewEntries, PREVIEW_PREFAB, GetGame().GetWorld(), spawnParams, PREVIEW_MATERIAL);
 		m_PreviewEntity = previewEntity;
-		Update(0, false);
+		Update(0, false, vector.Zero, 0.0);
 	}
 	
 	void Deactivate()
@@ -49,13 +49,14 @@ class PR_BuildingPreviewMode
 	
 	// canBuildExternal - specifies whether building is available based on external conditions,
 	// which are not related to asset placement
-	void Update(float timeSlice, bool canBuildExternal)
+	// buildingAreaPos, buildingAreaRadius - defines sphere where the asset is allowed to be placed
+	void Update(float timeSlice, bool canBuildExternal, vector buildingAreaPos, float buildingAreaRadius)
 	{
 		if (m_PreviewEntity)
 		{
 			vector transform[4];
 			bool posValid;
-			GetAndValidateTransform(transform, posValid);
+			GetAndValidateTransform(buildingAreaPos, buildingAreaRadius, transform, posValid);
 			
 			bool canBuild = posValid && canBuildExternal;
 			
@@ -88,7 +89,7 @@ class PR_BuildingPreviewMode
 	}
 	
 	// Returns preview transform and if the position is valid
-	void GetAndValidateTransform(out vector outTransform[4], out bool outPosValid)
+	void GetAndValidateTransform(vector buildingAreaPos, float buildingAreaRadius, out vector outTransform[4], out bool outPosValid)
 	{
 		vector previewPos, surfaceNorm;
 		bool posAttachedToSurface = CalculatePreviewPosition(previewPos, surfaceNorm);
@@ -98,7 +99,7 @@ class PR_BuildingPreviewMode
 		
 		bool posValid = posAttachedToSurface;
 		if (posValid)
-			posValid = posValid && ValidatePosition(transform);
+			posValid = posValid && ValidateTransform(transform, buildingAreaPos, buildingAreaRadius);
 		
 		outPosValid = posValid;
 		for (int i = 0; i < 4; i++)
@@ -159,10 +160,14 @@ class PR_BuildingPreviewMode
 	}
 	
 	// Validates position, returns true if it's free
-	protected bool ValidatePosition(vector transform[4])
+	protected bool ValidateTransform(vector transform[4], vector buildingAreaPos, float buildingAreaRadius)
 	{
 		// Can't place on water or below it
 		if (transform[3][1] < GetGame().GetWorld().GetOceanBaseHeight() + 0.01)
+			return false;
+		
+		// Can't place outside of building area
+		if (vector.Distance(buildingAreaPos, transform[3]) > buildingAreaRadius)
 			return false;
 		
 		// Bounding box of whole composition

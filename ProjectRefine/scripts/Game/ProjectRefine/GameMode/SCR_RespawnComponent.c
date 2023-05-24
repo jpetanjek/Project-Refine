@@ -17,11 +17,11 @@ modded class SCR_RespawnComponent
 		factionMemberManager.SetPlayerFaction(0 , playerID);
 		
 		int factionIdx = factionMemberManager.GetPlayerFactionIndex(playerID);
-		array<PR_SpawnPoint> allSpawnPoints = PR_SpawnPoint.GetAll();
+		array<PR_BaseSpawnPoint> allSpawnPoints = PR_BaseSpawnPoint.GetAll();
 		
 		for(int i = 0; i < allSpawnPoints.Count(); i++)
 		{
-			if(allSpawnPoints[i].GetFactionId() == factionIdx)
+			if(allSpawnPoints[i].GetOwnerFactionId() == factionIdx)
 			{
 				allSpawnPoints[i].EnqueuePlayer(playerID);
 				return;

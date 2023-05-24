@@ -10,13 +10,13 @@ class PR_PlayerControllerDeploymentComponent : ScriptComponent
 		return PR_PlayerControllerDeploymentComponent.Cast(pc.FindComponent(PR_PlayerControllerDeploymentComponent));
 	}
 	
-	void AskDequeueAtSpawnPoint(notnull PR_SpawnPoint spawnPoint)
+	void AskDequeueAtSpawnPoint(notnull PR_BaseSpawnPoint spawnPoint)
 	{
 		RplId rplId = Replication.FindId(spawnPoint);
 		Rpc(RpcAsk_DequeueAtSpawnPoint, rplId);
 	}
 	
-	void AskEnqueueAtSpawnPoint(notnull PR_SpawnPoint spawnPoint)
+	void AskEnqueueAtSpawnPoint(notnull PR_BaseSpawnPoint spawnPoint)
 	{
 		RplId rplId = Replication.FindId(spawnPoint);
 		Rpc(RpcAsk_EnqueueAtSpawnPoint, rplId);
@@ -25,7 +25,7 @@ class PR_PlayerControllerDeploymentComponent : ScriptComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RpcAsk_DequeueAtSpawnPoint(RplId spawnPointId)
 	{
-		PR_SpawnPoint spawnPoint = PR_SpawnPoint.Cast(Replication.FindItem(spawnPointId));
+		PR_BaseSpawnPoint spawnPoint = PR_BaseSpawnPoint.Cast(Replication.FindItem(spawnPointId));
 		
 		if (!spawnPoint)
 			return;
@@ -38,7 +38,7 @@ class PR_PlayerControllerDeploymentComponent : ScriptComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RpcAsk_EnqueueAtSpawnPoint(RplId spawnPointId)
 	{
-		PR_SpawnPoint spawnPoint = PR_SpawnPoint.Cast(Replication.FindItem(spawnPointId));
+		PR_BaseSpawnPoint spawnPoint = PR_BaseSpawnPoint.Cast(Replication.FindItem(spawnPointId));
 		
 		if (!spawnPoint)
 			return;

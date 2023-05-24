@@ -1,7 +1,7 @@
 // Small class for UI to keep track of spawn points
 class PR_DeploymentMenu_SpawnPointData : Managed
 {
-	PR_SpawnPoint m_SpawnPoint;
+	PR_BaseSpawnPoint m_SpawnPoint;
 	PR_MapUiElementComponent m_MapUiElement;
 	SCR_ModularButtonComponent m_MapUiButton;	// The button component attached to map UI element
 }
@@ -117,11 +117,11 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
 	// This function defines if spawn point should be listed in UI
-	bool ShowSpawnPointInUi(PR_SpawnPoint spawnPoint, int myFactionId)
+	bool ShowSpawnPointInUi(PR_BaseSpawnPoint spawnPoint, int myFactionId)
 	{
 		// True when spawn point exists in world
 		// and when our faction owns it
-		return spawnPoint && spawnPoint.GetFactionId() == myFactionId;
+		return spawnPoint && spawnPoint.IsActive() && spawnPoint.GetOwnerFactionId() == myFactionId;
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
@@ -149,8 +149,8 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		//---------------------------------------------------------------------------------
 		// Add spawn points which are not in UI yet
 		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
-		array<PR_SpawnPoint> spawnPoints = PR_SpawnPoint.GetAll();
-		foreach (PR_SpawnPoint spawnPoint : spawnPoints)
+		array<PR_BaseSpawnPoint> spawnPoints = PR_BaseSpawnPoint.GetAll();
+		foreach (PR_BaseSpawnPoint spawnPoint : spawnPoints)
 		{	
 			// Have we already added that spawn point?
 			bool alreadyAdded = false;
@@ -218,7 +218,7 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		}
 		else
 		{
-			PR_ESpawnCondition condition = PR_SpawnPoint.CanPlayerSpawn(GetGame().GetPlayerController().GetPlayerId());
+			PR_ESpawnCondition condition = PR_BaseSpawnPoint.CanPlayerSpawn(GetGame().GetPlayerController().GetPlayerId());
 			switch (condition)
 			{
 				case PR_ESpawnCondition.SPAWN_AVAILABLE:
@@ -301,7 +301,7 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
-	void AddSpawnPoint(notnull PR_SpawnPoint spawnPoint)
+	void AddSpawnPoint(notnull PR_BaseSpawnPoint spawnPoint)
 	{
 		Print(string.Format("AddSpawnPoint: %1 %2", spawnPoint, spawnPoint.GetName()));
 		

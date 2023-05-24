@@ -80,7 +80,14 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			
 			//-------------------------------------
 			// Update preview mode
-			m_PreviewMode.Update(timeSlice, canBuild);
+			vector buildingAreaPos;
+			float buildingAreaRadius;
+			if (buildingProvider)
+			{
+				buildingAreaPos = buildingProvider.GetOwner().GetOrigin();
+				buildingAreaRadius = buildingProvider.GetRange();
+			}
+			m_PreviewMode.Update(timeSlice, canBuild, buildingAreaPos, buildingAreaRadius);
 			
 			//-------------------------------------
 			// Update the UI elements
@@ -245,10 +252,13 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (buildingProvider.GetSupply() < asset.m_iCost)
 			return;
 		
+		vector buildingAreaPos = buildingProvider.GetOwner().GetOrigin();
+		float buildingAreaRadius = buildingProvider.GetRange();
+		
 		// Try to place the asset
 		vector transform[4];
 		bool posValid;
-		m_PreviewMode.GetAndValidateTransform(transform, posValid);
+		m_PreviewMode.GetAndValidateTransform(buildingAreaPos, buildingAreaRadius, transform, posValid);
 		
 		if (!posValid)
 			return;

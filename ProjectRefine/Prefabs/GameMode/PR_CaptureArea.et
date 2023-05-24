@@ -9,9 +9,6 @@ GenericEntity {
    m_Style PR_MapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
    }
   }
-  PR_SpawnPoint "{5CB717EFD748B076}" {
-   m_fEnemyOccupationRadius 10
-  }
   SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
    MainType Cross
   }
