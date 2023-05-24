@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{4C9E41142F316D27}Prefabs/Compositions/US/PR_USSR_AmmunitionDump.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

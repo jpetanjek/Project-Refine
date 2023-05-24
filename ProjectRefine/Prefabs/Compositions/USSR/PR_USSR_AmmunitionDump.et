@@ -1,0 +1,28 @@
+GenericEntity {
+ ID "5D712CB7A8FB8254"
+ {
+  GenericEntity : "{5E6CBF60621C39CD}Prefabs/Systems/Arsenal/AmmoBoxes/USSR/AmmoBoxArsenal_Ammunition_USSR.et" {
+   ID "5D712CB7A8FB8247"
+   coords 1.153 0.729 -0.014
+   angleX -5.333
+   angleY 98.148
+  }
+  GenericEntity : "{6C57BFFFA642C60C}Prefabs/Compositions/Misc/SubCompositions/CrateStacked_04.et" {
+   ID "5D712CB7A8FB8233"
+  }
+  GenericEntity : "{76153B97A551AADE}Prefabs/Systems/Arsenal/AmmoBoxes/USSR/AmmoBoxArsenal_Explosives_USSR.et" {
+   ID "5D712CB7A8FB824B"
+   coords -0.79 0.704 -0.122
+   angleY 5.405
+  }
+  GenericEntity : "{7C93700E1AC4C387}Prefabs/Systems/Arsenal/AmmoBoxes/USSR/AmmoBoxArsenal_Medical_USSR.et" {
+   ID "5D712CB7A8FB824F"
+   coords -0.643 0 0.828
+   angleY -10.748
+  }
+  GenericEntity : "{7C93700E1AC4C388}Prefabs/Systems/Arsenal/AmmoBoxes/USSR/AmmoBoxArsenal_Launcher_USSR.et" {
+   ID "5D712CB7A8FB824D"
+   coords 0.405 0 0.596
+  }
+ }
+}

@@ -102,6 +102,11 @@ GenericEntity {
   }
   GenericEntity : "{303A087C47C1A7B2}Prefabs/MP/Campaign/Assets/CampaignBuildingMap.et" {
    ID "5D452E2229BD43C1"
+   components {
+    ActionsManagerComponent "{5498B7B4044ABCF9}" {
+     Enabled 0
+    }
+   }
    coords -0.174 0.987 -0.059
    angleX 87.007
    angleY 0

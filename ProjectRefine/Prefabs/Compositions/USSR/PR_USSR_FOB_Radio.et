@@ -1,0 +1,135 @@
+GenericEntity {
+ ID "5D712CB458FC916B"
+ {
+  GenericEntity : "{0133284E3BDEAEC4}Prefabs/Props/Civilian/Ashtray_01_Full_yellow.et" {
+   ID "5D712CB458FC9147"
+   coords -0.426 0.899 -0.217
+   angleY 0
+  }
+  GenericEntity : "{03B44EA7652D0D17}Prefabs/Props/Military/Radios/RadioStation_R123M_01.et" {
+   ID "5D712CB458FC9141"
+   coords -0.364 0.899 0.093
+   angleY 144.85
+  }
+  GenericEntity : "{03DE957D8161212B}Prefabs/Props/Civilian/Notebook_01_Open.et" {
+   ID "5D712CB458FC9142"
+   components {
+    RplComponent "{5624A88DC2D9928D}" {
+     Enabled 0
+    }
+   }
+   coords 0.146 0.899 -0.234
+   angleY 16.709
+  }
+  GenericEntity : "{13772C903CB5E4F7}Prefabs/Items/Equipment/Maps/PaperMap_01_folded.et" {
+   ID "5D712CB458FC9136"
+   components {
+    InventoryItemComponent "{5222EB4D0C73006B}" {
+     Enabled 0
+    }
+    SCR_MapGadgetComponent "{516ACCA1BB4F79C6}" {
+     Enabled 0
+    }
+    SCR_SoundDataComponent "{5B18D20ED0099A17}" {
+     Enabled 0
+    }
+    ActionsManagerComponent "{508AB5952B584B2E}" {
+     Enabled 0
+    }
+    RplComponent "{508AB59531D748C9}" {
+     Enabled 0
+    }
+   }
+   coords -0.222 0.921 -0.206
+   angleY 151.452
+   angleZ -180
+  }
+  StaticModelEntity : "{172DD50ACF177B9E}Prefabs/Props/Military/Furniture/ChairMilitary_USSR_01.et" {
+   ID "5D712CB458FC914E"
+   coords -0.038 0 -0.542
+   angleY -10.432
+  }
+  GenericEntity : "{190101E6E60E7C47}Prefabs/Props/Civilian/BeerBottle_01_empty_green.et" {
+   ID "5D712CB458FC9148"
+   coords -0.575 0.899 -0.105
+  }
+  StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMilitary_USSR_01.et" {
+   ID "5D712CB458FC915C"
+   coords 0 0 0
+   angleY 0
+  }
+  GenericEntity : "{50A68300B537EDFA}Prefabs/Items/Food/ArmyCrackers_Soviet_01.et" {
+   ID "5D712CB458FC913B"
+   components {
+    InventoryItemComponent "{5222EB4D0C73006B}" {
+     Enabled 0
+    }
+    SCR_SoundDataComponent "{5B18D20ED0099A17}" {
+     Enabled 0
+    }
+    ActionsManagerComponent "{508AB5952B584B2E}" {
+     Enabled 0
+    }
+    RplComponent "{508AB59531D748C9}" {
+     Enabled 0
+    }
+   }
+   coords -0.116 0.899 -0.041
+   angleY 74.369
+  }
+  GenericEntity : "{642101F827FFA52D}Prefabs/Props/Military/Manuals/Manual_Soviet_01.et" {
+   ID "5D712CB458FC9130"
+   coords 0.284 0.899 0.019
+   angleY -147.461
+  }
+  GenericEntity : "{6D56FED1E55A8F84}Prefabs/Items/Misc/IntelligenceFolder_E_01/IntelligenceFolder_E_01.et" {
+   ID "5D712CB458FC913C"
+   components {
+    SCR_SoundDataComponent "{5B18D20ED0099A17}" {
+     Enabled 0
+    }
+    ActionsManagerComponent "{508AB5952B584B2E}" {
+     Enabled 0
+    }
+    RplComponent "{508AB59531D748C9}" {
+     Enabled 0
+    }
+   }
+   coords 0.127 0.899 0.205
+   angleY 91.177
+  }
+  GenericEntity : "{8F05D427252644F8}Prefabs/Props/Civilian/Suitcase_01.et" {
+   ID "5D712CB458FC914C"
+   components {
+    SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+     Enabled 0
+    }
+    RplComponent "{5624A88DC2D9928D}" {
+     Enabled 0
+    }
+   }
+   coords 0.257 0 0.035
+   angleY 72.982
+  }
+  GenericEntity : "{975B4AB9CF32FDBA}Prefabs/Props/Civilian/Fan_01.et" {
+   ID "5D712CB458FC914A"
+   coords 0.51 0.899 -0.124
+   angleY 146.468
+  }
+  GenericEntity : "{FCBEDECB2A39B6BC}Prefabs/Props/Military/Generators/GeneratorPortable_USSR_01.et" {
+   ID "5D712CB458FC9158"
+   components {
+    SignalsManagerComponent "{54F46126EB88DDC9}" {
+     Enabled 0
+    }
+    SoundComponent "{54F46129DBCF6FD3}" {
+     Enabled 0
+    }
+    ActionsManagerComponent "{529A99F8B5243CC2}" {
+     Enabled 0
+    }
+   }
+   coords -0.86 0 0.01
+  }
+ }
+}
