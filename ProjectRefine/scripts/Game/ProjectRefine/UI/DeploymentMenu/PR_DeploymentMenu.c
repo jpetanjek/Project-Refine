@@ -121,7 +121,9 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	{
 		// True when spawn point exists in world
 		// and when our faction owns it
-		return spawnPoint && spawnPoint.IsActive() && spawnPoint.GetOwnerFactionId() == myFactionId;
+		PR_ESpawnPointStateFlags flags = spawnPoint.GetStateFlags();
+		
+		return spawnPoint && spawnPoint.GetOwnerFactionId() == myFactionId && (flags & PR_ESpawnPointStateFlags.ACTIVE);
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------

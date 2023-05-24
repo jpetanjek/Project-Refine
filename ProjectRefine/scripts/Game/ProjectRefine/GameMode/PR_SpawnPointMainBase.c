@@ -15,6 +15,19 @@ class PR_SpawnPointMainBase : PR_BaseSpawnPoint
 		m_CaptureArea = PR_CaptureArea.Cast(owner.FindComponent(PR_CaptureArea));
 	}
 	
+	override void EOnInit(IEntity owner)
+	{
+		super.EOnInit(owner);
+		
+		RplComponent rpl = RplComponent.Cast(owner.FindComponent(RplComponent));
+		
+		if (rpl.IsMaster())
+		{
+			m_eStateFlags |= PR_ESpawnPointStateFlags.ACTIVE; // Always active
+			Replication.BumpMe();
+		}
+	}
+	
 	//! Must return ID of owner faction
 	override int GetOwnerFactionId()
 	{

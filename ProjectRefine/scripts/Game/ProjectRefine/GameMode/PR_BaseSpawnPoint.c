@@ -11,7 +11,7 @@ enum PR_ESpawnCondition
 enum PR_ESpawnPointStateFlags
 {
 	OCCUPIED_BY_ENEMY	= 1<<0,
-	ACTIVE 				= 1<<1// finish this later
+	ACTIVE 				= 1<<1	// Set by inherited class
 }
 
 
@@ -96,7 +96,7 @@ class PR_BaseSpawnPoint : ScriptComponent
 			_print("No character spawn positions found!", LogLevel.ERROR);
 		
 		
-		// Subscribe to player chancing faction
+		// Subscribe to player changing faction
 		BaseGameMode gm = GetGame().GetGameMode();
 		if (gm)
 		{
@@ -285,10 +285,13 @@ class PR_BaseSpawnPoint : ScriptComponent
 	// Conditions related to spawn point alone
 	bool IsRespawnAllowed()
 	{
-		if ((m_eStateFlags & PR_ESpawnPointStateFlags.OCCUPIED_BY_ENEMY) == 0)
-			return true;
-		else
+		if (m_eStateFlags & PR_ESpawnPointStateFlags.OCCUPIED_BY_ENEMY)	// False if occupied by enemy
 			return false;
+		
+		if ((m_eStateFlags & PR_ESpawnPointStateFlags.ACTIVE) == 0)		// False if not active
+			return false;
+		
+		return true;
 	}
 	
 	// Maybe better FixedFrame?
