@@ -41,9 +41,6 @@ RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
 ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
  coords 0 0 0
 }
-GenericEntity : "{4C9E41142F316D27}Prefabs/Compositions/USSR/PR_USSR_AmmunitionDump.et" {
- coords 47.906 2.006 469.678
-}
 SCR_LoadoutManager : "{97EF4C1A41F63DDB}Prefabs/MP/Managers/Loadouts/LoadoutManager_USxUSSR.et" {
  m_aPlayerLoadouts {
   SCR_FactionPlayerLoadout "{5CA333AAB46A3E48}" {
@@ -61,9 +58,6 @@ SCR_LoadoutManager : "{97EF4C1A41F63DDB}Prefabs/MP/Managers/Loadouts/LoadoutMana
  }
 }
 SCR_MPDestructionManager : "{9BB369F2803C6F71}Prefabs/MP/MPDestructionManager.et" {
-}
-GenericEntity : "{CE070995505D521B}Prefabs/Compositions/US/PR_US_FOB_Radio.et" {
- coords 50.68 2.498 472.877
 }
 GenericEntity : "{DE0CC96A200CC150}Prefabs/Compositions/US/PR_US_AmmunitionDump.et" {
  coords 54.715 2.001 469.515
