@@ -4,17 +4,22 @@ GenericEntity {
   Hierarchy "{5D4F643015CC9B86}" {
   }
   PR_BuildableFobEventHandlerComponent "{5D4F32B46DED66F0}" {
+   Enabled 0
   }
   PR_BuildingProviderFromSupplyHolderComponent "{5D5333D8DD080F2A}" {
+   Enabled 0
   }
   PR_FobComponent "{5D4ECE8C68382882}" {
+   Enabled 0
   }
   PR_SupplyHolderComponent "{5D4F51A5D34E36E8}" {
+   Enabled 0
    m_iMaxSupplies 999999
    m_fRange 200
    m_fTransferSpeed 50
   }
   ActionsManagerComponent "{5D66FB790A1CE416}" {
+   Enabled 0
    ActionContexts {
     UserActionContext "{5D66FB7908233ADE}" {
      UIInfo UIInfo "{5D66FB7903DAD1DF}" {
@@ -117,6 +122,55 @@ GenericEntity {
    ID "5D452E2229BD43D1"
    components {
     Hierarchy "{5D5094146F664C7A}" {
+    }
+    PR_BuildableFobEventHandlerComponent "{5D732426DD89D9D5}" {
+    }
+    PR_BuildingProviderFromSupplyHolderComponent "{5D732426AD7025F6}" {
+    }
+    PR_FobComponent "{5D732426A017F22A}" {
+    }
+    PR_SupplyHolderComponent "{5D732426BAE19E1E}" {
+     m_iMaxSupplies 10000
+     m_fRange 200
+     m_fTransferSpeed 50
+    }
+    ActionsManagerComponent "{5D732426B3622B03}" {
+     ActionContexts {
+      UserActionContext "{5D7324260CA9CB9A}" {
+       UIInfo UIInfo "{5D732426029D3A3C}" {
+       }
+       ContextName "SupplyPoint"
+       Position PointInfo "{5D7324261AAFF597}" {
+       }
+       Radius 1
+      }
+     }
+     additionalActions {
+      PR_SupplyTargetUserAction "{5D732425E8D67F2A}" {
+       ParentContextList {
+        "SupplyPoint"
+       }
+      }
+      PR_LoadSuppliesUserAction "{5D732425EDAD5F62}" {
+       ParentContextList {
+        "SupplyPoint"
+       }
+       UIInfo UIInfo "{5D732425DE89F340}" {
+       }
+       "Sort Priority" 1
+      }
+      PR_UnloadSuppliesUserAction "{5D732425E1540E50}" {
+       ParentContextList {
+        "SupplyPoint"
+       }
+       UIInfo UIInfo "{5D732425DC02B248}" {
+       }
+       "Sort Priority" 2
+      }
+     }
+    }
+    RplComponent "{5624A88DC2D9928D}" {
+     Enabled 1
     }
    }
    coords 0.377 0.9 -0.148
