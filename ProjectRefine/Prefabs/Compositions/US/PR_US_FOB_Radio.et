@@ -1,13 +1,33 @@
-StaticModelEntity : "{7762F50A860DD074}Prefabs/Props/Military/Furniture/TableMilitary_US_01.et" {
+GenericEntity {
  ID "5272E314F01B2DBE"
  components {
+  MeshObject "{5D755448AD13E510}" {
+   Object "{71FCFED79B3ABBA7}Assets/Props/Military/Furniture/US/TableMilitary_US_01.xob"
+  }
   Hierarchy "{5D5094147FEE3891}" {
+  }
+  PR_BuildableFobEventHandlerComponent "{5D75544850B3C107}" {
+  }
+  PR_BuildingProviderFromSupplyHolderComponent "{5D7554485B8F8E39}" {
+  }
+  PR_FobComponent "{5D7554484CD1F6EE}" {
   }
   PR_SupplyHolderComponent "{5D75282EB7B22CE0}" {
    m_iMaxSupplies 10000
    m_fRange 50
   }
+  RigidBody "{5D7554489E8C9874}" {
+  }
   ActionsManagerComponent "{5D75282E8AA155E4}" {
+   ActionContexts {
+    UserActionContext "{5D755448D6B8C86B}" {
+     ContextName "SupplyPoint"
+     Position PointInfo "{5D75544827C4C83F}" {
+      Offset 0.3754 0.9834 -0.1507
+     }
+     Radius 0.5
+    }
+   }
    additionalActions {
     PR_SupplyTargetUserAction "{5D75282E670AECB7}" {
      ParentContextList {
@@ -26,9 +46,11 @@ StaticModelEntity : "{7762F50A860DD074}Prefabs/Props/Military/Furniture/TableMil
     }
    }
   }
+  RplComponent "{5D755828FB6B4998}" {
+   Streamable Disabled
+  }
  }
  coords 0 0 0
- angleY 0
  {
   GenericEntity : "{0133284E3BDEAEC4}Prefabs/Props/Civilian/Ashtray_01_Full_yellow.et" {
    ID "5D75282E57AC03FC"
