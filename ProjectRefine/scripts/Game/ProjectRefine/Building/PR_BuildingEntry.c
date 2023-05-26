@@ -17,10 +17,12 @@ class PR_BuildingEntryCategory : PR_BuildingEntry
 	ref array<ref PR_BuildingEntry> m_aEntries;
 }
 
-enum PR_EAssetBuildingRules
+enum PR_EAssetBuildingFlags
 {
-	GENERIC,
-	BASE_ONLY
+	ORIENT_TO_SURFACE	= 1<<0,
+	PLACE_ON_TERRAIN	= 1<<1,	// NYI
+	PLACE_ON_ENTITIES	= 1<<2,	// NYI
+	REQUIRES_FOB		= 1<<3
 }
 
 [BaseContainerProps(), PR_BuildingEntryAssetCustomTitleAttribute()]
@@ -35,11 +37,8 @@ class PR_BuildingEntryAsset : PR_BuildingEntry
 	[Attribute("0", UIWidgets.EditBox, "Cost of asset")]
 	int m_iCost;
 	
-	[Attribute("1", UIWidgets.CheckBox, "Orient asset to surface normal")]
-	bool m_bOrientToSurface;
-	
-	[Attribute("0", UIWidgets.ComboBox, enums: ParamEnumArray.FromEnum(PR_EAssetBuildingRules))]
-	PR_EAssetBuildingRules m_eAssetBuildingRules;
+	[Attribute("0", UIWidgets.Flags, enums: ParamEnumArray.FromEnum(PR_EAssetBuildingFlags))]
+	PR_EAssetBuildingFlags m_eFlags;
 }
 
 class PR_BuildingEntryAssetCustomTitleAttribute : BaseContainerCustomTitle

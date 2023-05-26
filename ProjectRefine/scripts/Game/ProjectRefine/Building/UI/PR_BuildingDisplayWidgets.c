@@ -12,6 +12,8 @@ class PR_BuildingDisplayWidgets
 
 	HorizontalLayoutWidget m_SquadLeaderRoleWarning;
 
+	HorizontalLayoutWidget m_FobRequiredWarning;
+
 	VerticalLayoutWidget m_SourcePanel;
 
 	TextWidget m_SourceNameText;
@@ -31,6 +33,8 @@ class PR_BuildingDisplayWidgets
 		m_ResourcesWarning = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_ResourcesWarning"));
 
 		m_SquadLeaderRoleWarning = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_SquadLeaderRoleWarning"));
+
+		m_FobRequiredWarning = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_FobRequiredWarning"));
 
 		m_SourcePanel = VerticalLayoutWidget.Cast(root.FindAnyWidget("m_SourcePanel"));
 

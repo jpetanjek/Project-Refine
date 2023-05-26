@@ -17,18 +17,26 @@ class PR_PC_BuildingComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	// Creation of asset
 	
-	void AskBuild(ResourceName buildingMgrPrefab, PR_BuildingProviderBaseComponent buildingProvider, int cost, vector transform[4])
+	void AskBuild(PR_BuildingEntryAsset asset, PR_BuildingProviderBaseComponent buildingProvider, vector transform[4])
 	{
 		IEntity buildingProviderEntity = buildingProvider.GetOwner();
 		RplId rplId = RplComponent.Cast(buildingProvider.GetOwner().FindComponent(RplComponent)).Id();
-		Rpc(RpcAsk_Build, buildingMgrPrefab, rplId, cost, transform[0], transform[1], transform[2], transform[3]);
+		Rpc(RpcAsk_Build, asset.m_sBuildingManagerPrefab, rplId, asset.m_eFlags, asset.m_iCost, transform[0], transform[1], transform[2], transform[3]);
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void RpcAsk_Build(ResourceName buildingMgrPrefab, RplId rplId, int cost, vector vAside, vector vUp, vector vDir, vector vPos)
+	protected void RpcAsk_Build(ResourceName buildingMgrPrefab, RplId rplId, PR_EAssetBuildingFlags assetFlags, int cost, vector vAside, vector vUp, vector vDir, vector vPos)
 	{
 		RplComponent rplComp = RplComponent.Cast(Replication.FindItem(rplId));
 		if (!rplComp)
+			return;
+		
+		// Player data
+		PlayerController pc = PlayerController.Cast(GetOwner());
+		int playerId = pc.GetPlayerId();
+		SCR_Faction faction = SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(playerId));
+		
+		if (!faction)
 			return;
 		
 		PR_BuildingProviderBaseComponent buildingProvider = PR_BuildingProviderBaseComponent.Cast(rplComp.GetEntity().FindComponent(PR_BuildingProviderBaseComponent));
@@ -36,11 +44,26 @@ class PR_PC_BuildingComponent : ScriptComponent
 		if (!buildingProvider)
 			return;
 		
-		// Verity supply count
+		// Verify supply count
 		if (buildingProvider.GetSupply() < cost)
 			return;
 		
-		// todo verity position, not sure how to do it now
+		// Verify FOB, if asset requires it
+		if (assetFlags & PR_EAssetBuildingFlags.REQUIRES_FOB)
+		{
+			int factionId = faction.GetId();
+			
+			if (!PR_FobComponent.FindFobAtPosition(factionId, vPos))
+				return;
+			
+			IEntity playerEntity = pc.GetControlledEntity();
+			if (!playerEntity)
+				return;
+			if (!PR_FobComponent.FindFobAtPosition(factionId, playerEntity.GetOrigin()))
+				return;
+		}
+		
+		// todo verify that position is not obstructed, not sure how to do it now
 		
 		EntitySpawnParams sp = new EntitySpawnParams();
 		sp.TransformMode = ETransformMode.WORLD;
@@ -57,13 +80,6 @@ class PR_PC_BuildingComponent : ScriptComponent
 		else
 		{
 			// Initialize the Building Manager on created entity
-			
-			// Find player's faction
-			PlayerController pc = PlayerController.Cast(GetOwner());
-			int playerId = pc.GetPlayerId();
-			PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.GetInstance();
-			SCR_Faction faction = SCR_Faction.Cast(factionMemberManager.GetPlayerFaction(playerId));
-			
 			if (faction)
 			{
 				int factionId = faction.GetId();

@@ -75,8 +75,9 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			
 			bool isLeader = IsLeader();
 			bool buildingAllowedHere = IsBuildingAllowedAtMyPos();
+			bool fobMissing = IsFobMissing(asset);
 			
-			bool canBuild = buildingProvider && enoughResources && isLeader && buildingAllowedHere;
+			bool canBuild = buildingProvider && enoughResources && isLeader && buildingAllowedHere && !fobMissing;
 			
 			//-------------------------------------
 			// Update preview mode
@@ -103,6 +104,9 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			
 			// Building not allowed here warning
 			widgets.m_BuildingAreaRestrictedWarning.SetVisible(!buildingAllowedHere);
+			
+			// FOB required warning
+			widgets.m_FobRequiredWarning.SetVisible(fobMissing);
 			
 			// Building source name
 			string sourceNameText;
@@ -156,6 +160,25 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			return true;
 		
 		return !gm.IsMainBaseArea(captureArea);
+	}
+	bool IsFobMissing(PR_BuildingEntryAsset asset)
+	{
+		if (!asset)
+			return false;
+		
+		if ((asset.m_eFlags & PR_EAssetBuildingFlags.REQUIRES_FOB) == 0)
+			return false;
+		
+		IEntity myEntity = GetGame().GetPlayerController().GetControlledEntity();
+		if (!myEntity)
+			return false;
+		
+		SCR_Faction myFaction = SCR_Faction.Cast(PR_FactionMemberManager.GetLocalPlayerFaction());
+		if (!myFaction)
+			return false;
+		
+		PR_FobComponent fob = PR_FobComponent.FindFobAtPosition(myFaction.GetId(), myEntity.GetOrigin());
+		return fob == null;
 	}
 	
 	//----------------------------------------------------------------
@@ -263,7 +286,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (!posValid)
 			return;
 		
-		PR_PC_BuildingComponent.GetLocalInstance().AskBuild(asset.m_sBuildingManagerPrefab, buildingProvider, asset.m_iCost, transform);
+		PR_PC_BuildingComponent.GetLocalInstance().AskBuild(asset, buildingProvider, transform);
 	}
 	
 	// Resolves the supply holder from which we are building
@@ -352,6 +375,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	}
 	
 	// Processes child entry of a category, if we are browsing a category
+	// Essentially it activate building preview mode
 	protected void ProcessCategoryChildEntry(PR_BuildingEntry entry)
 	{
 		PR_BuildingEntryCategory category = PR_BuildingEntryCategory.Cast(entry);
@@ -363,7 +387,8 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		}
 		else if (asset)
 		{
-			m_PreviewMode.Activate(asset.m_sPrefab, asset.m_bOrientToSurface);
+			bool orientToSurface = asset.m_eFlags & PR_EAssetBuildingFlags.ORIENT_TO_SURFACE;
+			m_PreviewMode.Activate(asset.m_sPrefab, orientToSurface);
 		}
 	}
 	
