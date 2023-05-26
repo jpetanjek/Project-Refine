@@ -10,7 +10,7 @@ PR_BuildingManager : "{B58AD4A5301C2482}Prefabs/GameMode/Building/PR_BaseBuildin
    }
   }
  }
- m_sFinalPrefab "{CE070995505D521B}Prefabs/Compositions/Radio/PR_US_FOB_Radio.et"
+ m_sFinalPrefab "{089889D031250A8E}Prefabs/Compositions/US/PR_US_FOB_Radio.et"
  m_sFoundationPrefab ""
  m_bPlacedBuilt 1
 }
