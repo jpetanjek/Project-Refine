@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{4B8B3895A2497191}Prefabs/GameMode/Building/US/PR_Building_US_AmmoDump.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

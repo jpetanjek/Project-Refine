@@ -48,6 +48,7 @@ PR_BuildingManager {
   }
  }
  coords 59.818 52.672 293.904
+ m_sFinalPrefab "{DE0CC96A200CC150}Prefabs/Compositions/US/PR_US_AmmunitionDump.et"
  m_sFoundationPrefab "{70C57A99B7209CF7}Prefabs/Building/Unbuilt_Asset.et"
  m_iMaxHealth 100
  m_iPlacedHealth 30
