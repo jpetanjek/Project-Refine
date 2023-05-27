@@ -1,5 +1,9 @@
 GenericEntity {
  ID "5D6B1C29ED01704A"
+ components {
+  Hierarchy "{5D767E81075DA127}" {
+  }
+ }
  {
   GenericEntity : "{1A942A9E6D0CD0F2}Prefabs/Systems/Arsenal/AmmoBoxes/US/AmmoBoxArsenal_Explosives_US.et" {
    ID "5D6B1C29ED01703E"

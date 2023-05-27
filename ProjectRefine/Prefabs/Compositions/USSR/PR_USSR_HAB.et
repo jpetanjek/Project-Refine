@@ -11,10 +11,18 @@ GenericEntity {
   $grp GenericEntity : "{27B3CECB6489D952}Prefabs/Props/Military/Sandbags/Sandbag_01_foundation_burlap.et" {
    {
     ID "5D71389B472A96E0"
+    components {
+     Hierarchy "{5D767E82FE943B47}" {
+     }
+    }
     coords 0 0 -2
    }
    {
     ID "5D71389B472A96FC"
+    components {
+     Hierarchy "{5D767E82F3C92C14}" {
+     }
+    }
     coords 0 0 2.5
     angleY 180
    }
@@ -22,41 +30,73 @@ GenericEntity {
   $grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_01_wall_solid_burlap.et" {
    {
     ID "5D71389BA9C25C5F"
+    components {
+     Hierarchy "{5D767E82F01029EB}" {
+     }
+    }
     coords -1.5 0 0.5
     angleY -90
    }
    {
     ID "5D71389BA9C25C6E"
+    components {
+     Hierarchy "{5D767E82F6C8C4DF}" {
+     }
+    }
     coords 1 0 -3.5
     angleY -180
    }
    {
     ID "5D71389BA9C25C77"
+    components {
+     Hierarchy "{5D767E82F4CD3083}" {
+     }
+    }
     coords -1.5 0 -0.5
     angleY -90
    }
    {
     ID "5D71389BA9C25C7D"
+    components {
+     Hierarchy "{5D767E82C9FEC607}" {
+     }
+    }
     coords -1 0 -3.5
     angleY -180
    }
    {
     ID "5D71389BA9C25D8C"
+    components {
+     Hierarchy "{5D767E82CFCFB7BA}" {
+     }
+    }
     coords 1.5 0 0.5
     angleY -90
    }
    {
     ID "5D71389BA9C25D99"
+    components {
+     Hierarchy "{5D767E82CDECBD5C}" {
+     }
+    }
     coords 1 0 4
     angleY -180
    }
    {
     ID "5D71389BA9C25DB1"
+    components {
+     Hierarchy "{5D767E82C261170A}" {
+     }
+    }
     coords 1.5 0 -0.5
     angleY -90
    }
    {
     ID "5D71389BDDD39270"
+    components {
+     Hierarchy "{5D767E82C0743847}" {
+     }
+    }
     coords -1 0 4
     angleY -180
    }
