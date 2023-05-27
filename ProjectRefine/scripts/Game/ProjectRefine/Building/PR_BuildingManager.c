@@ -29,6 +29,8 @@ class PR_BuildingManager: GenericEntity
 	[Attribute("1", desc: "Health at which entity is disabled, should be lower than FinalStageHealth")]
 	int m_iDisableHealth;
 	
+	protected PR_EAssetBuildingFlags m_eBuildingFlags;
+	
 	//---------------------
 	// Data
 	RplComponent m_RplComponent;
@@ -54,9 +56,10 @@ class PR_BuildingManager: GenericEntity
 	
 	//---------------------
 	// Must be called after initial entity is created
-	void Init(int ownerFactionId)
+	void Init(int ownerFactionId, PR_EAssetBuildingFlags buildingFlags)
 	{
 		m_iOwnerFactionId = ownerFactionId;
+		m_eBuildingFlags = buildingFlags;
 		
 		if (!m_bInitialized && m_Final)
 			CallFinalInitEvents();		
@@ -69,6 +72,11 @@ class PR_BuildingManager: GenericEntity
 	int GetOwnerFactionId()
 	{
 		return m_iOwnerFactionId;
+	}
+	
+	PR_EAssetBuildingFlags GetBuildingFlags()
+	{
+		return m_eBuildingFlags;
 	}
 	
 	//---------------------	
@@ -143,6 +151,14 @@ class PR_BuildingManager: GenericEntity
 			SetEventMask(EntityEvent.FRAME);
 			m_bHealthChanged = true;
 		}
+	}
+	
+	// Sets health to 0
+	void Destroy()
+	{
+		m_iHealth = 0;
+		SetEventMask(EntityEvent.FRAME);
+		m_bHealthChanged = true;
 	}
 	
 	protected void UpdateHealthLogic()

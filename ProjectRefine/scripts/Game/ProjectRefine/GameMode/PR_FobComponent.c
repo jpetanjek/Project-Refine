@@ -11,14 +11,16 @@ class PR_FobComponentClass : ScriptComponentClass
 
 class PR_FobComponent : ScriptComponent
 {
+	protected static ref array<PR_FobComponent> s_aAll = {};
+	
+	
 	[RplProp()]
 	protected int m_iOwnerFaction = -1;
 	
 	protected PR_SupplyHolderComponent m_SupplyHolder;
 	
-	ref ScriptInvokerBase<PR_OnFobDestroyed> m_OnDestroyed = new ScriptInvokerBase<PR_OnFobDestroyed>();
-	
-	protected static ref array<PR_FobComponent> s_aAll = {};
+	// Array of all things built here
+	protected ref array<PR_BuildingManager> m_aBuildingManagers = {};
 	
 	//------------------------------------------------------------------------------------------------
 	void Init(int ownerFactionId)
@@ -52,6 +54,14 @@ class PR_FobComponent : ScriptComponent
 		}
 		
 		return null;
+	}
+	
+	void RegisterBuildingManager(notnull PR_BuildingManager mgr)
+	{
+		if (m_aBuildingManagers.Contains(mgr))
+			return;
+		
+		m_aBuildingManagers.Insert(mgr);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -89,9 +99,19 @@ class PR_FobComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void ~PR_FobComponent()
 	{
-		m_OnDestroyed.Invoke(this);
-		
 		s_aAll.RemoveItem(this);
+		
+		// Destroy building managers which depend on this FOB
+		foreach (PR_BuildingManager mgr : m_aBuildingManagers)
+		{
+			if (!mgr)
+				continue;
+			
+			if (mgr.GetBuildingFlags() & PR_EAssetBuildingFlags.REQUIRES_FOB)
+			{
+				mgr.Destroy();
+			}
+		}
 	}
 
 };
