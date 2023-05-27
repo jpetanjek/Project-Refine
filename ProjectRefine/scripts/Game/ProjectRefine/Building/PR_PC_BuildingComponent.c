@@ -31,13 +31,18 @@ class PR_PC_BuildingComponent : ScriptComponent
 		if (!rplComp)
 			return;
 		
+		//-------------------------------------------------------------------
 		// Player data
 		PlayerController pc = PlayerController.Cast(GetOwner());
 		int playerId = pc.GetPlayerId();
 		SCR_Faction faction = SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(playerId));
-		
 		if (!faction)
 			return;
+		int factionId = faction.GetId();
+		IEntity playerEntity = pc.GetControlledEntity();
+		if (!playerEntity)
+			return;
+		
 		
 		PR_BuildingProviderBaseComponent buildingProvider = PR_BuildingProviderBaseComponent.Cast(rplComp.GetEntity().FindComponent(PR_BuildingProviderBaseComponent));
 		
@@ -48,20 +53,12 @@ class PR_PC_BuildingComponent : ScriptComponent
 		if (buildingProvider.GetSupply() < cost)
 			return;
 		
-		// Verify FOB, if asset requires it
-		if (assetFlags & PR_EAssetBuildingFlags.REQUIRES_FOB)
-		{
-			int factionId = faction.GetId();
-			
-			if (!PR_FobComponent.FindFobAtPosition(factionId, vPos))
-				return;
-			
-			IEntity playerEntity = pc.GetControlledEntity();
-			if (!playerEntity)
-				return;
-			if (!PR_FobComponent.FindFobAtPosition(factionId, playerEntity.GetOrigin()))
-				return;
-		}
+		// Find FOB here
+		PR_FobComponent fob = PR_FobComponent.Cast(buildingProvider.GetOwner().FindComponent(PR_FobComponent));
+		
+		// Verify that FOB exists, if the asset requires it
+		if ((assetFlags & PR_EAssetBuildingFlags.REQUIRES_FOB) && !fob)
+			return;
 		
 		// todo verify that position is not obstructed, not sure how to do it now
 		
@@ -80,11 +77,10 @@ class PR_PC_BuildingComponent : ScriptComponent
 		else
 		{
 			// Initialize the Building Manager on created entity
-			if (faction)
-			{
-				int factionId = faction.GetId();
-				buildingMgr.Init(factionId);
-			}
+			buildingMgr.Init(factionId, assetFlags);
+			
+			if (fob)
+				fob.RegisterBuildingManager(buildingMgr);
 		}
 		
 		// Consume supplies from building provider
