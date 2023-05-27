@@ -19,10 +19,11 @@ class PR_BuildingEntryCategory : PR_BuildingEntry
 
 enum PR_EAssetBuildingFlags
 {
-	ORIENT_TO_SURFACE	= 1<<0,
-	PLACE_ON_TERRAIN	= 1<<1,	// NYI
-	PLACE_ON_ENTITIES	= 1<<2,	// NYI
-	REQUIRES_FOB		= 1<<3
+	ORIENT_TO_SURFACE		= 1<<0,	// Orient to surface normal
+	PLACE_ON_TERRAIN		= 1<<1,	// NYI
+	PLACE_ON_ENTITIES		= 1<<2,	// NYI
+	REQUIRES_FOB			= 1<<3,	// Can be placed only at FOB
+	FORBID_FOB_2X_RANGE		= 1<<4	// Can't be placed closer than FOB double range
 }
 
 [BaseContainerProps(), PR_BuildingEntryAssetCustomTitleAttribute()]

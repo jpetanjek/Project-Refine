@@ -42,20 +42,25 @@ class PR_FobComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	static PR_FobComponent FindFobAtPosition(int ownerFactionId, vector posWorld)
+	static PR_FobComponent FindFobAtPosition(int ownerFactionId, vector posWorld, bool doubleRange = false)
 	{
+		float rangeMult = 1.0;
+		if (doubleRange)
+			rangeMult = 2.0;
+		
 		foreach (PR_FobComponent fob : s_aAll)
 		{
 			if (fob.m_iOwnerFaction != ownerFactionId)
 				continue;
 			
-			if (vector.DistanceXZ(fob.GetOwner().GetOrigin(), posWorld) < fob.GetRange())
+			if (vector.DistanceXZ(fob.GetOwner().GetOrigin(), posWorld) < rangeMult * fob.GetRange())
 				return fob;
 		}
 		
 		return null;
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	void RegisterBuildingManager(notnull PR_BuildingManager mgr)
 	{
 		if (m_aBuildingManagers.Contains(mgr))

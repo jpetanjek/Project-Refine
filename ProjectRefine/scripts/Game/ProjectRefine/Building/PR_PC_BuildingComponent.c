@@ -60,6 +60,13 @@ class PR_PC_BuildingComponent : ScriptComponent
 		if ((assetFlags & PR_EAssetBuildingFlags.REQUIRES_FOB) && !fob)
 			return;
 		
+		// Verify that no other FOB is too close, if asset forbids that
+		if (assetFlags & PR_EAssetBuildingFlags.FORBID_FOB_2X_RANGE)
+		{
+			if (PR_FobComponent.FindFobAtPosition(factionId, vPos, true))
+				return;
+		}
+		
 		// todo verify that position is not obstructed, not sure how to do it now
 		
 		EntitySpawnParams sp = new EntitySpawnParams();

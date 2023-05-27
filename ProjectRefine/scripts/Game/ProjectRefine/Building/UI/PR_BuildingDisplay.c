@@ -61,6 +61,7 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		{
 			PR_BuildingEntryAsset asset = GetCurrentChildAsset();
 			PR_BuildingProviderBaseComponent buildingProvider = FindBuildingProvider();
+			PR_FobComponent fob;
 			
 			//-------------------------------------
 			// Check building conditions
@@ -71,13 +72,15 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 				supplyCount = buildingProvider.GetSupply();
 				if (asset)
 					enoughResources = supplyCount >= asset.m_iCost;
+				fob = PR_FobComponent.Cast(buildingProvider.GetOwner().FindComponent(PR_FobComponent));
 			}
 			
 			bool isLeader = IsLeader();
 			bool buildingAllowedHere = IsBuildingAllowedAtMyPos();
-			bool fobMissing = IsFobMissing(asset);
+			bool fobMissing = IsFobMissing(asset, fob);
+			bool isAnotherFobTooClose = IsAnotherFobTooClose(asset);
 			
-			bool canBuild = buildingProvider && enoughResources && isLeader && buildingAllowedHere && !fobMissing;
+			bool canBuild = buildingProvider && enoughResources && isLeader && buildingAllowedHere && !fobMissing && !isAnotherFobTooClose;
 			
 			//-------------------------------------
 			// Update preview mode
@@ -108,13 +111,15 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 			// FOB required warning
 			widgets.m_FobRequiredWarning.SetVisible(fobMissing);
 			
+			// FOB too close warning
+			widgets.m_TooCloseToFobWarning.SetVisible(isAnotherFobTooClose);
+			
 			// Building source name
 			string sourceNameText;
 			if (!buildingProvider)
 				sourceNameText = "-";
 			else
 			{
-				PR_FobComponent fob = PR_FobComponent.Cast(buildingProvider.GetOwner().FindComponent(PR_FobComponent));
 				if (fob)
 					sourceNameText = "FOB";
 				else
@@ -161,13 +166,27 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		
 		return !gm.IsMainBaseArea(captureArea);
 	}
-	bool IsFobMissing(PR_BuildingEntryAsset asset)
+	bool IsFobMissing(PR_BuildingEntryAsset asset, PR_FobComponent fob)
 	{
 		if (!asset)
 			return false;
 		
 		if ((asset.m_eFlags & PR_EAssetBuildingFlags.REQUIRES_FOB) == 0)
 			return false;
+		
+		return fob == null;
+	}
+	bool IsAnotherFobTooClose(PR_BuildingEntryAsset asset)
+	{
+		if (!asset)
+			return false;
+		
+		if ((asset.m_eFlags & PR_EAssetBuildingFlags.FORBID_FOB_2X_RANGE) == 0)
+			return false;
+		
+		// todo we must check not position of player, but future position of FOB
+		// at least it's verified in build request RPC now
+		// finish this later
 		
 		IEntity myEntity = GetGame().GetPlayerController().GetControlledEntity();
 		if (!myEntity)
@@ -177,8 +196,11 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (!myFaction)
 			return false;
 		
-		PR_FobComponent fob = PR_FobComponent.FindFobAtPosition(myFaction.GetId(), myEntity.GetOrigin());
-		return fob == null;
+		vector myPos = myEntity.GetOrigin();
+		
+		PR_FobComponent fob = PR_FobComponent.FindFobAtPosition(myFaction.GetId(), myPos, true);
+		
+		return fob != null;
 	}
 	
 	//----------------------------------------------------------------

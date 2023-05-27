@@ -14,6 +14,8 @@ class PR_BuildingDisplayWidgets
 
 	HorizontalLayoutWidget m_FobRequiredWarning;
 
+	HorizontalLayoutWidget m_TooCloseToFobWarning;
+
 	VerticalLayoutWidget m_SourcePanel;
 
 	TextWidget m_SourceNameText;
@@ -35,6 +37,8 @@ class PR_BuildingDisplayWidgets
 		m_SquadLeaderRoleWarning = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_SquadLeaderRoleWarning"));
 
 		m_FobRequiredWarning = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_FobRequiredWarning"));
+
+		m_TooCloseToFobWarning = HorizontalLayoutWidget.Cast(root.FindAnyWidget("m_TooCloseToFobWarning"));
 
 		m_SourcePanel = VerticalLayoutWidget.Cast(root.FindAnyWidget("m_SourcePanel"));
 
