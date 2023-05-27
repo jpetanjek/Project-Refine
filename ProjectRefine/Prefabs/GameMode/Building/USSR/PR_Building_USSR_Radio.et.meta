@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{ABD04AAEA7651CDE}Prefabs/GameMode/Building/USSR/PR_Building_USSR_Radio.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
