@@ -1,0 +1,11 @@
+SCR_DestructibleEntity : "{93E06E731212BD96}Prefabs/Structures/Walls/BarbedWire/BarbedTape_01/BarbedTape_01_Triple.et" {
+ ID "51E2F0F0E96F07CE"
+ components {
+  SCR_CampaignBuildingCompositionComponent "{5AAAEA379BE4D542}" {
+   Enabled 0
+  }
+  RplComponent "{5D76B0B7A94CC16D}" {
+  }
+ }
+ coords 0 0 0
+}

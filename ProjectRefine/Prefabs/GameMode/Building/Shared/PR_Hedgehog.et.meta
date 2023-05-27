@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{AE85ABDAE9AB57B8}Prefabs/GameMode/Building/Shared/PR_Hedgehog.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

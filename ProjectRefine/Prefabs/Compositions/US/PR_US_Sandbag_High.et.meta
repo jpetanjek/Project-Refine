@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{7A364791AE57A6BC}Prefabs/Compositions/US/PR_US_Sandbag_High.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

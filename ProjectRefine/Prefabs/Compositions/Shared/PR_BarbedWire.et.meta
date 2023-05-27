@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{A382E83B49ED0DCD}Prefabs/Compositions/Shared/PR_BarbedWire.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

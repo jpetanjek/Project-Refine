@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{6D51FBEDC7389A81}Prefabs/Compositions/US/PR_US_MachineGunNest.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

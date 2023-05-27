@@ -1,0 +1,12 @@
+GenericEntity : "{F29A05EBA7063E7C}Prefabs/Props/Military/Sandbags/Sandbag_01_wall_solid_plastic.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+   Enabled 0
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+ coords 0 0 0
+}
