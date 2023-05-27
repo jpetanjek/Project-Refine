@@ -27,6 +27,17 @@ GenericEntity {
     angleY 180
    }
   }
+  $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+   {
+    ID "5D76AA83C2024804"
+    coords 0 0 -1.5
+    angleY -180
+   }
+   {
+    ID "5D76AA83C2024820"
+    coords 0 0 1.5
+   }
+  }
   $grp GenericEntity : "{9C9C4BED9E19C374}Prefabs/Props/Military/Sandbags/Sandbag_01_wall_solid_burlap.et" {
    {
     ID "5D71389BA9C25C5F"
