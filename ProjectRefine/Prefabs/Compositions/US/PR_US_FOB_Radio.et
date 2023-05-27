@@ -38,11 +38,13 @@ GenericEntity {
      ParentContextList {
       "SupplyPoint"
      }
+     "Sort Priority" 1
     }
     PR_UnloadSuppliesUserAction "{5D75282E7D77B2D1}" {
      ParentContextList {
       "SupplyPoint"
      }
+     "Sort Priority" 2
     }
    }
   }
@@ -55,6 +57,8 @@ GenericEntity {
   GenericEntity : "{0133284E3BDEAEC4}Prefabs/Props/Civilian/Ashtray_01_Full_yellow.et" {
    ID "5D75282E57AC03FC"
    components {
+    Hierarchy "{5D767E80F7FA025C}" {
+    }
    }
    coords 0.416 0.9 0.282
    angleY 36.221
