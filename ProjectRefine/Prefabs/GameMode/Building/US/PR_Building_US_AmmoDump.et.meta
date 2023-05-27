@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{4DC8CD735E15D8C8}Prefabs/Compositions/USSR/PR_USSR_FOB_Radio2.et"
+ Name "{4B8B3895A2497191}Prefabs/GameMode/Building/US/PR_Building_US_AmmoDump.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

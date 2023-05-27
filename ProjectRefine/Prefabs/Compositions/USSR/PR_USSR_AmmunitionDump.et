@@ -1,8 +1,16 @@
 GenericEntity {
  ID "5D712CB7A8FB8254"
+ components {
+  Hierarchy "{5D767E81105A0E46}" {
+  }
+ }
  {
   GenericEntity : "{5E6CBF60621C39CD}Prefabs/Systems/Arsenal/AmmoBoxes/USSR/AmmoBoxArsenal_Ammunition_USSR.et" {
    ID "5D712CB7A8FB8247"
+   components {
+    Hierarchy "{5D767E8115377CDB}" {
+    }
+   }
    coords 1.153 0.729 -0.014
    angleX -5.333
    angleY 98.148
@@ -12,16 +20,28 @@ GenericEntity {
   }
   GenericEntity : "{76153B97A551AADE}Prefabs/Systems/Arsenal/AmmoBoxes/USSR/AmmoBoxArsenal_Explosives_USSR.et" {
    ID "5D712CB7A8FB824B"
+   components {
+    Hierarchy "{5D767E82EDCA74B5}" {
+    }
+   }
    coords -0.79 0.704 -0.122
    angleY 5.405
   }
   GenericEntity : "{7C93700E1AC4C387}Prefabs/Systems/Arsenal/AmmoBoxes/USSR/AmmoBoxArsenal_Medical_USSR.et" {
    ID "5D712CB7A8FB824F"
+   components {
+    Hierarchy "{5D767E82E3DBA23C}" {
+    }
+   }
    coords -0.643 0 0.828
    angleY -10.748
   }
   GenericEntity : "{7C93700E1AC4C388}Prefabs/Systems/Arsenal/AmmoBoxes/USSR/AmmoBoxArsenal_Launcher_USSR.et" {
    ID "5D712CB7A8FB824D"
+   components {
+    Hierarchy "{5D767E82E199A5DA}" {
+    }
+   }
    coords 0.405 0 0.596
   }
  }
