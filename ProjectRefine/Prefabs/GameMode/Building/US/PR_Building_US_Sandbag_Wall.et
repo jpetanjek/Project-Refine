@@ -1,0 +1,5 @@
+PR_BuildingManager : "{B58AD4A5301C2482}Prefabs/GameMode/Building/PR_BaseBuildingManager.et" {
+ ID "5D4D08349FC16379"
+ coords 0 0 0
+ m_sFinalPrefab "{64C6437996567DF0}Prefabs/Compositions/US/PR_US_Sandbag_Wall.et"
+}

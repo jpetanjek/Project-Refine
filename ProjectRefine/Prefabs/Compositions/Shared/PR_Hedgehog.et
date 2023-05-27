@@ -1,0 +1,12 @@
+StaticModelEntity : "{A46D45922F8CAD6C}Prefabs/Props/Military/Fortification/CzechHedgehog_01_painted.et" {
+ ID "51E2F0F0E96F07CE"
+ components {
+  SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+   Enabled 0
+  }
+  RplComponent "{58A2A8A1B4E2F634}" {
+   Enabled 1
+  }
+ }
+ coords 0 0 0
+}

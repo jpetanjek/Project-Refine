@@ -1,0 +1,68 @@
+GenericEntity : "{9D720679B696FEE1}Prefabs/Compositions/Slotted/SlotFlatSmall/MachineGunNest_S_US_01_M2HB.et" {
+ ID "52F07DE9010CEE6C"
+ components {
+  SCR_AISmartActionSentinelComponent "{58B11624693C78D9}" {
+   Enabled 0
+  }
+  SCR_AISmartActionSentinelComponent "{58B116246AC6D59C}" {
+   Enabled 0
+  }
+  SCR_AISmartActionSentinelComponent "{58B116246FF778D4}" {
+   Enabled 0
+  }
+  SCR_CampaignBuildingCompositionComponent "{5A0ACCC02E8DE91D}" {
+   Enabled 0
+  }
+ }
+ coords 0 0 0
+ {
+  GenericEntity {
+   ID "568EC21CC32A7C02"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "568EC21CC32A7C18"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "568EC21CC32A7C6D"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  SCR_DestructibleEntity {
+   ID "568EC21CC32A7C85"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA379BE4D542}" {
+     Enabled 0
+    }
+   }
+  }
+  SCR_DestructibleEntity {
+   ID "568EC21CC32A7C9E"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA379BE4D542}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "568ED76E6BD18A85"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+ }
+}

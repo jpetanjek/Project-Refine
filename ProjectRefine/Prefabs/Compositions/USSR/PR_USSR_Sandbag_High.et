@@ -1,0 +1,12 @@
+GenericEntity : "{BE16EE8FAA315FE2}Prefabs/Props/Military/Sandbags/Sandbag_01_long_high_burlap.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+   Enabled 0
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+ coords 0 0 0
+}

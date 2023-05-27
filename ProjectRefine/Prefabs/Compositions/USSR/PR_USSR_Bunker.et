@@ -1,0 +1,188 @@
+GenericEntity : "{7492BAA88AFCEDCD}Prefabs/Compositions/Slotted/SlotFlatSmall/Bunker_S_USSR_01.et" {
+ ID "5282DCB5DFC8538F"
+ components {
+  SCR_AISmartActionSentinelComponent "{58B0F722F8072074}" {
+   Enabled 0
+  }
+  SCR_AISmartActionSentinelComponent "{58B0F722FA496169}" {
+   Enabled 0
+  }
+  SCR_AISmartActionSentinelComponent "{58B0F722FDBE0AB1}" {
+   Enabled 0
+  }
+  SCR_CampaignBuildingCompositionComponent "{5A0ACCC02E8DE91D}" {
+   Enabled 0
+  }
+ }
+ coords 0 0 0
+ {
+  GenericEntity {
+   ID "5614AB53A8343115"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB53A8343131"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB53A83431CE"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB53A83431DF"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB5A1F1D0206"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB5A1F1D0208"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB5A1F1D0211"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB5A1F1D022D"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB5A1F1D023C"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB5A1F1D026A"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB5A75215837"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "5614AB5A752158D4"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "570481C01EBA3710"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "570481C01EBA372C"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "570481C01EBA377F"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "5614AB5BDA5FF711"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "5614AB5BDA5FF7A1"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "5614AB5BDA5FF7C1"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "5614AB5BDA5FF7D0"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "570481CFD8C9585E"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "570481CFD8C95982"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+ }
+}

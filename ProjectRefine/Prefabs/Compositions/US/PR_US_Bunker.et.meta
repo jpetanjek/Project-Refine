@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{D8C2B938DA3FCBF7}Prefabs/Compositions/US/PR_US_Bunker.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

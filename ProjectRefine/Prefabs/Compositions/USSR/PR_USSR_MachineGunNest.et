@@ -1,0 +1,68 @@
+GenericEntity : "{114DE81321786CD9}Prefabs/Compositions/Slotted/SlotFlatSmall/MachineGunNest_S_USSR_01_PKM.et" {
+ ID "560C7347712A1E2A"
+ components {
+  SCR_AISmartActionSentinelComponent "{58B11624C9FFB8E5}" {
+   Enabled 0
+  }
+  SCR_AISmartActionSentinelComponent "{58B11624CB648F63}" {
+   Enabled 0
+  }
+  SCR_AISmartActionSentinelComponent "{58B11624D50FCA07}" {
+   Enabled 0
+  }
+  SCR_CampaignBuildingCompositionComponent "{5A0ACCC02E8DE91D}" {
+   Enabled 0
+  }
+ }
+ coords 0 0 0
+ {
+  GenericEntity {
+   ID "569CB0E652699BA3"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "569CB0E652699BAF"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  GenericEntity {
+   ID "569CF1F59F6C37A1"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5AAAEA3763C2784B}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "569CF1F59F6C349D"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "569CF1F59F6C34E8"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+  StaticModelEntity {
+   ID "569CF1F59F6C34F5"
+   components {
+    SCR_CampaignBuildingCompositionComponent "{5A6AD096884A44CB}" {
+     Enabled 0
+    }
+   }
+  }
+ }
+}

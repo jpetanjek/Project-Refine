@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{08B6A8CCAB2CFCD9}Prefabs/GameMode/Building/USSR/PR_USSR_Building_Sandbag_High.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
