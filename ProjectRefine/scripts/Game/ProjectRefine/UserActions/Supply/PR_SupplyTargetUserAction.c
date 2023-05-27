@@ -89,7 +89,15 @@ class PR_SupplyTargetUserAction : ScriptedUserAction
 		{			
 			case SCR_CampaignSuppliesInteractionFeedback.EMPTY:
 			{
-				SetCannotPerformReason("NO SUPPLY HOLDERS CLOSE ENOUGH");
+				string outName;
+				outName += "NO SUPPLY HOLDERS CLOSE ENOUGH ";
+				outName += " (";
+				outName +=  m_SupplyHolder.m_iSupply.ToString();
+				outName += "/";
+				outName +=  m_SupplyHolder.m_iMaxSupplies.ToString();
+				outName += ")";
+				
+				SetCannotPerformReason(outName);
 				break;
 			}
 		}
