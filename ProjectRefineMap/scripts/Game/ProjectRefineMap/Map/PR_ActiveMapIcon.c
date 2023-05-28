@@ -106,15 +106,7 @@ class PR_ActiveMapIcon : SCR_Position
 		if(m_Style == null)
 			return;
 
-		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		if(respawnSystem == null)
-			return;
-		
-		SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(SCR_PlayerController.GetLocalPlayerId());
-		if (!playerRespawnInfo)
-			return;
-		
-		if (PR_ActiveMapIconManagerComponent.GetInstance().CanStream(playerRespawnInfo, this))
+		if (PR_ActiveMapIconManagerComponent.GetInstance().CanStream(SCR_PlayerController.GetLocalPlayerId(), this))
 		{
 			m_Style.SetVisibility(true, m_MapDescriptor);
 		}
