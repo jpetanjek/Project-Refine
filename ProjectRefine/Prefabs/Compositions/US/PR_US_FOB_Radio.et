@@ -6,6 +6,9 @@ GenericEntity {
   }
   Hierarchy "{5D5094147FEE3891}" {
   }
+  PR_ActiveMapIconInformerComponent "{5D78BBD8FEEBB607}" {
+   m_IconPrefab "{B0019B26032389D0}Prefabs/Map/PR_ActiveMapIconFob.et"
+  }
   PR_BuildableFobEventHandlerComponent "{5D75544850B3C107}" {
   }
   PR_BuildingProviderFromSupplyHolderComponent "{5D7554485B8F8E39}" {

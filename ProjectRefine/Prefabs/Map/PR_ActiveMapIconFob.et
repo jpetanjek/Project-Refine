@@ -1,0 +1,12 @@
+PR_ActiveMapIconFob {
+ ID "5D78BBD93E54802D"
+ components {
+  SCR_MapDescriptorComponent "{5D78BBD91B315B2F}" {
+  }
+  RplComponent "{5D78BBD9301E753F}" {
+  }
+ }
+ coords 2.279 3.294 3.122
+ m_Style PR_MapIconStyleFob "{5D78BBD8E20280CB}" {
+ }
+}

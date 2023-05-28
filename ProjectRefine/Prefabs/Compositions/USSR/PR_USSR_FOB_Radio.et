@@ -3,6 +3,9 @@ StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMil
  components {
   Hierarchy "{5D768420FA5D6840}" {
   }
+  PR_ActiveMapIconInformerComponent "{5D78BBD8CAB93945}" {
+   m_IconPrefab "{B0019B26032389D0}Prefabs/Map/PR_ActiveMapIconFob.et"
+  }
   PR_BuildableFobEventHandlerComponent "{5D768423F2E6B960}" {
   }
   PR_BuildingProviderFromSupplyHolderComponent "{5D768423F6C2EB7B}" {

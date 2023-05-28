@@ -14,6 +14,12 @@ class PR_BuildableFobEventHandlerComponent : PR_BuildableEventHandlerComponent
 		// Initialize the FOB
 		int ownerFactionId = buildingManager.GetOwnerFactionId();
 		fobComponent.Init(ownerFactionId);
+		
+		// Initialize the map icon
+		PR_ActiveMapIconInformerComponent iconInformer = PR_ActiveMapIconInformerComponent.Cast(GetOwner().FindComponent(PR_ActiveMapIconInformerComponent));
+		if (iconInformer)
+			iconInformer.OnTargetFactionChanged();
+			
 	}
 	
 	// Here we can also enable/disable FOB from BuildingManager events
