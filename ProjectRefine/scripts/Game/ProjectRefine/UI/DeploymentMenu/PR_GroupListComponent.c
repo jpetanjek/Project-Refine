@@ -47,7 +47,10 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 		if (groups)
 		{
 			foreach (SCR_AIGroup group : groups)
-				CreateGroupEntry(group);
+			{
+				if (group.GetFaction() == myFaction)
+					CreateGroupEntry(group);
+			}
 		}
 	}
 	
@@ -137,7 +140,9 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 	
 	void Event_OnPlayableGroupCreated(SCR_AIGroup group)
 	{
-		if (group)
+		Faction myFaction = SCR_RespawnSystemComponent.GetLocalPlayerFaction();
+		
+		if (group && group.GetFaction() == myFaction)
 		{
 			//for (int i = 0; i < 20; i++)
 			CreateGroupEntry(group);
