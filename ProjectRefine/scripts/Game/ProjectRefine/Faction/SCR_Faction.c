@@ -6,6 +6,9 @@ modded class SCR_Faction
 	[Attribute(desc: "List of PR roles related to this faction.")]
 	protected ref PR_RoleList m_aRoleList;
 	
+	[Attribute(desc: "List of PR building assets related to this faction.")]
+	protected ref PR_BuildingEntryCategory m_aBuildingList;
+	
 	//------------------------------------------------------------------------------------------------
 	/*!
 	Get the asset list assigned to this faction
@@ -24,6 +27,16 @@ modded class SCR_Faction
 	PR_RoleList GetRoleList()
 	{
 		return m_aRoleList;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	/*!
+	Get the role list assigned to this faction
+	\return PR_RoleList
+	*/
+	PR_BuildingEntryCategory GetBuildingList()
+	{
+		return m_aBuildingList;
 	}
 	
 	//------------------------------------------------------------------------------------------------
