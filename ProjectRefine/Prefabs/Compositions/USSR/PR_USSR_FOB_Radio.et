@@ -16,6 +16,8 @@ StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMil
    m_iMaxSupplies 10000
    m_fRange 50
   }
+  SCR_FactionAffiliationComponent "{5D7B26095ED743F7}" {
+  }
   ActionsManagerComponent "{5D768423CF3E0C88}" {
    ActionContexts {
     UserActionContext "{5D768423CDFFCF22}" {

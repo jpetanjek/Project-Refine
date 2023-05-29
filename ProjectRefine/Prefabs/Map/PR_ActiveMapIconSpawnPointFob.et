@@ -1,0 +1,12 @@
+PR_ActiveMapIconSpawnPoint {
+ ID "5D7B26038082C41D"
+ components {
+  SCR_MapDescriptorComponent "{5D7B2603935BBB17}" {
+  }
+  RplComponent "{5D7B2603BAF80A31}" {
+  }
+ }
+ coords 2.399 3.85 3.163
+ m_Style PR_MapIconStyleSpawnPointFob "{5D7B2603100B60B6}" {
+ }
+}

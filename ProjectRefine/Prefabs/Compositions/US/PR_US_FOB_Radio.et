@@ -21,6 +21,8 @@ GenericEntity {
   }
   RigidBody "{5D7554489E8C9874}" {
   }
+  SCR_FactionAffiliationComponent "{5D7B2609468A8390}" {
+  }
   ActionsManagerComponent "{5D75282E8AA155E4}" {
    ActionContexts {
     UserActionContext "{5D755448D6B8C86B}" {

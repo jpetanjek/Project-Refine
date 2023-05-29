@@ -3,6 +3,16 @@ GenericEntity {
  components {
   Hierarchy "{5D50A7D7F038424E}" {
   }
+  PR_ActiveMapIconInformerComponent "{5D7B26037AFBDDD0}" {
+   m_IconPrefab "{0D019B2B27FAE10C}Prefabs/Map/PR_ActiveMapIconSpawnPointFob.et"
+  }
+  PR_BuildableSpawnPointFobEventHandlerComponent "{5D7B260CE54DA28F}" {
+  }
+  PR_SpawnPointFob "{5D7B260C9E779352}" {
+   m_fEnemyOccupationRadius 15
+  }
+  SCR_FactionAffiliationComponent "{5D7B260C916ECC08}" {
+  }
   RplComponent "{5D4D083945FFE5B7}" {
   }
  }

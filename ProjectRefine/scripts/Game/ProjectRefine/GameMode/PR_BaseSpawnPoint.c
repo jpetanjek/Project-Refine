@@ -141,12 +141,6 @@ class PR_BaseSpawnPoint : ScriptComponent
 		return a;
 	}
 	
-	// Returns owner faction
-	Faction GetFaction()
-	{
-		return GetGame().GetFactionManager().GetFactionByIndex(GetOwnerFactionId());
-	}
-	
 	//-------------------------------------------------------------------------------------------
 	PR_ESpawnPointStateFlags GetStateFlags()
 	{
@@ -358,7 +352,7 @@ class PR_BaseSpawnPoint : ScriptComponent
 	{
 		PR_ESpawnPointStateFlags oldFlags = m_eStateFlags;
 		
-		Faction thisFaction = GetFaction();
+		Faction thisFaction = GetGame().GetFactionManager().GetFactionByIndex(GetOwnerFactionId());
 		vector thisPos = GetOwner().GetOrigin();
 		int nEnemiesInRadius = 0;
 		
@@ -394,7 +388,6 @@ class PR_BaseSpawnPoint : ScriptComponent
 	}
 	
 	// Returns world space coordinate of a random spawn position
-	// TODO: Too capture point specific
 	vector GetRandomSpawnPosition()
 	{
 		if (m_aSpawnPositions.IsEmpty())
@@ -403,16 +396,6 @@ class PR_BaseSpawnPoint : ScriptComponent
 		int id = Math.RandomInt(0, m_aSpawnPositions.Count());
 		return m_aSpawnPositions[id].GetOrigin();
 	}
-	
-	//-------------------------------------------------------------------------------------------------------------------------------
-	// UI Logic
-	/*
-	// We don't use it?
-	bool IsAvailable2()
-	{
-		return IsRespawnAllowed() && CanPlayerEnqueue(SCR_PlayerController.GetLocalPlayerId());
-	}
-	*/
 
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Debug

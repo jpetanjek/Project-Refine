@@ -1,9 +1,9 @@
-class PR_ActiveMapIconFobClass : PR_ActiveMapIconClass
+class PR_ActiveMapIconSpawnPointClass : PR_ActiveMapIconClass
 {
 }
 
-class PR_ActiveMapIconFob : PR_ActiveMapIcon
-{
+class PR_ActiveMapIconSpawnPoint : PR_ActiveMapIcon
+{	
 	override protected void UpdatePosAndDirPropFromTarget()
 	{
 		// Same as base class, but we don't copy direction

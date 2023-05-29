@@ -13,11 +13,8 @@ class PR_FobComponent : ScriptComponent
 {
 	protected static ref array<PR_FobComponent> s_aAll = {};
 	
-	
-	[RplProp()]
-	protected int m_iOwnerFaction = -1;
-	
 	protected PR_SupplyHolderComponent m_SupplyHolder;
+	protected SCR_FactionAffiliationComponent m_FactionComp;
 	
 	// Array of all things built here
 	protected ref array<PR_BuildingManager> m_aBuildingManagers = {};
@@ -25,7 +22,8 @@ class PR_FobComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void Init(int ownerFactionId)
 	{
-		m_iOwnerFaction = ownerFactionId;
+		SetOwnerFaction(ownerFactionId);
+		
 		Replication.BumpMe();
 	}
 	
@@ -48,9 +46,13 @@ class PR_FobComponent : ScriptComponent
 		if (doubleRange)
 			rangeMult = 2.0;
 		
+		Faction faction = GetGame().GetFactionManager().GetFactionByIndex(ownerFactionId);
+		if (!faction)
+			return null;
+		
 		foreach (PR_FobComponent fob : s_aAll)
 		{
-			if (fob.m_iOwnerFaction != ownerFactionId)
+			if (fob.m_FactionComp.GetAffiliatedFaction() != faction)
 				continue;
 			
 			if (vector.DistanceXZ(fob.GetOwner().GetOrigin(), posWorld) < rangeMult * fob.GetRange())
@@ -76,24 +78,42 @@ class PR_FobComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	protected void SetOwnerFaction(int factionId)
+	{
+		Faction faction = GetGame().GetFactionManager().GetFactionByIndex(factionId);
+		m_FactionComp.SetAffiliatedFaction(faction);
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	int GetOwnerFactionId()
 	{
-		return m_iOwnerFaction;
+		return GetGame().GetFactionManager().GetFactionIndex(m_FactionComp.GetAffiliatedFaction());
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	Faction GetOwnerFaction()
+	{
+		return m_FactionComp.GetAffiliatedFaction();
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	override void OnPostInit(IEntity owner)
 	{
 		SetEventMask(owner, EntityEvent.INIT);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	override void EOnInit(IEntity owner)
-	{
+		
+		m_FactionComp = SCR_FactionAffiliationComponent.Cast(owner.FindComponent(SCR_FactionAffiliationComponent));
+		if (!m_FactionComp)
+			Print("No SCR_FactionAffiliationComponent found on FOB!", LogLevel.ERROR);
+		
 		m_SupplyHolder = PR_SupplyHolderComponent.Cast(owner.FindComponent(PR_SupplyHolderComponent));
 		if (!m_SupplyHolder)
 			Print("No PR_SupplyHolderComponent found on FOB!", LogLevel.ERROR);
 	}
+
+	//------------------------------------------------------------------------------------------------
+	//override void EOnInit(IEntity owner)
+	//{
+	//}
 
 	//------------------------------------------------------------------------------------------------
 	void PR_FobComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
