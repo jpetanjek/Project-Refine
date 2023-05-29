@@ -224,10 +224,20 @@ modded class SCR_MapCursorModule
 			return;
 		
 		// Bail if we have a button under cursor
-		Widget widgetUnderCursor = WidgetManager.GetWidgetUnderCursor(); // It returns only buttons, or null
+		Widget widgetUnderCursor = WidgetManager.GetWidgetUnderCursor(); // Returns both buttons and non buttons and totally different things on game exe and workbench exe :/
 		if (widgetUnderCursor)
-			return;
-		
+		{
+			Widget w = widgetUnderCursor;
+			while(w)
+			{
+				if (ButtonWidget.Cast(w))
+				{
+					return;
+				}
+				w = w.GetParent();
+			}
+		}
+			
 		// Bail if already placing a marker
 		//if (m_bPlacingMarker)
 		//	return;
