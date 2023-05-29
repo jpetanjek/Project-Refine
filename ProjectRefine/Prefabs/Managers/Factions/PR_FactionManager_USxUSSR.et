@@ -8,8 +8,12 @@ PR_FactionManager {
  coords 9.097 88.368 517.883
  Factions {
   SCR_Faction "{56B2B46E999BF3BF}" : "{D836074236894E38}Configs/Factions/PR_US.conf" {
+   m_aBuildingList PR_BuildingEntryCategory "{5D7B2A63F1A719E5}" : "{EAF728C66BF30329}Configs/GameMode/PR_Building_US.conf" {
+   }
   }
   SCR_Faction "{56B2B46E9AF80999}" : "{8DFC6BFBD94DD4D9}Configs/Factions/PR_USSR.conf" {
+   m_aBuildingList PR_BuildingEntryCategory "{5D7B2A63CDA7A003}" : "{BA039E519531C5A2}Configs/GameMode/PR_Building_USSR.conf" {
+   }
   }
  }
 }
