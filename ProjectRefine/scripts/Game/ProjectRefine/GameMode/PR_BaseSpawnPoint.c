@@ -320,8 +320,7 @@ class PR_BaseSpawnPoint : ScriptComponent
 								{
 									GenericEntity spawnedEntity = SCR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
 									
-									SCR_PlayerController playerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerID));
-									playerController.SetPossessedEntity(spawnedEntity);
+									PR_PC_PossessionManagerComponent.GetPlayerInstance(playerID).PossessMainEntity(spawnedEntity);
 																	
 									// TODO: Decrement cost of spawn from supplies
 									
