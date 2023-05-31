@@ -4,6 +4,25 @@ class PR_ActiveMapIconFobClass : PR_ActiveMapIconClass
 
 class PR_ActiveMapIconFob : PR_ActiveMapIcon
 {
+	[RplProp(onRplName: "UpdateFromReplicatedState")]
+	protected int m_iSupplyCount;
+	
+	protected PR_SupplyHolderComponent m_SupplyHolder;
+	
+	override void Init(IEntity target, vector pos = vector.Zero, int factionId = -1, int groupId = -1)
+	{
+		super.Init(target, pos, factionId, groupId);
+		
+		m_SupplyHolder = PR_SupplyHolderComponent.Cast(target.FindComponent(PR_SupplyHolderComponent));
+	}
+	
+	override protected void UpdatePropsFromTarget()
+	{
+		super.UpdatePropsFromTarget();
+		
+		m_iSupplyCount = m_SupplyHolder.GetSupply();
+	}
+	
 	override protected void UpdatePosAndDirPropFromTarget()
 	{
 		// Same as base class, but we don't copy direction
@@ -27,5 +46,8 @@ class PR_ActiveMapIconFob : PR_ActiveMapIcon
 		else
 			color = Color.White;
 		props.SetFrontColor(color);
+		
+		// Icon text
+		mapItem.SetDisplayName(string.Format("FOB (Supplies: %1)", m_iSupplyCount));
 	}
 }

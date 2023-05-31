@@ -176,6 +176,11 @@ class PR_SupplyHolderComponent : ScriptComponent
 		Replication.BumpMe();
 	}
 	
+	int GetSupply()
+	{
+		return m_iSupply;
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
