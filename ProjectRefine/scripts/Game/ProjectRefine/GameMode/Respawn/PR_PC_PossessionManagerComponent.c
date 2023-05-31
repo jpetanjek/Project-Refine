@@ -24,7 +24,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	
 	//------------------------------------------------------------------------------------------------
 	[RplProp(onRplName: "PossessionChanged")]
-	bool m_MainPossessed;
+	bool m_MainPossessed = false;
 	
 	// Client only
 	protected void PossessionChanged()
@@ -54,58 +54,72 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override void OnPostInit(IEntity owner)
 	{
-		if(Replication.IsServer())
-		{
-			SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
-		}
-		else
-		{
-			owner.SetEventMask(EntityEvent.INIT);
-		}
+		SetEventMask(owner, EntityEvent.INIT);
 	}
 	
 	protected override void EOnInit(IEntity owner)
 	{
 		m_playerController = SCR_PlayerController.Cast(owner);		
 		
-		SCR_PossessingManagerComponent possessingManager = SCR_PossessingManagerComponent.GetInstance();
-		if (possessingManager)
-				possessingManager.GetOnPossessed().Insert(OnPossessedServer);
+		if(Replication.IsClient())
+			m_playerController.m_OnControlledEntityChanged.Insert(OnControlledEntityChangedServer);
+		
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.GetInstance();
+		if(factionMemberManager)
+			factionMemberManager.GetOnPlayerChangedFaction().Insert(OnPlayerChangedFaction);	
 	}
 	
 	void ~PR_PC_PossessionManagerComponent()
 	{
-		SCR_PossessingManagerComponent possessingManager = SCR_PossessingManagerComponent.GetInstance();
-		if (possessingManager)
-				possessingManager.GetOnPossessed().Remove(OnPossessedServer);
+		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.GetInstance();
+		if(factionMemberManager)
+			factionMemberManager.GetOnPlayerChangedFaction().Remove(OnPlayerChangedFaction);	
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	override void EOnFrame(IEntity owner, float timeSlice)
-	{
-		// When player connects, and only then
-		PossessDummyEntity(SpawnDummy());
-		ClearEventMask(owner, EntityEvent.FRAME);
-	}
-	
-	GenericEntity SpawnDummy()
-	{
-		return SCR_RespawnSystemComponent.GetInstance().DoSpawn("{D864A7C6EF92C953}Prefabs/Characters/Factions/BLUFOR/US_Army/PR_Character_US_Base.et","0 0 0");
-	}
-	
-	protected void OnPossessedServer(int playerID, IEntity controlledEntity, IEntity mainEntity, bool isPossessing)
+	void OnPlayerChangedFaction(int playerID, int newFactionIdx)
 	{
 		if(m_playerController.GetPlayerId() != playerID)
 			return;
 		
-		if(!isPossessing)
+		if(newFactionIdx == -1 && m_DummyPossessionEntity)
+		{
+			RplComponent.DeleteRplEntity(m_DummyPossessionEntity, false);
+		}
+
+		if(newFactionIdx != -1 && !m_MainPossessed)
+		{
 			PossessDummyEntity(SpawnDummy());
+		}
+	}
+	
+	protected void OnControlledEntityChangedServer(IEntity from, IEntity to)
+	{
+		// Client only
+		if(!to)
+			Rpc(RpcCompletelyUnnecessaryRpc);
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RpcCompletelyUnnecessaryRpc()
+	{
+		PossessDummyEntity(SpawnDummy());
+	}
+	
+	GenericEntity SpawnDummy()
+	{
+		if(Replication.IsClient())
+			return null;
+		
+		return SCR_RespawnSystemComponent.GetInstance().DoSpawn("{D864A7C6EF92C953}Prefabs/Characters/Factions/BLUFOR/US_Army/PR_Character_US_Base.et","0 0 0");
 	}
 	
 	void PossessMainEntity(GenericEntity mainEntity)
 	{
 		if(Replication.IsClient() || !mainEntity)
 			return;
+		
+		Print("PossessMainEntity");
 		
 		m_MainPossessionEntity = mainEntity;
 		// Delete dummy
@@ -123,6 +137,8 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	{
 		if(Replication.IsClient() || !dummyEntity)
 			return;
+		
+		Print("PossessDummyEntity");
 		
 		m_DummyPossessionEntity = dummyEntity;
 		// Dereference only, we want it to stay so it can be looted, garbage manager will take care of deletion
