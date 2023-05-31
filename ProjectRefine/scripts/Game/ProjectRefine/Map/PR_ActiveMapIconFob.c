@@ -11,4 +11,21 @@ class PR_ActiveMapIconFob : PR_ActiveMapIcon
 		m_Target.GetWorldTransform(worldTransform);
 		m_vPosAndDir = Vector(worldTransform[3][0], 0, worldTransform[3][2]); // X, Dir, Z
 	}
+	
+	override protected void UpdateFromReplicatedState()
+	{
+		super.UpdateFromReplicatedState();
+		
+		MapItem mapItem = m_MapDescriptor.Item();
+		MapDescriptorProps props = mapItem.GetProps();
+		
+		// Icon color
+		Color color;
+		Faction faction = GetGame().GetFactionManager().GetFactionByIndex(m_iFactionId);
+		if (faction)
+			color = faction.GetFactionColor();
+		else
+			color = Color.White;
+		props.SetFrontColor(color);
+	}
 }

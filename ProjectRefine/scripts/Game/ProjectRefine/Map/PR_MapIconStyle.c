@@ -46,10 +46,10 @@ class PR_MapIconStyleFob : PR_MapIconStyleBase
 		
 		MapDescriptorProps props = mapItem.GetProps();
 		
-		mapItem.SetDisplayName("FOB Name Placeholder");
+		//mapItem.SetDisplayName("FOB Name Placeholder");
 		mapItem.SetBaseType(EMapDescriptorType.MDT_SMALLTREE);
 		//mapItem.SetGroupType(EMapDescriptorGroup.MDG_AGGREGATE);
-		mapItem.SetImageDef("circle_cross");
+		mapItem.SetImageDef("castle");
 		props.SetTextVisible(true);
 		props.SetIconVisible(true);
 		props.SetIconSize(1, 52.0/128.0, 52.0/128.0);
@@ -83,10 +83,10 @@ class PR_MapIconStyleSpawnPointFob : PR_MapIconStyleBase
 		
 		MapDescriptorProps props = mapItem.GetProps();
 		
-		mapItem.SetDisplayName("Spawn Point Name Placeholder");
+		//mapItem.SetDisplayName("Spawn Point Name Placeholder");
 		mapItem.SetBaseType(EMapDescriptorType.MDT_SMALLTREE);
 		//mapItem.SetGroupType(EMapDescriptorGroup.MDG_AGGREGATE);
-		mapItem.SetImageDef("circle");
+		mapItem.SetImageDef("barrack");
 		props.SetTextVisible(true);
 		props.SetIconVisible(true);
 		props.SetIconSize(1, 52.0/128.0, 52.0/128.0);
