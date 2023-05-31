@@ -3,6 +3,8 @@ SCR_PlayerController : "{225E51284CC95CFA}Prefabs/Characters/Core/DefaultPlayerC
  components {
   PR_PC_BuildingComponent "{5D4F51A58738602B}" {
   }
+  PR_PC_PossessionManagerComponent "{5D7D1D98531E8413}" {
+  }
   PR_PC_SupplyHolderInformerComponent "{5D33229BB4866990}" {
   }
   PR_PlayerControllerDeploymentComponent "{5D11466126162781}" {
