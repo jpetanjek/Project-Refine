@@ -162,10 +162,14 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	{
 		_print("PossessMainEntity()");
 		
-		// Delete dummy
-		DeleteDummyEntity();
+		// First possess the new entity, then delete the dummy entity
+		// !!! This must happen exactly in this order, otherwise on deletion of dummy entity
+		// Editor UI will open itself.
+		// This is triggered by GameMode.OnControllableDeleted and whatever is subscribed to it.
 		
 		m_PlayerController.SetPossessedEntity(mainEntity);
+		
+		DeleteDummyEntity();
 		
 		PR_EPossessionState state = GetState();
 		_print(string.Format("...new state: %1", typename.EnumToString(PR_EPossessionState, state)));
