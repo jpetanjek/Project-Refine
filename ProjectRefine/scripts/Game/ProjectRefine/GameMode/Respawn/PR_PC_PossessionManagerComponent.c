@@ -68,13 +68,23 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	{
 		IEntity controlledEntity = m_PlayerController.GetControlledEntity();
 		if (!controlledEntity)
+			controlledEntity = m_PlayerController.GetMainEntity();
+		
+		if (!controlledEntity)
 			return PR_EPossessionState.NONE;
 		
 		ResourceName prefabName = controlledEntity.GetPrefabData().GetPrefabName();
 		if (prefabName == DUMMY_CHARACTER_PREFAB)
 			return PR_EPossessionState.DUMMY;
 		else
-			return PR_EPossessionState.MAIN;
+		{
+			// Check damage mgr state, because even when possessed entity is killed, GetControlledEntity returns it.
+			DamageManagerComponent damageMgr = DamageManagerComponent.Cast(controlledEntity.FindComponent(DamageManagerComponent));
+			if (damageMgr.IsDestroyed())
+				return PR_EPossessionState.NONE;
+			else
+				return PR_EPossessionState.MAIN;
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -124,10 +134,17 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 			
 			PR_EPossessionState state = GetState();
 			
-			// Create dummy if we don't have it, possess it
 			if (state == PR_EPossessionState.NONE)
 			{
+				// Create dummy if we don't have it, possess it
 				PossessDummyEntity(SpawnDummyEntity());
+			}
+			else if (state == PR_EPossessionState.MAIN && m_DummyEntity)
+			{
+				// Clean up dummy if we are back at main character
+				// This is needed because when we switch to Editor UI, a dummy is created again,
+				// So when we switch back, we should clean it up
+				DeleteDummyEntity();
 			}
 			
 			// If we are in DUMMY or MAIN state, don't do anything
@@ -140,6 +157,10 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.GetInstance();
 		if(factionMemberManager)
 			factionMemberManager.GetOnPlayerChangedFaction().Remove(OnPlayerChangedFaction);	
+		
+		_print("~PR_PC_PossessionManagerComponent()");
+		if (m_DummyEntity)
+			DeleteDummyEntity();
 	}
 	
 	
@@ -192,7 +213,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		_print("SpawnDummyEntity()");
 		
 		
-		IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(DUMMY_CHARACTER_PREFAB,"0 0 0");
+		IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(DUMMY_CHARACTER_PREFAB, vector.Zero);
 		
 		// Verify that prefab name matches,
 		// If not then the whole logic fails and we will end up with entities being infinitely created
@@ -228,6 +249,10 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	
 	protected void _print(string str, LogLevel logLevel = LogLevel.NORMAL)
 	{
-		Print(string.Format("[PR_PC_PossessionManagerComponent ID: %1]: %2", m_PlayerController.GetID(), str), logLevel);
+		int id = -1;
+		if (m_PlayerController)
+			id = m_PlayerController.GetPlayerId();
+		
+		Print(string.Format("[PR_PC_PossessionManagerComponent ID: %1]: %2", id, str), logLevel);
 	}
 }

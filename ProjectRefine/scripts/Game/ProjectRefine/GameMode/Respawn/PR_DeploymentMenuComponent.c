@@ -49,7 +49,7 @@ class PR_DeploymentMenuComponent : PR_BaseGameModeComponent
 		SCR_EditorManagerEntity editorManager = core.GetEditorManager(m_pc.GetPlayerId());
 		
 		// If editor is opened, it overrides our menus
-		if (editorManager && editorManager.IsOpened())
+		if (editorManager && (editorManager.IsOpened() || editorManager.IsInTransition()))
 		{
 			m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu);
 			m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
