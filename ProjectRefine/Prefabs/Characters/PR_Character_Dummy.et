@@ -1,0 +1,11 @@
+SCR_ChimeraCharacter : "{D864A7C6EF92C953}Prefabs/Characters/Factions/BLUFOR/US_Army/PR_Character_US_Base.et" {
+ ID "520EC961A090BBD5"
+ components {
+  PR_ActiveMapIconInformerComponent "{5AE310ECF3FFA091}" {
+   Enabled 0
+  }
+  SCR_CharacterDamageManagerComponent "{55872AD7B4E959F2}" {
+   EnableDamage 0
+  }
+ }
+}
