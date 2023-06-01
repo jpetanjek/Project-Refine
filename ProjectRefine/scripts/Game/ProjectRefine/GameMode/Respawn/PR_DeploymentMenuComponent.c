@@ -39,7 +39,7 @@ class PR_DeploymentMenuComponent : PR_BaseGameModeComponent
 			return;
 		
 		// First frame only, further with events
-		// We go trough logic because we assume we can reconnect and have already assigned faction etc.
+		// We go through logic because we assume we can reconnect and have already assigned faction etc.
 		MenuLogic();
 	}
 	
@@ -57,9 +57,11 @@ class PR_DeploymentMenuComponent : PR_BaseGameModeComponent
 		{
 			m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
 			
-			if(m_pc.GetControlledEntity()) Print("HasControlled 1"); else Print("HasControlled 0");
+			//if(m_pc.GetControlledEntity()) Print("HasControlled 1"); else Print("HasControlled 0");
 			
-			if (!m_PossessionManager.m_MainPossessed)
+			PR_EPossessionState possessionState = m_PossessionManager.GetState();
+			
+			if (possessionState != PR_EPossessionState.MAIN)
 			{
 				// We are not spawned
 				if (!m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu))
@@ -68,8 +70,8 @@ class PR_DeploymentMenuComponent : PR_BaseGameModeComponent
 			else
 			{
 				m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu);
-				if(m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu))
-					Print("Still open!");
+				//if(m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu))
+				//	Print("Still open!");
 			}
 		}
 	}

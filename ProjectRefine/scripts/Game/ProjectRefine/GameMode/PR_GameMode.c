@@ -243,6 +243,7 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
+	protected float m_timer0 = 0;
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
 		super.EOnFrame(owner, timeSlice);
@@ -258,6 +259,29 @@ class PR_GameMode : SCR_BaseGameMode
 				m_fGameModeUpdateTimer -= GAME_MODE_UPDATE_INTERVAL_S;
 			}
 		}
+		
+		/*
+		// testing
+		m_timer0 += timeSlice;
+		if (m_timer0 > 1.0)
+		{
+			Print("Player controllers:");
+			array<int> playerIds = {};
+			GetGame().GetPlayerManager().GetPlayers(playerIds);
+			foreach (int id : playerIds)
+			{
+				PlayerController pc = GetGame().GetPlayerManager().GetPlayerController(id);
+				if (!pc)
+					continue;
+				
+				IEntity controlledEntity = pc.GetControlledEntity();
+				
+				Print(string.Format("Player ID: %1, entity: %2", id, controlledEntity));
+			}
+			Print("----");
+			
+			m_timer0 = 0;
+		}*/
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
