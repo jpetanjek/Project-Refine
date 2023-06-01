@@ -45,33 +45,45 @@ class PR_DeploymentMenuComponent : PR_BaseGameModeComponent
 	
 	void MenuLogic()
 	{
-		if (!m_RespawnSystem.GetLocalPlayerFaction())
+		SCR_EditorManagerCore core = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
+		SCR_EditorManagerEntity editorManager = core.GetEditorManager(m_pc.GetPlayerId());
+		
+		// If editor is opened, it overrides our menus
+		if (editorManager && editorManager.IsOpened())
 		{
-			// Edge case of no faction assigned, but has character?
-			
-			// We don't have faction
-			if(!m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu))
-				m_MenuMgr.OpenMenu(ChimeraMenuPreset.RefineFactionSelectionMenu);
+			m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu);
+			m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
 		}
 		else
 		{
-			m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
-			
-			//if(m_pc.GetControlledEntity()) Print("HasControlled 1"); else Print("HasControlled 0");
-			
-			PR_EPossessionState possessionState = m_PossessionManager.GetState();
-			
-			if (possessionState != PR_EPossessionState.MAIN)
+			if (!m_RespawnSystem.GetLocalPlayerFaction())
 			{
-				// We are not spawned
-				if (!m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu))
-					m_MenuMgr.OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
+				// Edge case of no faction assigned, but has character?
+				
+				// We don't have faction
+				if(!m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu))
+					m_MenuMgr.OpenMenu(ChimeraMenuPreset.RefineFactionSelectionMenu);
 			}
 			else
 			{
-				m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu);
-				//if(m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu))
-				//	Print("Still open!");
+				m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
+				
+				//if(m_pc.GetControlledEntity()) Print("HasControlled 1"); else Print("HasControlled 0");
+				
+				PR_EPossessionState possessionState = m_PossessionManager.GetState();
+				
+				if (possessionState != PR_EPossessionState.MAIN)
+				{
+					// We are not spawned
+					if (!m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu))
+						m_MenuMgr.OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
+				}
+				else
+				{
+					m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu);
+					//if(m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu))
+					//	Print("Still open!");
+				}
 			}
 		}
 	}
