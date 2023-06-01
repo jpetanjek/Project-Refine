@@ -82,12 +82,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	{
 		m_PlayerController = SCR_PlayerController.Cast(owner);	
 		
-		int mask = EntityEvent.INIT;
-		
-		if (Replication.IsServer())
-			mask |= EntityEvent.FRAME;
-		
-		SetEventMask(owner, mask);	
+		SetEventMask(owner, EntityEvent.INIT);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -99,7 +94,9 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	protected override void EOnFrame(IEntity owner, float timeSlice)
+	// Called by PR_GM_PossessingManagerComponent
+	// Sadly EOnFrame doesn't work on server for player-owned player controllers :( thus we update it from elsewhere
+	void EOnFrameServer(IEntity owner, float timeSlice)
 	{
 		if (m_bFactionChanged)
 		{
@@ -147,7 +144,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	
 	
 	//------------------------------------------------------------------------------------------------
-	void OnPlayerChangedFaction(int playerID, int newFactionIdx)
+	protected void OnPlayerChangedFaction(int playerID, int newFactionIdx)
 	{
 		if(m_PlayerController.GetPlayerId() != playerID)
 			return;
@@ -181,7 +178,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	// Dummy Entity
 	
 	//------------------------------------------------------------------------------------------------
-	void PossessDummyEntity(notnull IEntity dummyEntity)
+	protected void PossessDummyEntity(notnull IEntity dummyEntity)
 	{
 		_print("PossessDummyEntity()");
 		
@@ -190,7 +187,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		m_PlayerController.SetPossessedEntity(dummyEntity);
 	}
 	
-	IEntity SpawnDummyEntity()
+	protected IEntity SpawnDummyEntity()
 	{
 		_print("SpawnDummyEntity()");
 		
@@ -210,7 +207,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		return ent;
 	}
 	
-	void DeleteDummyEntity()
+	protected void DeleteDummyEntity()
 	{
 		_print("DeleteDummyEntity()");
 		

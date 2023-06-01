@@ -5,6 +5,8 @@ PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
   }
   PR_FactionMemberManager "{5D0F05823D57BFB5}" {
   }
+  PR_GM_PossessingManagerComponent "{5D82B438D0F7F83B}" {
+  }
   PR_NotificationsGameModeComponent "{5C6D3C8E31A7307F}" {
   }
   PR_SupplyHolderManger "{5D4299A11D62EF88}" {
