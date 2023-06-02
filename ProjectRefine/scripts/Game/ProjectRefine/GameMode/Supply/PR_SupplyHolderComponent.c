@@ -245,14 +245,14 @@ class PR_SupplyHolderComponent : ScriptComponent
 				if(DiagMenu.GetBool(SCR_DebugMenuID.REFINE_TAKE_SUPPLY))
 				{
 					Print("TAKE SUPPLY");
-					PR_PC_SupplyHolderInformerComponent.GetLocalPlayerControllerSupplyHolderInformerComponent().RequestSupplyAction(m_RplComponent.Id(), target, amount, true);
+					PR_PC_SupplyHolderInformerComponent.GetLocalPlayerControllerSupplyHolderInformerComponent().RequestSupplyAction(m_RplComponent.Id(), target, true);
 					DiagMenu.SetValue(SCR_DebugMenuID.REFINE_TAKE_SUPPLY, false);
 				}
 				
 				if(DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GIVE_SUPPLY))
 				{
 					Print("GIVE SUPPLY");
-					PR_PC_SupplyHolderInformerComponent.GetLocalPlayerControllerSupplyHolderInformerComponent().RequestSupplyAction(m_RplComponent.Id(), target, amount, false);
+					PR_PC_SupplyHolderInformerComponent.GetLocalPlayerControllerSupplyHolderInformerComponent().RequestSupplyAction(m_RplComponent.Id(), target, false);
 					DiagMenu.SetValue(SCR_DebugMenuID.REFINE_GIVE_SUPPLY, false);
 				}
 			}
