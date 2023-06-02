@@ -137,10 +137,17 @@ class PR_SupplyHolderComponent : ScriptComponent
 		if((taker.m_iSupply + amount) > taker.m_iMaxSupplies)
 			amount = taker.m_iMaxSupplies - taker.m_iSupply;
 		
+		Print("amount " + amount);
+		Print("This supply " + m_iSupply);
+		Print("Taker supply " + taker.m_iSupply + " Taker supply " + taker.m_iMaxSupplies);
+		
 		if(m_iSupply >= amount && (taker.m_iSupply + amount) <= taker.m_iMaxSupplies)
 		{
 			SetSupply(m_iSupply - amount);
 			taker.SetSupply(taker.m_iSupply + amount);
+			
+			Print("This after supply " + m_iSupply);
+			Print("Taker after supply " + taker.m_iSupply);
 			
 			Replication.BumpMe();
 			
@@ -165,10 +172,17 @@ class PR_SupplyHolderComponent : ScriptComponent
 		if((m_iSupply + amount) > m_iMaxSupplies)
 			amount = m_iMaxSupplies - m_iSupply;
 		
+		Print("amount " + amount);
+		Print("Giver supply " + giver.m_iSupply);
+		Print("This supply " + m_iSupply + " This max supply " + m_iMaxSupplies);
+		
 		if(giver.m_iSupply >= amount && (m_iSupply + amount) <= m_iMaxSupplies)
 		{
 			giver.SetSupply(giver.m_iSupply - amount);	
 			SetSupply(m_iSupply + amount);
+			
+			Print("This after supply " + m_iSupply);
+			Print("Giver after supply " + giver.m_iSupply);
 						
 			return true;
 		}

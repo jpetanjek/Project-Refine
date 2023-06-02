@@ -32,6 +32,8 @@ PR_BuildingManager {
      UIInfo UIInfo "{5D4EA80C137E14C1}" {
      }
      VisibilityRange 5
+     Duration 30
+     PerformPerFrame 1
     }
     PR_UnbuildUserAction "{5D4F1464438A0FA8}" {
      ParentContextList {
@@ -40,6 +42,8 @@ PR_BuildingManager {
      UIInfo UIInfo "{5D4F146445221CBE}" {
      }
      VisibilityRange 5
+     Duration 30
+     PerformPerFrame 1
      "Sort Priority" 1
     }
    }

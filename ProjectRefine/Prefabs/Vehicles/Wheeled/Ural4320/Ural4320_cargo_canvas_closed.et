@@ -1,7 +1,7 @@
-GenericEntity : "{5F533EBE61514610}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320_cargo_canvas.et" {
+GenericEntity : "{5F533EBE61514610}Prefabs/Vehicles/Wheeled/Ural4320/VehParts/Ural4320_cargo_canvas.et" {
  ID "4B42E71698F5739C"
  components {
-  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D3F85A6175}" : "{2FD10E574D43D979}Prefabs/Vehicles/PR_BuildingProviderVehicle.ct" {
+  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D3F85A6175}" : "{2FD10E574D43D979}Prefabs/Building/PR_BuildingProviderVehicle.ct" {
   }
   PR_SupplyHolderComponent "{5D431BD041A0E005}" {
    m_iMaxSupplies 3000
@@ -25,7 +25,8 @@ GenericEntity : "{5F533EBE61514610}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320_ca
      }
      UIInfo UIInfo "{5D431BD68F1AC0B8}" {
      }
-     Duration 0
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 2
     }
     PR_UnloadSuppliesUserAction "{5D431BD6B0B2A8FD}" {
@@ -34,7 +35,8 @@ GenericEntity : "{5F533EBE61514610}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320_ca
      }
      UIInfo UIInfo "{5D431BD6817AFCE6}" {
      }
-     Duration 0
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 3
     }
    }

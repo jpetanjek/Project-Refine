@@ -1,7 +1,7 @@
 Vehicle : "{99F1610551D54D17}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469_base.et" {
  ID "44EC665ABD2FF04B"
  components {
-  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D3F408EFF4}" : "{2FD10E574D43D979}Prefabs/Vehicles/PR_BuildingProviderVehicle.ct" {
+  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D3F408EFF4}" : "{2FD10E574D43D979}Prefabs/Building/PR_BuildingProviderVehicle.ct" {
   }
   PR_SupplyHolderComponent "{5D431BD074D371F7}" {
    m_iMaxSupplies 300
@@ -25,7 +25,8 @@ Vehicle : "{99F1610551D54D17}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469_base.et" {
      }
      UIInfo UIInfo "{5D431BD6A2B7A0DC}" {
      }
-     Duration 0
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 2
     }
     PR_UnloadSuppliesUserAction "{5D431BD6DD7C08C0}" {
@@ -34,7 +35,8 @@ Vehicle : "{99F1610551D54D17}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469_base.et" {
      }
      UIInfo UIInfo "{5D431BD6BA423FC9}" {
      }
-     Duration 0
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 3
     }
    }

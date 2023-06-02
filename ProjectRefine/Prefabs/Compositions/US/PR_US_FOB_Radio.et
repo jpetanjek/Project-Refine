@@ -43,12 +43,16 @@ GenericEntity {
      ParentContextList {
       "SupplyPoint"
      }
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 1
     }
     PR_UnloadSuppliesUserAction "{5D75282E7D77B2D1}" {
      ParentContextList {
       "SupplyPoint"
      }
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 2
     }
    }

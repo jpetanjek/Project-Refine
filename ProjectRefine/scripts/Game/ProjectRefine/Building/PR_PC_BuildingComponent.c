@@ -113,8 +113,9 @@ class PR_PC_BuildingComponent : ScriptComponent
 		if(!entityTarget)
 			return;
 		
+		// TODO: Check distance to buildable
 		// TODO: Some classes can build faster than others
-		entityTarget.Build(5);
+		entityTarget.Build(1);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -136,7 +137,8 @@ class PR_PC_BuildingComponent : ScriptComponent
 		if(!entityTarget)
 			return;
 		
+		// TODO: Check distance to buildable
 		// TODO: Some classes can build faster than others
-		entityTarget.Build(-5);
+		entityTarget.Build(-1);
 	}
 };

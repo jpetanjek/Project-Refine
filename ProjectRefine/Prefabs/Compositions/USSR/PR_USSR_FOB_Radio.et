@@ -43,6 +43,8 @@ StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMil
      }
      UIInfo UIInfo "{5D76842389776EB6}" {
      }
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 1
     }
     PR_UnloadSuppliesUserAction "{5D768423DE9CF979}" {
@@ -51,6 +53,8 @@ StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMil
      }
      UIInfo UIInfo "{5D7684238C940562}" {
      }
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 2
     }
    }

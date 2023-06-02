@@ -122,6 +122,7 @@ class PR_BuildingManager: GenericEntity
 	{
 		if (m_bHealthChanged)
 		{
+			m_iHealth = Math.ClampInt(m_iHealth, 0, m_iMaxHealth);
 			UpdateHealthLogic();
 			m_bHealthChanged = false;
 			ClearEventMask(EntityEvent.FRAME);
@@ -144,7 +145,7 @@ class PR_BuildingManager: GenericEntity
 	{
 		int iHealthBefore = m_iHealth;
 		m_iHealth += amount;
-		Math.ClampInt(m_iHealth, 0, m_iMaxHealth);
+		m_iHealth = Math.ClampInt(m_iHealth, 0, m_iMaxHealth);
 		if(m_iHealth != iHealthBefore)
 		{
 			// Activate EOnFrame event, run the logic in EOnFrame, then reset it

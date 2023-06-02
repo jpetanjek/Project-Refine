@@ -1,7 +1,7 @@
 Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
  ID "44EC665ABD2FF04B"
  components {
-  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D39B126157}" : "{2FD10E574D43D979}Prefabs/Vehicles/PR_BuildingProviderVehicle.ct" {
+  PR_BuildingProviderFromSupplyHolderComponent "{5D5333D39B126157}" : "{2FD10E574D43D979}Prefabs/Building/PR_BuildingProviderVehicle.ct" {
   }
   PR_SupplyHolderComponent "{5D431BD0BCA7B5E8}" {
    m_iMaxSupplies 300
@@ -25,7 +25,8 @@ Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
      }
      UIInfo UIInfo "{5D4299924689C25E}" {
      }
-     Duration 0
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 2
     }
     PR_UnloadSuppliesUserAction "{5D429992CAB90F02}" {
@@ -34,7 +35,8 @@ Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
      }
      UIInfo UIInfo "{5D4299925D7277A7}" {
      }
-     Duration 0
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 3
     }
    }

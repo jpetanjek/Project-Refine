@@ -7,6 +7,8 @@ class PR_UnbuildUserAction : ScriptedUserAction
 
 	protected int m_iBuildResult;
 	protected float m_fNextConditionCheck;
+	
+	protected float m_fActionPerformTime = 0;
 
 	//------------------------------------------------------------------------------------------------
 	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
@@ -24,8 +26,7 @@ class PR_UnbuildUserAction : ScriptedUserAction
 	{
 	}
 	
-	//------------------------------------------------------------------------------------------------
-	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
+	void ActionLogic(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		if(!m_BuildingPC)
 		{
@@ -47,6 +48,22 @@ class PR_UnbuildUserAction : ScriptedUserAction
 		}
 		
 		m_BuildingPC.AskUnbuildAction(m_TargetRplId);
+	}
+	
+	override void PerformContinuousAction(IEntity pOwnerEntity, IEntity pUserEntity, float timeSlice)
+	{
+		m_fActionPerformTime += timeSlice;
+		if(m_fActionPerformTime > 0.33)
+		{
+			m_fActionPerformTime = 0;
+			ActionLogic(pOwnerEntity, pUserEntity);
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
+	{
+		ActionLogic(pOwnerEntity, pUserEntity);
 	}
 	
 	//------------------------------------------------------------------------------------------------

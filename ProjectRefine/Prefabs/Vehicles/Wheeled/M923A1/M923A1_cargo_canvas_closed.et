@@ -10,6 +10,9 @@ GenericEntity : "{4AFBDAC4EE3FADBB}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_
   }
   ActionsManagerComponent "{2CD4A765B4482F53}" {
    additionalActions {
+    SCR_OpenVehicleStorageAction "{5916E19EB9503373}" {
+     "Sort Priority" 5
+    }
     PR_SupplyTargetUserAction "{5D431BD50D2FE08D}" {
      ParentContextList {
       "door_rear"
@@ -17,7 +20,6 @@ GenericEntity : "{4AFBDAC4EE3FADBB}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_
      UIInfo UIInfo "{5D431BD518125187}" {
      }
      Duration 0
-     "Sort Priority" 1
     }
     PR_LoadSuppliesUserAction "{5D431BD5031FD878}" {
      ParentContextList {
@@ -27,18 +29,17 @@ GenericEntity : "{4AFBDAC4EE3FADBB}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_
      }
      Duration -2
      PerformPerFrame 1
-     "Sort Priority" 2
+     "Sort Priority" 1
     }
     PR_UnloadSuppliesUserAction "{5D431BD502DBAB77}" {
      ParentContextList {
       "door_rear"
      }
      UIInfo UIInfo "{5D431BD514A832A7}" {
-      Name "test"
      }
-     Duration 0
+     Duration -2
      PerformPerFrame 1
-     "Sort Priority" 3
+     "Sort Priority" 2
     }
    }
   }
