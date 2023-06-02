@@ -24,6 +24,38 @@ class PR_LoadSuppliesUserAction : ScriptedUserAction
 	{
 	}
 	
+	override void PerformContinuousAction(IEntity pOwnerEntity, IEntity pUserEntity, float timeSlice)
+	{
+		if(!m_PcSupplyHolder)
+		{
+			// Find local player controller
+			PlayerController playerController = GetGame().GetPlayerController();
+			if (!playerController)
+				return;
+			
+			// Find network component to send RPC to server
+			m_PcSupplyHolder = PR_PC_SupplyHolderInformerComponent.Cast(playerController.FindComponent(PR_PC_SupplyHolderInformerComponent));
+		}
+		
+		if (!m_PcSupplyHolder)
+			return;
+		
+		if(!m_HolderRplId.IsValid())
+		{
+			m_HolderRplId = Replication.FindId(m_SupplyHolder.m_RplComponent);
+		}
+		
+		// Target
+		if(!m_SupplyHolder.m_ActionTarget)
+			return;
+		
+		RplId targetRplId = Replication.FindId(m_SupplyHolder.m_ActionTarget.m_RplComponent);
+		if(targetRplId.IsValid())
+		{
+			m_PcSupplyHolder.RequestSupplyAction(m_HolderRplId, targetRplId, true);
+		}
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
 	{
@@ -53,7 +85,7 @@ class PR_LoadSuppliesUserAction : ScriptedUserAction
 		RplId targetRplId = Replication.FindId(m_SupplyHolder.m_ActionTarget.m_RplComponent);
 		if(targetRplId.IsValid())
 		{
-			m_PcSupplyHolder.RequestSupplyAction(m_HolderRplId, targetRplId, 100, true);
+			m_PcSupplyHolder.RequestSupplyAction(m_HolderRplId, targetRplId, true);
 		}
 	}
 	

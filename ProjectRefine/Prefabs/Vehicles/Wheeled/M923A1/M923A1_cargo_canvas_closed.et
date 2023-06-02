@@ -25,7 +25,8 @@ GenericEntity : "{4AFBDAC4EE3FADBB}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_
      }
      UIInfo UIInfo "{5D431BD511611B62}" {
      }
-     Duration 0
+     Duration -2
+     PerformPerFrame 1
      "Sort Priority" 2
     }
     PR_UnloadSuppliesUserAction "{5D431BD502DBAB77}" {
@@ -36,6 +37,7 @@ GenericEntity : "{4AFBDAC4EE3FADBB}Prefabs/Vehicles/Wheeled/M923A1/M923A1_cargo_
       Name "test"
      }
      Duration 0
+     PerformPerFrame 1
      "Sort Priority" 3
     }
    }

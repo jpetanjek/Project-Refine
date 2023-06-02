@@ -43,13 +43,13 @@ class PR_PC_SupplyHolderInformerComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void RequestSupplyAction(RplId source, RplId target, int amount, bool take)
+	void RequestSupplyAction(RplId source, RplId target, bool take)
 	{
-		Rpc(SupplyAction, source, target, amount, take);
+		Rpc(SupplyAction, source, target, take);
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void SupplyAction(RplId source, RplId target, int amount, bool take) // If the target will take or give supplies
+	void SupplyAction(RplId source, RplId target, bool take) // If the target will take or give supplies
 	{		
 		RplComponent rplComponentTarget = RplComponent.Cast(Replication.FindItem(target));
 		RplComponent rplComponentSource = RplComponent.Cast(Replication.FindItem(source));
@@ -77,11 +77,11 @@ class PR_PC_SupplyHolderInformerComponent : ScriptComponent
 		
 		if(take)
 		{
-			componentSource.TakeSupplies(componentTarget, amount); 
+			componentSource.TakeSupplies(componentTarget, 100); 
 		}
 		else
 		{
-			componentSource.GiveSupplies(componentTarget, amount);
+			componentSource.GiveSupplies(componentTarget, 100);
 		}
 	}
 }

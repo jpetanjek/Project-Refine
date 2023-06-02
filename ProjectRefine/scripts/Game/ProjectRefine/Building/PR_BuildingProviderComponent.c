@@ -118,9 +118,13 @@ class PR_BuildingProviderFromSupplyHolderComponent : PR_BuildingProviderBaseComp
 	protected PR_FobComponent m_FobComponent;
 	protected FactionAffiliationComponent m_FactionComponent;
 	
+	protected IEntity m_OwnerEntity;
+	
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
+		
+		m_OwnerEntity = owner;
 		
 		m_SupplyHolder = PR_SupplyHolderComponent.Cast(owner.FindComponent(PR_SupplyHolderComponent));
 		if (!m_SupplyHolder)
@@ -132,6 +136,8 @@ class PR_BuildingProviderFromSupplyHolderComponent : PR_BuildingProviderBaseComp
 		
 		m_FobComponent = PR_FobComponent.Cast(owner.FindComponent(PR_FobComponent));
 		m_FactionComponent = FactionAffiliationComponent.Cast(rootEntity.FindComponent(FactionAffiliationComponent));
+		if(!m_FactionComponent)
+			Print("Didn't find faction component");
 	}
 	
 	//-----------------------------------------------------------
@@ -152,6 +158,17 @@ class PR_BuildingProviderFromSupplyHolderComponent : PR_BuildingProviderBaseComp
 	// Must return ID of owner faction
 	override int GetOwnerFactionId()
 	{
+		if(!m_FobComponent && !m_FactionComponent)
+		{
+			Print("Attempting to find faction component");
+			
+			IEntity rootEntity = m_OwnerEntity;
+			while (rootEntity.GetParent())
+				rootEntity = rootEntity.GetParent();
+		
+			m_FactionComponent = FactionAffiliationComponent.Cast(rootEntity.FindComponent(FactionAffiliationComponent));
+		}
+		
 		if (m_FobComponent)
 		{
 			// If attached to FOB, get faction from it

@@ -131,6 +131,12 @@ class PR_SupplyHolderComponent : ScriptComponent
 		if(!m_bCanTransact || !taker.m_bCanTransact)
 			return false;
 		
+		if(m_iSupply < amount)
+			amount = m_iSupply;
+		
+		if((taker.m_iSupply + amount) > taker.m_iMaxSupplies)
+			amount = taker.m_iMaxSupplies - taker.m_iSupply;
+		
 		if(m_iSupply >= amount && (taker.m_iSupply + amount) <= taker.m_iMaxSupplies)
 		{
 			SetSupply(m_iSupply - amount);
@@ -152,6 +158,12 @@ class PR_SupplyHolderComponent : ScriptComponent
 		
 		if(!m_bCanTransact || !giver.m_bCanTransact)
 			return false;
+		
+		if(giver.m_iSupply < amount)
+			amount = giver.m_iSupply;
+		
+		if((m_iSupply + amount) > m_iMaxSupplies)
+			amount = m_iMaxSupplies - m_iSupply;
 		
 		if(giver.m_iSupply >= amount && (m_iSupply + amount) <= m_iMaxSupplies)
 		{
