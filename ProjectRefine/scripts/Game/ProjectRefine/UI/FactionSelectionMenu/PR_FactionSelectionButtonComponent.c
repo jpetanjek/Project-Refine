@@ -10,8 +10,20 @@ class PR_FactionSelectionButtonComponent : ScriptedWidgetComponent
 	{
 		m_Faction = faction;
 		
-		// Faction name
-		widgets.m_FactionNameText.SetText(faction.GetFactionName());
+		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
+		if(gm && gm.GetArchetype() == PR_GameModeArchetype.FRONTLINE)
+		{
+			if(gm.GetInvadingFaction() == m_Faction.GetId())
+				widgets.m_FactionNameText.SetText("Invader: " + faction.GetFactionName());
+			else
+				widgets.m_FactionNameText.SetText("Defender: " + faction.GetFactionName());
+		}
+		else
+		{
+			// Faction name
+			widgets.m_FactionNameText.SetText(faction.GetFactionName());
+		}
+		
 		
 		// Faction flag
 		ResourceName flagRscName = faction.GetFactionFlag();

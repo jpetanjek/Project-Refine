@@ -27,14 +27,13 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  }
  m_bGameModeArchetype FRONTLINE
  m_iInvadingFaction 0
+ m_iDefendingFaction 1
  m_MainBaseEntity0 PR_EntityLink "{5C5EDD58EA01F250}" {
   m_sEntityName "MainBase0"
  }
  m_MainBaseEntity1 PR_EntityLink "{5C5EDD58EE718DE1}" {
   m_sEntityName "MainBase1"
  }
- m_fInitialFactionScore0 1000
- m_fInitialFactionScore1 1000
 }
 RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
 }

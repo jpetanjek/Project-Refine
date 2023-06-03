@@ -31,6 +31,9 @@ class PR_GameMode : SCR_BaseGameMode
 	[Attribute("-1", UIWidgets.EditBox, desc: "Faction which, when it caputres a point, it becomes un-capcurable", category: "Invasion")]
 	protected int m_iInvadingFaction;
 	
+	[Attribute("-1", UIWidgets.EditBox, desc: "Faction which defends", category: "Invasion")]
+	protected int m_iDefendingFaction;
+	
 	[Attribute(desc: "Main base of first (invading) faction")]
 	protected ref PR_EntityLink m_MainBaseEntity0;
 	[Attribute(desc: "Main base of second (defending) faction")]
@@ -86,6 +89,12 @@ class PR_GameMode : SCR_BaseGameMode
 		return m_iInvadingFaction;
 	}
 	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Returns defending faction
+	int GetDefendingFaction()
+	{
+		return m_iDefendingFaction;
+	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Returns area at given position
@@ -197,13 +206,13 @@ class PR_GameMode : SCR_BaseGameMode
 				int initialOwnerFactionId = -1;
 				if(m_bGameModeArchetype == PR_GameModeArchetype.FRONTLINE)
 				{
-					if(m_MainBaseArea0 == area)
+					if(m_MainBaseArea0 == area || m_MainBaseArea1 == area)
 					{
 						initialOwnerFactionId = area.GetInitialOwnerFactionId();
 					}
 					else
 					{
-						initialOwnerFactionId = m_MainBaseArea1.GetInitialOwnerFactionId();
+						initialOwnerFactionId = m_iDefendingFaction;
 					}
 				}
 				else
@@ -449,11 +458,9 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		if(m_bGameModeArchetype == PR_GameModeArchetype.FRONTLINE)
 		{
-			int invadingFaction = m_MainBaseArea0.GetInitialOwnerFactionId();
-			if(factionAreas[invadingFaction] >= (m_aAreas.Count() - 1))
+			if(factionAreas[m_iInvadingFaction] >= (m_aAreas.Count() - 1))
 			{
-				int defendingFaction = m_MainBaseArea1.GetInitialOwnerFactionId();
-				AddFactionScore(defendingFaction, (GetFactionScore(defendingFaction) * -1) -1);
+				AddFactionScore(m_iDefendingFaction, (GetFactionScore(m_iDefendingFaction) * -1) -1);
 			}
 		}
 		else
