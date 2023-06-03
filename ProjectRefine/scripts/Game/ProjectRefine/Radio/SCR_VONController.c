@@ -7,7 +7,7 @@ modded class SCR_VONController
 		super.AddEntry(entry);
 	
 		SCR_VONEntryRadio entryRadio = SCR_VONEntryRadio.Cast(entry);
-		if (entryRadio && !entryRadio.m_bIsLongRange)
+		if (!m_ShortRangeEntry && entryRadio && !entryRadio.m_bIsLongRange)
 			m_ShortRangeEntry = entryRadio;
 	}
 	

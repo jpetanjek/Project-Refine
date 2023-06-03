@@ -187,18 +187,34 @@ modded class SCR_PlayerControllerGroupComponent
 		else
 			squadRadioFrequency = groupsManager.GetSquadlessRadioFrequency(myFaction);	// Not in a group
 		
-		/* TODO FIX RADIO
-		squadRadio.TogglePower(true);
-		squadRadio.SetFrequency(squadRadioFrequency);
-		*/
+		
+		TuneRadioTransceivers(squadRadio, true, squadRadioFrequency);
+		
 		// Commander radio - frequency depends on faction
 		if (commanderRadio)
 		{
 			int commanderRadioFrequency = groupsManager.GetCommanderRadioFrequency(myFaction);
-			/* TODO FIX RADIO
-			commanderRadio.TogglePower(true);
-			commanderRadio.SetFrequency(commanderRadioFrequency);
-			*/
+			
+			TuneRadioTransceivers(commanderRadio, true, commanderRadioFrequency);
+		}
+	}
+	
+	// Sets power and frequency on all transceivers of radio
+	private void TuneRadioTransceivers(BaseRadioComponent radio, bool power, int freq)
+	{
+		radio.SetPower(power);
+		for (int i = 0; i < radio.TransceiversCount(); i++)
+		{
+			BaseTransceiver trx = radio.GetTransceiver(i);
+			
+			if (!trx)
+				continue;
+			
+			// Transceiver 0 is set to proper frequency, and we don't care about second one, it must be disabled
+			if (i == 0)
+				trx.SetFrequency(freq);
+			else
+				trx.SetFrequency(trx.GetMinFrequency());
 		}
 	}
 	
