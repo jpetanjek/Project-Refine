@@ -15,9 +15,7 @@ class PR_PC_PossessionManagerComponentClass : ScriptComponentClass
 
 //! Temporary class for managing of dummy possession for radio and map markers to work
 class PR_PC_PossessionManagerComponent : ScriptComponent
-{
-	protected const ResourceName DUMMY_CHARACTER_PREFAB = "{A86AE3BF03958A94}Prefabs/Characters/PR_Character_Dummy.et";
-	
+{	
 	protected SCR_PlayerController m_PlayerController;
 	
 	protected IEntity m_DummyEntity;
@@ -74,7 +72,11 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 			return PR_EPossessionState.NONE;
 		
 		ResourceName prefabName = controlledEntity.GetPrefabData().GetPrefabName();
-		if (prefabName == DUMMY_CHARACTER_PREFAB)
+		
+		SCR_Faction playerFaction = SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(m_PlayerController.GetPlayerId()));
+		ResourceName dummyPrefab = playerFaction.GetDummyPrefab();
+		
+		if (prefabName == dummyPrefab)
 			return PR_EPossessionState.DUMMY;
 		else
 		{
@@ -137,7 +139,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 			if (state == PR_EPossessionState.NONE)
 			{
 				// Create dummy if we don't have it, possess it
-				PossessDummyEntity(SpawnDummyEntity());
+				PossessDummyEntity(SpawnDummyEntity(SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(m_PlayerController.GetPlayerId()))));
 			}
 			else if (state == PR_EPossessionState.MAIN && m_DummyEntity)
 			{
@@ -208,19 +210,21 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		m_PlayerController.SetPossessedEntity(dummyEntity);
 	}
 	
-	protected IEntity SpawnDummyEntity()
+	protected IEntity SpawnDummyEntity(SCR_Faction faction)
 	{
 		_print("SpawnDummyEntity()");
 		
 		
-		IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(DUMMY_CHARACTER_PREFAB, vector.Zero);
+		ResourceName dummyPrefab = faction.GetDummyPrefab();
+		
+		IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(dummyPrefab, vector.Zero);
 		
 		// Verify that prefab name matches,
 		// If not then the whole logic fails and we will end up with entities being infinitely created
 		ResourceName spawnedResourceName = ent.GetPrefabData().GetPrefabName();
-		if (spawnedResourceName != DUMMY_CHARACTER_PREFAB)
+		if (spawnedResourceName != dummyPrefab)
 		{
-			_print(string.Format("Created dummy character has wrong prefab name! %1 != %2", spawnedResourceName, DUMMY_CHARACTER_PREFAB), LogLevel.ERROR);
+			_print(string.Format("Created dummy character has wrong prefab name! %1 != %2", spawnedResourceName, dummyPrefab), LogLevel.ERROR);
 			RplComponent.DeleteRplEntity(ent, false);
 			return null;
 		}

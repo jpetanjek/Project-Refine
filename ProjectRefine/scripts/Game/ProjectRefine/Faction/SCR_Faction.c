@@ -9,6 +9,9 @@ modded class SCR_Faction
 	[Attribute(desc: "List of PR building assets related to this faction.")]
 	protected ref PR_BuildingEntryCategory m_aBuildingList;
 	
+	[Attribute(desc: "Dummy character entity to possess when in deploy menu", uiwidget: UIWidgets.ResourcePickerThumbnail, params: "et", category: "Entity Spawn Info")]
+	protected ResourceName m_sDummyPrefab;
+	
 	//------------------------------------------------------------------------------------------------
 	/*!
 	Get the asset list assigned to this faction
@@ -37,6 +40,13 @@ modded class SCR_Faction
 	PR_BuildingEntryCategory GetBuildingList()
 	{
 		return m_aBuildingList;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Returns dummy chracter prefab
+	ResourceName GetDummyPrefab()
+	{
+		return m_sDummyPrefab;
 	}
 	
 	//------------------------------------------------------------------------------------------------
