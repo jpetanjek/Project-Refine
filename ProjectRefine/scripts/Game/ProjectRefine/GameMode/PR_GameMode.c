@@ -197,13 +197,13 @@ class PR_GameMode : SCR_BaseGameMode
 				int initialOwnerFactionId = -1;
 				if(m_bGameModeArchetype == PR_GameModeArchetype.FRONTLINE)
 				{
-					if(m_MainBaseArea1 == area)
+					if(m_MainBaseArea0 == area)
 					{
 						initialOwnerFactionId = area.GetInitialOwnerFactionId();
 					}
 					else
 					{
-						initialOwnerFactionId = m_MainBaseArea0.GetInitialOwnerFactionId();
+						initialOwnerFactionId = m_MainBaseArea1.GetInitialOwnerFactionId();
 					}
 				}
 				else
@@ -447,33 +447,44 @@ class PR_GameMode : SCR_BaseGameMode
 			}
 		}
 		
-		// Find faction with biggest amount of areas
-		int maxOwnedAreas = 0;
-		int maxOwnedAreasFactionId = -1;
-		for (int i = 0; i < nFactions; i++)
+		if(m_bGameModeArchetype == PR_GameModeArchetype.FRONTLINE)
 		{
-			if (factionAreas[i] > maxOwnedAreas)
+			int invadingFaction = m_MainBaseArea0.GetInitialOwnerFactionId();
+			if(factionAreas[invadingFaction] >= (m_aAreas.Count() - 1))
 			{
-				maxOwnedAreas = factionAreas[i];
-				maxOwnedAreasFactionId = i;
+				int defendingFaction = m_MainBaseArea1.GetInitialOwnerFactionId();
+				AddFactionScore(defendingFaction, (GetFactionScore(defendingFaction) * -1) -1);
 			}
 		}
-		
-		// Remove tickets from all losing factions
-		for (int factionId = 0; factionId < nFactions; factionId++)
+		else
 		{
-			if (factionId == maxOwnedAreasFactionId)
-				continue;
-			
-			// How many areas this factions owns less than the winning faction
-			int ownedAreasDifference = maxOwnedAreas - factionAreas[factionId];
-			
-			if (ownedAreasDifference > 0)
+			// Find faction with biggest amount of areas
+			int maxOwnedAreas = 0;
+			int maxOwnedAreasFactionId = -1;
+			for (int i = 0; i < nFactions; i++)
 			{
-				AddFactionScore(factionId, -1); // !!! Change score decrease rate!
+				if (factionAreas[i] > maxOwnedAreas)
+				{
+					maxOwnedAreas = factionAreas[i];
+					maxOwnedAreasFactionId = i;
+				}
+			}
+			
+			// Remove tickets from all losing factions
+			for (int factionId = 0; factionId < nFactions; factionId++)
+			{
+				if (factionId == maxOwnedAreasFactionId)
+					continue;
+				
+				// How many areas this factions owns less than the winning faction
+				int ownedAreasDifference = maxOwnedAreas - factionAreas[factionId];
+				
+				if (ownedAreasDifference > 0)
+				{
+					AddFactionScore(factionId, -1); // !!! Change score decrease rate!
+				}
 			}
 		}
-		
 		
 		//---------------------------------------------
 		// End game if some faction has depleted points
@@ -625,7 +636,16 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		// Add tickets to faction that newly captured the point
 		if(newFactionId != -1 && m_eGameModeStage == PR_EGameModeStage.LIVE)
-			AddFactionScore(newFactionId, 60);
+		{
+			if(m_bGameModeArchetype == PR_GameModeArchetype.FRONTLINE)
+			{
+				AddFactionScore(newFactionId, 100);
+			}
+			else
+			{
+				AddFactionScore(newFactionId, 60);
+			}
+		}
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------

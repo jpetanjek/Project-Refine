@@ -25,7 +25,7 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("-1", UIWidgets.EditBox, desc: "Owner faction at game start")]
 	protected int m_iInitialOwnerFaction;
 	
-	[Attribute("true", UIWidgets.CheckBox, desc: "True if area is capturable by soldier occupation, false if not.")]
+	[Attribute("true", UIWidgets.CheckBox, desc: "True if area is capturable by soldier occupation, false if not."), RplProp(onRplName: "OnRplPropChanged")]
 	protected bool m_bCapturable;
 	
 	// Called whenever any of state variables changes. It's not associated to m_eState only!
@@ -209,7 +209,9 @@ class PR_CaptureArea : ScriptComponent
 					m_eState = PR_EAreaState.CAPTURED;
 					PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
 					if(gm.GetArchetype() == PR_GameModeArchetype.FRONTLINE &&  m_iOwnerFaction == gm.GetInvadingFaction())
+					{
 						m_bCapturable = false;
+					}
 					
 					m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction);
 				}
