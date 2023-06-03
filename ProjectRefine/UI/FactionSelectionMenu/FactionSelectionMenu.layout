@@ -202,166 +202,23 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
               Padding 0 25 0 0
              }
              Clipping False
-             Text "General rules:"
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B7182703005}" {
-             Name "Text1"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- You must be a member of a squad at all times or  you will be kicked from the server."
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B716FF8A947}" {
-             Name "Text3"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- Follow the orders of your squad leader, he can kick people from the squad."
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D871A92C19A2AE6}" {
-             Name "Text2"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- Destroying enemy assets or inapacitating them drains their tickets."
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B7699693691}" {
-             Name "GameModeSpecificRules"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-              Padding 0 25 0 0
-             }
-             Clipping False
-             Text "Game mode rules:"
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B76730BFAFB}" {
-             Name "m_GameModeSpecificRules0"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- Invading faction can capture flags, defending faction cannot."
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B77446DAFFC}" {
-             Name "m_GameModeSpecificRules1"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- Invading faction gains tickets upon capturing a flag."
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5CFED447F694465E}" {
-             Name "ConditionsOfVictory"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-              Padding 0 25 0 0
-             }
-             Clipping False
-             Text "Conditions of victory:"
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B768F0C127F}" {
-             Name "m_ConditionsOfVictory0"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- Drain the tickets of the opposite team."
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B76817B980C}" {
-             Name "m_ConditionsOfVictory1"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- As Invader capture all capture points."
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B74938412F6}" {
-             Name "SandboxTools"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-              Padding 0 25 0 0
-             }
-             Clipping False
-             Text "Sandbox tools:"
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B74938412CD}" {
-             Name "SandboxTools0"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- Each role is designed to solve specific tactical issues."
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D871A93C87BD447}" {
-             Name "SandboxTools1"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- Factions are assigned various assets."
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B74938412AE}" {
-             Name "SandboxTools2"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-             }
-             Clipping False
-             Text "- Logistics allow for building of Forward Operating Bases (FOB) or fighting positions."
+             Text "General rules:"\
+             "- You must be a member of a squad at all times or  you will be kicked from the server."\
+             "- Follow the orders of your squad leader, he can kick people from the squad."\
+             "- Destroying enemy assets or inapacitating them drains their tickets."\
+             ""\
+             "Game mode rules:"\
+             "- Invading faction can capture flags, defending faction cannot."\
+             "- Invading faction gains tickets upon capturing a flag."\
+             ""\
+             "Conditions of victory:"\
+             "- Drain the tickets of the opposite team."\
+             "- As Invader capture all capture points."\
+             ""\
+             "Sandbox tools:"\
+             "- Each role is designed to solve specific tactical issues."\
+             "- Factions are assigned various assets."\
+             "- Logistics allow for building of Forward Operating Bases (FOB) or fighting positions."
              "Min Font Size" 24
              Wrap 1
              FontProperties FontProperties "{5CFEC73020DCA989}" {
