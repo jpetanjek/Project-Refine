@@ -18,11 +18,15 @@ class PR_FactionSelectionMenuWidgets
 	SCR_ModularButtonComponent m_FactionButton2Component0;
 	PR_FactionSelectionButtonComponent m_FactionButton2Component1;
 
-	ButtonWidget m_DebugButton0;
-	SCR_ModularButtonComponent m_DebugButton0Component;
+	TextWidget m_GameModeName;
 
-	ButtonWidget m_DebugButton1;
-	SCR_ModularButtonComponent m_DebugButton1Component;
+	TextWidget m_GameModeSpecificRules0;
+
+	TextWidget m_GameModeSpecificRules1;
+
+	TextWidget m_ConditionsOfVictory0;
+
+	TextWidget m_ConditionsOfVictory1;
 
 	bool Init(Widget root)
 	{
@@ -38,11 +42,15 @@ class PR_FactionSelectionMenuWidgets
 		m_FactionButton2Component0 = SCR_ModularButtonComponent.Cast(m_FactionButton2.FindHandler(SCR_ModularButtonComponent));
 		m_FactionButton2Component1 = PR_FactionSelectionButtonComponent.Cast(m_FactionButton2.FindHandler(PR_FactionSelectionButtonComponent));
 
-		m_DebugButton0 = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.FactionSelection.SizeLayout0.VerticalLayout0.m_DebugButton0"));
-		m_DebugButton0Component = SCR_ModularButtonComponent.Cast(m_DebugButton0.FindHandler(SCR_ModularButtonComponent));
+		m_GameModeName = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.Tutorial.m_GameModeName"));
 
-		m_DebugButton1 = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.FactionSelection.SizeLayout0.VerticalLayout0.m_DebugButton1"));
-		m_DebugButton1Component = SCR_ModularButtonComponent.Cast(m_DebugButton1.FindHandler(SCR_ModularButtonComponent));
+		m_GameModeSpecificRules0 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.Tutorial.m_GameModeSpecificRules0"));
+
+		m_GameModeSpecificRules1 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.Tutorial.m_GameModeSpecificRules1"));
+
+		m_ConditionsOfVictory0 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.Tutorial.m_ConditionsOfVictory0"));
+
+		m_ConditionsOfVictory1 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.Tutorial.m_ConditionsOfVictory1"));
 
 		return true;
 	}

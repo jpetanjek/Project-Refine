@@ -54,6 +54,34 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                  ExportChildWidgets 0
                 }
                }
+               {
+                SizeLayoutWidgetClass "{5CFEC731DE4A0128}" {
+                 Prefab "{5CFEC731DE4A0128}"
+                 {
+                  OverlayWidgetClass "{5CFEC73128C364EC}" {
+                   Prefab "{5CFEC73128C364EC}"
+                   {
+                    VerticalLayoutWidgetClass "{5CFEC7311CE50294}" {
+                     Prefab "{5CFEC7311CE50294}"
+                     {
+                      HorizontalLayoutWidgetClass "{5CFEC73501D51A2D}" {
+                       Prefab "{5CFEC73501D51A2D}"
+                       {
+                        TextWidgetClass "{5CFEC7316D2643D8}" {
+                         Prefab "{5CFEC7316D2643D8}"
+                         Text "Invading: Faction"
+                         "Font Size" 25
+                         "Min Font Size" 25
+                        }
+                       }
+                      }
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+               }
               }
               ButtonWidgetClass "{5CFED445BCB347CF}" : "{51A47649B4BDA716}UI/FactionSelectionMenu/FactionSelectionButton.layout" {
                Name "m_FactionButton1"
@@ -62,6 +90,34 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                components {
                 SCR_WidgetExportRule "{5CFED447AEBCC433}" {
                  ExportChildWidgets 0
+                }
+               }
+               {
+                SizeLayoutWidgetClass "{5CFEC731DE4A0128}" {
+                 Prefab "{5CFEC731DE4A0128}"
+                 {
+                  OverlayWidgetClass "{5CFEC73128C364EC}" {
+                   Prefab "{5CFEC73128C364EC}"
+                   {
+                    VerticalLayoutWidgetClass "{5CFEC7311CE50294}" {
+                     Prefab "{5CFEC7311CE50294}"
+                     {
+                      HorizontalLayoutWidgetClass "{5CFEC73501D51A2D}" {
+                       Prefab "{5CFEC73501D51A2D}"
+                       {
+                        TextWidgetClass "{5CFEC7316D2643D8}" {
+                         Prefab "{5CFEC7316D2643D8}"
+                         Text "Defending: Faction"
+                         "Font Size" 25
+                         "Min Font Size" 25
+                        }
+                       }
+                      }
+                     }
+                    }
+                   }
+                  }
+                 }
                 }
                }
               }
@@ -74,73 +130,25 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                  ExportChildWidgets 0
                 }
                }
-              }
-             }
-            }
-            SizeLayoutWidgetClass "{5CEB48687F8255D9}" {
-             Name "SizeLayout0"
-             Slot LayoutSlot "{5CFED444636D7094}" {
-             }
-             WidthOverride 500
-             HeightOverride 500
-             {
-              VerticalLayoutWidgetClass "{5CEB48680C5B10C5}" {
-               Name "VerticalLayout0"
-               Slot AlignableSlot "{5CEB48687F8EB9CC}" {
-                HorizontalAlign 3
-                VerticalAlign 3
-               }
                {
-                TextWidgetClass "{5CEB48681A79D790}" {
-                 Name "Text0"
-                 Slot LayoutSlot "{5CEB48681A79D7EB}" {
-                  Padding 0 0 0 20
-                 }
-                 Text "Debugging"
-                 "Font Size" 32
-                 "Min Font Size" 32
-                 "Horizontal Alignment" Center
-                }
-                ButtonWidgetClass "{5CEB486870A01596}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
-                 Name "m_DebugButton0"
-                 Slot LayoutSlot "{5CB378557E695658}" {
-                  Padding 2 2 2 20
-                 }
+                SizeLayoutWidgetClass "{5CFEC731DE4A0128}" {
+                 Prefab "{5CFEC731DE4A0128}"
                  {
-                  SizeLayoutWidgetClass "{5CB37856F029CE83}" {
-                   Prefab "{5CB37856F029CE83}"
-                   AllowHeightOverride 1
-                   HeightOverride 80
+                  OverlayWidgetClass "{5CFEC73128C364EC}" {
+                   Prefab "{5CFEC73128C364EC}"
                    {
-                    OverlayWidgetClass "{5CB378554B951C94}" {
-                     Prefab "{5CB378554B951C94}"
+                    VerticalLayoutWidgetClass "{5CFEC7311CE50294}" {
+                     Prefab "{5CFEC7311CE50294}"
                      {
-                      TextWidgetClass "{5CB378555DCCD4DC}" {
-                       Prefab "{5CB378555DCCD4DC}"
-                       Text "Give me faction!"
-                      }
-                     }
-                    }
-                   }
-                  }
-                 }
-                }
-                ButtonWidgetClass "{5CEB486855C4AD27}" : "{F5B63CFB8FDB4602}UI/DeploymentMenu/Elements/ButtonText.layout" {
-                 Name "m_DebugButton1"
-                 Slot LayoutSlot "{5CB378557E695658}" {
-                 }
-                 {
-                  SizeLayoutWidgetClass "{5CB37856F029CE83}" {
-                   Prefab "{5CB37856F029CE83}"
-                   AllowHeightOverride 1
-                   HeightOverride 80
-                   {
-                    OverlayWidgetClass "{5CB378554B951C94}" {
-                     Prefab "{5CB378554B951C94}"
-                     {
-                      TextWidgetClass "{5CB378555DCCD4DC}" {
-                       Prefab "{5CB378555DCCD4DC}"
-                       Text "Spawn my character!"
+                      HorizontalLayoutWidgetClass "{5CFEC73501D51A2D}" {
+                       Prefab "{5CFEC73501D51A2D}"
+                       {
+                        TextWidgetClass "{5CFEC7316D2643D8}" {
+                         Prefab "{5CFEC7316D2643D8}"
+                         "Font Size" 25
+                         "Min Font Size" 25
+                        }
+                       }
                       }
                      }
                     }
@@ -167,7 +175,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
              Slot LayoutSlot "{5CFEC730D0C4B12D}" {
              }
              Clipping False
-             Text "Tutorial"
+             Text "Project Refine by Lab6"
              "Font Size" 36
              "Min Font Size" 36
              "Horizontal Alignment" Center
@@ -175,25 +183,185 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
               Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
              }
             }
-            TextWidgetClass "{5CFED447F694465E}" {
+            TextWidgetClass "{5D870B722719EA62}" {
+             Name "m_GameModeName"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "Invasion"
+             "Font Size" 36
+             "Min Font Size" 36
+             "Horizontal Alignment" Center
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B727726B321}" {
+             Name "GeneralRules"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+              Padding 0 25 0 0
+             }
+             Clipping False
+             Text "General rules:"
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B7182703005}" {
              Name "Text1"
              Slot LayoutSlot "{5CFEC730D0C4B12D}" {
              }
              Clipping False
-             Text "Game Mode - Sequential Capture of Capture Points"\
-             "- You must capture the capture points to win!"\
-             "- You can capture the capture points by capturing them!"\
-             "- You should not die because then your team loses tickets!"\
-             "- If your team loses tickets, you lose! So don’t lose tickets!"\
-             ""\
-             "Squad Leader Role"\
-             "- Squad leader has access to Squad Leader Radio"\
-             "- Squad leader can deploy a Rally Point"\
-             ""\
-             "Other BS noone reads"\
-             "- You will be kicked if you are not in a squad, so join a squad or create one. We even made a special UI for you to do that. Go click those buttons!"\
-             "- You should respect the Spirit of Teamwork. Violation to respect the Spirit of Teamwork leads to not having fun."\
-             ""
+             Text "- You must be a member of a squad at all times or  you will be kicked from the server."
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B716FF8A947}" {
+             Name "Text3"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "- Follow the orders of your squad leader, he can kick people from the squad."
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D871A92C19A2AE6}" {
+             Name "Text2"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "- Destroying enemy assets or inapacitating them drains their tickets."
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B7699693691}" {
+             Name "GameModeSpecificRules"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+              Padding 0 25 0 0
+             }
+             Clipping False
+             Text "Game mode rules:"
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B76730BFAFB}" {
+             Name "m_GameModeSpecificRules0"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "- Invading faction can capture flags, defending faction cannot."
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B77446DAFFC}" {
+             Name "m_GameModeSpecificRules1"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "- Invading faction gains tickets upon capturing a flag."
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5CFED447F694465E}" {
+             Name "ConditionsOfVictory"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+              Padding 0 25 0 0
+             }
+             Clipping False
+             Text "Conditions of victory:"
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B768F0C127F}" {
+             Name "m_ConditionsOfVictory0"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "- Drain the tickets of the opposite team."
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B76817B980C}" {
+             Name "m_ConditionsOfVictory1"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "- As Invader capture all capture points."
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B74938412F6}" {
+             Name "SandboxTools"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+              Padding 0 25 0 0
+             }
+             Clipping False
+             Text "Sandbox tools:"
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B74938412CD}" {
+             Name "SandboxTools0"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "- Each role is designed to solve specific tactical issues."
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D871A93C87BD447}" {
+             Name "SandboxTools1"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "- Factions are assigned various assets."
+             "Min Font Size" 24
+             Wrap 1
+             FontProperties FontProperties "{5CFEC73020DCA989}" {
+              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             }
+            }
+            TextWidgetClass "{5D870B74938412AE}" {
+             Name "SandboxTools2"
+             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+             }
+             Clipping False
+             Text "- Logistics allow for building of Forward Operating Bases (FOB) or fighting positions."
              "Min Font Size" 24
              Wrap 1
              FontProperties FontProperties "{5CFEC73020DCA989}" {

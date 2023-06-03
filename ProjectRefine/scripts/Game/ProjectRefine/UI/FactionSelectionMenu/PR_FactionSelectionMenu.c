@@ -13,10 +13,6 @@ class PR_FactionSelecitonMenu : ChimeraMenuBase
 		SCR_NavigationButtonComponent navBack = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Back", GetRootWidget());
 		navBack.m_OnActivated.Insert(OnBackButton);
 		
-		// Debugging buttons
-		widgets.m_DebugButton0Component.m_OnClicked.Insert(OnGiveFactionButton);
-		widgets.m_DebugButton1Component.m_OnClicked.Insert(OnSpawnCharacterButton);
-		
 		InitFactionButtons();
 	}
 	
