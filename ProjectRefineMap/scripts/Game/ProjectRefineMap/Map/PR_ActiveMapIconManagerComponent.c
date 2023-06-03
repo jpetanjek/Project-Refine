@@ -13,7 +13,9 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	protected static PR_ActiveMapIconManagerComponent s_Instance;
 	
 	protected SCR_EditorManagerEntity m_EditorManager;
-	
+
+	protected ref SCR_MissionHeader m_ConfigMissionHeader;
+
 	void PR_ActiveMapIconManagerComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
 		s_Instance = this;
@@ -26,7 +28,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	static PR_ActiveMapIconManagerComponent GetInstance()
 	{
 		return s_Instance;
-	}	
+	}
 	
 	override void OnPostInit(IEntity owner)
 	{
@@ -42,6 +44,10 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			// GameMaster logic - per client
 			if(Replication.IsServer())
 				editorManagerCore.Event_OnEditorManagerCreatedServer.Insert(OnEditorManagerInitOnServerForPlayer);
+		}
+		
+		if (Replication.IsServer()) {
+			m_ConfigMissionHeader = SCR_MissionHeader.Cast(GetGame().GetMissionHeader());
 		}
 	}
 	
@@ -235,15 +241,33 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	PR_ActiveMapIcon ServerRegister(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
 	{	
 		PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab)));
-		if(activeMapIcon != null)
+		if (activeMapIcon != null)
 		{
+			IEntity owner = target.GetOwner();
+			
+			// read server config file to show players/vehicles or not
+			if (m_ConfigMissionHeader) {
+				if (m_ConfigMissionHeader.LabSix_ShowCharactersMarkers == "false") {
+					SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(owner);
+					if (character)
+						return null;
+				}
+	
+				if (m_ConfigMissionHeader.LabSix_ShowVehicleMarkers == "false") {
+					BaseVehicle vehicle = BaseVehicle.Cast(owner);
+					if (vehicle)
+						return null;
+				}
+			}
+
 			m_AllMarkers.Insert(activeMapIcon);
 			m_NewMarkers.Insert(activeMapIcon);
 			
-			activeMapIcon.Init(target.GetOwner());
+			activeMapIcon.Init(owner);
 
 			return activeMapIcon;
 		}
+
 		return null;
 	}
 	
