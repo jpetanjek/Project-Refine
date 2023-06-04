@@ -36,4 +36,6 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  m_MainBaseEntity1 PR_EntityLink "{5D510759563B8EFE}" {
   m_sEntityName "MainBase_North_6"
  }
+ m_fInitialFactionScore0 100
+ m_fInitialFactionScore1 500
 }

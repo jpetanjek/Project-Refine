@@ -44,6 +44,19 @@ class PR_AssetInformerComponent : ScriptComponent
 		{
 			case PR_EGameModeStage.PREPARATION:
 			{
+				PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
+				if(gm.GetArchetype() == PR_EGameModeArchetype.INVASION && m_iInitialFactionId == gm.GetDefendingFaction())
+				{
+					// Assign previous startup chance
+					VehicleControllerComponent controller;
+					controller = VehicleControllerComponent.Cast(GetOwner().FindComponent(VehicleControllerComponent));
+					
+					if(controller)
+					{
+						controller.SetEngineStartupChance(m_fPreviousStartupChance);
+					}
+				}
+				
 				break;
 			}
 			case PR_EGameModeStage.LIVE:

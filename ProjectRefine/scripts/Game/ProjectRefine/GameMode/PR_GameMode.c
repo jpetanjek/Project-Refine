@@ -22,7 +22,7 @@ class PR_GameMode : SCR_BaseGameMode
 {
 	protected static const float GAME_MODE_UPDATE_INTERVAL_S = 1.0;
 	
-	protected static const float PREPARATION_DURATION_S = 30.0;
+	protected static const float PREPARATION_DURATION_S = 240.0;
 	
 	[Attribute("1", UIWidgets.EditBox, desc: "When true, initial faction owners of areas are randomized")]
 	protected bool m_bRandomizeFactions;
@@ -76,6 +76,8 @@ class PR_GameMode : SCR_BaseGameMode
 	protected bool m_bCaptureAreaInitSuccess = false;
 	
 	protected SCR_GroupsManagerComponent m_GroupManager;
+	
+	protected bool m_bInvokePreparation = false;
 
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -236,8 +238,16 @@ class PR_GameMode : SCR_BaseGameMode
 		m_aFactionScore.Resize(nFactions);
 		if (IsMaster())
 		{
-			m_aFactionScore[factionIds[0]] = m_fInitialFactionScore0;
-			m_aFactionScore[factionIds[1]] = m_fInitialFactionScore1;
+			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
+			{
+				m_aFactionScore[m_iInvadingFaction] = 100;
+				m_aFactionScore[m_iDefendingFaction] = 500;
+			}
+			else
+			{
+				m_aFactionScore[factionIds[0]] = m_fInitialFactionScore0;
+				m_aFactionScore[factionIds[1]] = m_fInitialFactionScore1;
+			}			
 		}
 		
 		if (IsMaster())
@@ -383,6 +393,12 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	void TickGameModePreparation(float timeSlice)
 	{
+		if(!m_bInvokePreparation)
+		{
+			m_bInvokePreparation = true;
+			m_OnGameModeStageChanged.Invoke(m_eGameModeStage);
+		}
+		
 		if(m_fTimeElapsed > PREPARATION_DURATION_S)
 		{
 			RequestNextGameModeStage();

@@ -17,10 +17,6 @@ class PR_AssetSpawner : GenericEntity
 	[Attribute("", UIWidgets.ComboBox, "", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
 	protected PR_EAssetType m_AssetType;
 	
-	// TODO: move this to prefab
-	[Attribute("20", UIWidgets.Slider, "Wait time", "0 1200 1")]
-	private float m_fWaitTime;
-	
 	[Attribute("false", UIWidgets.CheckBox, desc: "Spawn at round start?")]
 	protected bool m_bSpawnAtStart;
 	
@@ -67,25 +63,62 @@ class PR_AssetSpawner : GenericEntity
 		if (!m_CaptureArea)
 			return;
 		
-		if(!m_Target && m_bSpawnAtStart)
+		if(!m_Target && (m_bSpawnAtStart || m_AssetType == PR_EAssetType.TRANSPORT || m_AssetType == PR_EAssetType.TROOP_TRANSPORT || m_AssetType == PR_EAssetType.SUPPLY))
 		{
 			if (TrySpawnAsset())
 				m_bDestroyed = false;
 		}
 			
-		if(!m_Target && m_fTimer >= m_fWaitTime)
+		if((m_bDestroyed || !m_Target) && m_fTimer >= GetAssetTypeRespawnTime(m_AssetType))
 		{
 			if (TrySpawnAsset())
 				m_bDestroyed = false;
 		}
 		
-		if(!m_Target)
+		if(m_bDestroyed || !m_Target)
 		{
 			m_fTimer += m_fDeltaTime;
 		}
 		
 		// At the end of logic reset the low frequency update timer
 		m_fDeltaTime -= UPDATE_PERIOD_S;
+	}
+	
+	float GetAssetTypeRespawnTime(PR_EAssetType assetType)
+	{		
+		switch(assetType)
+		{
+			case PR_EAssetType.TRANSPORT:
+			{
+				return 30;
+			}
+			case PR_EAssetType.TROOP_TRANSPORT:
+			{
+				return 30;
+			}
+			case PR_EAssetType.SUPPLY:
+			{
+				return 30;
+			}
+			case PR_EAssetType.ARMORED_TRANSPORT:
+			{
+				return 60;
+			}
+			case PR_EAssetType.ARMED_TRANSPORT:
+			{
+				return 60;
+			}
+			case PR_EAssetType.ARMORED_PERSONEL_CARRIER:
+			{
+				return 60;
+			}
+			default:
+			{
+				return 30;
+			}
+		}
+		
+		return 30;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -179,7 +212,7 @@ class PR_AssetSpawner : GenericEntity
 			string s;
 			s = s + string.Format("Destroyed:   %1\n", m_bDestroyed);
 			s = s + string.Format("Target:		%1\n", m_Target);
-			s = s + string.Format("Timer:       %1 / %2\n", m_fTimer.ToString(5, 1), m_fWaitTime);
+			s = s + string.Format("Timer:       %1 / %2\n", m_fTimer.ToString(5, 1), GetAssetTypeRespawnTime(m_AssetType));
 			
 			vector pos = owner.GetOrigin() + Vector(0, 3, 0);
 			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
