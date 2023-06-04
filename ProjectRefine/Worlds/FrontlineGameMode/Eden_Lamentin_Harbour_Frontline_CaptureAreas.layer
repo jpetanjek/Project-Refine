@@ -1,4 +1,4 @@
-$grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
+$grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
  MainBase_South_0 {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
@@ -10,7 +10,7 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
   {
    PR_PreparationPhaseCollider {
     ID "5C992516FD18EDD2"
-    coords 0 0 0
+    coords 0 -15.683 0
    }
    $grp PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
     {
@@ -144,7 +144,7 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
   {
    PR_PreparationPhaseCollider {
     ID "5C992516FD18EDD2"
-    coords 0 -0.001 0
+    coords 0 -12.558 0
    }
    $grp PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
     {
@@ -270,7 +270,7 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/MainBaseArea.et" {
   }
  }
 }
-$grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/CaptureArea.et" {
+$grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
  CaptureArea_4 {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
