@@ -292,8 +292,8 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 			dummyPrefab = faction.GetDummyRadioPrefab();
 		else	
 			dummyPrefab = faction.GetDummyPrefab();
-		
-		IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(dummyPrefab, vector.Zero);
+
+		IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(dummyPrefab, faction.GetFactionDummySpawnPosition());
 		
 		// Verify that prefab name matches,
 		// If not then the whole logic fails and we will end up with entities being infinitely created
