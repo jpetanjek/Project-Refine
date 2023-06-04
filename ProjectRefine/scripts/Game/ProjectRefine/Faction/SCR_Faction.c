@@ -12,6 +12,9 @@ modded class SCR_Faction
 	[Attribute(desc: "Dummy character entity to possess when in deploy menu", uiwidget: UIWidgets.ResourcePickerThumbnail, params: "et", category: "Entity Spawn Info")]
 	protected ResourceName m_sDummyPrefab;
 	
+	[Attribute(desc: "Dummy character entity to possess when in deploy menu as SL", uiwidget: UIWidgets.ResourcePickerThumbnail, params: "et", category: "Entity Spawn Info")]
+	protected ResourceName m_sRadioDummyPrefab;
+	
 	//------------------------------------------------------------------------------------------------
 	/*!
 	Get the asset list assigned to this faction
@@ -47,6 +50,11 @@ modded class SCR_Faction
 	ResourceName GetDummyPrefab()
 	{
 		return m_sDummyPrefab;
+	}
+	
+	ResourceName GetDummyRadioPrefab()
+	{
+		return m_sRadioDummyPrefab;
 	}
 	
 	//------------------------------------------------------------------------------------------------
