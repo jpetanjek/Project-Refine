@@ -58,31 +58,6 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
           VerticalAlign 3
          }
          {
-          OverlayWidgetClass "{5CB123878B6B7AE1}" {
-           Name "Top"
-           Slot LayoutSlot "{5CB123878B6B7AFD}" {
-           }
-           {
-            OverlayWidgetClass "{5CB12388F423DC95}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
-             Name "rootFrame0"
-             Slot OverlayWidgetSlot "{5CB12388F423DCE7}" {
-              HorizontalAlign 3
-              VerticalAlign 3
-             }
-            }
-            TextWidgetClass "{5CB12387919F2C03}" {
-             Name "Text0"
-             Slot OverlayWidgetSlot "{5CB12387919F2C19}" {
-              HorizontalAlign 3
-              VerticalAlign 3
-             }
-             Text "Team Score Team Score"
-             "Font Size" 30
-             "Min Font Size" 30
-             "Horizontal Alignment" Center
-            }
-           }
-          }
           HorizontalLayoutWidgetClass "{5CB12387173B3EF1}" {
            Name "Main"
            Slot LayoutSlot "{5CB12387173B3ED7}" {
@@ -97,6 +72,13 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
               SizeMode Fill
              }
              {
+              OverlayWidgetClass "{5D88C1411C32EBA2}" : "{E96FBDA051C03B2B}UI/DeploymentMenu/MapInfoBar.layout" {
+               Name "Top0"
+               Slot OverlayWidgetSlot "{5D88C1439AD5A2D4}" {
+                HorizontalAlign 3
+                VerticalAlign 0
+               }
+              }
               SizeLayoutWidgetClass "{5D12A510F070A5F5}" : "{4589E27564E97836}UI/DeploymentMenu/SpawnPointSelectionPanel.layout" {
                Name "SpawnPointSelection"
                Slot OverlayWidgetSlot "{5CB943CFB3F5F473}" {
@@ -134,6 +116,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                Slot OverlayWidgetSlot "{5CC91A88D66DE3FC}" {
                 HorizontalAlign 0
                 VerticalAlign 0
+                Padding 0 50 0 0
                }
                components {
                 SCR_WidgetExportRule "{5CE53265F985768B}" {

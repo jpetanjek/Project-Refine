@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{2C4F6D2F7B3AB380}UI/layouts/Menus/PlayerList/FactionScoreHeader.layout"
+ Name "{F87BB6B065B395D0}UI/layouts/Map/MapMenu.layout"
  Configurations {
   LayoutResourceClass PC {
   }

@@ -1,0 +1,85 @@
+FrameWidgetClass {
+ {
+  OverlayWidgetClass "{5D88AD896F59F199}" {
+   Name "RefineArea"
+   Slot FrameWidgetSlot "{5D88AD896F59F1F3}" {
+    Anchor 0.5 0.5 0.5 0.5
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX 1860
+    OffsetRight -1860
+    SizeY 1020
+    OffsetBottom -1020
+    Alignment 0.5 0.5
+   }
+   "Z Order" 10
+   {
+    VerticalLayoutWidgetClass "{5D88AD89584AE0E4}" : "{94E8EC77C500EC94}UI/DeploymentMenu/GroupPanels.layout" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5CB12387BA17EEF9}" {
+     }
+     {
+      HorizontalLayoutWidgetClass "{5CB12387173B3EF1}" {
+       Prefab "{5CB12387173B3EF1}"
+       {
+        OverlayWidgetClass "{5CB123876845EEF5}" {
+         Prefab "{5CB123876845EEF5}"
+         {
+          FrameWidgetClass "{5D88AD8F4C1B9997}" : "{7A376F90E18453C4}UI/layouts/HUD/Notifications/Notifications_Log.layout" {
+           Name "NotificationsLog0"
+           Slot OverlayWidgetSlot "{5D88AD8F4C1B99E0}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            VerticalLayoutWidgetClass "{586AB611D4E07521}" {
+             Prefab "{586AB611D4E07521}"
+             Slot FrameWidgetSlot "{586AB611D4E07572}" {
+              Anchor 1 1 1 1
+              PositionX 0
+              OffsetLeft 0
+              PositionY -250
+              OffsetTop -250
+              SizeX 100
+              OffsetRight -100
+              SizeY 324
+              OffsetBottom -74
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+  FrameWidgetClass "{58731DB272499DF1}" {
+   Prefab "{58731DB272499DF1}"
+   {
+    OverlayWidgetClass "{585F053862A9FD1C}" {
+     Prefab "{585F053862A9FD1C}"
+     Slot FrameWidgetSlot "{56150B208158A9EF}" {
+      Anchor 0.5 0 0.5 0
+      PositionX -920
+      OffsetLeft -920
+      PositionY 72
+      OffsetTop 72
+      SizeX 1000
+      OffsetRight -80
+      SizeY 310
+      OffsetBottom -382
+     }
+    }
+   }
+  }
+  OverlayWidgetClass "{58866AE2A1F892C4}" {
+   Prefab "{58866AE2A1F892C4}"
+   "Is Visible" 0
+  }
+ }
+}

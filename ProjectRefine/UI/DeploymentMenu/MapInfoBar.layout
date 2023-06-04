@@ -1,0 +1,68 @@
+OverlayWidgetClass {
+ Name "Top"
+ Slot OverlayWidgetSlot "{5D88C1439AD5A2D4}" {
+ }
+ components {
+  SCR_WidgetExportRuleRoot "{5D88C142C95B5967}" : "{98535A58D347558D}UI/WidgetExportRuleRoot.conf" {
+   DestinationPath "{6C6F097BD82CA6B7}scripts/Game/ProjectRefine/UI/DeploymentMenu"
+  }
+  PR_MapInfoBarWidgetComponent "{5D88C1471CB2B31C}" {
+  }
+ }
+ {
+  OverlayWidgetClass "{5CB12388F423DC95}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
+   Name "rootFrame0"
+   Slot OverlayWidgetSlot "{5CB12388F423DCE7}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+  }
+  HorizontalLayoutWidgetClass "{5D88C1431E8D574F}" {
+   Name "m_ContentRoot"
+   Slot OverlayWidgetSlot "{5C951054CC174568}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 10 10 10 10
+   }
+   "Z Order" 10
+   {
+    ImageWidgetClass "{5D88C1431E8D574C}" {
+     Name "m_FactionFlagImage"
+     Slot LayoutSlot "{5C9510541A9EE112}" {
+      HorizontalAlign 1
+      VerticalAlign 1
+      Padding 20 0 0 0
+     }
+     Texture "{46FB2FB2C2125A3C}UI/Textures/Flags/US-flag-base-3it.edds"
+     Size 80 40
+    }
+    TextWidgetClass "{5D88C1431E8D574A}" {
+     Name "Text0"
+     Slot LayoutSlot "{5C951054691D41F0}" {
+      Padding 10 0 0 0
+     }
+     Text "Faction points:"
+     "Font Size" 32
+     "Min Font Size" 32
+     "Vertical Alignment" Center
+     FontProperties FontProperties "{5C95105445AF308E}" {
+      Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+     }
+    }
+    TextWidgetClass "{5D88C1431E8D574B}" {
+     Name "m_FactionPointsText"
+     Slot LayoutSlot "{5C951054691D41F0}" {
+      Padding 10 0 0 0
+     }
+     Text "123"
+     "Font Size" 36
+     "Min Font Size" 36
+     "Vertical Alignment" Center
+     FontProperties FontProperties "{5C95105445AF308E}" {
+      Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+     }
+    }
+   }
+  }
+ }
+}
