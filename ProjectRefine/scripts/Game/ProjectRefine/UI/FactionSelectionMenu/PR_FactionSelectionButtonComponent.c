@@ -11,7 +11,7 @@ class PR_FactionSelectionButtonComponent : ScriptedWidgetComponent
 		m_Faction = faction;
 		
 		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
-		if(gm && gm.GetArchetype() == PR_GameModeArchetype.FRONTLINE)
+		if(gm && gm.GetArchetype() == PR_EGameModeArchetype.INVASION)
 		{
 			if(gm.GetInvadingFaction() == m_Faction.GetId())
 				widgets.m_FactionNameText.SetText("Invader: " + faction.GetFactionName());

@@ -208,7 +208,7 @@ class PR_CaptureArea : ScriptComponent
 					m_iOwnerFaction = m_iPointsOwnerFaction; // New owner is the faction which has been capturing
 					m_eState = PR_EAreaState.CAPTURED;
 					PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
-					if(gm.GetArchetype() == PR_GameModeArchetype.FRONTLINE &&  m_iOwnerFaction == gm.GetInvadingFaction())
+					if(gm.GetArchetype() == PR_EGameModeArchetype.INVASION &&  m_iOwnerFaction == gm.GetInvadingFaction())
 					{
 						m_bCapturable = false;
 					}

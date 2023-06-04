@@ -12,6 +12,12 @@ enum PR_EGameModeStage
 	DEBRIEF
 }
 
+enum PR_EGameModeArchetype
+{
+	ADVANCE_AND_SECURE,	// Able to capture any active capture area
+	INVASION			// Only one team is able to capture areas
+}
+
 class PR_GameMode : SCR_BaseGameMode
 {
 	protected static const float GAME_MODE_UPDATE_INTERVAL_S = 1.0;
@@ -25,8 +31,8 @@ class PR_GameMode : SCR_BaseGameMode
 	[Attribute(desc: "All areas, including main bases, in their order of capture.")]
 	protected ref array<ref PR_EntityLink> m_aAreaEntities;
 	
-	[Attribute("0", UIWidgets.ComboBox, desc: "Archetype of Game Mode", category: "Game Mode Options", ParamEnumArray.FromEnum(PR_GameModeArchetype) )]
-	protected PR_GameModeArchetype m_bGameModeArchetype;
+	[Attribute("0", UIWidgets.ComboBox, desc: "Archetype of Game Mode", category: "Game Mode Options", ParamEnumArray.FromEnum(PR_EGameModeArchetype) )]
+	protected PR_EGameModeArchetype m_bGameModeArchetype;
 	
 	[Attribute("-1", UIWidgets.EditBox, desc: "Faction which, when it caputres a point, it becomes un-capcurable", category: "Invasion")]
 	protected int m_iInvadingFaction;
@@ -204,7 +210,7 @@ class PR_GameMode : SCR_BaseGameMode
 				
 				PR_CaptureArea area = m_aAreas[i];
 				int initialOwnerFactionId = -1;
-				if(m_bGameModeArchetype == PR_GameModeArchetype.FRONTLINE)
+				if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
 				{
 					if(m_MainBaseArea0 == area || m_MainBaseArea1 == area)
 					{
@@ -456,7 +462,7 @@ class PR_GameMode : SCR_BaseGameMode
 			}
 		}
 		
-		if(m_bGameModeArchetype == PR_GameModeArchetype.FRONTLINE)
+		if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
 		{
 			if(factionAreas[m_iInvadingFaction] >= (m_aAreas.Count() - 1))
 			{
@@ -644,7 +650,7 @@ class PR_GameMode : SCR_BaseGameMode
 		// Add tickets to faction that newly captured the point
 		if(newFactionId != -1 && m_eGameModeStage == PR_EGameModeStage.LIVE)
 		{
-			if(m_bGameModeArchetype == PR_GameModeArchetype.FRONTLINE)
+			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
 			{
 				AddFactionScore(newFactionId, 100);
 			}
@@ -964,10 +970,4 @@ class PR_GameMode : SCR_BaseGameMode
 		mm.CloseMenuByPreset(menuId);
 		mm.OpenMenu(menuId);
 	}
-}
-
-enum PR_GameModeArchetype
-{
-	STRIKE_AND_HOLD, // Able to capture any active capture area
-	FRONTLINE // Only one team is able to capture areas
 }
