@@ -14,7 +14,7 @@ enum PR_EAreaState
 class PR_CaptureArea : ScriptComponent
 {
 	const float POINTS_MAX = 100.0; // How many points it needs to have to be captured	
-	const float CAPTURE_RATE_PER_CHARACTER = 10.0; // How many points are addded per second per each character
+	const float CAPTURE_RATE_PER_CHARACTER = 1.0; // How many points are addded per second per each character
 	
 	[Attribute("10", UIWidgets.EditBox, desc: "Radius of capture zone")]
 	float m_fRadius;
@@ -199,7 +199,6 @@ class PR_CaptureArea : ScriptComponent
 				if (m_iPointsOwnerFaction != m_iDominatingFaction)
 					captureRate = -captureRate;
 				
-				m_fPoints += captureRate;
 				m_fPoints = Math.Clamp(m_fPoints + captureRate, 0, POINTS_MAX);
 				
 				if (m_fPoints == POINTS_MAX)
