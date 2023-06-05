@@ -235,12 +235,14 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		m_bActive = false;
 		GetRootWidget().SetVisible(false);
 		m_PreviewMode.Deactivate();
+		m_aEntryStack.Clear();
 	}
 	
 	protected void Activate(PR_BuildingEntryCategory buildingEntryRoot)
 	{
 		m_BuildingEntryRoot = buildingEntryRoot;
 		m_iCurrentEntryId = 0;
+		m_aEntryStack.Clear();
 		GetRootWidget().SetVisible(true);
 		OpenEntry(m_BuildingEntryRoot);
 		m_bActive = true;
