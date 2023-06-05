@@ -25,7 +25,19 @@ class PR_FactionSelecitonMenu : ChimeraMenuBase
 	//-----------------------------------------------------------------------------------------------------------------------------
 	void OnBackButton()
 	{
-		Close();
+		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_DISABLE_AUTO_DEPLOYMENT_MENU))
+		{
+			Close();
+		}
+		else
+		{
+			// Call this through call queue, because otherwise pause menu opens, then closes instantly as it received event for Back button
+			GetGame().GetCallqueue().CallLater(OnBackButtonDelayed, 50, false);
+		}
+	}
+	void OnBackButtonDelayed()
+	{
+		ArmaReforgerScripted.OpenPauseMenu(false, true);
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
