@@ -245,6 +245,7 @@ $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
     m_fRadius 100
+    m_sName "St. Phillipe"
    }
   }
   coords 4477.755 14.163 10678.002
@@ -253,6 +254,7 @@ $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
     m_fRadius 100
+    m_sName "Etoupe Farm"
    }
   }
   coords 5590.681 27.887 9822.268
@@ -261,6 +263,7 @@ $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
     m_fRadius 100
+    m_sName "Military Base"
    }
   }
   coords 5418.572 45.322 10498.101
@@ -269,6 +272,7 @@ $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
     m_fRadius 100
+    m_sName "Tyrone Ridge"
    }
   }
   coords 5044.561 115.824 8541.796
@@ -277,6 +281,7 @@ $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
   components {
    PR_CaptureArea "{5B156B902CEA1626}" {
     m_fRadius 100
+    m_sName "Airport"
    }
   }
   coords 4658.354 24.742 11186.06
