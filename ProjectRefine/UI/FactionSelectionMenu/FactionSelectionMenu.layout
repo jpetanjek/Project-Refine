@@ -175,7 +175,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
              Slot LayoutSlot "{5CFEC730D0C4B12D}" {
              }
              Clipping False
-             Text "Project Refine by Lab6"
+             Text "Reality mod"
              "Font Size" 36
              "Min Font Size" 36
              "Horizontal Alignment" Center
@@ -202,23 +202,16 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
               Padding 0 25 0 0
              }
              Clipping False
-             Text "General rules:"\
-             "- You must be a member of a squad at all times or  you will be kicked from the server."\
-             "- Follow the orders of your squad leader, he can kick people from the squad."\
-             "- Destroying enemy assets or inapacitating them drains their tickets."\
+             Text "Game mode"\
+             "- Team vs team"\
+             "- Teamwork-oriented game mode"\
+             "- Squad based organization with specialized roles"\
              ""\
-             "Game mode rules:"\
-             "- Invading faction can capture flags, defending faction cannot."\
-             "- Invading faction gains tickets upon capturing a flag."\
-             ""\
-             "Conditions of victory:"\
-             "- Drain the tickets of the opposite team."\
-             "- As Invader capture all capture points."\
-             ""\
-             "Sandbox tools:"\
-             "- Each role is designed to solve specific tactical issues."\
-             "- Factions are assigned various assets."\
-             "- Logistics allow for building of Forward Operating Bases (FOB) or fighting positions."
+             "Invasion"\
+             "- Invaders can capture flags, defenders cannot. Preparation phase for defenders to deploy."\
+             "- Game is won when the enemy team runs out of tickets or the invader captures all flags."\
+             "- Capturing flags gains tickets. Destroying assets or incapacitating soldiers depletes tickets."\
+             ""
              "Min Font Size" 24
              Wrap 1
              FontProperties FontProperties "{5CFEC73020DCA989}" {
