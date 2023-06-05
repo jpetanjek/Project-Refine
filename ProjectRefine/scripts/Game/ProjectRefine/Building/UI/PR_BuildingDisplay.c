@@ -30,6 +30,9 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		widgets.Init(GetRootWidget());
 		
 		InputManager im = GetGame().GetInputManager();
+		
+		im.AddActionListener("PR_ToggleBuilding", EActionTrigger.DOWN, Callback_OnToggleBuilding);
+		
 		im.AddActionListener("PR_BuildingPrev", EActionTrigger.DOWN, Callback_OnPrev);
 		im.AddActionListener("PR_BuildingNext", EActionTrigger.DOWN, Callback_OnNext); 
 		im.AddActionListener("PR_BuildingOpen", EActionTrigger.DOWN, Callback_OnOpen);
@@ -44,6 +47,10 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	override event void OnStopDraw(IEntity owner)
 	{
 		InputManager im = GetGame().GetInputManager();
+		
+		
+		im.RemoveActionListener("PR_ToggleBuilding", EActionTrigger.DOWN, Callback_OnToggleBuilding);
+		
 		im.RemoveActionListener("PR_BuildingPrev", EActionTrigger.DOWN, Callback_OnPrev);
 		im.RemoveActionListener("PR_BuildingNext", EActionTrigger.DOWN, Callback_OnNext); 
 		im.RemoveActionListener("PR_BuildingOpen", EActionTrigger.DOWN, Callback_OnOpen);
@@ -468,6 +475,14 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 	
 	//----------------------------------------------------------------
 	// Input callbacks
+	
+	protected void Callback_OnToggleBuilding()
+	{
+		if (m_bActive)
+			Deactivate();
+		else
+			Activate(PR_BuildingEntryCategory.Cast(m_BuildingEntry));
+	}
 	
 	protected void Callback_OnNext()
 	{
