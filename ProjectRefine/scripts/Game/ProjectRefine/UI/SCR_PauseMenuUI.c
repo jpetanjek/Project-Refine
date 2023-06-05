@@ -30,11 +30,6 @@ modded class PauseMenuUI
 	{
 		float currentTime = GetGame().GetWorld().GetWorldTime();
 		
-		/*
-		if (s_fLastFactionChange_ms != -1.0 || (currentTime - s_fLastFactionChange_ms < FACTION_CHANGE_MIN_INTERVAL_MS))
-			return;
-		*/
-		
 		s_fLastFactionChange_ms = currentTime;
 		Close();
 		PR_PlayerControllerDeploymentComponent deploymentComp = PR_PlayerControllerDeploymentComponent.GetLocalInstance();
