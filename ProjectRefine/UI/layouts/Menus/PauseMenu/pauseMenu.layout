@@ -29,7 +29,7 @@ FrameWidgetClass {
        }
        components {
         SCR_ButtonTextComponent "{5548F0143AE99095}" {
-         m_sText "Change Faction"
+         m_sText "Change Team"
         }
        }
        {
@@ -50,7 +50,7 @@ FrameWidgetClass {
                {
                 ImageWidgetClass "{557098267D2A9494}" {
                  Prefab "{557098267D2A9494}"
-                 Image "players"
+                 Image "squad"
                  Size 64 64
                 }
                }
