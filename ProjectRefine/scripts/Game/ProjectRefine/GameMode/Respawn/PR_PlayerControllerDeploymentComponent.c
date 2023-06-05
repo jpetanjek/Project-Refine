@@ -47,4 +47,34 @@ class PR_PlayerControllerDeploymentComponent : ScriptComponent
 		
 		spawnPoint.EnqueuePlayer(pc.GetPlayerId());
 	}
+	
+	
+	
+	void AskResetFaction()
+	{
+		Rpc(RpcAsk_ResetFaction);
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RpcAsk_ResetFaction()
+	{
+		PlayerController pc = PlayerController.Cast(GetOwner());
+		int playerId = pc.GetPlayerId();
+		
+		// Destroy controlled entity
+		IEntity controlledEntity = pc.GetControlledEntity();
+		if (controlledEntity)
+		{
+			DamageManagerComponent damageMgr = DamageManagerComponent.Cast(controlledEntity.FindComponent(DamageManagerComponent));
+			damageMgr.SetHealthScaled(0.0);
+		}
+		
+		// Remove from group
+		SCR_PlayerControllerGroupComponent groupComp = SCR_PlayerControllerGroupComponent.Cast(pc.FindComponent(SCR_PlayerControllerGroupComponent));
+		groupComp.LeaveGroup();
+		
+		// Reset faction
+		PR_FactionMemberManager factionMemberMgr = PR_FactionMemberManager.GetInstance();
+		factionMemberMgr.SetPlayerFaction(-1, playerId);		
+	}
 }

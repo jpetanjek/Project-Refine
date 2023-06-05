@@ -89,8 +89,7 @@ modded class SCR_PlayerControllerGroupComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void RPC_AskLeaveGroup()
+	void LeaveGroup()
 	{
 		SCR_GroupsManagerComponent groupsManager = SCR_GroupsManagerComponent.GetInstance();
 		PlayerController pc = PlayerController.Cast(GetOwner());
@@ -98,6 +97,13 @@ modded class SCR_PlayerControllerGroupComponent
 		
 		RPC_DoChangeGroupID(-1);
 		Rpc(RPC_DoChangeGroupID, -1);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	void RPC_AskLeaveGroup()
+	{
+		LeaveGroup();
 	}
 	
 	//------------------------------------------------------------------------------------------------

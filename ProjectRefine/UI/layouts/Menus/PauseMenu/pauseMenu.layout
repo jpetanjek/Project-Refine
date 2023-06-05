@@ -17,5 +17,85 @@ FrameWidgetClass {
    Color 0.296 0.296 0.296 1
    Intensity 0.328
   }
+  OverlayWidgetClass "{54C4A02A556443D7}" {
+   Prefab "{54C4A02A556443D7}"
+   {
+    VerticalLayoutWidgetClass "{557478C13FE3A622}" {
+     Prefab "{557478C13FE3A622}"
+     {
+      ButtonWidgetClass "{5D8AE6533416864E}" : "{9ECCD201BCF07E95}UI/layouts/Menus/PauseMenu/PauseMenuButton.layout" {
+       Name "ChangeFaction"
+       Slot LayoutSlot "{557478C3F0230865}" {
+       }
+       components {
+        SCR_ButtonTextComponent "{5548F0143AE99095}" {
+         m_sText "Change Faction"
+        }
+       }
+       {
+        SizeLayoutWidgetClass "{557098260F312277}" {
+         Prefab "{557098260F312277}"
+         {
+          OverlayWidgetClass "{557098260F312272}" {
+           Prefab "{557098260F312272}"
+           {
+            HorizontalLayoutWidgetClass "{557098267862A738}" {
+             Prefab "{557098267862A738}"
+             Slot OverlayWidgetSlot "{557098267862A74F}" {
+              Padding 60 10 10 10
+             }
+             {
+              ScaleWidgetClass "{557478C2A0AF4E50}" {
+               Prefab "{557478C2A0AF4E50}"
+               {
+                ImageWidgetClass "{557098267D2A9494}" {
+                 Prefab "{557098267D2A9494}"
+                 Image "players"
+                 Size 64 64
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      ImageWidgetClass "{54C4A02BEFCFAC85}" {
+       Prefab "{54C4A02BEFCFAC85}"
+       "Z Order" -10
+      }
+      ButtonWidgetClass "{58CE9D42B07587E9}" {
+       Prefab "{58CE9D42B07587E9}"
+       "Z Order" -9
+      }
+      ButtonWidgetClass "{58CEA11B69E9DB70}" {
+       Prefab "{58CEA11B69E9DB70}"
+       "Z Order" -8
+       {
+        SizeLayoutWidgetClass "{557098260F312277}" {
+         Prefab "{557098260F312277}"
+         {
+          OverlayWidgetClass "{557098260F312272}" {
+           Prefab "{557098260F312272}"
+           {
+            HorizontalLayoutWidgetClass "{557098267862A738}" {
+             Prefab "{557098267862A738}"
+             Slot OverlayWidgetSlot "{557098267862A74F}" {
+              Padding 60 10 10 10
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
  }
 }
