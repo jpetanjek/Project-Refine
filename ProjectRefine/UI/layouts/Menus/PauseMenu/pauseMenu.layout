@@ -1,0 +1,21 @@
+FrameWidgetClass {
+ {
+  BlurWidgetClass "{5D8AE65C436DFA17}" {
+   Name "BackgroundFade"
+   Slot FrameWidgetSlot "{5D8AE65CF4B3E41F}" {
+    Anchor 0 0 1 1
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX -1820
+    OffsetRight 0
+    SizeY -1050
+    OffsetBottom 0
+   }
+   "Z Order" -10
+   Color 0.296 0.296 0.296 1
+   Intensity 0.328
+  }
+ }
+}
