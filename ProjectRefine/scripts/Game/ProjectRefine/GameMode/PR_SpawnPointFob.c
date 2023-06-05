@@ -35,6 +35,6 @@ class PR_SpawnPointFob : PR_BaseSpawnPoint
 	// Must return name for UI
 	override string GetName()
 	{
-		return "FOB Name Placeholder";
+		return "FOB";
 	}
 }

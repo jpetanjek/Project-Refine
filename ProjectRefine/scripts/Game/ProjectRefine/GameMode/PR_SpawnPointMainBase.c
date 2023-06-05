@@ -33,4 +33,9 @@ class PR_SpawnPointMainBase : PR_BaseSpawnPoint
 	{
 		return m_CaptureArea.GetOwnerFactionId();
 	}
+	
+	override string GetName()
+	{
+		return "Main Base";
+	}
 }
