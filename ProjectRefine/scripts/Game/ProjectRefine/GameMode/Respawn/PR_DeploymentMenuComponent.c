@@ -66,21 +66,18 @@ class PR_DeploymentMenuComponent : PR_BaseGameModeComponent
 			}
 			else
 			{
+				// We have a faction
 				m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
 				
-				//if(m_pc.GetControlledEntity()) Print("HasControlled 1"); else Print("HasControlled 0");
-				
-				if (possessionState != PR_EPossessionState.MAIN)
+				if (possessionState == PR_EPossessionState.DUMMY)
 				{
 					// We are not spawned
 					if (!m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu))
 						m_MenuMgr.OpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
 				}
-				else
+				else if (possessionState == PR_EPossessionState.MAIN)
 				{
 					m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu);
-					//if(m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu))
-					//	Print("Still open!");
 				}
 			}
 		}
