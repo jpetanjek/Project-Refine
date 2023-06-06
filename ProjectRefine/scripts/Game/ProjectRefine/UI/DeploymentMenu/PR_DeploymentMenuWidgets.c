@@ -10,6 +10,9 @@ class PR_DeploymentMenuWidgets
 
 	OverlayWidget m_MapInteractionArea;
 
+	OverlayWidget m_MapInfoBar;
+	PR_MapInfoBarWidgetComponent m_MapInfoBarComponent;
+
 	TextWidget m_DeploymentCountdownText;
 
 	HorizontalLayoutWidget m_Warning0;
@@ -43,6 +46,9 @@ class PR_DeploymentMenuWidgets
 
 		m_MapInteractionArea = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea"));
 
+		m_MapInfoBar = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_MapInfoBar"));
+		m_MapInfoBarComponent = PR_MapInfoBarWidgetComponent.Cast(m_MapInfoBar.FindHandler(PR_MapInfoBarWidgetComponent));
+
 		m_DeploymentCountdownText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_DeploymentCountdownText"));
 
 		m_Warning0 = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning0"));
@@ -61,7 +67,7 @@ class PR_DeploymentMenuWidgets
 
 		m_SpawnPointNameText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.HorizontalLayout0.m_SpawnPointNameText"));
 
-		m_ChatPanel = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_ChatPanel"));
+		m_ChatPanel = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.ChatFrame.m_ChatPanel"));
 		m_ChatPanelComponent = SCR_ChatPanel.Cast(m_ChatPanel.FindHandler(SCR_ChatPanel));
 
 		m_RoleList = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.Right.HorizontalLayout0.m_RoleList"));

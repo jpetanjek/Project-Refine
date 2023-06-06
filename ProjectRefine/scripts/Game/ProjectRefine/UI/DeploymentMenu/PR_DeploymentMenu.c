@@ -26,6 +26,8 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		SCR_NavigationButtonComponent navBack = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Back", GetRootWidget());
 		navBack.m_OnActivated.Insert(OnBackButton);
 		
+		GetGame().GetInputManager().AddActionListener("ChatToggle", EActionTrigger.DOWN, OnChatToggleButton); 
+		
 		// Open map
 		SCR_MapEntity mapEntity = SCR_MapEntity.GetMapInstance();
 		MapConfiguration mapConfigFullscreen = mapEntity.SetupMapConfig(EMapEntityMode.REFINE_DEPLOYMENT_MENU, MAP_CONFIG, GetRootWidget() );
@@ -58,8 +60,6 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		SCR_MapEntity.GetOnMapOpen().Remove(OnMapOpen);
 		
 		m_MapUiElementsModule = PR_MapUiElementsModule.Cast(SCR_MapEntity.GetMapInstance().GetMapModule(PR_MapUiElementsModule));
-		
-		GetGame().GetInputManager().AddActionListener("MenuChat", EActionTrigger.DOWN, OnChatToggleButton); 
 		
 		InitSpawnPointUi();
 		
@@ -121,7 +121,8 @@ class PR_DeploymentMenu : ChimeraMenuBase
 	//-----------------------------------------------------------------------------------------------------------------------------
 	void OnChatToggleButton()
 	{
-		SCR_ChatPanelManager.GetInstance().ToggleChatPanel(widgets.m_ChatPanelComponent);
+		if (!widgets.m_ChatPanelComponent.IsOpen())
+			SCR_ChatPanelManager.GetInstance().OpenChatPanel(widgets.m_ChatPanelComponent);
 	}
 	
 	

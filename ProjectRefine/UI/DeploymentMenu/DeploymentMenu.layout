@@ -73,10 +73,15 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
              }
              {
               OverlayWidgetClass "{5D88C1411C32EBA2}" : "{E96FBDA051C03B2B}UI/DeploymentMenu/MapInfoBar.layout" {
-               Name "Top0"
+               Name "m_MapInfoBar"
                Slot OverlayWidgetSlot "{5D88C1439AD5A2D4}" {
                 HorizontalAlign 3
                 VerticalAlign 0
+               }
+               components {
+                SCR_WidgetExportRule "{5D8CFE36A298FC67}" {
+                 ExportChildWidgets 0
+                }
                }
               }
               SizeLayoutWidgetClass "{5D12A510F070A5F5}" : "{4589E27564E97836}UI/DeploymentMenu/SpawnPointSelectionPanel.layout" {
@@ -111,16 +116,32 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                 }
                }
               }
-              OverlayWidgetClass "{5CC91A88D66DE39D}" : "{28C54D576A8997CF}UI/layouts/HUD/Chat/ChatPanel.layout" {
-               Name "m_ChatPanel"
-               Slot OverlayWidgetSlot "{5CC91A88D66DE3FC}" {
-                HorizontalAlign 0
-                VerticalAlign 0
-                Padding 0 50 0 0
+              FrameWidgetClass "{5D8CFE326BF59818}" {
+               Name "ChatFrame"
+               Slot OverlayWidgetSlot "{5D8CFE326BF5984F}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+                Padding 0 0 0 0
                }
-               components {
-                SCR_WidgetExportRule "{5CE53265F985768B}" {
-                 ExportChildWidgets 0
+               {
+                OverlayWidgetClass "{5D8CFE32771CD9A5}" : "{28C54D576A8997CF}UI/layouts/HUD/Chat/ChatPanel.layout" {
+                 Name "m_ChatPanel"
+                 Slot FrameWidgetSlot "{5D8CFE32771CD9BE}" {
+                  Anchor 0 0 1 0
+                  PositionX 0
+                  OffsetLeft 0
+                  PositionY 70
+                  OffsetTop 70
+                  SizeX -622.2
+                  OffsetRight 0
+                  SizeY 310
+                  OffsetBottom -380
+                 }
+                 components {
+                  SCR_WidgetExportRule "{5D8CFE31820AEA88}" {
+                   ExportChildWidgets 0
+                  }
+                 }
                 }
                }
               }
