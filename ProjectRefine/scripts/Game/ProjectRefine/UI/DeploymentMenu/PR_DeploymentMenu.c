@@ -62,6 +62,22 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		GetGame().GetInputManager().AddActionListener("MenuChat", EActionTrigger.DOWN, OnChatToggleButton); 
 		
 		InitSpawnPointUi();
+		
+		// Zoom and pan the map somewhere
+		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
+		if (gm)
+		{
+			array<PR_CaptureArea> captureAreas = gm.GetCaptureAreas();
+			
+			vector acc = vector.Zero;
+			foreach (PR_CaptureArea a : captureAreas)
+			{
+				acc = acc + a.GetOwner().GetOrigin();
+			}
+			acc = acc / (float)captureAreas.Count();
+			
+			SCR_MapEntity.GetMapInstance().ZoomPanSmooth(0, acc[0], acc[2]);
+		}
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
