@@ -19,8 +19,14 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 		
 		widgets.m_CreateGroupButtonComponent.m_OnClicked.Insert(OnCreateGroupButton);
 		
+		// Faction changed event
+		PR_FactionMemberManager factionMemberMgr = PR_FactionMemberManager.GetInstance();
+		if (factionMemberMgr)
+			factionMemberMgr.GetOnPlayerChangedFaction().Insert(Event_OnPlayerChangedFaction);
+		
 		GetGame().GetCallqueue().CallLater(OnFrame, 0, true);
 		
+		ClearGroupList();
 		InitGroupList();
 	}
 	
@@ -30,6 +36,17 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 		
 		if (m_GroupsMgr)
 			m_GroupsMgr.GetOnPlayableGroupCreated().Remove(Event_OnPlayableGroupCreated);
+		
+		// Faction changed event
+		PR_FactionMemberManager factionMemberMgr = PR_FactionMemberManager.GetInstance();
+		if (factionMemberMgr)
+			factionMemberMgr.GetOnPlayerChangedFaction().Remove(Event_OnPlayerChangedFaction);
+	}
+	
+	protected void ClearGroupList()
+	{
+		while (widgets.m_GroupListLayout.GetChildren())
+			widgets.m_GroupListLayout.GetChildren().RemoveFromHierarchy();
 	}
 	
 	// Creates group entries for all existing groups
@@ -147,6 +164,18 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 			//for (int i = 0; i < 20; i++)
 			CreateGroupEntry(group);
 		}
+	}
+	
+	void Event_OnPlayerChangedFaction(int playerID, int newFactionIdx)
+	{
+		int myPlayerId = GetGame().GetPlayerController().GetPlayerId();
+		
+		if (myPlayerId != playerID)
+			return;
+		
+		// Refresh whole list
+		ClearGroupList();
+		InitGroupList();
 	}
 	
 	//-----------------------------------------------------------------------------------------------
