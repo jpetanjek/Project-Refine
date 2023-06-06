@@ -14,6 +14,7 @@ GenericEntity {
   SCR_FactionAffiliationComponent "{5D7B260C916ECC08}" {
   }
   RplComponent "{5D4D083945FFE5B7}" {
+   Streamable Disabled
   }
  }
  coords 0 0 0

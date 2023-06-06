@@ -61,6 +61,7 @@ StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMil
   }
   RplComponent "{5624A88DC2D9928D}" {
    Enabled 1
+   Streamable Disabled
   }
  }
  coords 0 0 0

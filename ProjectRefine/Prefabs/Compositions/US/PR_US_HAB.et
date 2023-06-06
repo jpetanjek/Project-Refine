@@ -14,6 +14,7 @@ GenericEntity {
   SCR_FactionAffiliationComponent "{5D7B260C874B453D}" {
   }
   RplComponent "{5D4D083945FFE5B7}" {
+   Streamable Disabled
   }
  }
  {
