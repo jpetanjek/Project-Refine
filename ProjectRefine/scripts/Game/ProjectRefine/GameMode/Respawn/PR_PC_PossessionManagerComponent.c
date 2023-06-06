@@ -3,9 +3,11 @@ void OnPlayerPossessionEntityChangedDelegate(bool isMain, PR_PC_PossessionManage
 
 enum PR_EPossessionState
 {
-	NONE,	// Possessing nothing
-	DUMMY,	// Possessing dummy character
-	MAIN	// Possessing main character
+	NO_FACTION,	// No faction is selected, the rest is unknown
+	NONE,		// Possessing nothing
+	DUMMY,		// Possessing dummy character
+	MAIN,		// Possessing main character
+	EDITOR		// We are in Editor UI
 }
 
 [EntityEditorProps(category: "GameScripted/ScriptWizard", description: "Class for managing possession in PR game modes")]
@@ -19,6 +21,8 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	protected SCR_PlayerController m_PlayerController;
 	
 	protected IEntity m_DummyEntity;
+	
+	protected SCR_EditorManagerCore m_EditorCore;
 	
 	protected bool m_bFactionChanged = false; // Synchronized from event
 	
@@ -71,21 +75,34 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	PR_EPossessionState GetState()
 	{
+		// In editor?
+		SCR_EditorManagerEntity editorManager = m_EditorCore.GetEditorManager(m_PlayerController.GetPlayerId());
+		if (editorManager && (editorManager.IsOpened() || editorManager.IsInTransition()))
+			return PR_EPossessionState.EDITOR;
+		
+		// No faction?
+		SCR_Faction playerFaction = SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(m_PlayerController.GetPlayerId()));
+		
+		if (!playerFaction)
+			return PR_EPossessionState.NO_FACTION;
+		
 		IEntity controlledEntity = m_PlayerController.GetControlledEntity();
 		if (!controlledEntity)
 			controlledEntity = m_PlayerController.GetMainEntity();
 		
+		// No controlled entity?
 		if (!controlledEntity)
 			return PR_EPossessionState.NONE;
 		
 		ResourceName prefabName = controlledEntity.GetPrefabData().GetPrefabName();
 		
-		SCR_Faction playerFaction = SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(m_PlayerController.GetPlayerId()));
-				
+		// Controlling dummy?
 		if (prefabName == playerFaction.GetDummyPrefab() || prefabName == playerFaction.GetDummyRadioPrefab())
 			return PR_EPossessionState.DUMMY;
 		else
 		{
+			// Controlled entity is destroyed?
+			
 			// Check damage mgr state, because even when possessed entity is killed, GetControlledEntity returns it.
 			DamageManagerComponent damageMgr = DamageManagerComponent.Cast(controlledEntity.FindComponent(DamageManagerComponent));
 			if (damageMgr.IsDestroyed())
@@ -123,6 +140,8 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 				groups[i].GetOnPlayerLeaderChanged().Insert(OnPlayerLeaderChanged);
 			}
 		}
+		
+		m_EditorCore = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
 	}
 	
 	void Event_OnPlayableGroupCreated(SCR_AIGroup group)
@@ -182,47 +201,47 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 			}
 		}
 		
-		int factionId = PR_FactionMemberManager.GetInstance().GetPlayerFactionIndex(m_PlayerController.GetPlayerId());
+		PR_EPossessionState state = GetState();
 		
-		if (factionId == -1 && m_DummyEntity)
+		// What to do depends on state
+		
+		if (state == PR_EPossessionState.NO_FACTION && m_DummyEntity)
 		{
 			// We don't have a faction
 			// Delete dummy if we have it
 			DeleteDummyEntity();
 		}
-		else if (factionId != -1)
+		else if (state == PR_EPossessionState.NONE)
 		{
-			// We have a faction
-			// What to do depends on state
-			
-			PR_EPossessionState state = GetState();
-			
-			if (state == PR_EPossessionState.NONE)
+			// Create dummy if we don't have it, possess it
+			if(m_bBecameGroupLead)
 			{
-				// Create dummy if we don't have it, possess it
-				if(m_bBecameGroupLead)
-				{
-					_print("Possessing dummy leader");
-					PossessDummyEntity(SpawnDummyEntity(SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(m_PlayerController.GetPlayerId())), 1));
-				}
-				else
-				{
-					_print("Possessing regular dummy");
-					PossessDummyEntity(SpawnDummyEntity(SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(m_PlayerController.GetPlayerId())), 0));
-				}
+				_print("Possessing dummy leader");
+				PossessDummyEntity(SpawnDummyEntity(SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(m_PlayerController.GetPlayerId())), 1));
 			}
-			else if (state == PR_EPossessionState.MAIN && m_DummyEntity)
+			else
 			{
-				// Clean up dummy if we are back at main character
-				// This is needed because when we switch to Editor UI, a dummy is created again,
-				// So when we switch back, we should clean it up
-				DeleteDummyEntity();
+				_print("Possessing regular dummy");
+				PossessDummyEntity(SpawnDummyEntity(SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(m_PlayerController.GetPlayerId())), 0));
 			}
-			
-			// If we are in DUMMY or MAIN state, don't do anything
+		}
+		else if (state == PR_EPossessionState.MAIN && m_DummyEntity)
+		{
+			// Clean up dummy if we are back at main character
+			// This is needed because when we switch to Editor UI, a dummy is created again,
+			// So when we switch back, we should clean it up
+			DeleteDummyEntity();
+		}
+		else if (state == PR_EPossessionState.EDITOR && m_DummyEntity)
+		{
+			DeleteDummyEntity();
 		}
 		
-		m_bFactionChanged = false; m_bLostGroupLead = false; m_bBecameGroupLead = false;
+		// If we are in DUMMY or MAIN state, don't do anything
+		
+		m_bFactionChanged = false;
+		m_bLostGroupLead = false;
+		m_bBecameGroupLead = false;
 	}
 	
 	//------------------------------------------------------------------------------------------------

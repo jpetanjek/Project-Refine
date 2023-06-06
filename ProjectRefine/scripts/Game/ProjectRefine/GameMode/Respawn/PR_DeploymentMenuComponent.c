@@ -45,21 +45,21 @@ class PR_DeploymentMenuComponent : PR_BaseGameModeComponent
 	
 	void MenuLogic()
 	{
-		SCR_EditorManagerCore core = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
-		SCR_EditorManagerEntity editorManager = core.GetEditorManager(m_pc.GetPlayerId());
+		PR_EPossessionState possessionState = m_PossessionManager.GetState();
+		
+		//SCR_EditorManagerCore core = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
+		//SCR_EditorManagerEntity editorManager = core.GetEditorManager(m_pc.GetPlayerId());
 		
 		// If editor is opened, it overrides our menus
-		if (editorManager && (editorManager.IsOpened() || editorManager.IsInTransition()))
+		if (possessionState == PR_EPossessionState.EDITOR) //editorManager && (editorManager.IsOpened() || editorManager.IsInTransition()))
 		{
 			m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineDeploymentMenu);
 			m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
 		}
 		else
 		{
-			if (!m_RespawnSystem.GetLocalPlayerFaction())
+			if (possessionState == PR_EPossessionState.NO_FACTION)
 			{
-				// Edge case of no faction assigned, but has character?
-				
 				// We don't have faction
 				if(!m_MenuMgr.FindMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu))
 					m_MenuMgr.OpenMenu(ChimeraMenuPreset.RefineFactionSelectionMenu);
@@ -69,8 +69,6 @@ class PR_DeploymentMenuComponent : PR_BaseGameModeComponent
 				m_MenuMgr.CloseMenuByPreset(ChimeraMenuPreset.RefineFactionSelectionMenu);
 				
 				//if(m_pc.GetControlledEntity()) Print("HasControlled 1"); else Print("HasControlled 0");
-				
-				PR_EPossessionState possessionState = m_PossessionManager.GetState();
 				
 				if (possessionState != PR_EPossessionState.MAIN)
 				{
