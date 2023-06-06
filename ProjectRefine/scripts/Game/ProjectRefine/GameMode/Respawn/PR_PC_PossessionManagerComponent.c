@@ -26,9 +26,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	
 	protected bool m_bFactionChanged = false; // Synchronized from event
 	
-	protected bool m_bBecameGroupLead = false;
-	
-	protected bool m_bLostGroupLead = false;
+	protected bool m_bGroupLeadChanged = false; // Our state of being a group leader has changed
 	
 	protected int m_iLastGroupIWasLeadIn = -1;
 
@@ -155,8 +153,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		{
 			m_iLastGroupIWasLeadIn = -1;
 			
-			m_bLostGroupLead = true;
-			m_bBecameGroupLead = false;
+			m_bGroupLeadChanged = true;
 
 			_print("We are no longer group lead of " + group.GetGroupID());
 		}
@@ -168,8 +165,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		{
 			m_iLastGroupIWasLeadIn = -1;
 			
-			m_bLostGroupLead = true;
-			m_bBecameGroupLead = false;
+			m_bGroupLeadChanged = true;
 
 			_print("We are no longer group lead of " + groupID);
 		}
@@ -178,8 +174,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		{
 			m_iLastGroupIWasLeadIn = groupID;
 			
-			m_bBecameGroupLead = true;
-			m_bLostGroupLead = false;
+			m_bGroupLeadChanged = true;
 
 			_print("We became group lead of " + groupID);
 		}
@@ -191,7 +186,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	// Sadly EOnFrame doesn't work on server for player-owned player controllers :( thus we update it from elsewhere
 	void EOnFrameServer(IEntity owner, float timeSlice)
 	{
-		if (m_bFactionChanged || m_bLostGroupLead || m_bBecameGroupLead)
+		if (m_bFactionChanged || m_bGroupLeadChanged)
 		{
 			// Clean up previous dummy entity if it existed
 			if (m_DummyEntity)
@@ -214,7 +209,14 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		else if (state == PR_EPossessionState.NONE)
 		{
 			// Create dummy if we don't have it, possess it
-			if(m_bBecameGroupLead)
+			// The prefab depends on whether we are a group leader or not
+			
+			SCR_AIGroup group = SCR_GroupsManagerComponent.GetInstance().GetPlayerGroup(m_PlayerController.GetPlayerId());
+			bool isLeader = false;
+			if (group)
+				isLeader = group.IsPlayerLeader(m_PlayerController.GetPlayerId());
+			
+			if(isLeader)
 			{
 				_print("Possessing dummy leader");
 				PossessDummyEntity(SpawnDummyEntity(SCR_Faction.Cast(PR_FactionMemberManager.GetInstance().GetPlayerFaction(m_PlayerController.GetPlayerId())), 1));
@@ -240,8 +242,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		// If we are in DUMMY or MAIN state, don't do anything
 		
 		m_bFactionChanged = false;
-		m_bLostGroupLead = false;
-		m_bBecameGroupLead = false;
+		m_bGroupLeadChanged = false;
 	}
 	
 	//------------------------------------------------------------------------------------------------
