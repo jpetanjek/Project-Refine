@@ -159,6 +159,12 @@ class PR_CaptureArea : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	bool GetCaptureable()
+	{
+		return m_bCapturable;
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	array<PR_AssetSpawner> GetAssetSpawners()
 	{
 		array<PR_AssetSpawner> a = {};
