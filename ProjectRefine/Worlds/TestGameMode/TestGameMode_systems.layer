@@ -1,6 +1,8 @@
 PR_FactionManager PR_FactionManager_USxUSSR1 : "{1D93362B44F48351}Prefabs/Managers/Factions/PR_FactionManager_USxUSSR.et" {
  coords 9.15 79.397 517.651
 }
+TagManager : "{2FA9E172CAB1857A}Prefabs/MP/Managers/TagManager.et" {
+}
 SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
 }
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {

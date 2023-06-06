@@ -23,6 +23,9 @@ PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
     30500 30600 30700 30800
    }
   }
+  SCR_NametagConfigComponent "{571AA9E54FC9210D}" {
+   m_sConfigPath "{09F7AAA14A642683}Configs/NameTags/NametagFriendlies.conf"
+  }
   SCR_ScoringSystemComponent "{5B16FDA74EDF5FFA}" {
    m_aActions {
     EndGameAction "{5B16FDA74EDF5FFB}" {

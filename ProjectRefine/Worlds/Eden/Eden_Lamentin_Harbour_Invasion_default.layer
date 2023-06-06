@@ -1,6 +1,8 @@
 SCR_AIWorld : "{E0A05C76552E7F58}Prefabs/AI/SCR_AIWorld.et" {
  coords 6300.333 113.899 4729.731
 }
+TagManager : "{2FA9E172CAB1857A}Prefabs/MP/Managers/TagManager.et" {
+}
 SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
  coords 6301.176 113.383 4730.212
 }
