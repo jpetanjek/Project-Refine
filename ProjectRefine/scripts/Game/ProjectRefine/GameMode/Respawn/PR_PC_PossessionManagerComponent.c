@@ -285,6 +285,10 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		
 		PR_EPossessionState state = GetState();
 		_print(string.Format("...new state: %1", typename.EnumToString(PR_EPossessionState, state)));
+		
+		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
+		if (gm)
+			gm.OnPlayerMainCharacterPossessed(mainEntity);
 	}
 	
 	

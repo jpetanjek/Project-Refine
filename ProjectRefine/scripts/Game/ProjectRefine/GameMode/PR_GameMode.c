@@ -385,7 +385,7 @@ class PR_GameMode : SCR_BaseGameMode
 			}
 			case PR_EGameModeStage.DEBRIEF:
 			{
-				TickGameModeDEBRIEF(timeSlice);
+				TickGameModeDebrief(timeSlice);
 				break;
 			}
 		}
@@ -399,7 +399,7 @@ class PR_GameMode : SCR_BaseGameMode
 			m_OnGameModeStageChanged.Invoke(m_eGameModeStage);
 		}
 		
-		if(m_fTimeElapsed > PREPARATION_DURATION_S)
+		if(m_fTimeElapsed > PREPARATION_DURATION_S || DiagMenu.GetBool(SCR_DebugMenuID.REFINE_DISABLE_PREPARATION_STAGE))
 		{
 			RequestNextGameModeStage();
 		}
@@ -536,7 +536,7 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 	}
 	
-	void TickGameModeDEBRIEF(float timeSlice)
+	void TickGameModeDebrief(float timeSlice)
 	{
 		array<int> winnerFactions = {}; // All factions except the one which has lowest amount of points
 		// Do this only once
@@ -705,41 +705,6 @@ class PR_GameMode : SCR_BaseGameMode
 	// Assets
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
-	protected override void OnPlayerKilled(int playerId, IEntity player, IEntity killer)
-	{
-		super.OnPlayerKilled(playerId, player, killer);
-		
-		// Only for Master
-		if (!IsMaster())
-			return;
-		
-		// Bail if we are not in live game stage yet
-		if(m_eGameModeStage != PR_EGameModeStage.LIVE)
-			return;
-
-		FactionAffiliationComponent factionComp = FactionAffiliationComponent.Cast(player.FindComponent(FactionAffiliationComponent));
-		Faction faction = factionComp.GetAffiliatedFaction();
-		
-		// Bail if friendly fire - prevent losing tickets in that case
-		if (killer)
-		{
-			FactionAffiliationComponent killerFactionComp = FactionAffiliationComponent.Cast(killer.FindComponent(FactionAffiliationComponent));
-			if (killerFactionComp)
-			{
-				if (killerFactionComp.GetAffiliatedFaction() == faction)
-					return;
-			}
-		}
-		
-		// Remove score from faction of player
-		FactionManager fm = GetGame().GetFactionManager();
-		int factionId = fm.GetFactionIndex(faction);
-		
-		int cost = GetAssetCost(PR_EAssetType.SOLDIER);
-		AddFactionScore(factionId, -cost);
-	}
-	
-	//-------------------------------------------------------------------------------------------------------------------------------
 	// Roles
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -778,6 +743,21 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
+	// Called from PR_PC_PossessionManagerComponent
+	void OnPlayerMainCharacterPossessed(IEntity entity)
+	{
+		if (!entity)
+			return;
+		
+		ScriptedDamageManagerComponent damageManager = ScriptedDamageManagerComponent.Cast(entity.FindComponent(ScriptedDamageManagerComponent));
+		if (damageManager)
+		{
+			damageManager.GetOnDestroyed().Remove(OnPlayerCharacterDestroyed);
+			damageManager.GetOnDestroyed().Insert(OnPlayerCharacterDestroyed);
+		}
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
 	// Called by asset spawner
 	void OnAssetSpawned(PR_AssetSpawner spawner, IEntity entity, int factionId)
 	{
@@ -805,6 +785,41 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		int cost = GetAssetCost(infoComp.GetAssetType());
 		AddFactionScore(infoComp.GetInitialFactionId(), -cost);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	protected void OnPlayerCharacterDestroyed(IEntity entity, IEntity killer)
+	{
+		// Only for Master
+		if (!IsMaster())
+			return;
+		
+		// Bail if we are not in live game stage yet
+		if(m_eGameModeStage != PR_EGameModeStage.LIVE)
+			return;
+
+		FactionAffiliationComponent factionComp = FactionAffiliationComponent.Cast(entity.FindComponent(FactionAffiliationComponent));
+		Faction faction = factionComp.GetAffiliatedFaction();
+		
+		// Bail if friendly fire - prevent losing tickets in that case
+		/*
+		if (killer)
+		{
+			FactionAffiliationComponent killerFactionComp = FactionAffiliationComponent.Cast(killer.FindComponent(FactionAffiliationComponent));
+			if (killerFactionComp)
+			{
+				if (killerFactionComp.GetAffiliatedFaction() == faction)
+					return;
+			}
+		}
+		*/
+		
+		// Remove score from faction of player
+		FactionManager fm = GetGame().GetFactionManager();
+		int factionId = fm.GetFactionIndex(faction);
+		
+		int cost = GetAssetCost(PR_EAssetType.SOLDIER);
+		AddFactionScore(factionId, -cost);
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -912,6 +927,8 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_DEPLOYMENT_COUNTDOWN, "", 	"Disable Depl. Countdown", cheatMenuName);
 		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_AUTO_DEPLOYMENT_MENU, "", 	"Disable Auto Depl. Menu", cheatMenuName);
+		DiagMenu.RegisterBool(SCR_DebugMenuID.REFINE_DISABLE_PREPARATION_STAGE, "", 	"Disable Preparation Stage", cheatMenuName);
+		
 		
 		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_HOLDER_IDX, "", 					"Supply: Holder IDX", cheatMenuName, "0, 128, 0, 1");
 		DiagMenu.RegisterRange(SCR_DebugMenuID.REFINE_TARGET_IDX, "", 					"Supply: Target IDX", cheatMenuName, "0, 128, 0, 1");
