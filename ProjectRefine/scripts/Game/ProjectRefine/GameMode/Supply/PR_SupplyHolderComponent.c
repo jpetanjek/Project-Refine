@@ -82,17 +82,18 @@ class PR_SupplyHolderComponent : ScriptComponent
 		// Fill in m_aAvailableHolders from s_aAllHolders
 		m_aAvailableHolders.Clear();
 		int thisIdx = s_aAllHolders.Find(this);
+		vector thisPos = GetOwner().GetOrigin();
 		for(int i = 0; i < s_aAllHolders.Count(); i++)
 		{
 			if(i == thisIdx)
 				continue;
-			vector thisTransform[4];
-			vector cmpTransform[4];
-			GetOwner().GetWorldTransform(thisTransform);
-			s_aAllHolders[i].GetOwner().GetWorldTransform(cmpTransform);
-			float distance = vector.Distance(thisTransform[3], cmpTransform[3]);
 			
-			if(distance <= m_fRange)
+			PR_SupplyHolderComponent other = s_aAllHolders[i];
+			vector otherPos = other.GetOwner().GetOrigin();
+			
+			float distance = vector.Distance(thisPos, otherPos);
+			
+			if(distance <= Math.Max(m_fRange, other.m_fRange))
 			{
 				m_aAvailableHolders.Insert(s_aAllHolders[i]);
 			} 
