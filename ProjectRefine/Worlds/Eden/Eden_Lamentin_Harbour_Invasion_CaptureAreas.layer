@@ -219,21 +219,21 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
      angleY -45
     }
     {
-     coords -24.91 -1.54 -25.904
-     angleY -180
+     coords -35.995 -0.276 -20.891
+     angleY 180
     }
     {
-     coords 7.156 0.013 14.894
+     coords 7.156 0.014 14.894
     }
     {
      coords 3.734 0.059 21.987
     }
     {
-     coords -21.562 0.664 -28.909
-     angleY -180
+     coords -21.561 0.664 -28.909
+     angleY 180
     }
     {
-     coords -25.788 -1.54 -18.92
+     coords -25.788 0.426 -18.92
      angleY -120
     }
    }
