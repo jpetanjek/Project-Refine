@@ -16,7 +16,8 @@ modded class PauseMenuUI
 		
 		// We make the pause menu modal, because when we open it over our menus, we don't want
 		// to be able to interace with menus behind it
-		GetGame().GetWorkspace().AddModal(GetRootWidget(), GetRootWidget());
+		// Had to disable it, since it makes interaction with other menus (settings, etc) impossible
+		//GetGame().GetWorkspace().AddModal(GetRootWidget(), GetRootWidget());
 		
 		// Change Faction
 		m_ChangeFactionButton = SCR_ButtonTextComponent.GetButtonText("ChangeFaction", m_wRoot);
