@@ -1,88 +1,94 @@
 ImageSetClass {
- RefSize 524 784
+ RefSize 264 1564
  Textures {
   ImageSetTextureClass {
    screenSize FHD
-   size 524 656
+   size 264 1564
    path "{B8C205DFA5E72995}UI/Map/Icons/MapIcons_atlas.edds"
   }
  }
  Images {
   ImageSetDefClass arrow_down {
    Name "arrow_down"
-   Pos 2 2
+   Pos 2 133
    Size 128 128
    Flags 0
   }
   ImageSetDefClass arrow_left {
    Name "arrow_left"
-   Pos 132 2
+   Pos 2 783
    Size 128 128
    Flags 0
   }
   ImageSetDefClass arrow_right {
    Name "arrow_right"
-   Pos 262 2
+   Pos 132 1172
    Size 128 128
    Flags 0
   }
   ImageSetDefClass arrow_up {
    Name "arrow_up"
-   Pos 392 2
+   Pos 2 263
    Size 128 128
    Flags 0
   }
   ImageSetDefClass barrack {
    Name "barrack"
-   Pos 2 132
+   Pos 132 1432
    Size 128 128
    Flags 0
   }
   ImageSetDefClass capture_point {
    Name "capture_point"
-   Pos 132 132
+   Pos 2 393
    Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass capture_point_locked {
+   Name "capture_point_locked"
+   Pos 2 2
+   Size 128 129
    Flags 0
   }
   ImageSetDefClass castle {
    Name "castle"
-   Pos 262 132
+   Pos 2 523
    Size 128 128
    Flags 0
   }
   ImageSetDefClass character {
    Name "character"
-   Pos 392 132
+   Pos 2 913
    Size 128 128
    Flags 0
   }
   ImageSetDefClass character_leader {
    Name "character_leader"
-   Pos 2 262
+   Pos 2 653
    Size 128 128
    Flags 0
   }
   ImageSetDefClass character_leader_same_group {
    Name "character_leader_same_group"
-   Pos 132 262
+   Pos 132 1042
    Size 128 128
    Flags 0
   }
   ImageSetDefClass character_same_group {
    Name "character_same_group"
-   Pos 262 262
+   Pos 132 132
    Size 128 128
    Flags 0
   }
   ImageSetDefClass circle {
    Name "circle"
-   Pos 392 262
+   Pos 2 1043
    Size 128 128
    Flags 0
   }
   ImageSetDefClass circle_cross {
    Name "circle_cross"
-   Pos 2 392
+   Pos 132 262
    Size 128 128
    Flags 0
   }
@@ -94,49 +100,49 @@ ImageSetClass {
   }
   ImageSetDefClass circle_unknown {
    Name "circle_unknown"
-   Pos 262 392
+   Pos 132 522
    Size 128 128
    Flags 0
   }
   ImageSetDefClass circle_warning {
    Name "circle_warning"
-   Pos 392 392
+   Pos 132 652
    Size 128 128
    Flags 0
   }
   ImageSetDefClass cross {
    Name "cross"
-   Pos 2 522
+   Pos 132 782
    Size 128 128
    Flags 0
   }
   ImageSetDefClass eye {
    Name "eye"
-   Pos 132 522
+   Pos 132 912
    Size 128 128
    Flags 0
   }
   ImageSetDefClass small_dot {
    Name "small_dot"
-   Pos 262 522
+   Pos 2 1173
    Size 128 128
    Flags 0
   }
   ImageSetDefClass small_square {
    Name "small_square"
-   Pos 392 522
+   Pos 132 1302
    Size 128 128
    Flags 0
   }
   ImageSetDefClass vehicle {
    Name "vehicle"
-   Pos 2 652
+   Pos 2 1303
    Size 128 128
    Flags 0
   }
   ImageSetDefClass view_cone {
    Name "view_cone"
-   Pos 132 652
+   Pos 132 2
    Size 128 128
    Flags 0
   }

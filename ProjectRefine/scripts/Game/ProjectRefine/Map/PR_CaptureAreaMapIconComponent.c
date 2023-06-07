@@ -24,6 +24,12 @@ class PR_CaptureAreaMapIconComponent : ScriptComponent
 			return;
 		MapDescriptorProps props = mapItem.GetProps();
 		
+		// Icon
+		if (m_CaptureArea.GetCaptureable())
+			mapItem.SetImageDef("capture_point");
+		else
+			mapItem.SetImageDef("capture_point_locked");
+		
 		// Сolor
 		Color frontColor = null;
 		Faction ownerFaction = GetGame().GetFactionManager().GetFactionByIndex(m_CaptureArea.GetOwnerFactionId());
@@ -41,13 +47,9 @@ class PR_CaptureAreaMapIconComponent : ScriptComponent
 		bool showCaptureProgress = areaOwnerFactionId != -1 && playerFactionId == areaOwnerFactionId;
 		int captureProgressPercent = Math.Floor(m_CaptureArea.GetPointsRelative() * 100.0);
 		
-		string strLocked = string.Empty;
-		if (!m_CaptureArea.GetCaptureable())
-			strLocked = "LOCKED ";
-		
 		string iconName;
 		if (showCaptureProgress)
-			iconName = string.Format("[%1%2%%] %3", strLocked, captureProgressPercent, m_CaptureArea.GetName());
+			iconName = string.Format("[%1%%] %2", captureProgressPercent, m_CaptureArea.GetName());
 		else
 			iconName = m_CaptureArea.GetName();
 		
