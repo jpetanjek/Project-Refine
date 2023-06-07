@@ -9,6 +9,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 {	
 	ref array<PR_ActiveMapIcon> m_AllMarkers = new array<PR_ActiveMapIcon>;
 	ref array<PR_ActiveMapIcon> m_NewMarkers = new array<PR_ActiveMapIcon>;
+	ref array<PR_ActiveMapIconInformerComponent> m_RegistrationQueue = new array<PR_ActiveMapIconInformerComponent>();
 	
 	protected static PR_ActiveMapIconManagerComponent s_Instance;
 	
@@ -33,7 +34,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		super.OnPostInit(owner);
 		
 		if(Replication.IsServer())
-			SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
+			SetEventMask(GetOwner(), EntityEvent.FRAME);
 		
 		SCR_EditorManagerCore editorManagerCore = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
 		if (editorManagerCore)
@@ -232,19 +233,9 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
-	PR_ActiveMapIcon ServerRegister(ScriptComponent target,ResourceName m_ActiveMapIconPrefab)
-	{	
-		PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(m_ActiveMapIconPrefab)));
-		if(activeMapIcon != null)
-		{
-			m_AllMarkers.Insert(activeMapIcon);
-			m_NewMarkers.Insert(activeMapIcon);
-			
-			activeMapIcon.Init(target.GetOwner());
-
-			return activeMapIcon;
-		}
-		return null;
+	void ServerRegisterAsync(PR_ActiveMapIconInformerComponent target)
+	{
+		m_RegistrationQueue.Insert(target);
 	}
 	
 	void ClientRegister(PR_ActiveMapIcon activeMapIcon)
@@ -269,14 +260,37 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
-	override void EOnFixedFrame(IEntity owner, float timeSlice)
+	override void EOnFrame(IEntity owner, float timeSlice)
 	{
+		// Register icons asynchronously
+		for(int i = m_RegistrationQueue.Count(); i > 0; i--)
+		{
+			PR_ActiveMapIconInformerComponent target = m_RegistrationQueue[i-1];
+			
+			if (target)
+			{
+				ResourceName activeMapIconPrefab = target.GetIconPrefab();
+			
+				PR_ActiveMapIcon activeMapIcon = PR_ActiveMapIcon.Cast(GetGame().SpawnEntityPrefab(Resource.Load(activeMapIconPrefab)));
+				if(activeMapIcon != null)
+				{
+					m_AllMarkers.Insert(activeMapIcon);
+					m_NewMarkers.Insert(activeMapIcon);
+					
+					activeMapIcon.Init(target.GetOwner());
+					
+					target.InitCompletion(activeMapIcon);
+				}
+			}
+			
+			m_RegistrationQueue.RemoveOrdered(i-1);
+		}
+		
 		if(m_NewMarkers != null && !m_NewMarkers.IsEmpty())
 		{
 			StreamingLogic();
 			m_NewMarkers.Clear();
 		}
-			
 	}
 	
 	void StreamingLogic()

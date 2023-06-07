@@ -13,6 +13,11 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 	
 	protected PR_ActiveMapIcon m_Icon;
 	
+	ResourceName GetIconPrefab()
+	{
+		return m_IconPrefab;
+	}
+	
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
@@ -30,10 +35,16 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 		m_MapManager = PR_ActiveMapIconManagerComponent.GetInstance();
 		if(m_MapManager)
 		{
-			m_Icon = m_MapManager.ServerRegister(this, m_IconPrefab);
+			m_MapManager.ServerRegisterAsync(this); // It will be registered asynchronously, it will call FinishInit
 		}
+	}
+	
+	// Called from manager to finish init
+	void InitCompletion(PR_ActiveMapIcon createdIcon)
+	{
+		m_Icon = createdIcon;
 		
-		SCR_FactionAffiliationComponent m_FactionAffiliationComponent = SCR_FactionAffiliationComponent.Cast(owner.FindComponent(SCR_FactionAffiliationComponent));
+		SCR_FactionAffiliationComponent m_FactionAffiliationComponent = SCR_FactionAffiliationComponent.Cast(GetOwner().FindComponent(SCR_FactionAffiliationComponent));
 		if (m_FactionAffiliationComponent && m_Icon)
 		{
 			m_FactionAffiliationComponent.GetOnFactionUpdate().Insert(OnTargetFactionChanged);
@@ -57,6 +68,5 @@ class PR_ActiveMapIconInformerComponent : ScriptComponent
 		{
 			m_MapManager.Unregister(m_Icon);
 		}
-	}
-	
+	}	
 }
