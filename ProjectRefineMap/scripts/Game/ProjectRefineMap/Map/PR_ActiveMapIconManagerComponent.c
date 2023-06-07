@@ -34,7 +34,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		super.OnPostInit(owner);
 		
 		if(Replication.IsServer())
-			SetEventMask(GetOwner(), EntityEvent.FIXEDFRAME);
+			SetEventMask(GetOwner(), EntityEvent.FRAME);
 		
 		SCR_EditorManagerCore editorManagerCore = SCR_EditorManagerCore.Cast(SCR_EditorManagerCore.GetInstance(SCR_EditorManagerCore));
 		if (editorManagerCore)
@@ -260,12 +260,12 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
-	override void EOnFixedFrame(IEntity owner, float timeSlice)
+	override void EOnFrame(IEntity owner, float timeSlice)
 	{
 		// Register icons asynchronously
-		while (!m_RegistrationQueue.IsEmpty())
+		for(int i = m_RegistrationQueue.Count(); i > 0; i--)
 		{
-			PR_ActiveMapIconInformerComponent target = m_RegistrationQueue[0];
+			PR_ActiveMapIconInformerComponent target = m_RegistrationQueue[i-1];
 			
 			if (target)
 			{
@@ -283,7 +283,7 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 				}
 			}
 			
-			m_RegistrationQueue.RemoveOrdered(0);
+			m_RegistrationQueue.RemoveOrdered(i-1);
 		}
 		
 		if(m_NewMarkers != null && !m_NewMarkers.IsEmpty())
