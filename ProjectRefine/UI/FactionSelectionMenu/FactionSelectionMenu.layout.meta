@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{FAF119E75E0B9EBD}UI/DeploymentMenu/FactionSelectionMenu.layout"
+ Name "{FAF119E75E0B9EBD}UI/FactionSelectionMenu/FactionSelectionMenu.layout"
  Configurations {
   LayoutResourceClass PC {
   }
