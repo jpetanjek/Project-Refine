@@ -162,60 +162,89 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
             }
            }
           }
-          VerticalLayoutWidgetClass "{5CFEC731B6516555}" {
-           Name "Tutorial"
-           Slot LayoutSlot "{5CFEC731B65165AB}" {
+          OverlayWidgetClass "{5D9109FC14BDB790}" {
+           Name "Overlay0"
+           Slot LayoutSlot "{5D9109FC14BDB67F}" {
             Padding 80 0 0 0
             SizeMode Fill
             FillWeight 1.5
            }
            {
-            TextWidgetClass "{5CFEC731BD6B9B8D}" {
-             Name "Text0"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+            ImageWidgetClass "{5D9109F7DFF75ABB}" {
+             Name "Image0"
+             Slot OverlayWidgetSlot {
+              HorizontalAlign 2
+              VerticalAlign 0
              }
-             Clipping False
-             Text "Reality mod"
-             "Font Size" 36
-             "Min Font Size" 36
-             "Horizontal Alignment" Center
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
-             }
+             Texture "{4CBBFDEB4563086D}UI/Logo/LogoTransparentWhite.edds"
+             Size 180 100
             }
-            TextWidgetClass "{5D870B722719EA62}" {
-             Name "m_GameModeName"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+            VerticalLayoutWidgetClass "{5CFEC731B6516555}" {
+             Name "Tutorial"
+             Slot OverlayWidgetSlot {
+              HorizontalAlign 3
+              VerticalAlign 3
              }
-             Clipping False
-             Text "Invasion"
-             "Font Size" 36
-             "Min Font Size" 36
-             "Horizontal Alignment" Center
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
-             }
-            }
-            TextWidgetClass "{5D870B727726B321}" {
-             Name "GeneralRules"
-             Slot LayoutSlot "{5CFEC730D0C4B12D}" {
-              Padding 0 25 0 0
-             }
-             Clipping False
-             Text "Game mode"\
-             "- Team vs team"\
-             "- Teamwork-oriented game mode"\
-             "- Squad based organization with specialized roles"\
-             ""\
-             "Invasion"\
-             "- Invaders can capture flags, defenders cannot. Preparation phase for defenders to deploy."\
-             "- Game is won when the enemy team runs out of tickets or the invader captures all flags."\
-             "- Capturing flags gains tickets. Destroying assets or incapacitating soldiers depletes tickets."\
-             ""
-             "Min Font Size" 24
-             Wrap 1
-             FontProperties FontProperties "{5CFEC73020DCA989}" {
-              Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+             {
+              HorizontalLayoutWidgetClass "{5D9109F04A68AC10}" {
+               Name "HorizontalLayout0"
+               Slot LayoutSlot "{5D9109F04A68ACF7}" {
+                VerticalAlign 1
+               }
+               {
+                TextWidgetClass "{5CFEC731BD6B9B8D}" {
+                 Name "Text0"
+                 Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+                  HorizontalAlign 1
+                  VerticalAlign 1
+                  SizeMode Fill
+                 }
+                 Clipping False
+                 Text "ESCALATION "
+                 "Font Size" 92
+                 "Min Font Size" 36
+                 "Horizontal Alignment" Center
+                 FontProperties FontProperties "{5CFEC73020DCA989}" {
+                  Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+                 }
+                }
+               }
+              }
+              TextWidgetClass "{5D870B722719EA62}" {
+               Name "m_GameModeName"
+               Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+               }
+               Clipping False
+               Text "Invasion"
+               "Font Size" 36
+               "Min Font Size" 36
+               "Horizontal Alignment" Center
+               FontProperties FontProperties "{5CFEC73020DCA989}" {
+                Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+               }
+              }
+              TextWidgetClass "{5D870B727726B321}" {
+               Name "GeneralRules"
+               Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+                Padding 0 25 0 0
+               }
+               Clipping False
+               Text "Game mode"\
+               "- Team vs team"\
+               "- Teamwork-oriented game mode"\
+               "- Squad based organization with specialized roles"\
+               ""\
+               "Invasion"\
+               "- Invaders can capture flags, defenders cannot. Preparation phase for defenders to deploy."\
+               "- Game is won when the enemy team runs out of tickets or the invader captures all flags."\
+               "- Capturing flags gains tickets. Destroying assets or incapacitating soldiers depletes tickets."\
+               ""
+               "Min Font Size" 24
+               Wrap 1
+               FontProperties FontProperties "{5CFEC73020DCA989}" {
+                Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+               }
+              }
              }
             }
            }
