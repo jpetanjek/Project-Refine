@@ -42,6 +42,8 @@ RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
 ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
  coords 0 0 0
 }
+SCR_GarbageManager : "{7C54ABF41F356688}Prefabs/MP/Managers/PR_GarbageManager.et" {
+}
 SCR_LoadoutManager : "{97EF4C1A41F63DDB}Prefabs/MP/Managers/Loadouts/LoadoutManager_USxUSSR.et" {
  m_aPlayerLoadouts {
   SCR_FactionPlayerLoadout "{5CA333AAB46A3E48}" {

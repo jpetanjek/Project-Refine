@@ -1,0 +1,7 @@
+SCR_GarbageManager : "{9B883A7D8EBB282A}Prefabs/MP/Managers/GarbageManager.et" {
+ ID "58FCFBAFCEA1AFFD"
+ CharacterLifetime 300
+ VehicleCollect 0
+ VehicleLifetime 600
+ ItemLifetime 300
+}
