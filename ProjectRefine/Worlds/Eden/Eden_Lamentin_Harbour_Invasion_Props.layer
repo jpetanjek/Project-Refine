@@ -158,6 +158,16 @@ GenericEntity : "{361EEFE7B91BF9E8}Prefabs/Compositions/Misc/SubCompositions/Bar
  coords 5363.73 19.446 9958.493
  angleY 0
 }
+$grp GenericEntity : "{3D5EA7EE649A3304}Prefabs/TutorialSigns/TutorialSigns.et" {
+ {
+  coords 4736.126 133.734 7738.283
+  angleY 36.936
+ }
+ {
+  coords 5278.791 1.289 12076.905
+  angleY -122.974
+ }
+}
 GenericEntity : "{451BE00A37C69679}Prefabs/Structures/Military/Radar/ApproachRadar_TPN19_01/ApproachRadar_TPN19_01_generator.et" {
  coords 4934.295 114.515 8525.202
 }

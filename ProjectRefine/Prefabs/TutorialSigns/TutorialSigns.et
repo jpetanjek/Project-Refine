@@ -1,0 +1,28 @@
+GenericEntity {
+ ID "5D915D8B915B057E"
+ components {
+  Hierarchy "{5D915D8B8F25547C}" {
+  }
+ }
+ coords 66.729 2.001 469.623
+ {
+  GenericEntity : "{3BAB1F4D3277A53C}Prefabs/TutorialSigns/TutorialSign_2.et" {
+   ID "5D915D8B915B0547"
+   coords -4.4 0 0
+  }
+  GenericEntity : "{4229443DFBE25A18}Prefabs/TutorialSigns/TutorialSign_0.et" {
+   ID "5D915D8B915B0578"
+   coords 0 0 0.3
+   angleY -15
+  }
+  GenericEntity : "{57FF2BAD8EB32A12}Prefabs/TutorialSigns/TutorialSign_1.et" {
+   ID "5D915D8B915B0546"
+   coords -2.2 0 0
+  }
+  GenericEntity : "{DE3753B43E923257}Prefabs/TutorialSigns/TutorialSign_3.et" {
+   ID "5D915D8B915B02CE"
+   coords -6.6 0 0.3
+   angleY 15
+  }
+ }
+}

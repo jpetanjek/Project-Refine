@@ -1,6 +1,0 @@
-MatPBRDecal {
- Emissive 1 1 1 0
- EmissiveLV -3.5
- EmissiveMap "{7491D257B52E60DF}UI/Tutorial/Tutorial0.edds"
- BCRMap "{7491D257B52E60DF}UI/Tutorial/Tutorial0.edds"
-}
