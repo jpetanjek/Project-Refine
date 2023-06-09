@@ -54,28 +54,9 @@ $grp GenericEntity {
  {
   coords 49.74 2.001 473.57
  }
- {
-  components {
-   MeshObject "{5D8AB6E302392ADE}" {
-    Object "{99546F862B65AD14}Assets/Structures/Walls/Brick/BrickGate_01_4m.xob"
-   }
-   RigidBody "{5D8AB6E317D3E48C}" {
-    ModelGeometry 1
-    Static 1
-   }
-  }
-  coords 62.864 0.668 471.067
-  {
-   DecalEntity {
-    coords -0.001 2.931 -0.147
-    scale 2.1
-    FarPlane 0.2
-    Stretch 1.777
-    TerrainOnly 0
-    Mat "{F5EE903290053F74}UI/Tutorial/Totorial0Decal.emat"
-   }
-  }
- }
+}
+GenericEntity : "{3D5EA7EE649A3304}Prefabs/TutorialSigns/TutorialSigns.et" {
+ coords 67.012 2.001 475.656
 }
 $grp GenericEntity : "{AF73AC93750884CA}Prefabs/Structures/Signs/Warnings/SignBendDoubleLeft_01_pole.et" {
  {

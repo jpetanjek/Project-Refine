@@ -1,0 +1,28 @@
+GenericEntity {
+ ID "5D913945BD4C3DC9"
+ components {
+  MeshObject "{5D8AB6E302392ADE}" {
+   Object "{3C138FBF4F83E7C7}Assets/Structures/Signs/Military/SignRectangle_01_140x100.xob"
+  }
+  Hierarchy "{5D915D8BCC27BF85}" {
+  }
+  RigidBody "{5D8AB6E317D3E48C}" {
+   ModelGeometry 1
+   Static 1
+  }
+ }
+ coords 62.864 2 471.067
+ scale 1.5
+ {
+  DecalEntity {
+   ID "5D913945BD4C3DD6"
+   coords -0.001 1.208 0.053
+   angleY 180
+   scale 0.8
+   FarPlane 0.2
+   Stretch 1.777
+   TerrainOnly 0
+   Mat "{F5EE903290053F74}UI/Tutorial/tutorial_0.emat"
+  }
+ }
+}

@@ -1,0 +1,9 @@
+GenericEntity : "{4229443DFBE25A18}Prefabs/TutorialSigns/TutorialSign_0.et" {
+ ID "5D913945BD4C3DC9"
+ {
+  DecalEntity {
+   ID "5D913945BD4C3DD6"
+   Mat "{90D3407F02AEB384}UI/Tutorial/tutorial_2.emat"
+  }
+ }
+}
