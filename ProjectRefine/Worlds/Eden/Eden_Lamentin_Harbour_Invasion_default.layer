@@ -14,5 +14,7 @@ RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
 ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
  "Default channel" "Faction"
 }
+HitRegistrationManager HitRegManager1 : "{0EDA3D48791120DD}Prefabs/MP/HitRegManager.et" {
+}
 SCR_GarbageManager : "{7C54ABF41F356688}Prefabs/MP/Managers/PR_GarbageManager.et" {
 }
