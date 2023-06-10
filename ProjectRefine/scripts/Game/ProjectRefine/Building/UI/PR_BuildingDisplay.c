@@ -483,7 +483,13 @@ class PR_BuildingDisplay : SCR_InfoDisplay
 		if (m_bActive)
 			Deactivate();
 		else
-			Activate(PR_BuildingEntryCategory.Cast(m_BuildingEntry));
+		{
+			SCR_Faction myFaction = SCR_Faction.Cast(PR_FactionMemberManager.GetLocalPlayerFaction());
+			if (myFaction)
+			{
+				Activate(PR_BuildingEntryCategory.Cast(myFaction.GetBuildingList()));
+			}
+		}
 	}
 	
 	protected void Callback_OnNext()

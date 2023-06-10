@@ -1,2 +1,4 @@
 *.rdb
 ProjectRefineClient.bat
+*.pak
+*_manifest.json
