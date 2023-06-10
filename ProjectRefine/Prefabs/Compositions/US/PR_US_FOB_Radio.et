@@ -17,7 +17,7 @@ GenericEntity {
   }
   PR_SupplyHolderComponent "{5D75282EB7B22CE0}" {
    m_iMaxSupplies 10000
-   m_fRange 50
+   m_fRange 150
   }
   RigidBody "{5D7554489E8C9874}" {
   }

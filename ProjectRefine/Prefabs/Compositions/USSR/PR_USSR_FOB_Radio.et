@@ -14,7 +14,7 @@ StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMil
   }
   PR_SupplyHolderComponent "{5D768423A2BDEBF1}" {
    m_iMaxSupplies 10000
-   m_fRange 50
+   m_fRange 150
   }
   SCR_FactionAffiliationComponent "{5D7B26095ED743F7}" {
   }
