@@ -13,6 +13,9 @@ class PR_DeploymentMenuWidgets
 	OverlayWidget m_MapInfoBar;
 	PR_MapInfoBarWidgetComponent m_MapInfoBarComponent;
 
+	OverlayWidget m_ChatPanel;
+	SCR_ChatPanel m_ChatPanelComponent;
+
 	TextWidget m_DeploymentCountdownText;
 
 	HorizontalLayoutWidget m_Warning0;
@@ -31,14 +34,11 @@ class PR_DeploymentMenuWidgets
 
 	TextWidget m_SpawnPointNameText;
 
-	OverlayWidget m_ChatPanel;
-	SCR_ChatPanel m_ChatPanelComponent;
+	SizeLayoutWidget m_RoleList0;
+	PR_RoleListComponent m_RoleList0Component;
 
-	SizeLayoutWidget m_RoleList;
-	PR_RoleListComponent m_RoleListComponent;
-
-	SizeLayoutWidget m_GroupList;
-	PR_GroupListComponent m_GroupListComponent;
+	SizeLayoutWidget m_GroupList0;
+	PR_GroupListComponent m_GroupList0Component;
 
 	bool Init(Widget root)
 	{
@@ -49,32 +49,32 @@ class PR_DeploymentMenuWidgets
 		m_MapInfoBar = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.m_MapInfoBar"));
 		m_MapInfoBarComponent = PR_MapInfoBarWidgetComponent.Cast(m_MapInfoBar.FindHandler(PR_MapInfoBarWidgetComponent));
 
-		m_DeploymentCountdownText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_DeploymentCountdownText"));
-
-		m_Warning0 = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning0"));
-
-		m_WarningText0 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning0.m_WarningText0"));
-
-		m_Warning1 = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning1"));
-
-		m_WarningText1 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.m_Warning1.m_WarningText1"));
-
-		m_DeployButtonOld = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.HorizontalLayout0.m_DeployButtonOld"));
-		m_DeployButtonOldComponent = SCR_ModularButtonComponent.Cast(m_DeployButtonOld.FindHandler(SCR_ModularButtonComponent));
-
-		m_DeployButton = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.HorizontalLayout0.m_DeployButton"));
-		m_DeployButtonComponent = SCR_ModularButtonComponent.Cast(m_DeployButton.FindHandler(SCR_ModularButtonComponent));
-
-		m_SpawnPointNameText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection.Overlay.VerticalLayout0.HorizontalLayout0.m_SpawnPointNameText"));
-
 		m_ChatPanel = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.ChatFrame.m_ChatPanel"));
 		m_ChatPanelComponent = SCR_ChatPanel.Cast(m_ChatPanel.FindHandler(SCR_ChatPanel));
 
-		m_RoleList = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.Right.HorizontalLayout0.m_RoleList"));
-		m_RoleListComponent = PR_RoleListComponent.Cast(m_RoleList.FindHandler(PR_RoleListComponent));
+		m_DeploymentCountdownText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection0.Overlay.VerticalLayout0.m_DeploymentCountdownText"));
 
-		m_GroupList = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.Right.HorizontalLayout0.m_GroupList"));
-		m_GroupListComponent = PR_GroupListComponent.Cast(m_GroupList.FindHandler(PR_GroupListComponent));
+		m_Warning0 = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection0.Overlay.VerticalLayout0.m_Warning0"));
+
+		m_WarningText0 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection0.Overlay.VerticalLayout0.m_Warning0.m_WarningText0"));
+
+		m_Warning1 = HorizontalLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection0.Overlay.VerticalLayout0.m_Warning1"));
+
+		m_WarningText1 = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection0.Overlay.VerticalLayout0.m_Warning1.m_WarningText1"));
+
+		m_DeployButtonOld = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection0.Overlay.VerticalLayout0.HorizontalLayout0.m_DeployButtonOld"));
+		m_DeployButtonOldComponent = SCR_ModularButtonComponent.Cast(m_DeployButtonOld.FindHandler(SCR_ModularButtonComponent));
+
+		m_DeployButton = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection0.Overlay.VerticalLayout0.HorizontalLayout0.m_DeployButton"));
+		m_DeployButtonComponent = SCR_ModularButtonComponent.Cast(m_DeployButton.FindHandler(SCR_ModularButtonComponent));
+
+		m_SpawnPointNameText = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.SpawnPointSelection0.Overlay.VerticalLayout0.HorizontalLayout0.m_SpawnPointNameText"));
+
+		m_RoleList0 = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.Right.HorizontalLayout0.m_RoleList0"));
+		m_RoleList0Component = PR_RoleListComponent.Cast(m_RoleList0.FindHandler(PR_RoleListComponent));
+
+		m_GroupList0 = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.Right.HorizontalLayout0.m_GroupList0"));
+		m_GroupList0Component = PR_GroupListComponent.Cast(m_GroupList0.FindHandler(PR_GroupListComponent));
 
 		return true;
 	}

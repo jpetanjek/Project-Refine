@@ -1,0 +1,53 @@
+SizeLayoutWidgetClass "{5D12A510F070A5F5}" : "{4589E27564E97836}UI/DeploymentMenu/SpawnPointSelectionPanel.layout" {
+ Name "SpawnPointSelection"
+ Slot OverlayWidgetSlot "{5CB943CFB3F5F473}" {
+ }
+ {
+  OverlayWidgetClass "{5CB943C0FFFDD9BF}" {
+   Prefab "{5CB943C0FFFDD9BF}"
+   {
+    VerticalLayoutWidgetClass "{5CB943C0D53287E2}" {
+     Prefab "{5CB943C0D53287E2}"
+     {
+      HorizontalLayoutWidgetClass "{5CE53264DBEBD061}" {
+       Prefab "{5CE53264DBEBD061}"
+       {
+        ButtonWidgetClass "{5CE6B1352FD5C3EA}" {
+         Prefab "{5CE6B1352FD5C3EA}"
+         {
+          SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+           Prefab "{5CB37856F029CE83}"
+           AllowWidthOverride 1
+           WidthOverride 110
+          }
+         }
+        }
+        ButtonWidgetClass "{5D12E84E7D8A10D4}" {
+         Prefab "{5D12E84E7D8A10D4}"
+         components {
+          SCR_ModularButtonComponent "{5CB3785628029158}" {
+           m_aEffects {
+            SCR_ButtonEffectColor "{5CDF339C935EF450}" {
+             m_eEvents 6175
+            }
+           }
+           m_bFocusOnMouseEnter 1
+          }
+         }
+         "Left rule" Explicit
+         "Left target" "m_MapFrame"
+         "Right rule" Explicit
+         "Right target" "m_CreateGroupButton"
+         "Up rule" Explicit
+         "Up target" "m_MapFrame"
+         "Down rule" Explicit
+         "Down target" "m_CreateGroupButton"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

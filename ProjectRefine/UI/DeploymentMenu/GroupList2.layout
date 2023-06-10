@@ -1,0 +1,157 @@
+SizeLayoutWidgetClass : "{949AC0EDAAE45ED7}UI/DeploymentMenu/GroupList.layout" {
+ Name "m_GroupList"
+ Slot LayoutSlot "{5CB123865C601434}" {
+ }
+ components {
+  SCR_WidgetExportRule "{5CB4D25FDC0A77CA}" {
+   ExportChildWidgets 0
+  }
+ }
+ {
+  VerticalLayoutWidgetClass "{5CB12388A4524408}" {
+   Prefab "{5CB12388A4524408}"
+   {
+    HorizontalLayoutWidgetClass "{5CC91A87BE4DCADF}" {
+     Prefab "{5CC91A87BE4DCADF}"
+     {
+      ButtonWidgetClass "{5CD7358AF2E0C1E4}" {
+       Prefab "{5CD7358AF2E0C1E4}"
+       components {
+        SCR_ModularButtonComponent "{5CB3785628029158}" {
+         m_aEffects {
+          SCR_ButtonEffectColor "{5CDF339C935EF450}" {
+           m_eEvents 6175
+          }
+         }
+         m_bFocusOnMouseEnter 1
+        }
+       }
+       "Left rule" Explicit
+       "Left target" "m_MapFrame"
+       "Right rule" Explicit
+       "Right target" "m_CreateGroupButton"
+       "Up rule" Explicit
+       "Up target" "m_GroupListLayout"
+      }
+      ButtonWidgetClass "{5CC91A873C0342DA}" {
+       Prefab "{5CC91A873C0342DA}"
+       Slot LayoutSlot "{5CC91A873C034306}" {
+        Padding 4 0 4 0
+       }
+       components {
+        SCR_EditBoxComponent "{547290FFBD5B33E9}" {
+         m_bMouseOverToFocus 1
+         m_bUseLabel 0
+         m_fOpacityDefault 0.6
+         m_fOpacityFocused 1
+        }
+       }
+       "Left rule" Explicit
+       "Left target" "m_LockButton"
+       "Right rule" Explicit
+       "Right target" "m_CreateGroupButton"
+       "Up rule" Explicit
+       "Up target" "m_GroupListLayout"
+       {
+        VerticalLayoutWidgetClass "{5AA4D27F39EB2514}" {
+         Prefab "{5AA4D27F39EB2514}"
+         {
+          SizeLayoutWidgetClass "{5538C205B27B0F5D}" {
+           Prefab "{5538C205B27B0F5D}"
+           {
+            OverlayWidgetClass "{55367D8E531FD623}" {
+             Prefab "{55367D8E531FD623}"
+             Slot AlignableSlot "{55367D8E531FD640}" {
+              Padding 2 0 2 0
+             }
+             {
+              ImageWidgetClass "{55367D8E48B5ED75}" {
+               Prefab "{55367D8E48B5ED75}"
+               Color 0.561 0.071 0.071 1
+              }
+              PanelWidgetClass "{55367D8E4A135500}" {
+               Prefab "{55367D8E4A135500}"
+               Color 0.761 0.386 0.078 0
+              }
+              HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
+               Prefab "{55367D8E4592BC6E}"
+               Slot OverlayWidgetSlot "{55367D8E4592B383}" {
+                Padding 8 0 8 0
+               }
+               {
+                OverlayWidgetClass "{5538C2059A570E94}" {
+                 Prefab "{5538C2059A570E94}"
+                 Slot LayoutSlot "{5538C2059A570EB1}" {
+                  FillWeight 1
+                 }
+                 {
+                  ImageWidgetClass "{5538C20588BB6BD0}" {
+                   Prefab "{5538C20588BB6BD0}"
+                   Opacity 1
+                   Color 0.001 0.018 0.047 1
+                  }
+                  ScaleWidgetClass "{553AB38C59601DA1}" {
+                   Prefab "{553AB38C59601DA1}"
+                   "Is Visible" 0
+                   {
+                    ImageWidgetClass "{5538C207E37BAF83}" {
+                     Prefab "{5538C207E37BAF83}"
+                     "Is Visible" 0
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+          FrameWidgetClass "{5AA4D278F79F9344}" {
+           Prefab "{5AA4D278F79F9344}"
+           {
+            OverlayWidgetClass "{5AA4D27680974382}" {
+             Prefab "{5AA4D27680974382}"
+             Slot FrameWidgetSlot "{5AA4F5188D779475}" {
+              Anchor 0 0 1 0
+              PositionX 0
+              OffsetLeft 0
+              PositionY -28
+              OffsetTop -28
+              SizeX 0
+              OffsetRight 0
+              SizeY 24
+              OffsetBottom 4
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      ButtonWidgetClass "{5CB378508D921CCA}" {
+       Prefab "{5CB378508D921CCA}"
+       components {
+        SCR_ModularButtonComponent "{5CB3785628029158}" {
+         m_aEffects {
+          SCR_ButtonEffectColor "{5CDF339C477FFD14}" {
+          }
+         }
+         m_bFocusOnMouseEnter 1
+        }
+       }
+       "Left rule" Explicit
+       "Left target" "m_LockButton"
+       "Right rule" Explicit
+       "Right target" "m_DeployButton"
+       "Up rule" Explicit
+       "Up target" "m_GroupListLayout"
+      }
+     }
+    }
+   }
+  }
+ }
+}

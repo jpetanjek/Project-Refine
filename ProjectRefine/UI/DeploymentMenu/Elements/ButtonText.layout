@@ -15,6 +15,7 @@ ButtonWidgetClass {
     SCR_ButtonEffectColor "{5CDF339C45DFB336}" : "{D5B76602C3AAF7D6}UI/DeploymentMenu/Elements/ButtonEffectTextColor.conf" {
     }
    }
+   m_bFocusOnMouseEnter 1
   }
  }
  {
