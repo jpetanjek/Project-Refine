@@ -40,6 +40,8 @@ ButtonWidgetClass {
   PR_RoleEntryComponent "{5CCF29C06BA6DF93}" {
   }
  }
+ "Right rule" Explicit
+ "Right target" "m_GroupList0"
  {
   SizeLayoutWidgetClass "{5CB4B168359E684D}" {
    Name "SizeConstraint"

@@ -68,7 +68,6 @@ OverlayWidgetClass {
            m_bToggledAtStart 1
           }
          }
-         "Right rule" Explicit
          "Right target" "m_ActionButton"
          {
           SizeLayoutWidgetClass "{5CB37853F653B731}" {
@@ -81,10 +80,6 @@ OverlayWidgetClass {
              Slot AlignableSlot "{5CB37856F0328464}" {
              }
              {
-              ImageWidgetClass "{5CB37853F653B73D}" {
-               Prefab "{5CB37853F653B73D}"
-               Name "BG"
-              }
               ImageWidgetClass "{5CB3785346528DF7}" {
                Name "Up"
                Slot OverlayWidgetSlot "{5CB3785346528DC3}" {
@@ -135,9 +130,7 @@ OverlayWidgetClass {
            }
           }
          }
-         "Left rule" Explicit
          "Left target" "m_ExpandButton"
-         "Right rule" Explicit
          "Right target" "m_JoinLeaveButton"
          {
           SizeLayoutWidgetClass "{5CB37853F653B731}" {
@@ -146,10 +139,6 @@ OverlayWidgetClass {
             OverlayWidgetClass "{5CB37853F653B73F}" {
              Prefab "{5CB37853F653B73F}"
              {
-              ImageWidgetClass "{5CB37853F653B73D}" {
-               Prefab "{5CB37853F653B73D}"
-               Name "BG"
-              }
               ImageWidgetClass "{5CDF54CE29093A84}" {
                Name "Image"
                Slot OverlayWidgetSlot "{5CDF54CE29093AE1}" {
@@ -275,7 +264,6 @@ OverlayWidgetClass {
            }
           }
          }
-         "Left rule" Explicit
          "Left target" "m_ActionButton"
          {
           SizeLayoutWidgetClass "{5CB37856F029CE83}" {

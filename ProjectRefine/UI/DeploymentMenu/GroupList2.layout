@@ -1,4 +1,4 @@
-SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMenu/GroupList.layout" {
+SizeLayoutWidgetClass : "{949AC0EDAAE45ED7}UI/DeploymentMenu/GroupList.layout" {
  Name "m_GroupList"
  Slot LayoutSlot "{5CB123865C601434}" {
  }
@@ -29,7 +29,7 @@ SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMen
        "Left rule" Explicit
        "Left target" "m_MapFrame"
        "Right rule" Explicit
-       "Right target" "m_GroupNameEditBox"
+       "Right target" "m_CreateGroupButton"
        "Up rule" Explicit
        "Up target" "m_GroupListLayout"
       }
@@ -143,7 +143,7 @@ SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMen
         }
        }
        "Left rule" Explicit
-       "Left target" "m_GroupNameEditBox"
+       "Left target" "m_LockButton"
        "Right rule" Explicit
        "Right target" "m_DeployButton"
        "Up rule" Explicit
