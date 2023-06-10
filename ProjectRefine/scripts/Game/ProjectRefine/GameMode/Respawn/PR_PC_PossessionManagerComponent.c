@@ -289,6 +289,10 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
 		if (gm)
 			gm.OnPlayerMainCharacterPossessed(mainEntity);
+		
+		SCR_PossessingManagerComponent scrPossessingMgr = SCR_PossessingManagerComponent.GetInstance();
+		if (scrPossessingMgr)
+			scrPossessingMgr.SetMainEntity(m_PlayerController.GetPlayerId(), mainEntity, mainEntity, false);
 	}
 	
 	
