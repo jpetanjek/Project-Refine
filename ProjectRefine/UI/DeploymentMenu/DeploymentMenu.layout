@@ -181,6 +181,8 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                  Name "m_GroupList0"
                  Slot LayoutSlot "{5CB123865C601434}" {
                  }
+                 "Left rule" Explicit
+                 "Left target" "m_RoleList0"
                 }
                }
               }

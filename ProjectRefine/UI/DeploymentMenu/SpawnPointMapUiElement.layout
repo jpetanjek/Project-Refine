@@ -33,6 +33,7 @@ ButtonWidgetClass {
    }
    m_bCanBeToggled 1
    m_bToggledOnlyThroughApi 1
+   m_bFocusOnMouseEnter 1
   }
  }
  {
