@@ -70,10 +70,10 @@ class PR_DeploymentMenuWidgets
 		m_ChatPanel = OverlayWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.ChatFrame.m_ChatPanel"));
 		m_ChatPanelComponent = SCR_ChatPanel.Cast(m_ChatPanel.FindHandler(SCR_ChatPanel));
 
-		m_RoleList = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.Right.HorizontalLayout0.m_RoleList"));
+		m_RoleList = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.Right.HorizontalLayout0.m_RoleList"));
 		m_RoleListComponent = PR_RoleListComponent.Cast(m_RoleList.FindHandler(PR_RoleListComponent));
 
-		m_GroupList = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.Right.HorizontalLayout0.m_GroupList"));
+		m_GroupList = SizeLayoutWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.VerticalLayout.Main.m_MapInteractionArea.Right.HorizontalLayout0.m_GroupList"));
 		m_GroupListComponent = PR_GroupListComponent.Cast(m_GroupList.FindHandler(PR_GroupListComponent));
 
 		return true;

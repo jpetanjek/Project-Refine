@@ -142,6 +142,12 @@ class PR_GroupListComponent : ScriptedWidgetComponent
 		// If group name was not provided, bail and show a notification
 		if (groupName.IsEmpty())
 		{
+			groupName = GetGame().GetPlayerManager().GetPlayerName(GetGame().GetPlayerController().GetPlayerId());
+			groupName += "'s group";
+		}
+		
+		if (groupName.IsEmpty())
+		{
 			ShowNotification(ENotification.PR_GROUP_MUST_HAVE_NAME);
 			return;
 		}

@@ -12,6 +12,7 @@ ButtonWidgetClass {
      m_cFocusLost 0.002 0.036 0.095 1
     }
    }
+   m_bFocusOnMouseEnter 1
   }
  }
  {

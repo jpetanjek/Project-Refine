@@ -40,7 +40,7 @@ OverlayWidgetClass {
           SCR_ModularButtonComponent "{5CB3785628029158}" {
            m_aEffects {
             SCR_ButtonEffectColor "{5CDF339C935EF450}" {
-             m_bEnabled 0
+             m_eEvents 6175
             }
             SCR_ButtonEffectVisibility "{5CB3785C83440E7D}" {
              m_eEvents 24576
@@ -53,19 +53,23 @@ OverlayWidgetClass {
              m_bToggledOn 1
             }
             SCR_ButtonEffectOpacity "{5CDF41BC76631219}" {
-             m_eEvents 15
+             m_eEvents 6159
              m_sWidgetName "Overlay0"
              m_fAnimationTime 0
              m_fDefault 0.7
              m_fHovered 1
              m_fActivated 0.7
              m_fActivatedHovered 1
+             m_fFocusGained 1
+             m_fFocusLost 0.7
             }
            }
            m_bCanBeToggled 1
            m_bToggledAtStart 1
           }
          }
+         "Right rule" Explicit
+         "Right target" "m_ActionButton"
          {
           SizeLayoutWidgetClass "{5CB37853F653B731}" {
            Prefab "{5CB37853F653B731}"
@@ -77,6 +81,10 @@ OverlayWidgetClass {
              Slot AlignableSlot "{5CB37856F0328464}" {
              }
              {
+              ImageWidgetClass "{5CB37853F653B73D}" {
+               Prefab "{5CB37853F653B73D}"
+               Name "BG"
+              }
               ImageWidgetClass "{5CB3785346528DF7}" {
                Name "Up"
                Slot OverlayWidgetSlot "{5CB3785346528DC3}" {
@@ -96,10 +104,6 @@ OverlayWidgetClass {
                Texture "{A47B084D863DD70A}UI/Textures/WidgetLibrary/ButtonSortArrow_16px_UI.edds"
                Size 16 16
               }
-              ImageWidgetClass "{5CB37853F653B73D}" {
-               Prefab "{5CB37853F653B73D}"
-               "Is Visible" 0
-              }
              }
             }
            }
@@ -115,20 +119,26 @@ OverlayWidgetClass {
           SCR_ModularButtonComponent "{5CB3785628029158}" {
            m_aEffects {
             SCR_ButtonEffectColor "{5CDF339C935EF450}" {
-             m_bEnabled 0
+             m_eEvents 6175
             }
             SCR_ButtonEffectOpacity "{5CDF54CE1BA89993}" {
-             m_eEvents 15
+             m_eEvents 6159
              m_sWidgetName "Image"
              m_fAnimationTime 0
              m_fDefault 0.7
              m_fHovered 1
              m_fActivated 0.7
              m_fActivatedHovered 1
+             m_fFocusGained 1
+             m_fFocusLost 0.7
             }
            }
           }
          }
+         "Left rule" Explicit
+         "Left target" "m_ExpandButton"
+         "Right rule" Explicit
+         "Right target" "m_JoinLeaveButton"
          {
           SizeLayoutWidgetClass "{5CB37853F653B731}" {
            Prefab "{5CB37853F653B731}"
@@ -136,6 +146,10 @@ OverlayWidgetClass {
             OverlayWidgetClass "{5CB37853F653B73F}" {
              Prefab "{5CB37853F653B73F}"
              {
+              ImageWidgetClass "{5CB37853F653B73D}" {
+               Prefab "{5CB37853F653B73D}"
+               Name "BG"
+              }
               ImageWidgetClass "{5CDF54CE29093A84}" {
                Name "Image"
                Slot OverlayWidgetSlot "{5CDF54CE29093AE1}" {
@@ -143,10 +157,6 @@ OverlayWidgetClass {
                Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
                Image "dotsMenu"
                Size 36 36
-              }
-              ImageWidgetClass "{5CB37853F653B73D}" {
-               Prefab "{5CB37853F653B73D}"
-               "Is Visible" 0
               }
              }
             }
@@ -265,6 +275,8 @@ OverlayWidgetClass {
            }
           }
          }
+         "Left rule" Explicit
+         "Left target" "m_ActionButton"
          {
           SizeLayoutWidgetClass "{5CB37856F029CE83}" {
            Prefab "{5CB37856F029CE83}"

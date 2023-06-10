@@ -13,7 +13,7 @@ ButtonWidgetClass {
   SCR_ModularButtonComponent "{5CD144D5AAE7EEAB}" {
    m_aEffects {
     SCR_ButtonEffectColor "{5CDF54CBDF9ABD9C}" {
-     m_eEvents 63
+     m_eEvents 6207
      m_sWidgetName "LineBackground"
      m_fAnimationTime 0
      m_cDefault 0.001 0.018 0.047 1
@@ -22,6 +22,8 @@ ButtonWidgetClass {
      m_cActivatedHovered 0.001 0.018 0.047 1
      m_cDisabled 0.001 0.018 0.047 1
      m_cDisabledActivated 0.001 0.018 0.047 1
+     m_cFocusGained 0 0.212 0.694 1
+     m_cFocusLost 0.002 0.036 0.095 1
     }
     SCR_ButtonEffectVisibility "{5CE1553A66914BF1}" {
      m_eEvents 63
@@ -33,6 +35,7 @@ ButtonWidgetClass {
    }
    m_bCanBeToggled 1
    m_bToggledOnlyThroughApi 1
+   m_bFocusOnMouseEnter 1
   }
   PR_RoleEntryComponent "{5CCF29C06BA6DF93}" {
   }

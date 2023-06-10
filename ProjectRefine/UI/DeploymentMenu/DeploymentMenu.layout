@@ -18,6 +18,10 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
      ExportChildWidgets 0
     }
    }
+   "Right rule" Explicit
+   "Right target" "m_CreateGroupButton"
+   "Down rule" Explicit
+   "Down target" "m_DeployButton"
   }
   ImageWidgetClass "{5CDF51DA25460A77}" {
    Name "TestMapBackground"
@@ -71,6 +75,10 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
               Padding 0 0 10 0
               SizeMode Fill
              }
+             "Right rule" Explicit
+             "Right target" "m_CreateGroupButton"
+             "Down rule" Explicit
+             "Down target" "m_DeployButton"
              {
               OverlayWidgetClass "{5D88C1411C32EBA2}" : "{E96FBDA051C03B2B}UI/DeploymentMenu/MapInfoBar.layout" {
                Name "m_MapInfoBar"
@@ -81,50 +89,6 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                components {
                 SCR_WidgetExportRule "{5D8CFE36A298FC67}" {
                  ExportChildWidgets 0
-                }
-               }
-              }
-              SizeLayoutWidgetClass "{5D12A510F070A5F5}" : "{4589E27564E97836}UI/DeploymentMenu/SpawnPointSelectionPanel.layout" {
-               Name "SpawnPointSelection"
-               Slot OverlayWidgetSlot "{5CB943CFB3F5F473}" {
-               }
-               {
-                OverlayWidgetClass "{5CB943C0FFFDD9BF}" {
-                 Prefab "{5CB943C0FFFDD9BF}"
-                 {
-                  VerticalLayoutWidgetClass "{5CB943C0D53287E2}" {
-                   Prefab "{5CB943C0D53287E2}"
-                   {
-                    HorizontalLayoutWidgetClass "{5CE53264DBEBD061}" {
-                     Prefab "{5CE53264DBEBD061}"
-                     {
-                      ButtonWidgetClass "{5CE6B1352FD5C3EA}" {
-                       Prefab "{5CE6B1352FD5C3EA}"
-                       {
-                        SizeLayoutWidgetClass "{5CB37856F029CE83}" {
-                         Prefab "{5CB37856F029CE83}"
-                         AllowWidthOverride 1
-                         WidthOverride 110
-                        }
-                       }
-                      }
-                      ButtonWidgetClass "{5D12E84E7D8A10D4}" {
-                       Prefab "{5D12E84E7D8A10D4}"
-                       components {
-                        SCR_ModularButtonComponent "{5CB3785628029158}" {
-                         m_aEffects {
-                          SCR_ButtonEffectColor "{5CDF339C935EF450}" {
-                           m_eEvents 6175
-                          }
-                         }
-                        }
-                       }
-                      }
-                     }
-                    }
-                   }
-                  }
-                 }
                 }
                }
               }
@@ -182,67 +146,33 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                 }
                }
               }
-             }
-            }
-            OverlayWidgetClass "{5CB1544D8A01B2D7}" {
-             Name "Right"
-             Slot LayoutSlot "{5CB1544D8A01B322}" {
-             }
-             {
-              OverlayWidgetClass "{5CB1544DF67CD526}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
-               Name "rootFrame0"
-               Slot OverlayWidgetSlot "{5CB1544DF67CD53D}" {
-                HorizontalAlign 3
-                VerticalAlign 3
-               }
-              }
-              HorizontalLayoutWidgetClass "{5CB1544D8CCD1685}" {
-               Name "HorizontalLayout0"
-               Slot OverlayWidgetSlot "{5CB1544D8CCD169F}" {
-                HorizontalAlign 3
-                VerticalAlign 3
+              SizeLayoutWidgetClass "{5D12A510F070A5F5}" : "{4589E27564E97836}UI/DeploymentMenu/SpawnPointSelectionPanel.layout" {
+               Name "SpawnPointSelection"
+               Slot OverlayWidgetSlot "{5CB943CFB3F5F473}" {
+                HorizontalAlign 0
                }
                {
-                SizeLayoutWidgetClass "{5CB4D27B643D98DF}" : "{38EF0B55AA92A5C4}UI/DeploymentMenu/RoleList.layout" {
-                 Name "m_RoleList"
-                 Slot LayoutSlot "{5CB12386AAF13995}" {
-                 }
-                 components {
-                  SCR_WidgetExportRule "{5CB4D25FDA014E53}" {
-                   ExportChildWidgets 0
-                  }
-                 }
-                 WidthOverride 260
+                OverlayWidgetClass "{5CB943C0FFFDD9BF}" {
+                 Prefab "{5CB943C0FFFDD9BF}"
                  {
-                  VerticalLayoutWidgetClass "{5CB1238627B0930E}" {
-                   Prefab "{5CB1238627B0930E}"
+                  VerticalLayoutWidgetClass "{5CB943C0D53287E2}" {
+                   Prefab "{5CB943C0D53287E2}"
                    {
-                    SizeLayoutWidgetClass "{5CB12386922384B9}" {
-                     Prefab "{5CB12386922384B9}"
-                     HeightOverride 905
-                    }
-                   }
-                  }
-                 }
-                }
-                SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMenu/GroupList.layout" {
-                 Name "m_GroupList"
-                 Slot LayoutSlot "{5CB123865C601434}" {
-                 }
-                 components {
-                  SCR_WidgetExportRule "{5CB4D25FDC0A77CA}" {
-                   ExportChildWidgets 0
-                  }
-                 }
-                 {
-                  VerticalLayoutWidgetClass "{5CB12388A4524408}" {
-                   Prefab "{5CB12388A4524408}"
-                   {
-                    HorizontalLayoutWidgetClass "{5CC91A87BE4DCADF}" {
-                     Prefab "{5CC91A87BE4DCADF}"
+                    HorizontalLayoutWidgetClass "{5CE53264DBEBD061}" {
+                     Prefab "{5CE53264DBEBD061}"
                      {
-                      ButtonWidgetClass "{5CD7358AF2E0C1E4}" {
-                       Prefab "{5CD7358AF2E0C1E4}"
+                      ButtonWidgetClass "{5CE6B1352FD5C3EA}" {
+                       Prefab "{5CE6B1352FD5C3EA}"
+                       {
+                        SizeLayoutWidgetClass "{5CB37856F029CE83}" {
+                         Prefab "{5CB37856F029CE83}"
+                         AllowWidthOverride 1
+                         WidthOverride 110
+                        }
+                       }
+                      }
+                      ButtonWidgetClass "{5D12E84E7D8A10D4}" {
+                       Prefab "{5D12E84E7D8A10D4}"
                        components {
                         SCR_ModularButtonComponent "{5CB3785628029158}" {
                          m_aEffects {
@@ -250,66 +180,175 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                            m_eEvents 6175
                           }
                          }
+                         m_bFocusOnMouseEnter 1
                         }
                        }
+                       "Left rule" Explicit
+                       "Left target" "m_MapFrame"
+                       "Right rule" Explicit
+                       "Right target" "m_CreateGroupButton"
+                       "Up rule" Explicit
+                       "Up target" "m_MapFrame"
+                       "Down rule" Explicit
+                       "Down target" "m_CreateGroupButton"
                       }
-                      ButtonWidgetClass "{5CC91A873C0342DA}" {
-                       Prefab "{5CC91A873C0342DA}"
-                       Slot LayoutSlot "{5CC91A873C034306}" {
-                        Padding 4 0 4 0
-                       }
-                       components {
-                        SCR_EditBoxComponent "{547290FFBD5B33E9}" {
-                         m_bUseLabel 0
-                         m_fOpacityDefault 1
-                         m_fOpacityFocused 1
-                        }
-                       }
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+              OverlayWidgetClass "{5CB1544D8A01B2D7}" {
+               Name "Right"
+               Slot OverlayWidgetSlot "{5D9490E0EF41ECBD}" {
+                HorizontalAlign 2
+               }
+               {
+                OverlayWidgetClass "{5CB1544DF67CD526}" : "{287B17C28CCECC1E}UI/DeploymentMenu/Elements/PanelBackground.layout" {
+                 Name "rootFrame0"
+                 Slot OverlayWidgetSlot "{5CB1544DF67CD53D}" {
+                  HorizontalAlign 3
+                  VerticalAlign 3
+                 }
+                }
+                HorizontalLayoutWidgetClass "{5CB1544D8CCD1685}" {
+                 Name "HorizontalLayout0"
+                 Slot OverlayWidgetSlot "{5CB1544D8CCD169F}" {
+                  HorizontalAlign 3
+                  VerticalAlign 3
+                 }
+                 {
+                  SizeLayoutWidgetClass "{5CB4D27B643D98DF}" : "{38EF0B55AA92A5C4}UI/DeploymentMenu/RoleList.layout" {
+                   Name "m_RoleList"
+                   Slot LayoutSlot "{5CB12386AAF13995}" {
+                   }
+                   components {
+                    SCR_WidgetExportRule "{5CB4D25FDA014E53}" {
+                     ExportChildWidgets 0
+                    }
+                   }
+                   "Left rule" Explicit
+                   "Left target" "m_MapFrame"
+                   "Right rule" Explicit
+                   "Right target" "m_GroupList"
+                   "Down rule" Explicit
+                   "Down target" "m_GroupList"
+                   WidthOverride 260
+                   {
+                    VerticalLayoutWidgetClass "{5CB1238627B0930E}" {
+                     Prefab "{5CB1238627B0930E}"
+                     {
+                      SizeLayoutWidgetClass "{5CB12386922384B9}" {
+                       Prefab "{5CB12386922384B9}"
+                       HeightOverride 905
+                      }
+                     }
+                    }
+                   }
+                  }
+                  SizeLayoutWidgetClass "{5CB37854641E8650}" : "{949AC0EDAAE45ED7}UI/DeploymentMenu/GroupList.layout" {
+                   Name "m_GroupList"
+                   Slot LayoutSlot "{5CB123865C601434}" {
+                   }
+                   components {
+                    SCR_WidgetExportRule "{5CB4D25FDC0A77CA}" {
+                     ExportChildWidgets 0
+                    }
+                   }
+                   {
+                    VerticalLayoutWidgetClass "{5CB12388A4524408}" {
+                     Prefab "{5CB12388A4524408}"
+                     {
+                      HorizontalLayoutWidgetClass "{5CC91A87BE4DCADF}" {
+                       Prefab "{5CC91A87BE4DCADF}"
                        {
-                        VerticalLayoutWidgetClass "{5AA4D27F39EB2514}" {
-                         Prefab "{5AA4D27F39EB2514}"
+                        ButtonWidgetClass "{5CD7358AF2E0C1E4}" {
+                         Prefab "{5CD7358AF2E0C1E4}"
+                         components {
+                          SCR_ModularButtonComponent "{5CB3785628029158}" {
+                           m_aEffects {
+                            SCR_ButtonEffectColor "{5CDF339C935EF450}" {
+                             m_eEvents 6175
+                            }
+                           }
+                           m_bFocusOnMouseEnter 1
+                          }
+                         }
+                         "Left rule" Explicit
+                         "Left target" "m_MapFrame"
+                         "Right rule" Explicit
+                         "Right target" "m_GroupNameEditBox"
+                         "Up rule" Explicit
+                         "Up target" "m_GroupListLayout"
+                        }
+                        ButtonWidgetClass "{5CC91A873C0342DA}" {
+                         Prefab "{5CC91A873C0342DA}"
+                         Slot LayoutSlot "{5CC91A873C034306}" {
+                          Padding 4 0 4 0
+                         }
+                         components {
+                          SCR_EditBoxComponent "{547290FFBD5B33E9}" {
+                           m_bMouseOverToFocus 1
+                           m_bUseLabel 0
+                           m_fOpacityDefault 0.6
+                           m_fOpacityFocused 1
+                          }
+                         }
+                         "Left rule" Explicit
+                         "Left target" "m_LockButton"
+                         "Right rule" Explicit
+                         "Right target" "m_CreateGroupButton"
+                         "Up rule" Explicit
+                         "Up target" "m_GroupListLayout"
                          {
-                          SizeLayoutWidgetClass "{5538C205B27B0F5D}" {
-                           Prefab "{5538C205B27B0F5D}"
+                          VerticalLayoutWidgetClass "{5AA4D27F39EB2514}" {
+                           Prefab "{5AA4D27F39EB2514}"
                            {
-                            OverlayWidgetClass "{55367D8E531FD623}" {
-                             Prefab "{55367D8E531FD623}"
-                             Slot AlignableSlot "{55367D8E531FD640}" {
-                              Padding 2 0 2 0
-                             }
+                            SizeLayoutWidgetClass "{5538C205B27B0F5D}" {
+                             Prefab "{5538C205B27B0F5D}"
                              {
-                              ImageWidgetClass "{55367D8E48B5ED75}" {
-                               Prefab "{55367D8E48B5ED75}"
-                               Color 0.561 0.071 0.071 1
-                              }
-                              PanelWidgetClass "{55367D8E4A135500}" {
-                               Prefab "{55367D8E4A135500}"
-                               Color 0.761 0.386 0.078 0
-                              }
-                              HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
-                               Prefab "{55367D8E4592BC6E}"
-                               Slot OverlayWidgetSlot "{55367D8E4592B383}" {
-                                Padding 8 0 8 0
+                              OverlayWidgetClass "{55367D8E531FD623}" {
+                               Prefab "{55367D8E531FD623}"
+                               Slot AlignableSlot "{55367D8E531FD640}" {
+                                Padding 2 0 2 0
                                }
                                {
-                                OverlayWidgetClass "{5538C2059A570E94}" {
-                                 Prefab "{5538C2059A570E94}"
-                                 Slot LayoutSlot "{5538C2059A570EB1}" {
-                                  FillWeight 1
+                                ImageWidgetClass "{55367D8E48B5ED75}" {
+                                 Prefab "{55367D8E48B5ED75}"
+                                 Color 0.561 0.071 0.071 1
+                                }
+                                PanelWidgetClass "{55367D8E4A135500}" {
+                                 Prefab "{55367D8E4A135500}"
+                                 Color 0.761 0.386 0.078 0
+                                }
+                                HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
+                                 Prefab "{55367D8E4592BC6E}"
+                                 Slot OverlayWidgetSlot "{55367D8E4592B383}" {
+                                  Padding 8 0 8 0
                                  }
                                  {
-                                  ImageWidgetClass "{5538C20588BB6BD0}" {
-                                   Prefab "{5538C20588BB6BD0}"
-                                   Opacity 1
-                                   Color 0.001 0.018 0.047 1
-                                  }
-                                  ScaleWidgetClass "{553AB38C59601DA1}" {
-                                   Prefab "{553AB38C59601DA1}"
-                                   "Is Visible" 0
+                                  OverlayWidgetClass "{5538C2059A570E94}" {
+                                   Prefab "{5538C2059A570E94}"
+                                   Slot LayoutSlot "{5538C2059A570EB1}" {
+                                    FillWeight 1
+                                   }
                                    {
-                                    ImageWidgetClass "{5538C207E37BAF83}" {
-                                     Prefab "{5538C207E37BAF83}"
+                                    ImageWidgetClass "{5538C20588BB6BD0}" {
+                                     Prefab "{5538C20588BB6BD0}"
+                                     Opacity 1
+                                     Color 0.001 0.018 0.047 1
+                                    }
+                                    ScaleWidgetClass "{553AB38C59601DA1}" {
+                                     Prefab "{553AB38C59601DA1}"
                                      "Is Visible" 0
+                                     {
+                                      ImageWidgetClass "{5538C207E37BAF83}" {
+                                       Prefab "{5538C207E37BAF83}"
+                                       "Is Visible" 0
+                                      }
+                                     }
                                     }
                                    }
                                   }
@@ -319,28 +358,46 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                               }
                              }
                             }
-                           }
-                          }
-                          FrameWidgetClass "{5AA4D278F79F9344}" {
-                           Prefab "{5AA4D278F79F9344}"
-                           {
-                            OverlayWidgetClass "{5AA4D27680974382}" {
-                             Prefab "{5AA4D27680974382}"
-                             Slot FrameWidgetSlot "{5AA4F5188D779475}" {
-                              Anchor 0 0 1 0
-                              PositionX 0
-                              OffsetLeft 0
-                              PositionY -28
-                              OffsetTop -28
-                              SizeX 0
-                              OffsetRight 0
-                              SizeY 24
-                              OffsetBottom 4
+                            FrameWidgetClass "{5AA4D278F79F9344}" {
+                             Prefab "{5AA4D278F79F9344}"
+                             {
+                              OverlayWidgetClass "{5AA4D27680974382}" {
+                               Prefab "{5AA4D27680974382}"
+                               Slot FrameWidgetSlot "{5AA4F5188D779475}" {
+                                Anchor 0 0 1 0
+                                PositionX 0
+                                OffsetLeft 0
+                                PositionY -28
+                                OffsetTop -28
+                                SizeX 0
+                                OffsetRight 0
+                                SizeY 24
+                                OffsetBottom 4
+                               }
+                              }
                              }
                             }
                            }
                           }
                          }
+                        }
+                        ButtonWidgetClass "{5CB378508D921CCA}" {
+                         Prefab "{5CB378508D921CCA}"
+                         components {
+                          SCR_ModularButtonComponent "{5CB3785628029158}" {
+                           m_aEffects {
+                            SCR_ButtonEffectColor "{5CDF339C477FFD14}" {
+                            }
+                           }
+                           m_bFocusOnMouseEnter 1
+                          }
+                         }
+                         "Left rule" Explicit
+                         "Left target" "m_GroupNameEditBox"
+                         "Right rule" Explicit
+                         "Right target" "m_DeployButton"
+                         "Up rule" Explicit
+                         "Up target" "m_GroupListLayout"
                         }
                        }
                       }
