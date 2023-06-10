@@ -172,7 +172,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
            {
             ImageWidgetClass "{5D9109F7DFF75ABB}" {
              Name "Image0"
-             Slot OverlayWidgetSlot {
+             Slot OverlayWidgetSlot "{5D94E4457DED0C96}" {
               HorizontalAlign 2
               VerticalAlign 0
              }
@@ -181,7 +181,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
             }
             VerticalLayoutWidgetClass "{5CFEC731B6516555}" {
              Name "Tutorial"
-             Slot OverlayWidgetSlot {
+             Slot OverlayWidgetSlot "{5D94E4457DED0B74}" {
               HorizontalAlign 3
               VerticalAlign 3
              }
@@ -239,6 +239,22 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                "- Game is won when the enemy team runs out of tickets or the invader captures all flags."\
                "- Capturing flags gains tickets. Destroying assets or incapacitating soldiers depletes tickets."\
                ""
+               "Min Font Size" 24
+               Wrap 1
+               FontProperties FontProperties "{5CFEC73020DCA989}" {
+                Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+               }
+              }
+              TextWidgetClass "{5D94E44547CE3775}" {
+               Name "GeneralRules0"
+               Slot LayoutSlot "{5CFEC730D0C4B12D}" {
+                HorizontalAlign 1
+                VerticalAlign 1
+                Padding 0 100 0 0
+               }
+               Clipping False
+               Text "YOU MUST JOIN A SQUAD OR YOU WILL BE AUTOMATICALLY KICKED IN 30 SECONDS"
+               "Font Size" 50
                "Min Font Size" 24
                Wrap 1
                FontProperties FontProperties "{5CFEC73020DCA989}" {
