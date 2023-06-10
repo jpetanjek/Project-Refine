@@ -6,23 +6,74 @@ GenericEntity {
  }
  coords 66.729 2.001 469.623
  {
-  GenericEntity : "{3BAB1F4D3277A53C}Prefabs/TutorialSigns/TutorialSign_2.et" {
-   ID "5D915D8B915B0547"
-   coords -4.4 0 0
-  }
-  GenericEntity : "{4229443DFBE25A18}Prefabs/TutorialSigns/TutorialSign_0.et" {
-   ID "5D915D8B915B0578"
-   coords 0 0 0.3
-   angleY -15
-  }
-  GenericEntity : "{57FF2BAD8EB32A12}Prefabs/TutorialSigns/TutorialSign_1.et" {
-   ID "5D915D8B915B0546"
-   coords -2.2 0 0
-  }
-  GenericEntity : "{DE3753B43E923257}Prefabs/TutorialSigns/TutorialSign_3.et" {
-   ID "5D915D8B915B02CE"
-   coords -6.6 0 0.3
-   angleY 15
+  $grp GenericEntity : "{B61FF09403D35399}Prefabs/TutorialSigns/TutorialSign_Base.et" {
+   {
+    ID "5D948B2100939DC9"
+    coords -4.2 0 0
+    scale 1.44
+    {
+     GenericEntity {
+      ID "5D948B21BCF71177"
+      components {
+       MeshObject "{5D948B2197241137}" {
+        Materials {
+         MaterialAssignClass "{5D948B219B743957}" {
+          SourceMaterial "DefaultGeneratedMaterial"
+          AssignedMaterial "{90D3407F02AEB384}UI/Tutorial/tutorial_2.emat"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+   {
+    ID "5D948B211269E629"
+    coords -6.3 0 0.27
+    angleY 15
+    scale 1.44
+    {
+     GenericEntity {
+      ID "5D948B21BCF71177"
+      components {
+       MeshObject "{5D948B2197241137}" {
+        Materials {
+         MaterialAssignClass "{5D948B219B743957}" {
+          SourceMaterial "DefaultGeneratedMaterial"
+          AssignedMaterial "{64DB07E70F73DBF0}UI/Tutorial/tutorial_3.emat"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+   {
+    ID "5D948B212DB4CF91"
+    coords 0 0 0.27
+    angleY -15
+    scale 1.44
+   }
+   {
+    ID "5D948B2131AA8939"
+    coords -2.1 0 0
+    scale 1.44
+    {
+     GenericEntity {
+      ID "5D948B21BCF71177"
+      components {
+       MeshObject "{5D948B2197241137}" {
+        Materials {
+         MaterialAssignClass "{5D948B219B743957}" {
+          SourceMaterial "DefaultGeneratedMaterial"
+          AssignedMaterial "{CE3B693CBD233D8B}UI/Tutorial/tutorial_1.emat"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
   }
  }
 }

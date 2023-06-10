@@ -1,0 +1,37 @@
+GenericEntity {
+ ID "5D948B21BB8060E0"
+ components {
+  MeshObject "{5D948B21E0B0194E}" {
+   Object "{3C138FBF4F83E7C7}Assets/Structures/Signs/Military/SignRectangle_01_140x100.xob"
+  }
+  Hierarchy "{5D948B219E9DABF1}" {
+  }
+  RigidBody "{5D948B21E9A6EE5F}" {
+   ModelGeometry 1
+   Static 1
+  }
+ }
+ scale 1.44
+ {
+  GenericEntity {
+   ID "5D948B21BCF71177"
+   components {
+    MeshObject "{5D948B2197241137}" {
+     Object "{25014537EE0576F4}Assets/Tutorial/TutorialPlane.xob"
+     Materials {
+      MaterialAssignClass "{5D948B219B743957}" {
+       SourceMaterial "DefaultGeneratedMaterial"
+       AssignedMaterial "{F5EE903290053F74}UI/Tutorial/tutorial_0.emat"
+      }
+     }
+    }
+    Hierarchy "{5D948B2192589573}" {
+    }
+   }
+   coords 0 1.21 0.057
+   angleX 90
+   angleY 180
+   scale 0.38
+  }
+ }
+}

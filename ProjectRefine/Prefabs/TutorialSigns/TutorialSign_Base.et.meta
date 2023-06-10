@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{3BAB1F4D3277A53C}Prefabs/TutorialSigns/TutorialSign_2.et"
+ Name "{B61FF09403D35399}Prefabs/TutorialSigns/TutorialSign_Base.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }
