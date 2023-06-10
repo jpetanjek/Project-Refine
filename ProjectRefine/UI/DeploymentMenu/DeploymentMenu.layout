@@ -108,6 +108,18 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                         }
                        }
                       }
+                      ButtonWidgetClass "{5D12E84E7D8A10D4}" {
+                       Prefab "{5D12E84E7D8A10D4}"
+                       components {
+                        SCR_ModularButtonComponent "{5CB3785628029158}" {
+                         m_aEffects {
+                          SCR_ButtonEffectColor "{5CDF339C935EF450}" {
+                           m_eEvents 6175
+                          }
+                         }
+                        }
+                       }
+                      }
                      }
                     }
                    }
@@ -229,6 +241,18 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                     HorizontalLayoutWidgetClass "{5CC91A87BE4DCADF}" {
                      Prefab "{5CC91A87BE4DCADF}"
                      {
+                      ButtonWidgetClass "{5CD7358AF2E0C1E4}" {
+                       Prefab "{5CD7358AF2E0C1E4}"
+                       components {
+                        SCR_ModularButtonComponent "{5CB3785628029158}" {
+                         m_aEffects {
+                          SCR_ButtonEffectColor "{5CDF339C935EF450}" {
+                           m_eEvents 6175
+                          }
+                         }
+                        }
+                       }
+                      }
                       ButtonWidgetClass "{5CC91A873C0342DA}" {
                        Prefab "{5CC91A873C0342DA}"
                        Slot LayoutSlot "{5CC91A873C034306}" {

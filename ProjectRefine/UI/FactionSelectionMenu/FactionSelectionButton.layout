@@ -8,6 +8,9 @@ ButtonWidgetClass {
   SCR_ModularButtonComponent "{5CFEC7313E4F70F1}" {
    m_aEffects {
     SCR_ButtonEffectColor "{5CFEC731028EE9E7}" : "{A3127CA3228C8C36}UI/DeploymentMenu/Elements/ButtonEffectBackgroundColor.conf" {
+     m_eEvents 6175
+     m_cFocusGained 0 0.212 0.694 1
+     m_cFocusLost 0.002 0.036 0.095 1
     }
     SCR_ButtonEffectColor "{5CFEC731007783EB}" : "{D5B76602C3AAF7D6}UI/DeploymentMenu/Elements/ButtonEffectTextColor.conf" {
     }
