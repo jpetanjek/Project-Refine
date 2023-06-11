@@ -2,10 +2,18 @@ PR_BuildingManager {
  ID "5D4D08349FC16379"
  components {
   MeshObject "{5D4EA80C23ED51E0}" {
-   Object "{85E21F4FAEF9C8E3}system/wbdata/MaterialEditor/MaterialCube.xob"
+   Object "{F34BC9497ED6A537}Assets/Props/Industrial/Pallets/WoodenPalletBox_01_Wood.xob"
    Materials {
-    MaterialAssignClass "{5D4EA80ECB054A4C}" {
-     SourceMaterial "DummyMaterial"
+    MaterialAssignClass "{5D96A232BF623118}" {
+     SourceMaterial "Color_Palette"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+    MaterialAssignClass "{5D96A232BF623109}" {
+     SourceMaterial "WoodenPalletBox_01"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+    MaterialAssignClass "{5D96A232BF62310D}" {
+     SourceMaterial "WoodenPallete_decal"
      AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
     }
    }
