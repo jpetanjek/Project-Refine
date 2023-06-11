@@ -668,7 +668,8 @@ class PR_GameMode : SCR_BaseGameMode
 		{
 			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
 			{
-				AddFactionScore(newFactionId, 100);
+				if(newFactionId == GetInvadingFaction())
+					AddFactionScore(newFactionId, 100);
 			}
 			else
 			{
