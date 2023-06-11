@@ -261,7 +261,7 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	protected void OnPlayerChangedFaction(int playerID, int newFactionIdx)
 	{
-		if(m_PlayerController.GetPlayerId() != playerID)
+		if(!m_PlayerController && m_PlayerController.GetPlayerId() != playerID)
 			return;
 		
 		// Hell knows if the event is called from RPC or something like that,
