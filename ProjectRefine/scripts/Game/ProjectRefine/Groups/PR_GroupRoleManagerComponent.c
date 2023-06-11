@@ -224,7 +224,12 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	
 	void OnPlayerLeaderChanged(int groupID, int playerID)
 	{
+		ReturnRole(m_iLeaderId);
+		
 		m_iLeaderId = playerID;
+		
+		ClaimRole(0, m_iLeaderId);
+		
 		Replication.BumpMe();
 		
 		OnAvailabilityChangedClient();
@@ -257,6 +262,9 @@ class PR_GroupRoleManagerComponent : ScriptComponent
 	
 	bool ClaimRole(int index, int playerID)
 	{
+		if(playerID == -1)
+			return false;
+		
 		if(!CanPlayerClaimRole(index, playerID))
 			return false;
 		else
