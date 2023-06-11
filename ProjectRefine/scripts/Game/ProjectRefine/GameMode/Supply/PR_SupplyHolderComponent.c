@@ -126,9 +126,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 	{
 		if(m_RplComponent.IsProxy())
 			return false;
-		
-		Print("Server got GiveSupplies request");
-		
+				
 		if(!m_bCanTransact || !taker.m_bCanTransact)
 			return false;
 		
@@ -138,17 +136,10 @@ class PR_SupplyHolderComponent : ScriptComponent
 		if((taker.m_iSupply + amount) > taker.m_iMaxSupplies)
 			amount = taker.m_iMaxSupplies - taker.m_iSupply;
 		
-		Print("amount " + amount);
-		Print("This supply " + m_iSupply);
-		Print("Taker supply " + taker.m_iSupply + " Taker supply " + taker.m_iMaxSupplies);
-		
 		if(m_iSupply >= amount && (taker.m_iSupply + amount) <= taker.m_iMaxSupplies)
 		{
 			SetSupply(m_iSupply - amount);
 			taker.SetSupply(taker.m_iSupply + amount);
-			
-			Print("This after supply " + m_iSupply);
-			Print("Taker after supply " + taker.m_iSupply);
 			
 			Replication.BumpMe();
 			
@@ -162,8 +153,6 @@ class PR_SupplyHolderComponent : ScriptComponent
 		if(m_RplComponent.IsProxy())
 			return false;
 		
-		Print("Server got GiveSupplies request");
-		
 		if(!m_bCanTransact || !giver.m_bCanTransact)
 			return false;
 		
@@ -173,18 +162,11 @@ class PR_SupplyHolderComponent : ScriptComponent
 		if((m_iSupply + amount) > m_iMaxSupplies)
 			amount = m_iMaxSupplies - m_iSupply;
 		
-		Print("amount " + amount);
-		Print("Giver supply " + giver.m_iSupply);
-		Print("This supply " + m_iSupply + " This max supply " + m_iMaxSupplies);
-		
 		if(giver.m_iSupply >= amount && (m_iSupply + amount) <= m_iMaxSupplies)
 		{
 			giver.SetSupply(giver.m_iSupply - amount);	
 			SetSupply(m_iSupply + amount);
 			
-			Print("This after supply " + m_iSupply);
-			Print("Giver after supply " + giver.m_iSupply);
-						
 			return true;
 		}
 		return false;
@@ -259,14 +241,12 @@ class PR_SupplyHolderComponent : ScriptComponent
 			{
 				if(DiagMenu.GetBool(SCR_DebugMenuID.REFINE_TAKE_SUPPLY))
 				{
-					Print("TAKE SUPPLY");
 					PR_PC_SupplyHolderInformerComponent.GetLocalPlayerControllerSupplyHolderInformerComponent().RequestSupplyAction(m_RplComponent.Id(), target, true);
 					DiagMenu.SetValue(SCR_DebugMenuID.REFINE_TAKE_SUPPLY, false);
 				}
 				
 				if(DiagMenu.GetBool(SCR_DebugMenuID.REFINE_GIVE_SUPPLY))
 				{
-					Print("GIVE SUPPLY");
 					PR_PC_SupplyHolderInformerComponent.GetLocalPlayerControllerSupplyHolderInformerComponent().RequestSupplyAction(m_RplComponent.Id(), target, false);
 					DiagMenu.SetValue(SCR_DebugMenuID.REFINE_GIVE_SUPPLY, false);
 				}
