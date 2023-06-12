@@ -3,7 +3,6 @@ PR_FactionManager PR_FactionManager_USxUSSR1 : "{1D93362B44F48351}Prefabs/Manage
 }
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 4477.996 138.202 9461.423
- m_bRandomizeFactions 0
  m_aAreaEntities {
   PR_EntityLink "{5D510758092E2C26}" {
    m_sEntityName "MainBase_South_0"
@@ -31,10 +30,10 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  m_iInvadingFaction 0
  m_iDefendingFaction 1
  m_MainBaseEntity0 PR_EntityLink "{5D5107595F532BE3}" {
-  m_sEntityName "MainBase_South_0"
+  m_sEntityName "MainBase_North_6"
  }
  m_MainBaseEntity1 PR_EntityLink "{5D510759563B8EFE}" {
-  m_sEntityName "MainBase_North_6"
+  m_sEntityName "MainBase_South_0"
  }
  m_fInitialFactionScore0 100
  m_fInitialFactionScore1 500
