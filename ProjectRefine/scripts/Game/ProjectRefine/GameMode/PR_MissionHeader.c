@@ -1,5 +1,5 @@
 class PR_MissionHeader : SCR_MissionHeader
 {
-	[Attribute("123", UIWidgets.EditBox)]
-	int m_iProjectRefineCoolValue;
+	[Attribute("1", UIWidgets.CheckBox, "Enable layout randomization")]
+	bool m_bRandomizeLayout;
 }

@@ -139,6 +139,12 @@ class PR_GameMode : SCR_BaseGameMode
 		if (!GetGame().InPlayMode())
 			return;
 		
+		PR_MissionHeader header = PR_MissionHeader.Cast(GetGame().GetMissionHeader());
+		if (header)
+		{
+			m_bRandomizeFactions = header.m_bRandomizeLayout;
+		}
+		
 		// Initialize game mode stage
 		m_eGameModeStage = PR_EGameModeStage.PREPARATION;
 		
