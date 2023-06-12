@@ -150,8 +150,24 @@ class PR_GameMode : SCR_BaseGameMode
 			factionIds[i] = i;
 		if (m_bRandomizeFactions)
 		{
-			if(Math.RandomInt(0, 2) == 0)
-				factionIds.Sort(true); // Reverse whole array
+			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
+			{
+				if((Math.RandomInt(1,4) % 2) == 1)
+				{
+					m_iInvadingFaction = factionIds[0];
+					m_iDefendingFaction = factionIds[1];
+				}
+				else
+				{
+					m_iInvadingFaction = factionIds[1];
+					m_iDefendingFaction = factionIds[0];
+				}
+			}
+			else
+			{
+				if(Math.RandomInt(0, 2) == 0)
+					factionIds.Sort(true); // Reverse whole array
+			}
 		}
 		
 		// Init capture areas
@@ -214,9 +230,10 @@ class PR_GameMode : SCR_BaseGameMode
 				int initialOwnerFactionId = -1;
 				if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
 				{
-					if(m_MainBaseArea0 == area || m_MainBaseArea1 == area)
+					// 0 is considered main of invader
+					if(m_MainBaseArea0 == area)
 					{
-						initialOwnerFactionId = area.GetInitialOwnerFactionId();
+						initialOwnerFactionId = m_iInvadingFaction;
 					}
 					else
 					{
