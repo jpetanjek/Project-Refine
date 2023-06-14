@@ -28,7 +28,7 @@ class PR_AssetInformerComponent : ScriptComponent
 			
 			PR_GameMode gameMode = PR_GameMode.Cast(GetGame().GetGameMode());
 			
-			if(controller && gameMode && gameMode.GetGameModeStage() == PR_EGameModeStage.PREPARATION && m_iInitialFactionId == gameMode.GetInvadingFaction())
+			if(controller && gameMode && gameMode.GetGameModeStage() == PR_EGameModeStage.PREPARATION && m_iInitialFactionId == gameMode.GetInvadingFactionId())
 			{
 				gameMode.m_OnGameModeStageChanged.Insert(OnGameModeStageChanged);			
 				m_fPreviousStartupChance = controller.GetEngineStartupChance();

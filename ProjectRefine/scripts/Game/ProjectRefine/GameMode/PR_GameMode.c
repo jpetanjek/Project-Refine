@@ -24,8 +24,8 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	protected static const float PREPARATION_DURATION_S = 240.0;
 	
-	[Attribute("1", UIWidgets.EditBox, desc: "When true, initial faction owners of areas are randomized")]
-	protected bool m_bRandomizeFactions;
+	[Attribute(desc: "Mission header which will be used if world is launched without mission header. Used mainly for testing.")]
+	protected ref PR_MissionHeader m_TestMissionHeader;
 	
 	// Attributes - areas
 	[Attribute(desc: "All areas, including main bases, in their order of capture.")]
@@ -34,23 +34,10 @@ class PR_GameMode : SCR_BaseGameMode
 	[Attribute("0", UIWidgets.ComboBox, desc: "Archetype of Game Mode", category: "Game Mode Options", ParamEnumArray.FromEnum(PR_EGameModeArchetype) )]
 	protected PR_EGameModeArchetype m_bGameModeArchetype;
 	
-	[Attribute("-1", UIWidgets.EditBox, desc: "Faction which, when it caputres a point, it becomes un-capcurable", category: "Invasion")]
-	protected int m_iInvadingFaction;
-	
-	[Attribute("-1", UIWidgets.EditBox, desc: "Faction which defends", category: "Invasion")]
-	protected int m_iDefendingFaction;
-	
 	[Attribute(desc: "Main base of first (invading) faction")]
 	protected ref PR_EntityLink m_MainBaseEntity0;
 	[Attribute(desc: "Main base of second (defending) faction")]
 	protected ref PR_EntityLink m_MainBaseEntity1;
-	
-	// Attributes - faction score
-	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of first (invading) faction")]
-	protected int m_fInitialFactionScore0;
-	
-	[Attribute("10", UIWidgets.EditBox, "Initial amount of points of second (defending) faction")]
-	protected int m_fInitialFactionScore1;
 	
 	// Pointers to areas
 	protected ref array<PR_CaptureArea> m_aAreas = {}; // Array with all capture areas. It's parallel to m_aAreaEntities array.
@@ -62,18 +49,28 @@ class PR_GameMode : SCR_BaseGameMode
 	PR_SupplyHolderComponent m_Main1_supply;
 	
 	// Score of each faction
-	protected ref array<int> m_aFactionScore = {}; //!! It's synchronized via replication
+	[RplProp()]
+	protected int m_iFactionScore0;
+	[RplProp()]
+	protected int m_iFactionScore1;
 	
 	// Game mode stage
 	[RplProp(onRplName: "OnGameModeChangedClient")]
 	protected PR_EGameModeStage m_eGameModeStage = PR_EGameModeStage.PREPARATION;
+	
+	// RPL props - factions
+	// IDs of factions which were assigned after initialization and randomization
+	// We must replicate them from server to clients after game mode init
+	[RplProp()]
+	protected int m_iFaction0;	// Invader in Invasion
+	[RplProp()]
+	protected int m_iFaction1;	// Defender in Invasion
 	
 	// Events
 	ref ScriptInvokerBase<OnGameModeStageChangedDelegate> m_OnGameModeStageChanged = new ScriptInvokerBase<OnGameModeStageChangedDelegate>();
 	
 	// Other
 	protected float m_fGameModeUpdateTimer = 0;
-	protected bool m_bCaptureAreaInitSuccess = false;
 	
 	protected SCR_GroupsManagerComponent m_GroupManager;
 	
@@ -92,16 +89,16 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Returns invading faction
-	int GetInvadingFaction()
+	int GetInvadingFactionId()
 	{
-		return m_iInvadingFaction;
+		return m_iFaction0;
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Returns defending faction
-	int GetDefendingFaction()
+	int GetDefendingFactionId()
 	{
-		return m_iDefendingFaction;
+		return m_iFaction1;
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -139,45 +136,67 @@ class PR_GameMode : SCR_BaseGameMode
 		if (!GetGame().InPlayMode())
 			return;
 		
+		//--------------------------------------------------------
+		// Resolve mission config
+		
 		PR_MissionHeader header = PR_MissionHeader.Cast(GetGame().GetMissionHeader());
-		if (header)
+		if (!header)
+			header = m_TestMissionHeader;
+		
+		// At this point it's a complete failure, since we require the values from mission header
+		if (!header)
 		{
-			m_bRandomizeFactions = header.m_bRandomizeLayout;
+			_print("Fatal error: no mission config is provided. The world must be started with a mission config, otherwise it must be provided through m_TestMissionHeader property", LogLevel.ERROR);
+			return;
 		}
 		
-		// Initialize game mode stage
-		m_eGameModeStage = PR_EGameModeStage.PREPARATION;
+		
+		//--------------------------------------------------------
+		// Resolve factions
+		
+		array<int> factionIds = {};
+		FactionManager fm = GetGame().GetFactionManager();
+		if (!fm)
+		{
+			_print("Fatal error: Faction Manager was not found.", LogLevel.ERROR);
+			return;
+		}
+		array<string> factionKeys = {header.m_sRefineFaction_0, header.m_sRefineFaction_1};
+		foreach (int i, string factionKey : factionKeys)
+		{
+			Faction faction = fm.GetFactionByKey(factionKey);
+			if (!faction)
+			{
+				_print(string.Format("Fatal error: faction %1 with key \'%2\' was not found", i, factionKey));
+				return;
+			}
+			
+			int factionId = fm.GetFactionIndex(faction);
+			_print(string.Format("Using faction %1: key \'%2\', ID: %3", i, factionKey, factionId));
+			factionIds.Insert(factionId);
+		}
+		
+		
+		//--------------------------------------------------------
+		// Randomize factions
+		
+		bool randomizeFactions = header.m_bRefineRandomizeFactions;
 		
 		// Randomize factions - if enabled
-		FactionManager fm = GetGame().GetFactionManager();
-		array<int> factionIds = {};
-		factionIds.Resize(fm.GetFactionsCount());
-		for (int i = 0; i < fm.GetFactionsCount(); i++)
-			factionIds[i] = i;
-		if (m_bRandomizeFactions)
+		if (IsMaster() && randomizeFactions)
 		{
-			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
-			{
-				if((Math.RandomInt(1,4) % 2) == 1)
-				{
-					m_iInvadingFaction = factionIds[0];
-					m_iDefendingFaction = factionIds[1];
-				}
-				else
-				{
-					m_iInvadingFaction = factionIds[1];
-					m_iDefendingFaction = factionIds[0];
-				}
-			}
-			else
-			{
-				if(Math.RandomInt(0, 2) == 0)
-					factionIds.Sort(true); // Reverse whole array
-			}
+			bool shuffleFactions = Math.RandomInt(0, 2) == 0;
+			
+			m_iFaction0 = factionIds[0];
+			m_iFaction1 = factionIds[1];
+			Replication.BumpMe();
 		}
 		
+		
+		//--------------------------------------------------------
 		// Init capture areas
-		m_bCaptureAreaInitSuccess = true;
+		
+		bool captureAreaInitSuccess = true;
 		if (m_aAreaEntities)
 		{
 			foreach (PR_EntityLink link : m_aAreaEntities)
@@ -185,14 +204,14 @@ class PR_GameMode : SCR_BaseGameMode
 				IEntity captureAreaEntity = link.Init();
 				if (captureAreaEntity == null)
 				{
-					m_bCaptureAreaInitSuccess = false;
+					captureAreaInitSuccess = false;
 					continue;
 				}
 					
 				PR_CaptureArea captureAreaComp = FindCaptureAreaOnEntity(captureAreaEntity);
 				if (!captureAreaComp)
 				{
-					m_bCaptureAreaInitSuccess = false;
+					captureAreaInitSuccess = false;
 					continue;
 				}
 				
@@ -212,17 +231,20 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 		
 		if (!m_MainBaseArea0 || !m_MainBaseArea1)
-			m_bCaptureAreaInitSuccess = false;
+			captureAreaInitSuccess = false;
 		
-		if (!m_bCaptureAreaInitSuccess)
-			_print("Could not initialize capture areas! Game mode will not work!", LogLevel.ERROR);
+		if (!captureAreaInitSuccess)
+		{
+			_print("Fatal error: Could not initialize capture areas.", LogLevel.ERROR);
+			return;
+		}
 		else
 			_print("Capture areas initialized successfully!", LogLevel.NORMAL);
 		
 		// Finish init of capture areas:
 		// - Link capture areas with their naighbours
 		// - Set capture area faction
-		if (m_bCaptureAreaInitSuccess)
+		if (captureAreaInitSuccess)
 		{
 			for (int i = 0; i < m_aAreas.Count(); i++)
 			{
@@ -233,51 +255,25 @@ class PR_GameMode : SCR_BaseGameMode
 					linked.Insert(m_aAreas[i+1]); // Add next area
 				
 				PR_CaptureArea area = m_aAreas[i];
+				
+				// Resolve initial owner faction
 				int initialOwnerFactionId = -1;
+				
 				if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
 				{
 					// 0 is considered main of invader
 					if(m_MainBaseArea0 == area)
-					{
-						initialOwnerFactionId = m_iInvadingFaction;
-					}
+						initialOwnerFactionId = GetInvadingFactionId();
 					else
-					{
-						initialOwnerFactionId = m_iDefendingFaction;
-					}
+						initialOwnerFactionId = GetDefendingFactionId();
 				}
+				
+				if (IsMaster())
+					area.InitMaster(linked, initialOwnerFactionId);
 				else
-				{
-					initialOwnerFactionId = area.GetInitialOwnerFactionId();
-				}
-				if (initialOwnerFactionId != -1)
-					initialOwnerFactionId = factionIds[initialOwnerFactionId];
-				area.Init(linked, initialOwnerFactionId);
-			}
-		}
-		
-		// Init faction points
-		int nFactions = fm.GetFactionsCount();
-		m_aFactionScore.Resize(nFactions);
-		if (IsMaster())
-		{
-			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
-			{
-				m_aFactionScore[m_iInvadingFaction] = 100;
-				m_aFactionScore[m_iDefendingFaction] = 500;
-			}
-			else
-			{
-				m_aFactionScore[factionIds[0]] = m_fInitialFactionScore0;
-				m_aFactionScore[factionIds[1]] = m_fInitialFactionScore1;
-			}			
-		}
-		
-		if (IsMaster())
-		{
-			// Subscribe to capture area events
-			foreach (PR_CaptureArea area : m_aAreas)
-			{
+					area.InitProxy(linked);
+				
+				// Subscribe to events
 				area.m_OnOwnerFactionChanged.Insert(OnCaptureAreaFactionChanged);
 				
 				// Subscribe to asset spawner events
@@ -288,6 +284,29 @@ class PR_GameMode : SCR_BaseGameMode
 				}
 			}
 		}
+		
+		//--------------------------------------------------------
+		// Init faction points
+		if (IsMaster())
+		{
+			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
+			{
+				m_iFactionScore0 = 100; // Attackers
+				m_iFactionScore1 = 500; // Defenders
+			}
+			else
+			{
+				m_iFactionScore0 = 300;
+				m_iFactionScore1 = 300;
+			}			
+			Replication.BumpMe();
+		}
+		
+		//--------------------------------------------------------
+		// Initialize game mode stage
+		m_eGameModeStage = PR_EGameModeStage.PREPARATION;
+		
+		Replication.BumpMe();
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -403,7 +422,7 @@ class PR_GameMode : SCR_BaseGameMode
 			}
 			case PR_EGameModeStage.LIVE:
 			{
-				TickGameModePlay(timeSlice);
+				TickGameModeLive(timeSlice);
 				break;
 			}
 			case PR_EGameModeStage.DEBRIEF:
@@ -428,7 +447,7 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 	}
 	
-	void TickGameModePlay(float timeSlice)
+	void TickGameModeLive(float timeSlice)
 	{
 		//---------------------------------------------
 		// Update areas
@@ -496,16 +515,15 @@ class PR_GameMode : SCR_BaseGameMode
 		{
 			int ownerFactionId = area.GetOwnerFactionId();
 			if (ownerFactionId != -1)
-			{
 				factionAreas[ownerFactionId] = factionAreas[ownerFactionId] + 1;
-			}
 		}
 		
 		if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
 		{
-			if(factionAreas[m_iInvadingFaction] >= (m_aAreas.Count() - 1))
+			if(factionAreas[GetInvadingFactionId()] >= (m_aAreas.Count() - 1))
 			{
-				AddFactionScore(m_iDefendingFaction, (GetFactionScore(m_iDefendingFaction) * -1) -1);
+				// Defender has lost
+				SetFactionScore(GetDefendingFactionId(), -1);
 			}
 		}
 		else
@@ -540,18 +558,7 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		//---------------------------------------------
 		// End game if some faction has depleted points
-		float minScore = 1;
-		int factionIdMinScore = -1;
-		for (int i = 0; i < nFactions; i++)
-		{
-			if (m_aFactionScore[i] < minScore)
-			{
-				minScore = m_aFactionScore[i];
-				factionIdMinScore = i;
-			}
-		}
-		
-		if (minScore < 0)
+		if (m_iFactionScore0 < 0 || m_iFactionScore1 < 0)
 		{
 			// Some faction has lost all its points
 			// End the game
@@ -561,32 +568,11 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	void TickGameModeDebrief(float timeSlice)
 	{
-		array<int> winnerFactions = {}; // All factions except the one which has lowest amount of points
-		// Do this only once
-		{
-			FactionManager fm = GetGame().GetFactionManager();
-			array<Faction> factions = {};
-			fm.GetFactionsList(factions);
-			int nFactions = factions.Count();
-			
-			float minScore = 1;
-			int factionIdMinScore = -1;
-			for (int i = 0; i < nFactions; i++)
-			{
-				if (m_aFactionScore[i] < minScore)
-				{
-					minScore = m_aFactionScore[i];
-					factionIdMinScore = i;
-				}
-			}
-			
-			
-			for (int factionId = 0; factionId < nFactions; factionId++)
-			{
-				if (factionId != factionIdMinScore)
-					winnerFactions.Insert(factionId);				
-			}
-		}
+		array<int> winnerFactions = {};
+		if (m_iFactionScore0 > m_iFactionScore1)
+			winnerFactions.Insert(m_iFaction0);
+		else if (m_iFactionScore1 > m_iFactionScore0)
+			winnerFactions.Insert(m_iFaction1);
 		
 		// TODO: Delete all assets and players, move all cameras to some position?
 		
@@ -655,25 +641,58 @@ class PR_GameMode : SCR_BaseGameMode
 			Print("AddFactionPoints() must be called only on master!", LogLevel.ERROR);
 			return;
 		}
-		int newScore = m_aFactionScore[factionId] + points;
-		RpcDo_SetFactionScore(factionId, newScore);
-		Rpc(RpcDo_SetFactionScore, factionId, newScore);
-		Replication.BumpMe();
+		
+		bool bump = false;
+		if (factionId == m_iFaction0)
+		{
+			m_iFactionScore0 = m_iFactionScore0 + points;
+			bump = true;
+		}
+		else if (factionId == m_iFaction1)
+		{
+			m_iFactionScore1 = m_iFactionScore1 + points;
+			bump = true;
+		}
+			
+		if (bump)
+			Replication.BumpMe();
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	void SetFactionScore(int factionId, int value)
+	{
+		if (!IsMaster())
+		{
+			Print("SetFactionScore() must be called only on master!", LogLevel.ERROR);
+			return;
+		}
+		
+		bool bump = false;
+		if (factionId == m_iFaction0)
+		{
+			m_iFactionScore0 = value;
+			bump = true;
+		}
+		else if (factionId == m_iFaction1)
+		{
+			m_iFactionScore1 = value;
+			bump = true;
+		}
+			
+		if (bump)
+			Replication.BumpMe();
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	int GetFactionScore(int factionId)
 	{
-		return m_aFactionScore[factionId];
+		if (factionId == m_iFaction0)
+			return m_iFactionScore0;
+		else if (factionId == m_iFaction1)
+			return m_iFactionScore1;
+				
+		return 0;
 	}
-	
-	//-------------------------------------------------------------------------------------------------------------------------------
-	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
-	protected void RpcDo_SetFactionScore(int factionId, int score)
-	{
-		m_aFactionScore[factionId] = score;
-	}
-	
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Capture areas
@@ -691,7 +710,7 @@ class PR_GameMode : SCR_BaseGameMode
 		{
 			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
 			{
-				if(newFactionId == GetInvadingFaction())
+				if(newFactionId == GetInvadingFactionId())
 					AddFactionScore(newFactionId, 100);
 			}
 			else
@@ -892,42 +911,7 @@ class PR_GameMode : SCR_BaseGameMode
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Replication
 	
-	//------------------------------------------------------------------------------------------------
-	override bool RplSave(ScriptBitWriter writer)
-	{
-		super.RplSave(writer);
-		
-		// Faction score
-		int nFactions = m_aFactionScore.Count();
-		writer.WriteInt(nFactions);
-		for (int i = 0; i < nFactions; i++)
-			writer.WriteInt(m_aFactionScore[i]);
-		
-		return true;
-	}
 
-	//------------------------------------------------------------------------------------------------
-	override bool RplLoad(ScriptBitReader reader)
-	{
-		super.RplLoad(reader);
-		
-		// Faction score
-		int nFactions;
-		if (!reader.ReadInt(nFactions))
-			return false;
-		
-		if (m_aFactionScore.Count() != nFactions)
-			m_aFactionScore.Resize(nFactions);
-		for (int i = 0; i < nFactions; i++)
-		{
-			int score;
-			if (!reader.ReadInt(score))
-				return false;
-			m_aFactionScore[i] = score;
-		}
-		
-		return true;
-	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Debugging

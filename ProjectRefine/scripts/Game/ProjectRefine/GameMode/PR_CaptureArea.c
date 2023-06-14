@@ -22,9 +22,6 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("", UIWidgets.EditBox, desc: "Name of the area")]
 	protected string m_sName;
 	
-	[Attribute("-1", UIWidgets.EditBox, desc: "Owner faction at game start")]
-	protected int m_iInitialOwnerFaction;
-	
 	[Attribute("true", UIWidgets.CheckBox, desc: "True if area is capturable by soldier occupation, false if not."), RplProp(onRplName: "OnRplPropChanged")]
 	protected bool m_bCapturable;
 	
@@ -134,12 +131,6 @@ class PR_CaptureArea : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	int GetInitialOwnerFactionId()
-	{
-		return m_iInitialOwnerFaction;
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	int GetPointsOwnerFactionId()
 	{
 		return m_iPointsOwnerFaction;
@@ -213,7 +204,7 @@ class PR_CaptureArea : ScriptComponent
 					m_iOwnerFaction = m_iPointsOwnerFaction; // New owner is the faction which has been capturing
 					m_eState = PR_EAreaState.CAPTURED;
 					PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
-					if(gm.GetArchetype() == PR_EGameModeArchetype.INVASION &&  m_iOwnerFaction == gm.GetInvadingFaction())
+					if(gm.GetArchetype() == PR_EGameModeArchetype.INVASION &&  m_iOwnerFaction == gm.GetInvadingFactionId())
 					{
 						m_bCapturable = false;
 					}
@@ -287,43 +278,51 @@ class PR_CaptureArea : ScriptComponent
 	
 	//------------------------------------------------------------------------------------------------
 	// Called by game mode
-	void Init(array<PR_CaptureArea> neighbourAreas, int ownerFactionId)
+	void InitMaster(notnull array<PR_CaptureArea> neighbourAreas, int ownerFactionId)
 	{
-		RplComponent rpl = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
-		
-		FactionManager fm = GetGame().GetFactionManager();
-		
-		// Init linked areas
+		InitNeighbourAreas(neighbourAreas);
+		InitOwnerFaction(ownerFactionId);
+		InitAssetSpawners();
+	}
+	void InitProxy(notnull array<PR_CaptureArea> neighbourAreas)
+	{
+		InitNeighbourAreas(neighbourAreas);
+		InitAssetSpawners();
+	}
+	
+	void InitNeighbourAreas(notnull array<PR_CaptureArea> neighbourAreas)
+	{
 		m_aLinkedAreas.Copy(neighbourAreas);
 		
 		foreach (PR_CaptureArea area : neighbourAreas)
 		{
 			m_OnLinkAdded.Invoke(this, area);
 		}
-		
-		// Init owner faction - only for Master
-		// If it's a proxy, owner faction is initialized from replication
-		if (rpl.IsMaster())
-		{
-			m_iOwnerFaction = ownerFactionId;
+	}
+	
+	void InitOwnerFaction(int ownerFactionId)
+	{
+		m_iOwnerFaction = ownerFactionId;
 			
-			m_iPointsOwnerFaction = m_iOwnerFaction;
-			if (m_iOwnerFaction != -1)
-			{
-				m_fPoints = POINTS_MAX;
-				m_eState = PR_EAreaState.CAPTURED;
-				
-				m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction); 
-			}
-			else
-			{
-				m_fPoints = 0;
-				m_eState = PR_EAreaState.NEUTRAL;
-			}
-			m_OnAnyPropertyChanged.Invoke(this);
+		m_iPointsOwnerFaction = m_iOwnerFaction;
+		if (m_iOwnerFaction != -1)
+		{
+			m_fPoints = POINTS_MAX;
+			m_eState = PR_EAreaState.CAPTURED;
+			
+			m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction); 
 		}
-		
-		// Init asset spawners
+		else
+		{
+			m_fPoints = 0;
+			m_eState = PR_EAreaState.NEUTRAL;
+		}
+		m_OnAnyPropertyChanged.Invoke(this);
+		Replication.BumpMe();
+	}
+	
+	void InitAssetSpawners()
+	{
 		IEntity childEntity = GetOwner().GetChildren();
 		while (childEntity)
 		{

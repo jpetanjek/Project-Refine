@@ -45,7 +45,7 @@ class PR_PreparationPhaseCollider : GenericEntity
 	void OnGameModeStageChanged(PR_EGameModeStage stage)
 	{
 		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
-		if(!m_bColliderDisabled && (stage == PR_EGameModeStage.LIVE || ( gm.GetArchetype() == PR_EGameModeArchetype.INVASION && m_MainBase && m_MainBase.GetInitialOwnerFactionId() == gm.GetDefendingFaction())))
+		if(!m_bColliderDisabled && (stage == PR_EGameModeStage.LIVE || ( gm.GetArchetype() == PR_EGameModeArchetype.INVASION && m_MainBase && m_MainBase.GetOwnerFactionId() == gm.GetDefendingFactionId())))
 		{
 			m_bColliderDisabled = true;
 			Replication.BumpMe();

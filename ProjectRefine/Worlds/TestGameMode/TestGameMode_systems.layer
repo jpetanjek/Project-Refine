@@ -35,6 +35,136 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  m_MainBaseEntity1 PR_EntityLink "{5C5EDD58EE718DE1}" {
   m_sEntityName "MainBase1"
  }
+ {
+  $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
+   MainBase0 {
+    components {
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_fRadius 20
+      m_sName "Epic Main Base"
+      m_iInitialOwnerFaction 0
+     }
+     PR_SpawnPointMainBase "{5D6B110829511A44}" {
+     }
+    }
+    coords -88.037 -63.488 119.416
+    {
+     $grp PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
+      {
+       coords -42.044 0 -1.88
+       angleY -41.145
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -32.633 0 -0.004
+       m_AssetType ARMORED_TRANSPORT
+      }
+      {
+       coords -22.858 0 0.095
+       m_AssetType TROOP_TRANSPORT
+      }
+      {
+       coords -10.84 0 0.854
+       m_AssetType ARMED_TRANSPORT
+      }
+      {
+       coords 0 0 0
+       m_AssetType FUEL
+      }
+      {
+       coords 11.447 0 -0.326
+       m_AssetType SUPPLY
+      }
+      {
+       coords 26.357 0 -0.803
+       m_AssetType COMMAND
+      }
+      {
+       coords 44.959 0 -2.157
+       m_AssetType ARMORED_PERSONEL_CARRIER
+      }
+     }
+     $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+      {
+       coords -11.442 0 -10.238
+      }
+      {
+       coords -6.305 0 -12.193
+      }
+      {
+       coords -1.631 0 -14.385
+      }
+     }
+    }
+   }
+   MainBase1 {
+    components {
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_fRadius 20
+      m_sName "Seaport"
+      m_iInitialOwnerFaction 1
+     }
+     PR_SpawnPointMainBase "{5D6B110829511A44}" {
+     }
+    }
+    coords -113.476 -63.394 -12.16
+    {
+     PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/PR_AssetSpawner.et" {
+      coords 3.903 -0.095 -9.614
+      angleY -42.997
+      m_AssetType TRANSPORT
+     }
+     $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+      {
+       coords -3.972 -0.096 3.904
+      }
+      {
+       coords -5.441 -0.094 4.078
+      }
+     }
+    }
+   }
+  }
+  $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
+   Area0abc {
+    components {
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_sName "Airport"
+      m_iInitialOwnerFaction 0
+     }
+    }
+    coords -98.778 -63.457 70.134
+    {
+     $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+      {
+       coords -4.587 -0.033 0.892
+      }
+      {
+       coords -3.583 -0.031 0.68
+      }
+     }
+    }
+   }
+   Area1 {
+    components {
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_sName "Vehicle Repair Station"
+     }
+    }
+    coords -90.884 -63.488 22.148
+    {
+     $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+      {
+       coords -2.971 -0.002 2.364
+      }
+      {
+       coords -3.964 0 2.34
+      }
+     }
+    }
+   }
+  }
+ }
 }
 RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
 }
