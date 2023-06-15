@@ -952,9 +952,11 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		FactionManager fm = GetGame().GetFactionManager();
 		
+		array<int> factionIds = {m_iFaction0, m_iFaction1};
 		for (int i = 0; i < 2; i++)
 		{
-			DbgUI.Text(string.Format("%1 score: %2", fm.GetFactionByIndex(i).GetFactionKey(), GetFactionScore(i)));
+			int factionId = factionIds[i];
+			DbgUI.Text(string.Format("%1 score: %2", fm.GetFactionByIndex(factionId).GetFactionKey(), GetFactionScore(factionId)));
 		}
 		
 		DbgUI.Text(string.Format("Total Time Elapsed: %1", m_fTimeElapsed.ToString(8, 3)));

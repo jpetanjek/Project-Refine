@@ -51,27 +51,22 @@ class PR_FactionSelecitonMenu : ChimeraMenuBase
 		// No reason to create them dynamically now
 		
 		array<PR_FactionSelectionButtonComponent> buttons = {	widgets.m_FactionButton0Component1,
-																widgets.m_FactionButton1Component1,
-																widgets.m_FactionButton2Component1};
+																widgets.m_FactionButton1Component1};
+		
+		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
+		array<int> factionIds = {gm.GetInvadingFactionId(), gm.GetDefendingFactionId()};
 		
 		FactionManager fm = GetGame().GetFactionManager();
-		int nFactions = fm.GetFactionsCount();
 		
 		for (int buttonId = 0; buttonId < buttons.Count(); buttonId++)
 		{
-			if (buttonId < nFactions)
-			{
-				Faction f = fm.GetFactionByIndex(buttonId);
-				SCR_Faction scrFaction = SCR_Faction.Cast(f);
-				buttons[buttonId].Init(scrFaction);
-				SCR_ModularButtonComponent buttonComp = SCR_ModularButtonComponent.Cast(buttons[buttonId].GetRootWidget().FindHandler(SCR_ModularButtonComponent));
-				buttonComp.m_OnClicked.Insert(OnFactionButton);
-			}
-			else
-			{
-				// Hide this button
-				buttons[buttonId].GetRootWidget().SetVisible(false);
-			}
+			Faction f = fm.GetFactionByIndex(factionIds[buttonId]);
+			SCR_Faction scrFaction = SCR_Faction.Cast(f);
+			
+			buttons[buttonId].Init(scrFaction);
+			
+			SCR_ModularButtonComponent buttonComp = SCR_ModularButtonComponent.Cast(buttons[buttonId].GetRootWidget().FindHandler(SCR_ModularButtonComponent));
+			buttonComp.m_OnClicked.Insert(OnFactionButton);
 		}
 	}
 	

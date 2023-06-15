@@ -121,43 +121,6 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                 }
                }
               }
-              ButtonWidgetClass "{5CFED445BCD852D5}" : "{51A47649B4BDA716}UI/FactionSelectionMenu/FactionSelectionButton.layout" {
-               Name "m_FactionButton2"
-               Slot LayoutSlot "{5CFEC731D60F6996}" {
-               }
-               components {
-                SCR_WidgetExportRule "{5CFED447B10FEDE1}" {
-                 ExportChildWidgets 0
-                }
-               }
-               {
-                SizeLayoutWidgetClass "{5CFEC731DE4A0128}" {
-                 Prefab "{5CFEC731DE4A0128}"
-                 {
-                  OverlayWidgetClass "{5CFEC73128C364EC}" {
-                   Prefab "{5CFEC73128C364EC}"
-                   {
-                    VerticalLayoutWidgetClass "{5CFEC7311CE50294}" {
-                     Prefab "{5CFEC7311CE50294}"
-                     {
-                      HorizontalLayoutWidgetClass "{5CFEC73501D51A2D}" {
-                       Prefab "{5CFEC73501D51A2D}"
-                       {
-                        TextWidgetClass "{5CFEC7316D2643D8}" {
-                         Prefab "{5CFEC7316D2643D8}"
-                         "Font Size" 25
-                         "Min Font Size" 25
-                        }
-                       }
-                      }
-                     }
-                    }
-                   }
-                  }
-                 }
-                }
-               }
-              }
              }
             }
            }
