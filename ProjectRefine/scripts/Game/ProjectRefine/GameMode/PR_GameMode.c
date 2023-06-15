@@ -27,20 +27,11 @@ class PR_GameMode : SCR_BaseGameMode
 	[Attribute(desc: "Mission header which will be used if world is launched without mission header. Used mainly for testing.")]
 	protected ref PR_MissionHeader m_TestMissionHeader;
 	
-	// Attributes - areas
-	[Attribute(desc: "All areas, including main bases, in their order of capture.")]
-	protected ref array<ref PR_EntityLink> m_aAreaEntities;
-	
 	[Attribute("0", UIWidgets.ComboBox, desc: "Archetype of Game Mode", category: "Game Mode Options", ParamEnumArray.FromEnum(PR_EGameModeArchetype) )]
 	protected PR_EGameModeArchetype m_bGameModeArchetype;
 	
-	[Attribute(desc: "Main base of first (invading) faction")]
-	protected ref PR_EntityLink m_MainBaseEntity0;
-	[Attribute(desc: "Main base of second (defending) faction")]
-	protected ref PR_EntityLink m_MainBaseEntity1;
-	
 	// Pointers to areas
-	protected ref array<PR_CaptureArea> m_aAreas = {}; // Array with all capture areas. It's parallel to m_aAreaEntities array.
+	protected ref array<PR_CaptureArea> m_aAreas = {}; // Array with all capture areas.
 	protected PR_CaptureArea m_MainBaseArea0;
 	protected PR_CaptureArea m_MainBaseArea1;
 	
@@ -183,9 +174,24 @@ class PR_GameMode : SCR_BaseGameMode
 		bool randomizeFactions = header.m_bRefineRandomizeFactions;
 		
 		// Randomize factions - if enabled
-		if (IsMaster() && randomizeFactions)
+		if (IsMaster())
 		{
-			bool shuffleFactions = Math.RandomInt(0, 2) == 0;
+			if (randomizeFactions)
+			{
+				_print("Randomizing factions...");
+				RandomGenerator generator = new RandomGenerator();
+				generator.SetSeed(System.GetUnixTime());
+				int randInt = generator.RandInt(0, 2048);
+				bool shuffleFactions = (randInt % 2) == 0;
+				_print(string.Format("  Random int: %1, shuffle factions: %2", randInt, shuffleFactions));
+				
+				if (shuffleFactions)
+				{
+					int temp = factionIds[0];
+					factionIds[0] = factionIds[1];
+					factionIds[1] = temp;
+				}
+			}
 			
 			m_iFaction0 = factionIds[0];
 			m_iFaction1 = factionIds[1];
@@ -196,92 +202,72 @@ class PR_GameMode : SCR_BaseGameMode
 		//--------------------------------------------------------
 		// Init capture areas
 		
-		bool captureAreaInitSuccess = true;
-		if (m_aAreaEntities)
+		// Find all child capture areas, sort them by order
+		array<PR_CaptureArea> areas = {};
+		IEntity childEntity = GetChildren();
+		while (childEntity)
 		{
-			foreach (PR_EntityLink link : m_aAreaEntities)
-			{
-				IEntity captureAreaEntity = link.Init();
-				if (captureAreaEntity == null)
-				{
-					captureAreaInitSuccess = false;
-					continue;
-				}
-					
-				PR_CaptureArea captureAreaComp = FindCaptureAreaOnEntity(captureAreaEntity);
-				if (!captureAreaComp)
-				{
-					captureAreaInitSuccess = false;
-					continue;
-				}
-				
-				m_aAreas.Insert(captureAreaComp);
-			}
+			PR_CaptureArea ca = PR_CaptureArea.Cast(childEntity.FindComponent(PR_CaptureArea));
+			if (ca)
+				areas.Insert(ca);
+			childEntity = childEntity.GetSibling();
 		}
+		SCR_Sorting<PR_CaptureArea, PR_CaptureArea_CompareOrder>.HeapSort(areas, false);
+		m_aAreas.Copy(areas);
 		
-		if (m_MainBaseEntity0)
-		{
-			m_MainBaseEntity0.Init();
-			m_MainBaseArea0 = FindCaptureAreaOnEntity(m_MainBaseEntity0.Get());
-		}
-		if (m_MainBaseEntity1)
-		{
-			m_MainBaseEntity1.Init();
-			m_MainBaseArea1 = FindCaptureAreaOnEntity(m_MainBaseEntity1.Get());
-		}
+		_print(string.Format("Found %1 capture areas:", areas.Count()));
+		foreach (int i, PR_CaptureArea a : m_aAreas)
+			_print(string.Format("%1: order: %2, entity: %3, name: %4", i, a.m_iOrder, a.GetOwner().GetName(), a.GetName()));
 		
-		if (!m_MainBaseArea0 || !m_MainBaseArea1)
-			captureAreaInitSuccess = false;
-		
-		if (!captureAreaInitSuccess)
+		if (areas.Count() < 2)
 		{
-			_print("Fatal error: Could not initialize capture areas.", LogLevel.ERROR);
+			_print("Fatal error: did not find enough capture areas", LogLevel.ERROR);
 			return;
 		}
-		else
-			_print("Capture areas initialized successfully!", LogLevel.NORMAL);
+		
+		m_MainBaseArea0 = m_aAreas[0];
+		m_MainBaseArea1 = m_aAreas[m_aAreas.Count()-1];
+		
+		_print("Capture areas initialized successfully!", LogLevel.NORMAL);
 		
 		// Finish init of capture areas:
 		// - Link capture areas with their naighbours
 		// - Set capture area faction
-		if (captureAreaInitSuccess)
+		for (int i = 0; i < m_aAreas.Count(); i++)
 		{
-			for (int i = 0; i < m_aAreas.Count(); i++)
+			array<PR_CaptureArea> linked = {};
+			if (i >= 1)
+				linked.Insert(m_aAreas[i-1]); // Add prev area
+			if (i <= m_aAreas.Count()-2)
+				linked.Insert(m_aAreas[i+1]); // Add next area
+			
+			PR_CaptureArea area = m_aAreas[i];
+			
+			// Resolve initial owner faction
+			int initialOwnerFactionId = -1;
+			
+			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
 			{
-				array<PR_CaptureArea> linked = {};
-				if (i >= 1)
-					linked.Insert(m_aAreas[i-1]); // Add prev area
-				if (i <= m_aAreas.Count()-2)
-					linked.Insert(m_aAreas[i+1]); // Add next area
-				
-				PR_CaptureArea area = m_aAreas[i];
-				
-				// Resolve initial owner faction
-				int initialOwnerFactionId = -1;
-				
-				if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
-				{
-					// 0 is considered main of invader
-					if(m_MainBaseArea0 == area)
-						initialOwnerFactionId = GetInvadingFactionId();
-					else
-						initialOwnerFactionId = GetDefendingFactionId();
-				}
-				
-				if (IsMaster())
-					area.InitMaster(linked, initialOwnerFactionId);
+				// 0 is considered main of invader
+				if(m_MainBaseArea0 == area)
+					initialOwnerFactionId = GetInvadingFactionId();
 				else
-					area.InitProxy(linked);
-				
-				// Subscribe to events
-				area.m_OnOwnerFactionChanged.Insert(OnCaptureAreaFactionChanged);
-				
-				// Subscribe to asset spawner events
-				array<PR_AssetSpawner> assetSpawners = area.GetAssetSpawners();
-				foreach (PR_AssetSpawner spawner : assetSpawners)
-				{
-					spawner.m_OnAssetSpawned.Insert(OnAssetSpawned);
-				}
+					initialOwnerFactionId = GetDefendingFactionId();
+			}
+			
+			if (IsMaster())
+				area.InitMaster(linked, initialOwnerFactionId);
+			else
+				area.InitProxy(linked);
+			
+			// Subscribe to events
+			area.m_OnOwnerFactionChanged.Insert(OnCaptureAreaFactionChanged);
+			
+			// Subscribe to asset spawner events
+			array<PR_AssetSpawner> assetSpawners = area.GetAssetSpawners();
+			foreach (PR_AssetSpawner spawner : assetSpawners)
+			{
+				spawner.m_OnAssetSpawned.Insert(OnAssetSpawned);
 			}
 		}
 		
@@ -351,16 +337,7 @@ class PR_GameMode : SCR_BaseGameMode
 	//-------------------------------------------------------------------------------------------------------------------------------
 	override void _WB_AfterWorldUpdate(float timeSlice)
 	{
-		foreach (auto areaLink : m_aAreaEntities)
-		{
-			if (areaLink)
-				areaLink.Draw(this);
-		}
-		
-		if (m_MainBaseEntity0)
-			m_MainBaseEntity0.Draw(this);
-		if (m_MainBaseEntity1)
-			m_MainBaseEntity1.Draw(this);
+		// Draw links between areas?
 	}	
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -886,21 +863,6 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	// Utils
-	
-	//-------------------------------------------------------------------------------------------------------------------------------
-	protected static PR_CaptureArea FindCaptureAreaOnEntity(IEntity ent)
-	{
-		if (!ent)
-			return null;
-		
-		PR_CaptureArea captureAreaComp = PR_CaptureArea.Cast(ent.FindComponent(PR_CaptureArea));
-		if (!captureAreaComp)
-		{
-			_print(string.Format("Didn't find PR_CaptureArea component on area entity: %1", ent.GetName()), LogLevel.ERROR);
-			return null;
-		}
-		return captureAreaComp;
-	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	protected static void _print(string str, LogLevel logLevel = LogLevel.NORMAL)

@@ -25,6 +25,9 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("true", UIWidgets.CheckBox, desc: "True if area is capturable by soldier occupation, false if not."), RplProp(onRplName: "OnRplPropChanged")]
 	protected bool m_bCapturable;
 	
+	[Attribute("0", UIWidgets.EditBox, desc: "Determines linkage order")]
+	int m_iOrder;
+	
 	// Called whenever any of state variables changes. It's not associated to m_eState only!
 	ref ScriptInvoker<PR_CaptureArea> m_OnAnyPropertyChanged = new ScriptInvoker<PR_CaptureArea>();
 	
@@ -382,6 +385,18 @@ class PR_CaptureArea : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override void _WB_AfterWorldUpdate(IEntity owner, float timeSlice)
 	{
+		// Draw debug text
+		const int COLOR_TEXT = Color.WHITE;
+	 	const int COLOR_BACKGROUND = Color.BLACK;
+		
+		string s;
+		s = s + string.Format("%1\n", GetOwner().GetName());
+		s = s + string.Format("Order: %1\n", m_iOrder.ToString());
+		s = s + string.Format("Name:  %1", m_sName);
+		
+		vector pos = owner.GetOrigin() + Vector(0, 10, 0);
+		DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+		
 		DrawDebugCylinder();
 	}
 
@@ -401,4 +416,12 @@ class PR_CaptureArea : ScriptComponent
 	//void PR_CaptureArea(IEntityComponentSource src, IEntity ent, IEntity parent)
 	//{
 	//}
+};
+
+class PR_CaptureArea_CompareOrder : SCR_SortCompare<PR_CaptureArea>
+{
+	override static int Compare(PR_CaptureArea left, PR_CaptureArea right)
+	{
+		return left.m_iOrder < right.m_iOrder;
+	}
 };
