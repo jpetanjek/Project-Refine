@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{1D93362B44F48351}Prefabs/Managers/Factions/PR_FactionManager_USxUSSR.et"
+ Name "{1D46D9E8E4A7C756}Prefabs/MP/Managers/Factions/PR_FactionManager.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

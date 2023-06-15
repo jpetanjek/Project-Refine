@@ -1,5 +1,4 @@
-PR_FactionManager PR_FactionManager_USxUSSR1 : "{1D93362B44F48351}Prefabs/Managers/Factions/PR_FactionManager_USxUSSR.et" {
- coords 9.15 79.397 517.651
+PR_FactionManager PR_FactionManager1 : "{1D46D9E8E4A7C756}Prefabs/MP/Managers/Factions/PR_FactionManager.et" {
 }
 TagManager : "{2FA9E172CAB1857A}Prefabs/MP/Managers/TagManager.et" {
 }
@@ -27,8 +26,6 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
   }
  }
  m_bGameModeArchetype INVASION
- m_iInvadingFaction 0
- m_iDefendingFaction 1
  m_MainBaseEntity0 PR_EntityLink "{5C5EDD58EA01F250}" {
   m_sEntityName "MainBase0"
  }
@@ -42,7 +39,6 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
      PR_CaptureArea "{5B156B902CEA1626}" {
       m_fRadius 20
       m_sName "Epic Main Base"
-      m_iInitialOwnerFaction 0
      }
      PR_SpawnPointMainBase "{5D6B110829511A44}" {
      }
@@ -102,7 +98,6 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
      PR_CaptureArea "{5B156B902CEA1626}" {
       m_fRadius 20
       m_sName "Seaport"
-      m_iInitialOwnerFaction 1
      }
      PR_SpawnPointMainBase "{5D6B110829511A44}" {
      }
@@ -126,11 +121,10 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
    }
   }
   $grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
-   Area0abc {
+   Area0 {
     components {
      PR_CaptureArea "{5B156B902CEA1626}" {
       m_sName "Airport"
-      m_iInitialOwnerFaction 0
      }
     }
     coords -98.778 -63.457 70.134
