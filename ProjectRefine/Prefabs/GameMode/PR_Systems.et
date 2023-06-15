@@ -1,0 +1,34 @@
+GenericEntity {
+ ID "5D9F439C21565E0D"
+ {
+  TagManager : "{2FA9E172CAB1857A}Prefabs/MP/Managers/TagManager.et" {
+   ID "5D9F439C21565E13"
+   coords 3143.499 11.977 2760.335
+  }
+  SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
+   ID "5D9F439C21565E14"
+  }
+  SCR_FactionManager FactionManager_Editor1 : "{4A188E44289B9A50}Prefabs/MP/Managers/Factions/FactionManager_Editor.et" {
+   ID "5D9F439C21565E66"
+  }
+  RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
+   ID "5D9F439C21565E11"
+  }
+  ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
+   ID "5D9F439C21565E1E"
+   coords 0 0 0
+  }
+  HitRegistrationManager HitRegManager1 : "{0EDA3D48791120DD}Prefabs/MP/HitRegManager.et" {
+   ID "5D9F439C21565E19"
+  }
+  SCR_GarbageManager : "{7C54ABF41F356688}Prefabs/MP/Managers/PR_GarbageManager.et" {
+   ID "5D9F439C21565E1C"
+  }
+  SCR_MPDestructionManager : "{9BB369F2803C6F71}Prefabs/MP/MPDestructionManager.et" {
+   ID "5D9F439C21565E1A"
+  }
+  SCR_LoadoutManager : "{B54D08AEA74A5354}Prefabs/MP/Managers/Loadouts/LoadoutManager_Editor.et" {
+   ID "5D9F439C21565E1B"
+  }
+ }
+}

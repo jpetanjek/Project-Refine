@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{1D46D9E8E4A7C756}Prefabs/MP/Managers/Factions/PR_FactionManager.et"
+ Name "{387E0BFDFD125FAE}Prefabs/GameMode/PR_Systems.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }
