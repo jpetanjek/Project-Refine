@@ -5,27 +5,11 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
   }
  }
  coords 146.67 65.489 364.823
- m_aAreaEntities {
-  PR_EntityLink "{5C5EDD58F2E5EF81}" {
-   m_sEntityName "MainBase0"
-  }
-  PR_EntityLink "{5C5EDD58F170C427}" {
-   m_sEntityName "Area0"
-  }
-  PR_EntityLink "{5C5EDD58F0A3553B}" {
-   m_sEntityName "Area1"
-  }
-  PR_EntityLink "{5C5EDD58F0C73F5B}" {
-   m_sEntityName "MainBase1"
-  }
+ m_TestMissionHeader PR_MissionHeader "{5D9B4A4284F89FFF}" {
+  m_sRefineFaction_0 "USSR"
+  m_sRefineFaction_1 "US"
  }
  m_bGameModeArchetype INVASION
- m_MainBaseEntity0 PR_EntityLink "{5C5EDD58EA01F250}" {
-  m_sEntityName "MainBase0"
- }
- m_MainBaseEntity1 PR_EntityLink "{5C5EDD58EE718DE1}" {
-  m_sEntityName "MainBase1"
- }
  {
   $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
    MainBase0 {
@@ -92,6 +76,7 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
      PR_CaptureArea "{5B156B902CEA1626}" {
       m_fRadius 20
       m_sName "Seaport"
+      m_iOrder 30
      }
      PR_SpawnPointMainBase "{5D6B110829511A44}" {
      }
@@ -119,6 +104,7 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
     components {
      PR_CaptureArea "{5B156B902CEA1626}" {
       m_sName "Airport"
+      m_iOrder 10
      }
     }
     coords -98.778 -63.457 70.134
@@ -137,6 +123,7 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
     components {
      PR_CaptureArea "{5B156B902CEA1626}" {
       m_sName "Vehicle Repair Station"
+      m_iOrder 20
      }
     }
     coords -90.884 -63.488 22.148
