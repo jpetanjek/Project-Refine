@@ -1,40 +1,409 @@
-PR_FactionManager PR_FactionManager_USxUSSR1 : "{1D93362B44F48351}Prefabs/Managers/Factions/PR_FactionManager_USxUSSR.et" {
- coords 4641.145 24.356 9600.332
-}
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 4477.996 138.202 9461.423
- m_aAreaEntities {
-  PR_EntityLink "{5D510758092E2C26}" {
-   m_sEntityName "MainBase_South_0"
-  }
-  PR_EntityLink "{5D5107580915CB2C}" {
-   m_sEntityName "CaptureArea_1"
-  }
-  PR_EntityLink "{5D51075809C1E016}" {
-   m_sEntityName "CaptureArea_2"
-  }
-  PR_EntityLink "{5D51075809DF8AED}" {
-   m_sEntityName "CaptureArea_3"
-  }
-  PR_EntityLink "{5D51075809B888E8}" {
-   m_sEntityName "CaptureArea_4"
-  }
-  PR_EntityLink "{5D51075809947248}" {
-   m_sEntityName "CaptureArea_5"
-  }
-  PR_EntityLink "{5D51075808704446}" {
-   m_sEntityName "MainBase_North_6"
-  }
+ m_TestMissionHeader PR_MissionHeader "{5DA2B2C55530D4C3}" : "{705B92B1E6AC096C}Missions/Eden_Lamentin_Harbour_Invasion.conf" {
  }
  m_bGameModeArchetype INVASION
- m_iInvadingFaction 0
- m_iDefendingFaction 1
- m_MainBaseEntity0 PR_EntityLink "{5D5107595F532BE3}" {
-  m_sEntityName "MainBase_North_6"
+ {
+  $grp GenericEntity {
+   MainBaseInvader {
+    components {
+     Hierarchy "{5C6F336BA773E286}" {
+     }
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_fRadius 80
+      m_sName "Main Base North"
+     }
+     PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
+      m_Style PR_MapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
+      }
+     }
+     PR_SpawnPointMainBase "{5D6B110829511A44}" {
+      m_fEnemyOccupationRadius 0
+     }
+     PR_SupplyHolderComponent "{5D312A22CE019BD8}" {
+      m_iSupply 10000
+      m_iMaxSupplies 10000
+      m_fRange 300
+      m_fTransferSpeed 100
+     }
+     SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
+      MainType Cross
+     }
+     RplComponent "{5B16FDA5AEC2A359}" {
+      Streamable Disabled
+     }
+    }
+    coords 784.274 -136.662 2600.531
+    angleY -89.562
+    {
+     $grp PR_AssetSpawner {
+      {
+       coords 5855.714 -1.54 10799.451
+       angleY -30
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -7.878 0.911 -17.553
+       angleY -150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords 20.205 -0.503 0.454
+       angleY -90
+       m_AssetType ARMED_TRANSPORT
+      }
+      {
+       coords -24.118 0.222 22.486
+       angleY 135
+       m_AssetType SUPPLY
+      }
+      {
+       coords -18.364 -0.016 28.108
+       angleY -45
+       m_AssetType SUPPLY
+      }
+      {
+       coords -12.666 -0.183 33.033
+       angleY -45
+       m_AssetType SUPPLY
+      }
+      {
+       coords 0.395 0.345 33.397
+       m_AssetType TROOP_TRANSPORT
+      }
+      {
+       coords 10.439 -0.009 26.546
+       angleY 30
+       m_AssetType ARMORED_TRANSPORT
+      }
+      {
+       coords -36.39 1.042 14.08
+       angleY 90
+       m_AssetType TROOP_TRANSPORT
+      }
+      {
+       coords 24.044 0.019 13.761
+       angleY 30
+       m_AssetType ARMED_TRANSPORT
+      }
+      {
+       coords -12.164 0.911 -12.95
+       angleY -150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -18.53 -0.355 -9.969
+       angleY -150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -28.731 0.747 -2.879
+       angleY -150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -33.042 0.632 0.341
+       angleY -150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -24.478 0.245 -6.926
+       angleY -150
+       m_AssetType TRANSPORT
+      }
+      {
+       components {
+        Hierarchy "{5DA2B2C6D0CCAB7C}" {
+        }
+       }
+       coords 16.181 -0.065 21.059
+       angleY 45
+       m_AssetType ARMORED_TRANSPORT
+      }
+     }
+     $grp PR_CharacterSpawnPosition {
+      {
+       coords 26.872 -0.069 17.419
+       angleY -45
+      }
+      {
+       coords -35.995 -0.276 -20.891
+       angleY 180
+      }
+      {
+       coords 7.156 0.014 14.894
+      }
+      {
+       coords 3.734 0.059 21.987
+      }
+      {
+       coords -21.561 0.664 -28.909
+       angleY 180
+      }
+      {
+       coords -25.788 0.426 -18.92
+       angleY -120
+      }
+     }
+     PR_PreparationPhaseCollider {
+      coords 0 -12.558 0
+     }
+    }
+   }
+   MainBaseDefender {
+    components {
+     Hierarchy "{5C6F336BA773E286}" {
+     }
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_fRadius 80
+      m_sName "Main Base South"
+      m_iOrder 100
+     }
+     PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
+      m_Style PR_MapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
+      }
+     }
+     PR_SpawnPointMainBase "{5D6B110829511A44}" {
+      m_fEnemyOccupationRadius 0
+     }
+     PR_SupplyHolderComponent "{5D312A22CE019BD8}" {
+      m_iSupply 10000
+      m_iMaxSupplies 10000
+      m_fRange 300
+      m_fTransferSpeed 100
+     }
+     SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
+      MainType Cross
+     }
+     RplComponent "{5B16FDA5AEC2A359}" {
+      Streamable Disabled
+     }
+    }
+    coords 298.014 -7.577 -1690.355
+    {
+     $grp PR_AssetSpawner {
+      {
+       coords 7.64 -0.104 -19.641
+       angleY 150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords 1.453 0.124 -21.941
+       angleY 150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords 13.429 -0.304 2.672
+       angleY -90
+       m_AssetType ARMED_TRANSPORT
+      }
+      {
+       coords -30.893 0.619 24.704
+       angleY 135
+       m_AssetType SUPPLY
+      }
+      {
+       coords -25.139 0.502 30.325
+       angleY -45
+       m_AssetType SUPPLY
+      }
+      {
+       coords -19.441 0.384 35.251
+       angleY -45
+       m_AssetType SUPPLY
+      }
+      {
+       coords -6.384 0.64 35.614
+       m_AssetType TROOP_TRANSPORT
+      }
+      {
+       coords 3.665 0.35 28.763
+       angleY 30
+       m_AssetType ARMORED_TRANSPORT
+      }
+      {
+       coords -43.165 0.355 16.297
+       angleY 90
+       m_AssetType TROOP_TRANSPORT
+      }
+      {
+       coords 17.269 -0.077 15.978
+       angleY 30
+       m_AssetType ARMED_TRANSPORT
+      }
+      {
+       coords -4.676 0.38 -23.351
+       angleY 150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -10.44 0.682 -27.375
+       angleY 150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -21.679 1.317 -32.661
+       angleY 150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -26.627 1.679 -34.783
+       angleY 150
+       m_AssetType TRANSPORT
+      }
+      {
+       coords -16.049 1.002 -31.001
+       angleY 150
+       m_AssetType TRANSPORT
+      }
+      {
+       components {
+        Hierarchy "{5DA2B2C66C3F7198}" {
+        }
+       }
+       coords 9.407 0.083 23.276
+       angleY 45
+       m_AssetType ARMORED_TRANSPORT
+      }
+     }
+     $grp PR_CharacterSpawnPosition {
+      {
+       coords 20.096 -0.032 19.636
+       angleY -45
+      }
+      {
+       coords -19.565 0.861 8.701
+      }
+      {
+       coords 0.384 0.116 17.111
+      }
+      {
+       coords -3.038 0.448 24.204
+      }
+      {
+       coords -22.913 0.909 11.705
+      }
+      {
+       coords -14.004 0.844 -17.571
+      }
+     }
+     PR_PreparationPhaseCollider {
+      coords 0 -15.683 0
+     }
+    }
+   }
+   Area3 {
+    components {
+     Hierarchy "{5C6F336BA773E286}" {
+     }
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_fRadius 100
+      m_sName "Etoupe Farm"
+      m_iOrder 40
+     }
+     PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
+      m_Style PR_MapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
+      }
+     }
+     SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
+      MainType Cross
+     }
+     RplComponent "{5B16FDA5AEC2A359}" {
+      Streamable Disabled
+     }
+    }
+    coords 1112.685 -110.315 360.845
+   }
+   Area2 {
+    components {
+     Hierarchy "{5C6F336BA773E286}" {
+     }
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_fRadius 100
+      m_sName "Military Base"
+      m_iOrder 30
+     }
+     PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
+      m_Style PR_MapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
+      }
+     }
+     SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
+      MainType Cross
+     }
+     RplComponent "{5B16FDA5AEC2A359}" {
+      Streamable Disabled
+     }
+    }
+    coords 940.576 -92.88 1036.678
+   }
+   Area1 {
+    components {
+     Hierarchy "{5C6F336BA773E286}" {
+     }
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_fRadius 100
+      m_sName "St. Phillipe"
+      m_iOrder 20
+     }
+     PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
+      m_Style PR_MapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
+      }
+     }
+     SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
+      MainType Cross
+     }
+     RplComponent "{5B16FDA5AEC2A359}" {
+      Streamable Disabled
+     }
+    }
+    coords -0.241 -124.039 1216.579
+   }
+   Area0 {
+    components {
+     Hierarchy "{5C6F336BA773E286}" {
+     }
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_fRadius 100
+      m_sName "Airport"
+      m_iOrder 10
+     }
+     PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
+      m_Style PR_MapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
+      }
+     }
+     SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
+      MainType Cross
+     }
+     RplComponent "{5B16FDA5AEC2A359}" {
+      Streamable Disabled
+     }
+    }
+    coords 180.358 -113.46 1724.637
+   }
+   Area4 {
+    components {
+     Hierarchy "{5C6F336BA773E286}" {
+     }
+     PR_CaptureArea "{5B156B902CEA1626}" {
+      m_fRadius 100
+      m_sName "Tyrone Ridge"
+      m_iOrder 50
+     }
+     PR_CaptureAreaMapIconComponent "{5C5D18FBAB865AE4}" {
+      m_Style PR_MapIconStyleCaptureArea "{5C5D18FBA95C1F1C}" {
+      }
+     }
+     SCR_MapDescriptorComponent "{5C5D18FEC743FF6F}" {
+      MainType Cross
+     }
+     RplComponent "{5B16FDA5AEC2A359}" {
+      Streamable Disabled
+     }
+    }
+    coords 566.565 -22.378 -919.627
+   }
+  }
  }
- m_MainBaseEntity1 PR_EntityLink "{5D510759563B8EFE}" {
-  m_sEntityName "MainBase_South_0"
- }
- m_fInitialFactionScore0 100
- m_fInitialFactionScore1 500
+}
+GenericEntity : "{387E0BFDFD125FAE}Prefabs/GameMode/PR_Systems.et" {
 }
