@@ -108,7 +108,6 @@ OverlayWidgetClass {
         ButtonWidgetClass "{5CDF54CEDB0E3D98}" : "{D07ED8A849945CCE}UI/DeploymentMenu/Elements/ButtonEmpty.layout" {
          Name "m_ActionButton"
          Slot LayoutSlot "{5CB378557E695658}" {
-          Padding 0 0 0 0
          }
          components {
           SCR_ModularButtonComponent "{5CB3785628029158}" {
@@ -143,6 +142,7 @@ OverlayWidgetClass {
                Name "Image"
                Slot OverlayWidgetSlot "{5CDF54CE29093AE1}" {
                }
+               "Z Order" 10
                Texture "{D17288006833490F}UI/Textures/Icons/icons_wrapperUI-32.imageset"
                Image "dotsMenu"
                Size 36 36

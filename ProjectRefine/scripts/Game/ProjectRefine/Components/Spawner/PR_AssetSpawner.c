@@ -89,39 +89,57 @@ class PR_AssetSpawner : GenericEntity
 	
 	float GetAssetTypeRespawnTime2(PR_EAssetType assetType)
 	{		
+		
 		switch(assetType)
 		{
+			case PR_EAssetType.SUPPLY:
 			case PR_EAssetType.TRANSPORT:
-			{
-				return 30;
-			}
+			case PR_EAssetType.ARMORED_TRANSPORT:
 			case PR_EAssetType.TROOP_TRANSPORT:
 			{
-				return 30;
-			}
-			case PR_EAssetType.SUPPLY:
-			{
-				return 30;
-			}
-			case PR_EAssetType.ARMORED_TRANSPORT:
-			{
 				return 60;
 			}
+			
+			case PR_EAssetType.BOAT:
 			case PR_EAssetType.ARMED_TRANSPORT:
+			case PR_EAssetType.MEDIC:
+			case PR_EAssetType.FUEL:
 			{
-				return 60;
+				return 90;
 			}
+			
+			case PR_EAssetType.COMMAND:
 			case PR_EAssetType.ARMORED_PERSONEL_CARRIER:
 			{
-				return 60;
+				return 180;
 			}
+			
+			case PR_EAssetType.LIGHT_TRANSPORT_HELICOPTER:
+			case PR_EAssetType.INFANTRY_FIGHTING_VEHICLE:
+			case PR_EAssetType.LIGHT_TANK:
+			{
+				return 360;
+			}
+			
+			case PR_EAssetType.HEAVY_TRANSPORT_HELICOPTER:
+			case PR_EAssetType.MEDIUM_TANK:
+			case PR_EAssetType.HEAVY_TANK:
+			{
+				return 480;
+			}
+			
+			case PR_EAssetType.ARMED_HELICOPTER:
+			{
+				return 540;
+			}
+			
 			default:
 			{
-				return 30;
+				return 60;
 			}
 		}
 		
-		return 30;
+		return 60;
 	}
 	
 	//------------------------------------------------------------------------------------------------
