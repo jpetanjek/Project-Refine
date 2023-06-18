@@ -150,18 +150,7 @@ class PR_SupplyTargetUserAction : ScriptedUserAction
 		outName += m_SupplyHolder.m_aAvailableHolders.Count().ToString();
 		outName += "] ";
 		
-		string localName = m_SupplyHolder.m_ActionTarget.GetOwner().GetName();
-		if(localName.IsEmpty())
-		{
-			localName = m_SupplyHolder.m_ActionTarget.GetOwner().GetPrefabData().GetPrefabName();
-			int lastSlash = localName.LastIndexOf("/") + 1;
-			int lastDot = localName.LastIndexOf(".et") - lastSlash;
-			outName += localName.Substring(lastSlash, lastDot);
-		}
-		else
-		{
-			outName += localName;
-		}
+		outName += GetSupplyHolderName(m_SupplyHolder.m_ActionTarget);
 		
 		outName += " (";
 		outName +=  m_SupplyHolder.m_ActionTarget.m_iSupply.ToString();
@@ -170,6 +159,35 @@ class PR_SupplyTargetUserAction : ScriptedUserAction
 		outName += ")";
 	
 		return true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	protected string GetSupplyHolderName(PR_SupplyHolderComponent supplyHolder)
+	{
+		// Is it on capture area?
+		PR_CaptureArea ca = PR_CaptureArea.Cast(supplyHolder.GetOwner().FindComponent(PR_CaptureArea));
+		if (ca)
+			return ca.GetName();
+		
+		// Is it on FOB?
+		PR_FobComponent fob = PR_FobComponent.Cast(supplyHolder.GetOwner().FindComponent(PR_FobComponent));
+		if (fob)
+			return "FOB";
+		
+		// Otherwise it's on a vehicle
+		IEntity rootEntity = supplyHolder.GetOwner();
+		while (rootEntity.GetParent())
+			rootEntity = rootEntity.GetParent();
+		
+		SCR_EditableVehicleComponent editableComp = SCR_EditableVehicleComponent.Cast(rootEntity.FindComponent(SCR_EditableVehicleComponent));
+		if (editableComp)
+		{
+			SCR_UIInfo uiInfo = editableComp.GetInfo();
+			if (uiInfo)
+				return uiInfo.GetName();
+		}
+		
+		return "Unknown";
 	}
 	
 	//------------------------------------------------------------------------------------------------
