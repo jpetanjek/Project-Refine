@@ -345,13 +345,13 @@ class PR_CaptureArea : ScriptComponent
 	
 	
 	//------------------------------------------------------------------------------------------------
+	const int DEBUG_COLOR_TEXT = 0xff800080;
+	const int DEBUG_COLOR_BACKGROUND = Color.BLACK;
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
 		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREA_STATE))
 		{
 			// Draw debug text
-			const int COLOR_TEXT = Color.WHITE;
-		 	const int COLOR_BACKGROUND = Color.BLACK;
 			
 			FactionManager fm = GetGame().GetFactionManager();
 			
@@ -369,7 +369,7 @@ class PR_CaptureArea : ScriptComponent
 			s = s + string.Format("Characters (dom./lose): %1/%2", m_iDominatingCharacters, m_iLosingCharacters);
 			
 			vector pos = owner.GetOrigin() + Vector(0, 10, 0);
-			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: DEBUG_COLOR_TEXT, bgColor: DEBUG_COLOR_BACKGROUND);
 			
 			DrawDebugCylinder();
 		}
@@ -386,16 +386,14 @@ class PR_CaptureArea : ScriptComponent
 	override void _WB_AfterWorldUpdate(IEntity owner, float timeSlice)
 	{
 		// Draw debug text
-		const int COLOR_TEXT = Color.WHITE;
-	 	const int COLOR_BACKGROUND = Color.BLACK;
 		
 		string s;
 		s = s + string.Format("%1\n", GetOwner().GetName());
 		s = s + string.Format("Order: %1\n", m_iOrder.ToString());
 		s = s + string.Format("Name:  %1", m_sName);
 		
-		vector pos = owner.GetOrigin() + Vector(0, 10, 0);
-		DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+		vector pos = owner.GetOrigin() + Vector(0, 20, 0);
+		DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 16.0, color: DEBUG_COLOR_TEXT, bgColor: DEBUG_COLOR_BACKGROUND);
 		
 		DrawDebugCylinder();
 	}
