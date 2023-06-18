@@ -36,117 +36,117 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
     coords 784.274 -136.662 2600.531
     angleY -89.562
     {
-     $grp PR_AssetSpawner {
+     $grp PR_AssetSpawner : "{0D7AB611821B1781}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmoredTransport.et" {
       {
-       coords 5855.714 -1.54 10799.451
-       angleY -30
-       m_AssetType TRANSPORT
+       coords 8.32 0.073 27.643
+       angleY -144.531
       }
       {
-       coords -7.878 0.911 -17.553
-       angleY -150
-       m_AssetType TRANSPORT
-      }
-      {
-       coords 20.205 -0.503 0.454
-       angleY -90
-       m_AssetType ARMED_TRANSPORT
-      }
-      {
-       coords -24.118 0.222 22.486
-       angleY 135
-       m_AssetType SUPPLY
-      }
-      {
-       coords -18.364 -0.016 28.108
-       angleY -45
-       m_AssetType SUPPLY
-      }
-      {
-       coords -12.666 -0.183 33.033
-       angleY -45
-       m_AssetType SUPPLY
-      }
-      {
-       coords 0.395 0.345 33.397
-       m_AssetType TROOP_TRANSPORT
-      }
-      {
-       coords 10.439 -0.009 26.546
-       angleY 30
-       m_AssetType ARMORED_TRANSPORT
-      }
-      {
-       coords -36.39 1.042 14.08
-       angleY 90
-       m_AssetType TROOP_TRANSPORT
-      }
-      {
-       coords 24.044 0.019 13.761
-       angleY 30
-       m_AssetType ARMED_TRANSPORT
-      }
-      {
-       coords -12.164 0.911 -12.95
-       angleY -150
-       m_AssetType TRANSPORT
-      }
-      {
-       coords -18.53 -0.355 -9.969
-       angleY -150
-       m_AssetType TRANSPORT
-      }
-      {
-       coords -28.731 0.747 -2.879
-       angleY -150
-       m_AssetType TRANSPORT
-      }
-      {
-       coords -33.042 0.632 0.341
-       angleY -150
-       m_AssetType TRANSPORT
-      }
-      {
-       coords -24.478 0.245 -6.926
-       angleY -150
-       m_AssetType TRANSPORT
-      }
-      {
-       components {
-        Hierarchy "{5DA2B2C6D0CCAB7C}" {
-        }
-       }
-       coords 16.181 -0.065 21.059
-       angleY 45
-       m_AssetType ARMORED_TRANSPORT
+       coords 18.564 -0.18 18.916
+       angleY -129.054
       }
      }
-     $grp PR_CharacterSpawnPosition {
+     $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
       {
-       coords 26.872 -0.069 17.419
-       angleY -45
+       coords 11.569 0.075 -10.202
+       angleY 146.094
       }
       {
-       coords -35.995 -0.276 -20.891
-       angleY 180
+       coords 9.667 0.073 -11.495
+       angleY 146.094
       }
       {
-       coords 7.156 0.014 14.894
+       coords 7.986 0.191 -12.189
+       angleY 146.094
       }
       {
-       coords 3.734 0.059 21.987
+       coords 6.649 0.19 -13.11
+       angleY 146.094
       }
       {
-       coords -21.561 0.664 -28.909
-       angleY 180
+       coords 5.362 0.091 -14.271
+       angleY 146.094
       }
       {
-       coords -25.788 0.426 -18.92
-       angleY -120
+       coords 9.373 -0.107 -8.765
+       angleY 146.094
+      }
+      {
+       coords 7.515 0.199 -9.974
+       angleY 146.094
+      }
+      {
+       coords 6.213 0.24 -10.889
+       angleY 146.094
+      }
+      {
+       coords 4.608 0.189 -12.313
+       angleY 146.094
       }
      }
-     PR_PreparationPhaseCollider {
-      coords 0 -12.558 0
+     $grp PR_AssetSpawner : "{708BAF4B01A828B2}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmedTransport.et" {
+      {
+       coords 24.323 0.201 10.18
+       angleY -112.603
+      }
+      {
+       coords 25.231 -0.412 -2.614
+       angleY -82.132
+      }
+     }
+     PR_PreparationPhaseCollider : "{947F4D9721642331}Prefabs/GameMode/PR_PreparationPhaseCollider.et" {
+      coords 0 0 0
+      angleY 89.562
+     }
+     $grp PR_AssetSpawner : "{9C434FA9B171F82E}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_TroopTransport.et" {
+      {
+       coords -30.413 0.659 17.253
+       angleY -47.596
+      }
+      {
+       coords 0.719 0.387 30.78
+       angleY -177.676
+      }
+     }
+     $grp PR_AssetSpawner : "{DE4298F517854891}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Supply.et" {
+      {
+       coords -18.049 0.191 22.821
+       angleY -24.556
+      }
+      {
+       coords -12.328 0.363 25.261
+       angleY -16.114
+      }
+      {
+       coords -6.941 0.52 27.536
+       angleY -21.603
+      }
+     }
+     $grp PR_AssetSpawner : "{E5C5FC37BA7E91CE}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Transport.et" {
+      {
+       coords -7.382 -0.31 -19.048
+       angleY 31.47
+      }
+      {
+       coords -13.047 -0.275 -14.833
+       angleY 31.47
+      }
+      {
+       coords -18.506 -0.36 -10.295
+       angleY 31.47
+      }
+      {
+       coords -23.894 0.186 -7.162
+       angleY 31.47
+      }
+      {
+       coords -28.604 0.741 -3.971
+       angleY 31.47
+      }
+      {
+       coords -33.852 0.651 -0.064
+       angleY 45.89
+      }
      }
     }
    }

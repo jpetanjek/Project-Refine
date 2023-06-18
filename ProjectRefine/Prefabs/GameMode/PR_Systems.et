@@ -5,9 +5,6 @@ GenericEntity {
    ID "5D9F439C21565E13"
    coords 3143.499 11.977 2760.335
   }
-  SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
-   ID "5D9F439C21565E14"
-  }
   SCR_FactionManager FactionManager_Editor1 : "{4A188E44289B9A50}Prefabs/MP/Managers/Factions/FactionManager_Editor.et" {
    ID "5D9F439C21565E66"
   }
