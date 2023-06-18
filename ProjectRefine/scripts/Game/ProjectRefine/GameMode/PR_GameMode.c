@@ -204,27 +204,15 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		// Find all child capture areas, sort them by order
 		array<PR_CaptureArea> areas = {};
-		IEntity childEntity = GetChildren();
-		while (childEntity)
-		{
-			PR_CaptureArea ca = PR_CaptureArea.Cast(childEntity.FindComponent(PR_CaptureArea));
-			if (ca)
-				areas.Insert(ca);
-			childEntity = childEntity.GetSibling();
-		}
-		SCR_Sorting<PR_CaptureArea, PR_CaptureArea_CompareOrder>.HeapSort(areas, false);
-		m_aAreas.Copy(areas);
+		bool areasInitSuccess = FindCaptureAreas(areas, true);
 		
-		_print(string.Format("Found %1 capture areas:", areas.Count()));
-		foreach (int i, PR_CaptureArea a : m_aAreas)
-			_print(string.Format("%1: order: %2, entity: %3, name: %4", i, a.m_iOrder, a.GetOwner().GetName(), a.GetName()));
-		
-		if (areas.Count() < 2)
+		if (!areasInitSuccess)
 		{
-			_print("Fatal error: did not find enough capture areas", LogLevel.ERROR);
+			_print("Fatal error: could not initialize capture areas!", LogLevel.ERROR);
 			return;
 		}
 		
+		m_aAreas.Copy(areas);
 		m_MainBaseArea0 = m_aAreas[0];
 		m_MainBaseArea1 = m_aAreas[m_aAreas.Count()-1];
 		
@@ -295,6 +283,40 @@ class PR_GameMode : SCR_BaseGameMode
 		Replication.BumpMe();
 	}
 	
+	// Returns true on success
+	protected bool FindCaptureAreas(notnull array<PR_CaptureArea> outAreas, bool enableLogging)
+	{
+		// Find all child capture areas, sort them by order
+		array<PR_CaptureArea> areas = outAreas;
+		areas.Clear();
+		IEntity childEntity = GetChildren();
+		while (childEntity)
+		{
+			PR_CaptureArea ca = PR_CaptureArea.Cast(childEntity.FindComponent(PR_CaptureArea));
+			if (ca)
+				areas.Insert(ca);
+			childEntity = childEntity.GetSibling();
+		}
+		SCR_Sorting<PR_CaptureArea, PR_CaptureArea_CompareOrder>.HeapSort(areas, false);
+		
+		if (enableLogging)
+		{
+			_print(string.Format("Found %1 capture areas:", areas.Count()));
+		foreach (int i, PR_CaptureArea a : m_aAreas)
+			_print(string.Format("%1: order: %2, entity: %3, name: %4", i, a.m_iOrder, a.GetOwner().GetName(), a.GetName()));
+		}
+			
+		if (areas.Count() < 2)
+		{
+			if (enableLogging)
+				_print("Fatal error: did not find enough capture areas", LogLevel.ERROR);
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	protected float m_timer0 = 0;
 	override void EOnFrame(IEntity owner, float timeSlice)
@@ -337,7 +359,17 @@ class PR_GameMode : SCR_BaseGameMode
 	//-------------------------------------------------------------------------------------------------------------------------------
 	override void _WB_AfterWorldUpdate(float timeSlice)
 	{
-		// Draw links between areas?
+		// Find all capture areas same as during start, draw arrows
+		array<PR_CaptureArea> areas = {};
+		FindCaptureAreas(areas, false);
+		
+		vector offset = Vector(0, 20, 0);
+		for (int i = 0; i < areas.Count() - 1; i++)
+		{
+			PR_CaptureArea a0 = areas[i];
+			PR_CaptureArea a1 = areas[i+1];
+			Shape.CreateArrow(a0.GetOwner().GetOrigin() + offset, a1.GetOwner().GetOrigin() + offset, 2.5, Color.PINK, ShapeFlags.ONCE | ShapeFlags.NOZBUFFER);
+		}
 	}	
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
