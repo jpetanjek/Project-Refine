@@ -42,5 +42,6 @@ PR_PreparationPhaseCollider {
   RplComponent "{5CA6C9284FCFCCCB}" {
   }
  }
- scale 40
+ coords 0 -20 0
+ scale 60
 }
