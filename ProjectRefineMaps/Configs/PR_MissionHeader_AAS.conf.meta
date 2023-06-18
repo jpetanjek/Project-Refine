@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{FE706C4F0E89F42A}Configs/PR_MissionHeader_AAS.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

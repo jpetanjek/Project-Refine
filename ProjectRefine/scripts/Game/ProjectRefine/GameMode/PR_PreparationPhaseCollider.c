@@ -21,7 +21,7 @@ class PR_PreparationPhaseCollider : GenericEntity
 	{
 		super.EOnInit(owner);
 		
-		IEntity parent = owner.GetParent();
+		IEntity parent = owner;
 		while(parent.GetParent())
 			parent = parent.GetParent();
 		
