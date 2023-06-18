@@ -66,7 +66,7 @@ class PR_AssetSpawner : GenericEntity
 		if (!m_CaptureArea)
 			return;
 		
-		if(!m_Target && (m_bSpawnAtStart || m_AssetType == PR_EAssetType.TRANSPORT || m_AssetType == PR_EAssetType.TROOP_TRANSPORT || m_AssetType == PR_EAssetType.SUPPLY))
+		if(!m_Target && m_bSpawnAtStart)
 		{
 			if (TrySpawnAsset())
 				m_bDestroyed = false;
@@ -85,61 +85,6 @@ class PR_AssetSpawner : GenericEntity
 		
 		// At the end of logic reset the low frequency update timer
 		m_fDeltaTime -= UPDATE_PERIOD_S;
-	}
-	
-	float GetAssetTypeRespawnTime2(PR_EAssetType assetType)
-	{		
-		
-		switch(assetType)
-		{
-			case PR_EAssetType.SUPPLY:
-			case PR_EAssetType.TRANSPORT:
-			case PR_EAssetType.ARMORED_TRANSPORT:
-			case PR_EAssetType.TROOP_TRANSPORT:
-			{
-				return 60;
-			}
-			
-			case PR_EAssetType.BOAT:
-			case PR_EAssetType.ARMED_TRANSPORT:
-			case PR_EAssetType.MEDIC:
-			case PR_EAssetType.FUEL:
-			{
-				return 90;
-			}
-			
-			case PR_EAssetType.COMMAND:
-			case PR_EAssetType.ARMORED_PERSONEL_CARRIER:
-			{
-				return 180;
-			}
-			
-			case PR_EAssetType.LIGHT_TRANSPORT_HELICOPTER:
-			case PR_EAssetType.INFANTRY_FIGHTING_VEHICLE:
-			case PR_EAssetType.LIGHT_TANK:
-			{
-				return 360;
-			}
-			
-			case PR_EAssetType.HEAVY_TRANSPORT_HELICOPTER:
-			case PR_EAssetType.MEDIUM_TANK:
-			case PR_EAssetType.HEAVY_TANK:
-			{
-				return 480;
-			}
-			
-			case PR_EAssetType.ARMED_HELICOPTER:
-			{
-				return 540;
-			}
-			
-			default:
-			{
-				return 60;
-			}
-		}
-		
-		return 60;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -253,6 +198,8 @@ class PR_AssetSpawner : GenericEntity
 		string s;
 		s = s + string.Format("Type:         %1\n", typename.EnumToString(PR_EAssetType, m_AssetType));
 		s = s + string.Format("Respawn Time: %1", m_fRespawnTime_s);
+		if (m_bSpawnAtStart)
+		s = s + string.Format("\nSpawn at start");
 		
 		vector pos = GetOrigin() + Vector(0, 3, 0);
 		DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);

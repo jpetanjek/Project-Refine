@@ -856,7 +856,7 @@ class PR_GameMode : SCR_BaseGameMode
 			case PR_EAssetType.FUEL:						return 6;
 			case PR_EAssetType.SUPPLY:						return 5;
 			case PR_EAssetType.COMMAND:						return 20;
-			case PR_EAssetType.ARMORED_PERSONEL_CARRIER:	return 30;
+			case PR_EAssetType.ARMORED_PERSONNEL_CARRIER:	return 30;
 		}
 		return 1;
 	}

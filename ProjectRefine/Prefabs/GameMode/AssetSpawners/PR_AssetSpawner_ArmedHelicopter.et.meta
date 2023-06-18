@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{A18026D5A0C36BFD}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmedHelicopter.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

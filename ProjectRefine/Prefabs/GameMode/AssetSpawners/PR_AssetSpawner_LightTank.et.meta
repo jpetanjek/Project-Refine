@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{2121A5217DF046CB}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_LightTank.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

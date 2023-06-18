@@ -1,0 +1,8 @@
+PR_AssetSpawner {
+ ID "5C7923FE02CB6A3E"
+ components {
+  Hierarchy "{5C6F336419D68262}" {
+  }
+ }
+ m_fRespawnTime_s 60
+}

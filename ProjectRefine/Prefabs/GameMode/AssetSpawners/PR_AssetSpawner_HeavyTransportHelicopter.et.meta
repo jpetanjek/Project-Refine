@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{E9D09D992438E1B2}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_HeavyTransportHelicopter.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

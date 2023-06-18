@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{DC17D5C0EF8C5996}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Command.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

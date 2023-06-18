@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{584F1F845FF93B62}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_MediumTank.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
