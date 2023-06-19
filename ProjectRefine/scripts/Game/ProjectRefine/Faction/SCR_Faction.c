@@ -72,4 +72,11 @@ modded class SCR_Faction
 		FactionManager fm = GetGame().GetFactionManager();
 		return fm.GetFactionIndex(this);
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Otherwise SCR_RespawnSystemComponent.CanSetFaction doesn't allow us to select faction
+	override bool IsPlayable()
+	{
+		return true;
+	}
 }
