@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{9B6405CE0C7C7DAB}Worlds/Eden/Invasion_GreenValley/Eden_Invasion_GreenValley.ent"
+ Configurations {
+  ENTResourceClass PC {
+  }
+  ENTResourceClass XBOX_ONE : PC {
+  }
+  ENTResourceClass XBOX_SERIES : PC {
+  }
+  ENTResourceClass PS4 : PC {
+  }
+  ENTResourceClass HEADLESS : PC {
+  }
+ }
+}

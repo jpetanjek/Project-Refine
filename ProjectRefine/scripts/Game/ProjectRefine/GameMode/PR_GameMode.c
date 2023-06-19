@@ -242,6 +242,13 @@ class PR_GameMode : SCR_BaseGameMode
 				else
 					initialOwnerFactionId = GetDefendingFactionId();
 			}
+			else if (m_bGameModeArchetype == PR_EGameModeArchetype.ADVANCE_AND_SECURE)
+			{
+				if (area == m_MainBaseArea0)
+					initialOwnerFactionId = m_iFaction0;
+				else if (area == m_MainBaseArea1)
+					initialOwnerFactionId = m_iFaction1;
+			}
 			
 			if (IsMaster())
 				area.InitMaster(linked, initialOwnerFactionId);
