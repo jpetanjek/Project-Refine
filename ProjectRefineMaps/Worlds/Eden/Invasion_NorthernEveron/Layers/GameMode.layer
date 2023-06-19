@@ -2,7 +2,6 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 4477.996 138.202 9461.423
  m_TestMissionHeader PR_MissionHeader "{5DA2B2C55530D4C3}" : "{705B92B1E6AC096C}Missions/Eden_Lamentin_Harbour_Invasion.conf" {
  }
- m_bGameModeArchetype INVASION
  {
   $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
    MainBaseInvader {

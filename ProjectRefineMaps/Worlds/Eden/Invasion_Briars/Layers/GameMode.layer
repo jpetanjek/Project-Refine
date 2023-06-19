@@ -2,7 +2,6 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 4573.045 124.659 6603.706
  m_TestMissionHeader PR_MissionHeader "{5DA52457219DCEDF}" : "{FD3C617813516CB8}Configs/GameMode/PR_MissionHeaderTest.conf" {
  }
- m_bGameModeArchetype INVASION
  {
   $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
    {
