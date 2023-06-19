@@ -27,8 +27,8 @@ class PR_GameMode : SCR_BaseGameMode
 	[Attribute(desc: "Mission header which will be used if world is launched without mission header. Used mainly for testing.")]
 	protected ref PR_MissionHeader m_TestMissionHeader;
 	
-	[Attribute("0", UIWidgets.ComboBox, desc: "Archetype of Game Mode", category: "Game Mode Options", ParamEnumArray.FromEnum(PR_EGameModeArchetype) )]
-	protected PR_EGameModeArchetype m_bGameModeArchetype;
+	// Initialized from mission header
+	protected PR_EGameModeArchetype m_eGameModeArchetype;
 	
 	// Pointers to areas
 	protected ref array<PR_CaptureArea> m_aAreas = {}; // Array with all capture areas.
@@ -75,7 +75,7 @@ class PR_GameMode : SCR_BaseGameMode
 	// Returns Game Mode Archetype
 	int GetArchetype()
 	{
-		return m_bGameModeArchetype;
+		return m_eGameModeArchetype;
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -141,6 +141,9 @@ class PR_GameMode : SCR_BaseGameMode
 			return;
 		}
 		
+		//--------------------------------------------------------
+		// Resolve archetype
+		m_eGameModeArchetype = header.m_eRefineGameModeArchetype;
 		
 		//--------------------------------------------------------
 		// Resolve factions
@@ -234,7 +237,7 @@ class PR_GameMode : SCR_BaseGameMode
 			// Resolve initial owner faction
 			int initialOwnerFactionId = -1;
 			
-			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
+			if(m_eGameModeArchetype == PR_EGameModeArchetype.INVASION)
 			{
 				// 0 is considered main of invader
 				if(m_MainBaseArea0 == area)
@@ -242,7 +245,7 @@ class PR_GameMode : SCR_BaseGameMode
 				else
 					initialOwnerFactionId = GetDefendingFactionId();
 			}
-			else if (m_bGameModeArchetype == PR_EGameModeArchetype.ADVANCE_AND_SECURE)
+			else if (m_eGameModeArchetype == PR_EGameModeArchetype.ADVANCE_AND_SECURE)
 			{
 				if (area == m_MainBaseArea0)
 					initialOwnerFactionId = m_iFaction0;
@@ -270,7 +273,7 @@ class PR_GameMode : SCR_BaseGameMode
 		// Init faction points
 		if (IsMaster())
 		{
-			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
+			if(m_eGameModeArchetype == PR_EGameModeArchetype.INVASION)
 			{
 				m_iFactionScore0 = 100; // Attackers
 				m_iFactionScore1 = 500; // Defenders
@@ -534,7 +537,7 @@ class PR_GameMode : SCR_BaseGameMode
 				factionAreas[ownerFactionId] = factionAreas[ownerFactionId] + 1;
 		}
 		
-		if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
+		if(m_eGameModeArchetype == PR_EGameModeArchetype.INVASION)
 		{
 			if(factionAreas[GetInvadingFactionId()] >= (m_aAreas.Count() - 1))
 			{
@@ -724,7 +727,7 @@ class PR_GameMode : SCR_BaseGameMode
 		// Add tickets to faction that newly captured the point
 		if(newFactionId != -1 && m_eGameModeStage == PR_EGameModeStage.LIVE)
 		{
-			if(m_bGameModeArchetype == PR_EGameModeArchetype.INVASION)
+			if(m_eGameModeArchetype == PR_EGameModeArchetype.INVASION)
 			{
 				if(newFactionId == GetInvadingFactionId())
 					AddFactionScore(newFactionId, 100);
