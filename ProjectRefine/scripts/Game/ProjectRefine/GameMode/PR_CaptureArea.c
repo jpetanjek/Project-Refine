@@ -388,7 +388,6 @@ class PR_CaptureArea : ScriptComponent
 		// Draw debug text
 		
 		string s;
-		s = s + string.Format("%1\n", GetOwner().GetName());
 		s = s + string.Format("Order: %1\n", m_iOrder.ToString());
 		s = s + string.Format("Name:  %1", m_sName);
 		

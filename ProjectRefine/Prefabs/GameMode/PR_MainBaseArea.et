@@ -2,6 +2,8 @@ GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
  ID "5B16FDA58D67A45A"
  components {
   PR_CaptureArea "{5B156B902CEA1626}" {
+   m_fRadius 100
+   m_sName "Main Base"
    m_bCapturable 0
   }
   PR_SpawnPointMainBase "{5D6B110829511A44}" {
