@@ -1,0 +1,304 @@
+$grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
+ MainBaseInvader {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 80
+    m_sName "Invader Main Base"
+   }
+  }
+  coords 5262.27 1.54 12061.954
+  {
+   $grp PR_AssetSpawner : "{0D7AB611821B1781}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmoredTransport.et" {
+    {
+     coords -27.579 0.073 8.531
+     angleY 125.907
+    }
+    {
+     coords -18.774 -0.18 18.707
+     angleY 141.384
+    }
+   }
+   $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+    {
+     coords 10.29 0.075 11.49
+     angleY 56.532
+    }
+    {
+     coords 11.568 0.073 9.579
+     angleY 56.532
+    }
+    {
+     coords 12.249 0.191 7.893
+     angleY 56.532
+    }
+    {
+     coords 13.16 0.19 6.549
+     angleY 56.532
+    }
+    {
+     coords 14.312 0.091 5.253
+     angleY 56.532
+    }
+    {
+     coords 8.836 -0.107 9.306
+     angleY 56.532
+    }
+    {
+     coords 10.031 0.199 7.438
+     angleY 56.532
+    }
+    {
+     coords 10.936 0.24 6.13
+     angleY 56.532
+    }
+    {
+     coords 12.347 0.189 4.514
+     angleY 56.532
+    }
+   }
+   $grp PR_AssetSpawner : "{708BAF4B01A828B2}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmedTransport.et" {
+    {
+     coords -9.994 0.201 24.399
+     angleY 157.835
+    }
+    {
+     coords 2.806 -0.412 25.209
+     angleY -171.694
+    }
+   }
+   PR_PreparationPhaseCollider : "{947F4D9721642331}Prefabs/GameMode/PR_PreparationPhaseCollider.et" {
+    coords 0 0 0
+   }
+   $grp PR_AssetSpawner : "{9C434FA9B171F82E}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_TroopTransport.et" {
+    {
+     coords -17.485 0.659 -30.28
+     angleY -137.158
+    }
+    {
+     coords -30.774 0.387 0.954
+     angleY 92.762
+    }
+   }
+   $grp PR_AssetSpawner : "{DE4298F517854891}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Supply.et" {
+    {
+     coords -22.959 0.191 -17.874
+     angleY -114.118
+    }
+    {
+     coords -25.355 0.363 -12.136
+     angleY -105.676
+    }
+    {
+     coords -27.588 0.52 -6.73
+     angleY -111.165
+    }
+   }
+   $grp PR_AssetSpawner : "{E5C5FC37BA7E91CE}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Transport.et" {
+    {
+     coords 18.991 -0.31 -7.527
+     angleY -58.092
+    }
+    {
+     coords 14.733 -0.275 -13.16
+     angleY -58.092
+    }
+    {
+     coords 10.153 -0.36 -18.584
+     angleY -58.092
+    }
+    {
+     coords 6.979 0.186 -23.948
+     angleY -58.092
+    }
+    {
+     coords 3.752 0.741 -28.635
+     angleY -58.092
+    }
+    {
+     coords -0.195 0.651 -33.852
+     angleY -43.672
+    }
+   }
+  }
+ }
+ MainBaseDefender {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 80
+    m_sName "Defender Main Base"
+    m_iOrder 200
+   }
+  }
+  coords 4776.01 130.625 7771.068
+  {
+   $grp PR_AssetSpawner : "{0D7AB611821B1781}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmoredTransport.et" {
+    {
+     coords 9.407 0.083 23.275
+     angleY 45
+     m_AssetType ARMORED_TRANSPORT
+    }
+    {
+     coords 3.665 0.35 28.763
+     angleY 30
+     m_AssetType ARMORED_TRANSPORT
+    }
+   }
+   $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+    {
+     coords -37.458 2.476 -28.311
+     angleY -155.71
+    }
+    {
+     coords -39.131 2.567 -27.27
+     angleY -155.71
+    }
+    {
+     coords -40.126 2.619 -26.716
+     angleY -155.71
+    }
+    {
+     coords -41.383 2.676 -25.932
+     angleY -155.71
+    }
+    {
+     coords -42.408 2.713 -25.265
+     angleY -155.71
+    }
+    {
+     coords -37.854 2.431 -26.561
+     angleY -155.71
+    }
+    {
+     coords -38.899 2.473 -25.648
+     angleY -155.71
+    }
+    {
+     coords -40.082 2.537 -25.059
+     angleY -155.71
+    }
+   }
+   $grp PR_AssetSpawner : "{708BAF4B01A828B2}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmedTransport.et" {
+    {
+     coords 17.269 -0.077 15.978
+     angleY 30
+     m_AssetType ARMED_TRANSPORT
+    }
+    {
+     coords 13.429 -0.304 2.671
+     angleY -90
+     m_AssetType ARMED_TRANSPORT
+    }
+   }
+   $grp PR_AssetSpawner : "{9C434FA9B171F82E}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_TroopTransport.et" {
+    {
+     coords -6.384 0.64 35.614
+     m_AssetType TROOP_TRANSPORT
+    }
+    {
+     coords -43.166 0.355 16.296
+     angleY 90
+     m_AssetType TROOP_TRANSPORT
+    }
+   }
+   $grp PR_AssetSpawner : "{DE4298F517854891}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Supply.et" {
+    {
+     coords -30.894 0.619 24.704
+     angleY 135
+     m_AssetType SUPPLY
+    }
+    {
+     coords -25.14 0.502 30.325
+     angleY -45
+     m_AssetType SUPPLY
+    }
+    {
+     coords -19.441 0.384 35.25
+     angleY -45
+     m_AssetType SUPPLY
+    }
+   }
+   $grp PR_AssetSpawner : "{E5C5FC37BA7E91CE}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Transport.et" {
+    {
+     coords -23.437 1.981 -27.086
+     angleY -20.785
+    }
+    {
+     coords -17.329 1.026 -25.387
+     angleY -20.785
+    }
+    {
+     coords -11.39 0.722 -24.158
+     angleY -20.785
+    }
+    {
+     coords -5.546 0.417 -22.25
+     angleY -20.785
+    }
+    {
+     coords 0.139 0.153 -20.949
+     angleY -20.785
+    }
+    {
+     coords 6.392 -0.054 -20.333
+     angleY -20.785
+    }
+    {
+     coords 14.029 -0.244 -19.403
+     angleY -20.785
+    }
+   }
+  }
+ }
+}
+$grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
+ Area0 {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+    m_sName "Airport"
+    m_iOrder 5
+   }
+  }
+  coords 4658.354 24.742 11186.06
+ }
+ Area1 {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+    m_sName "St. Phillipe"
+    m_iOrder 10
+   }
+  }
+  coords 4477.755 14.163 10678.002
+ }
+ Area2 {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+    m_sName "Military Base"
+    m_iOrder 30
+   }
+  }
+  coords 5418.572 45.322 10498.101
+ }
+ Area3 {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+    m_sName "Farm"
+    m_iOrder 40
+   }
+  }
+  coords 5593.409 26.178 9866
+ }
+ Area4 {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 100
+    m_sName "Tyrone Ridge"
+    m_iOrder 50
+   }
+  }
+  coords 5044.561 115.824 8541.796
+ }
+}

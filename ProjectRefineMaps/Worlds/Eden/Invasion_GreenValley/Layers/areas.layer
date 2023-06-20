@@ -1,0 +1,71 @@
+$grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
+ MainInvader {
+  coords 10068.033 2.532 1560.717
+  {
+   PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+    coords 5.463 0 -11.442
+   }
+  }
+ }
+ MainDefender {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_iOrder 100
+   }
+  }
+  coords 6672.616 65.176 4904.407
+  {
+   PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+    coords -5.804 1.813 14.234
+   }
+   PR_AssetSpawner : "{DE4298F517854891}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Supply.et" {
+    coords -11.817 2.059 25.038
+    angleX 1.916
+    angleY 80.175
+    angleZ 0.576
+   }
+  }
+ }
+}
+$grp GenericEntity : "{BBA3B992A9B90B47}Prefabs/GameMode/PR_CaptureArea.et" {
+ LevieBase {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 70
+    m_sName "Levie Base"
+    m_iOrder 80
+   }
+  }
+  coords 7492.634 165.221 4290.405
+ }
+ QuarryArea {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 70
+    m_sName "Quarry"
+    m_iOrder 50
+   }
+  }
+  coords 8826.639 196.405 3939.416
+ }
+ DurrasArea {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 75
+    m_sName "Durras"
+    m_iOrder 30
+   }
+  }
+  coords 8818.063 94.711 2765.033
+ }
+ VernonArea {
+  components {
+   PR_CaptureArea "{5B156B902CEA1626}" {
+    m_fRadius 60
+    m_sName "Vernon"
+    m_iOrder 20
+   }
+  }
+  coords 9259.096 57.976 2070.446
+ }
+}
