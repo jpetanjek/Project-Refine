@@ -1,7 +1,7 @@
 typedef func OnAssetSpawnedDelegate;
 void OnAssetSpawnedDelegate(PR_AssetSpawner spawner, IEntity asset, int factionId);
 
-[EntityEditorProps(category: "GameScripted/GameMode", description: "Runtime vehicle spawner", visible: false)]
+[EntityEditorProps(category: "GameScripted/GameMode", description: "Runtime vehicle spawner", visible: false, dynamicBox: true)]
 class PR_AssetSpawnerClass : GenericEntityClass
 {
 };

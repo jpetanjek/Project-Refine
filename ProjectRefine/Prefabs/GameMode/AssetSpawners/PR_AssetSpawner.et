@@ -1,6 +1,21 @@
 PR_AssetSpawner {
  ID "5C7923FE02CB6A3E"
  components {
+  MeshObject "{5DA95835571E0AB1}" {
+   Object "{CC9501033C587037}Assets/AssetSpawnerBox.xob"
+   Materials {
+    MaterialAssignClass "{5DA9640ECF4365E6}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{8FBC3A6E946F056E}Common/Materials/Default_Transparent.emat"
+    }
+   }
+   CastShadow 0
+   CastFarShadow 0
+   PixelSizeFilter 0
+   RainOccluder 0
+   WetnessOccluder 0
+   ReceiveLight 0
+  }
   Hierarchy "{5C6F336419D68262}" {
   }
  }
