@@ -28,6 +28,9 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("0", UIWidgets.EditBox, desc: "Determines linkage order")]
 	int m_iOrder;
 	
+	// All capture areas
+	protected static ref array<PR_CaptureArea> s_aAll = {};
+	
 	// Called whenever any of state variables changes. It's not associated to m_eState only!
 	ref ScriptInvoker<PR_CaptureArea> m_OnAnyPropertyChanged = new ScriptInvoker<PR_CaptureArea>();
 	
@@ -61,6 +64,12 @@ class PR_CaptureArea : ScriptComponent
 	protected float m_fPoints = 0.0;							// Amount of points (capture progress)
 	[RplProp(onRplName: "OnRplPropChanged")]
 	protected int m_iPointsOwnerFaction;						// Faction which owns those points now
+	
+	//------------------------------------------------------------------------------------------------
+	static void GetAll(notnull array<PR_CaptureArea> outAreas)
+	{
+		outAreas.Copy(s_aAll);
+	}
 	
 	//------------------------------------------------------------------------------------------------
 	void OnUpdateGameMode(float timeSlice, array<SCR_ChimeraCharacter> charactersInArea)
@@ -410,9 +419,17 @@ class PR_CaptureArea : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	//void PR_CaptureArea(IEntityComponentSource src, IEntity ent, IEntity parent)
-	//{
-	//}
+	void PR_CaptureArea(IEntityComponentSource src, IEntity ent, IEntity parent)
+	{
+		if (!s_aAll.Contains(this))
+			s_aAll.Insert(this);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void ~PR_CaptureArea()
+	{
+		s_aAll.RemoveItem(this);
+	}
 };
 
 class PR_CaptureArea_CompareOrder : SCR_SortCompare<PR_CaptureArea>

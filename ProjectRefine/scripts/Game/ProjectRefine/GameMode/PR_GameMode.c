@@ -296,6 +296,7 @@ class PR_GameMode : SCR_BaseGameMode
 	// Returns true on success
 	protected bool FindCaptureAreas(notnull array<PR_CaptureArea> outAreas, bool enableLogging)
 	{
+		/*
 		// Find all child capture areas, sort them by order
 		array<PR_CaptureArea> areas = outAreas;
 		areas.Clear();
@@ -307,7 +308,19 @@ class PR_GameMode : SCR_BaseGameMode
 				areas.Insert(ca);
 			childEntity = childEntity.GetSibling();
 		}
+		*/
+		
+		array<PR_CaptureArea> areas = outAreas;
+		PR_CaptureArea.GetAll(areas);
+		for (int i = areas.Count()-1; i >= 0; i--)	// Exclude entities from previews and such
+		{
+			PR_CaptureArea a = areas[i];
+			if (a.GetOwner().GetWorld() != GetWorld())
+				areas.Remove(i);
+		}
 		SCR_Sorting<PR_CaptureArea, PR_CaptureArea_CompareOrder>.HeapSort(areas, false);
+		
+		
 		
 		if (enableLogging)
 		{
