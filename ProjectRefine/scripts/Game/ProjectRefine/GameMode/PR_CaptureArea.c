@@ -13,7 +13,7 @@ enum PR_EAreaState
 
 class PR_CaptureArea : ScriptComponent
 {
-	const float POINTS_MAX = 100.0; // How many points it needs to have to be captured	
+	const float POINTS_MAX = 60.0; // How many points it needs to have to be captured	
 	const float CAPTURE_RATE_PER_CHARACTER = 1.0; // How many points are addded per second per each character
 	
 	[Attribute("10", UIWidgets.EditBox, desc: "Radius of capture zone")]
@@ -184,8 +184,12 @@ class PR_CaptureArea : ScriptComponent
 		if (!m_bCapturable)
 			return;
 		
-		int winnersExcess = m_iDominatingCharacters - m_iLosingCharacters; // How many attackers over defenders
-
+		float winnersExcess = 1;
+		if(m_iLosingCharacters)
+			winnersExcess = m_iDominatingCharacters / m_iLosingCharacters; // How many attackers over SCR_EnableDefendersAction
+		else
+			winnersExcess = m_iDominatingCharacters;
+		
 		switch (m_eState)
 		{
 			case PR_EAreaState.NEUTRAL:
@@ -202,7 +206,7 @@ class PR_CaptureArea : ScriptComponent
 			
 			case PR_EAreaState.CONTESTING:
 			{				
-				float captureRate = winnersExcess * timeSlice * CAPTURE_RATE_PER_CHARACTER;
+				float captureRate = Math.Log2(Math.Max(2, winnersExcess)) * timeSlice * CAPTURE_RATE_PER_CHARACTER;
 				
 				// If the dominant faction is not the one which owns the points, remove points
 				if (m_iPointsOwnerFaction != m_iDominatingFaction)
