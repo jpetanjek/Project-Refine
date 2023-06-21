@@ -21,6 +21,7 @@ enum PR_EGameModeArchetype
 class PR_GameMode : SCR_BaseGameMode
 {
 	protected static const float GAME_MODE_UPDATE_INTERVAL_S = 1.0;
+	protected static const float GAME_MODE_SLOW_UPDATE_INTERVAL_S = 60.0;
 	
 	protected static const float PREPARATION_DURATION_S = 240.0;
 	
@@ -44,6 +45,11 @@ class PR_GameMode : SCR_BaseGameMode
 	protected int m_iFactionScore0;
 	[RplProp()]
 	protected int m_iFactionScore1;
+	// Increase rate of score of each faction
+	[RplProp()]
+	protected int m_iFactionScoreIncRate0;
+	[RplProp()]
+	protected int m_iFactionScoreIncRate1;
 	
 	// Game mode stage
 	[RplProp(onRplName: "OnGameModeChangedClient")]
@@ -62,6 +68,7 @@ class PR_GameMode : SCR_BaseGameMode
 	
 	// Other
 	protected float m_fGameModeUpdateTimer = 0;
+	protected float m_fGameModeUpdateSlowTimer = 0;
 	
 	protected SCR_GroupsManagerComponent m_GroupManager;
 	
@@ -341,7 +348,6 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
-	protected float m_timer0 = 0;
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
 		super.EOnFrame(owner, timeSlice);
@@ -355,6 +361,13 @@ class PR_GameMode : SCR_BaseGameMode
 			{
 				UpdateGameMode(m_fGameModeUpdateTimer);
 				m_fGameModeUpdateTimer -= GAME_MODE_UPDATE_INTERVAL_S;
+			}
+			
+			m_fGameModeUpdateSlowTimer += timeSlice;
+			if (m_fGameModeUpdateSlowTimer >= GAME_MODE_SLOW_UPDATE_INTERVAL_S)
+			{
+				UpdateGameModeSlow(m_fGameModeUpdateSlowTimer);
+				m_fGameModeUpdateSlowTimer -= GAME_MODE_SLOW_UPDATE_INTERVAL_S;
 			}
 		}
 	}
@@ -465,6 +478,19 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 	}
 	
+	// Low frequency update
+	protected void UpdateGameModeSlow(float timeSlice)
+	{
+		// Do nothing if game has ended or not started yet
+		if (!IsRunning())
+			return;
+		
+		if (m_eGameModeStage == PR_EGameModeStage.LIVE)
+		{
+			SlowTickGameModeLive(timeSlice);
+		}
+	}
+	
 	void TickGameModePreparation(float timeSlice)
 	{
 		if(!m_bInvokePreparation)
@@ -550,41 +576,14 @@ class PR_GameMode : SCR_BaseGameMode
 				factionAreas[ownerFactionId] = factionAreas[ownerFactionId] + 1;
 		}
 		
+		
 		if(m_eGameModeArchetype == PR_EGameModeArchetype.INVASION)
 		{
+			// Defenderrs lose if all areas are captured by invader
 			if(factionAreas[GetInvadingFactionId()] >= (m_aAreas.Count() - 1))
 			{
 				// Defender has lost
 				SetFactionScore(GetDefendingFactionId(), -1);
-			}
-		}
-		else
-		{
-			// Find faction with biggest amount of areas
-			int maxOwnedAreas = 0;
-			int maxOwnedAreasFactionId = -1;
-			for (int i = 0; i < nFactions; i++)
-			{
-				if (factionAreas[i] > maxOwnedAreas)
-				{
-					maxOwnedAreas = factionAreas[i];
-					maxOwnedAreasFactionId = i;
-				}
-			}
-			
-			// Remove tickets from all losing factions
-			for (int factionId = 0; factionId < nFactions; factionId++)
-			{
-				if (factionId == maxOwnedAreasFactionId)
-					continue;
-				
-				// How many areas this factions owns less than the winning faction
-				int ownedAreasDifference = maxOwnedAreas - factionAreas[factionId];
-				
-				if (ownedAreasDifference > 0)
-				{
-					AddFactionScore(factionId, -1); // !!! Change score decrease rate!
-				}
 			}
 		}
 		
@@ -595,6 +594,17 @@ class PR_GameMode : SCR_BaseGameMode
 			// Some faction has lost all its points
 			// End the game
 			RequestNextGameModeStage();
+		}
+	}
+	
+	void SlowTickGameModeLive(float timeSlice)
+	{
+		if (m_eGameModeArchetype == PR_EGameModeArchetype.ADVANCE_AND_SECURE)
+		{
+			UpdateFactionsScoreIncRate();
+			m_iFactionScore0 += m_iFactionScoreIncRate0;
+			m_iFactionScore1 += m_iFactionScoreIncRate1;
+			Replication.BumpMe();
 		}
 	}
 	
@@ -614,6 +624,66 @@ class PR_GameMode : SCR_BaseGameMode
 		{
 			SCR_GameModeEndData gameModeEndData = SCR_GameModeEndData.Create(SCR_GameModeEndData.ENDREASON_SCORELIMIT, winnerIds: null, winnerFactionIds: winnerFactions);
 			EndGameMode(gameModeEndData);
+		}
+	}
+	
+	// Recalculates score increase rate of each faction
+	void UpdateFactionsScoreIncRate()
+	{
+		if (m_eGameModeArchetype == PR_EGameModeArchetype.ADVANCE_AND_SECURE)
+		{
+			// Count how many areas each faction owns
+			int nFactions = GetGame().GetFactionManager().GetFactionsCount();
+			array<int> factionAreas = {};
+			factionAreas.Resize(nFactions);
+			for (int i = 0; i < nFactions; i++)
+				factionAreas[i] = 0;
+			foreach (PR_CaptureArea area : m_aAreas)
+			{
+				int ownerFactionId = area.GetOwnerFactionId();
+				if (ownerFactionId != -1)
+					factionAreas[ownerFactionId] = factionAreas[ownerFactionId] + 1;
+			}
+			
+			// Find faction with biggest amount of areas
+			
+			int nAreasOwnedDiff = factionAreas[m_iFaction0] - factionAreas[m_iFaction1];
+			
+			int nAreasOwnedDiffAbs = Math.AbsInt(nAreasOwnedDiff);
+			int scoreIncRate;
+			switch (nAreasOwnedDiffAbs)
+			{
+				case 0:
+					scoreIncRate = 0;
+					break;
+				case 1:
+					scoreIncRate = -1;
+					break;
+				case 2:
+					scoreIncRate = -2;
+					break;
+				case 3:
+					scoreIncRate = -5;
+					break;
+				case 4:
+					scoreIncRate = -10;
+					break;
+				case 5:
+					scoreIncRate = -20;
+					break;
+			}
+			
+			if (factionAreas[m_iFaction0] > factionAreas[m_iFaction1])
+			{
+				m_iFactionScoreIncRate0 = 0;
+				m_iFactionScoreIncRate1 = scoreIncRate;
+			}
+			else
+			{
+				m_iFactionScoreIncRate0 = scoreIncRate;
+				m_iFactionScoreIncRate1 = 0;
+			}
+			Replication.BumpMe();
 		}
 	}
 	
@@ -727,6 +797,17 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
+	int GetFactionScoreIncRate(int factionId)
+	{
+		if (factionId == m_iFaction0)
+			return m_iFactionScoreIncRate0;
+		else if (factionId == m_iFaction1)
+			return m_iFactionScoreIncRate1;
+				
+		return 0;
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
 	// Capture areas
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -750,6 +831,9 @@ class PR_GameMode : SCR_BaseGameMode
 				AddFactionScore(newFactionId, 60);
 			}
 		}
+		
+		// Update score increase rate of factions
+		UpdateFactionsScoreIncRate();
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
@@ -970,10 +1054,13 @@ class PR_GameMode : SCR_BaseGameMode
 		FactionManager fm = GetGame().GetFactionManager();
 		
 		array<int> factionIds = {m_iFaction0, m_iFaction1};
+		array<int> factionScore = {m_iFactionScore0, m_iFactionScore1};
+		array<int> factionScoreIncRate = {m_iFactionScoreIncRate0, m_iFactionScoreIncRate1};
+		
 		for (int i = 0; i < 2; i++)
 		{
 			int factionId = factionIds[i];
-			DbgUI.Text(string.Format("%1 score: %2", fm.GetFactionByIndex(factionId).GetFactionKey(), GetFactionScore(factionId)));
+			DbgUI.Text(string.Format("%1 score: %2, score rate: %3/%4s", fm.GetFactionByIndex(factionId).GetFactionKey(), factionScore[i], factionScoreIncRate[i], GAME_MODE_SLOW_UPDATE_INTERVAL_S));
 		}
 		
 		DbgUI.Text(string.Format("Total Time Elapsed: %1", m_fTimeElapsed.ToString(8, 3)));
