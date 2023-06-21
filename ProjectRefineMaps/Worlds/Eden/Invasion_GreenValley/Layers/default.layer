@@ -3,7 +3,6 @@ SCR_AIWorld : "{70CCCF16487C927F}Prefabs/AI/SCR_AIWorld_Eden.et" {
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 9825.357 220.868 1771.835
  m_TestMissionHeader PR_MissionHeader "{5DA74891B2C74987}" : "{FD3C617813516CB8}Configs/GameMode/PR_MissionHeaderTest.conf" {
-  m_eRefineGameModeArchetype INVASION
  }
 }
 GenericEntity : "{387E0BFDFD125FAE}Prefabs/GameMode/PR_Systems.et" {

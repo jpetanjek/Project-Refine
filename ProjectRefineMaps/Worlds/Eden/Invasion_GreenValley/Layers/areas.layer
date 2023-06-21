@@ -2,8 +2,101 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
  MainInvader {
   coords 10068.033 2.532 1560.717
   {
-   PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
-    coords 5.463 0 -11.442
+   $grp PR_AssetSpawner : "{0D7AB611821B1781}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmoredTransport.et" {
+    {
+     coords 34.453 0 -16.743
+     angleY 15.892
+    }
+    {
+     coords 39.678 0 -19.043
+     angleY 15.767
+    }
+   }
+   PR_AssetSpawner : "{17BE4BF54034A4D7}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_InfantryFightingVehicle.et" {
+    coords 61.966 0.25 -0.704
+    angleY -167.717
+   }
+   $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+    {
+     coords 23.27 0 -16.689
+     angleY 12.562
+    }
+    {
+     coords -2.896 0.723 29.28
+     angleY -156.453
+    }
+    {
+     coords -39.096 0.149 27.86
+     angleY 110.551
+    }
+    {
+     coords -1.639 0 -5.63
+     angleY 12.562
+    }
+   }
+   PR_AssetSpawner : "{68C13C048D9E1880}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmoredPersonnelCarrier.et" {
+    coords 50.154 0.25 4.773
+    angleY -164.691
+   }
+   $grp PR_AssetSpawner : "{708BAF4B01A828B2}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmedTransport.et" {
+    {
+     coords 7.784 0 -10.418
+     angleY 15.207
+    }
+    {
+     coords 13.083 0 -12.048
+     angleY 13.299
+    }
+   }
+   $grp PR_AssetSpawner : "{9C434FA9B171F82E}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_TroopTransport.et" {
+    {
+     coords -27.146 0.055 -4.538
+     angleY 14.149
+    }
+    {
+     coords -20.793 0.055 -6.547
+     angleY 14.149
+    }
+    {
+     coords -14.566 0.055 -7.35
+     angleY 14.149
+    }
+   }
+   $grp PR_AssetSpawner : "{DE4298F517854891}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Supply.et" {
+    {
+     coords -28.113 0.156 29.355
+     angleY -164.305
+    }
+    {
+     coords -21.971 0.243 27.423
+     angleY -164.305
+    }
+    {
+     coords -15.763 0.156 25.561
+     angleY -164.305
+    }
+    {
+     coords -10.251 0.544 23.794
+     angleY -164.305
+    }
+   }
+   $grp PR_AssetSpawner : "{E5C5FC37BA7E91CE}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Transport.et" {
+    {
+     coords -7.374 0.055 -7.056
+     angleY 15.455
+    }
+    {
+     coords -50.378 -0.013 -1.817
+     angleY 105.574
+    }
+    {
+     coords -50.814 -0.094 -14.247
+     angleY 105.662
+    }
+    {
+     coords -49.346 -0.022 -9.716
+     angleY 105.662
+    }
    }
   }
  }
@@ -15,14 +108,126 @@ $grp GenericEntity : "{5E8D4A5BA75FF39A}Prefabs/GameMode/PR_MainBaseArea.et" {
   }
   coords 6672.616 65.176 4904.407
   {
-   PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
-    coords -5.804 1.813 14.234
+   $grp PR_AssetSpawner : "{0D7AB611821B1781}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmoredTransport.et" {
+    {
+     coords -10.862 2.624 50.898
+     angleX -3.752
+     angleY -126.597
+     angleZ -0.554
+    }
+    {
+     coords -14.314 3.014 56.8
+     angleX -4.498
+     angleY -125.047
+    }
    }
-   PR_AssetSpawner : "{DE4298F517854891}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Supply.et" {
-    coords -11.817 2.059 25.038
-    angleX 1.916
-    angleY 80.175
-    angleZ 0.576
+   PR_AssetSpawner : "{17BE4BF54034A4D7}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_InfantryFightingVehicle.et" {
+    coords 3.754 1.438 25.409
+    angleY -124.221
+   }
+   $grp PR_CharacterSpawnPosition : "{54AD7745F012F7E1}Prefabs/GameMode/PR_CharacterSpawnPosition.et" {
+    {
+     coords 31.19 -0.019 -13.338
+    }
+    {
+     coords 30.083 -0.39 -17.48
+    }
+    {
+     coords 28.399 -1.047 -23.61
+    }
+    {
+     coords 33.01 0.835 -3.408
+    }
+   }
+   PR_AssetSpawner : "{68C13C048D9E1880}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmoredPersonnelCarrier.et" {
+    coords 0.074 1.879 31.872
+    angleX -2.404
+    angleY -129.741
+    angleZ -1.491
+   }
+   $grp PR_AssetSpawner : "{708BAF4B01A828B2}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmedTransport.et" {
+    {
+     coords -7.09 2.391 44.24
+     angleX -4.033
+     angleY -125.126
+     angleZ -2.622
+    }
+    {
+     coords -4.012 2.134 38.604
+     angleX 4.289
+     angleY 53.153
+     angleZ 1.251
+    }
+   }
+   $grp PR_AssetSpawner : "{9C434FA9B171F82E}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_TroopTransport.et" {
+    {
+     coords -39.175 -2.719 -25.737
+     angleY 38.063
+    }
+    {
+     coords -44.692 -2.38 -23.663
+     angleX 4.607
+     angleY 38.634
+     angleZ 7.069
+    }
+    {
+     coords -49.867 -1.764 -20.265
+     angleX 5.034
+     angleY 38.514
+     angleZ 5.127
+    }
+    {
+     coords -54.518 -1.094 -16.014
+     angleX 4.607
+     angleY 38.634
+     angleZ 7.069
+    }
+   }
+   $grp PR_AssetSpawner : "{DE4298F517854891}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Supply.et" {
+    {
+     coords 16.069 0.772 9.807
+     angleX 0.345
+     angleY -39.781
+     angleZ -3.777
+    }
+    {
+     coords 12.402 0.405 6.303
+     angleX 0.345
+     angleY -39.781
+     angleZ -3.777
+    }
+    {
+     coords 8.176 0.014 2.544
+     angleX 1.029
+     angleY -39.833
+     angleZ -4.347
+    }
+    {
+     coords 3.539 -0.489 -1.312
+     angleX 1.711
+     angleY -39.898
+     angleZ -4.917
+    }
+   }
+   $grp PR_AssetSpawner : "{E5C5FC37BA7E91CE}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_Transport.et" {
+    {
+     coords 6.381 -1.326 -12.063
+     angleX -3.533
+     angleY -89.608
+     angleZ -6.254
+    }
+    {
+     coords 6.453 -1.973 -17.599
+     angleX -4.372
+     angleY -89.126
+     angleZ -6.29
+    }
+    {
+     coords 6.928 -2.556 -24.414
+     angleX -4.414
+     angleY -89.511
+     angleZ -6.261
+    }
    }
   }
  }

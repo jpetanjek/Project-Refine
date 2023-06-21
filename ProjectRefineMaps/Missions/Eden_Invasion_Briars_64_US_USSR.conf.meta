@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{03AE5E3745ADC166}Configs/Eden_Invasion_Briars_64_US_USSR.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,10 @@
+$grp GenericEntity : "{3D5EA7EE649A3304}Prefabs/TutorialSigns/TutorialSigns.et" {
+ {
+  coords 10026.48 2.688 1591.941
+  angleY 106.588
+ }
+ {
+  coords 6691.556 65.599 4903.523
+  angleY 137.324
+ }
+}
