@@ -9,7 +9,7 @@ class PR_PreparationPhaseCollider : GenericEntity
 	[RplProp(onRplName: "OnCollisionChanged")]
 	bool m_bColliderDisabled = false;
 	
-	PR_CaptureArea m_MainBase;
+	PR_CaptureArea m_CaptureArea;
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
 	void PR_GameMode(IEntitySource src, IEntity parent)
@@ -21,13 +21,18 @@ class PR_PreparationPhaseCollider : GenericEntity
 	{
 		super.EOnInit(owner);
 		
-		IEntity parent = owner.GetParent();
-		while(parent.GetParent())
-			parent = parent.GetParent();
+		IEntity ent = owner;
+		PR_CaptureArea area;
+		while(ent)
+		{
+			area = PR_CaptureArea.Cast(ent.FindComponent(PR_CaptureArea));
+			if (area)
+				break;
+			ent = ent.GetParent();
+		}
 		
-		PR_CaptureArea area = PR_CaptureArea.Cast(parent.FindComponent(PR_CaptureArea));
 		if(area)
-			m_MainBase = area;
+			m_CaptureArea = area;
 
 		PR_GameMode gameMode = PR_GameMode.Cast(GetGame().GetGameMode());
 		
@@ -45,7 +50,7 @@ class PR_PreparationPhaseCollider : GenericEntity
 	void OnGameModeStageChanged(PR_EGameModeStage stage)
 	{
 		PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
-		if(!m_bColliderDisabled && (stage == PR_EGameModeStage.LIVE || ( gm.GetArchetype() == PR_EGameModeArchetype.INVASION && m_MainBase && m_MainBase.GetInitialOwnerFactionId() == gm.GetDefendingFaction())))
+		if(!m_bColliderDisabled && (stage == PR_EGameModeStage.LIVE || ( gm.GetArchetype() == PR_EGameModeArchetype.INVASION && m_CaptureArea && m_CaptureArea.GetOwnerFactionId() == gm.GetDefendingFactionId())))
 		{
 			m_bColliderDisabled = true;
 			Replication.BumpMe();

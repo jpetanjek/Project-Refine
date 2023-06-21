@@ -1,0 +1,20 @@
+GameProject {
+ ID "ProjectRefineMaps"
+ GUID "5DA518C5BE1B958A"
+ TITLE "Escalation - Maps"
+ Dependencies {
+  "5ACAD731DF897924" "58D0FB3206B6F859"
+ }
+ Configurations {
+  GameProjectConfig PC {
+  }
+  GameProjectConfig XBOX_ONE {
+  }
+  GameProjectConfig XBOX_SERIES {
+  }
+  GameProjectConfig PS4 {
+  }
+  GameProjectConfig HEADLESS {
+  }
+ }
+}

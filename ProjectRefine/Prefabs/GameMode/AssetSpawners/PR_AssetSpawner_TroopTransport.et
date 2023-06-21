@@ -1,0 +1,6 @@
+PR_AssetSpawner : "{2040BFFEB037C087}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner.et" {
+ ID "5C7923FE02CB6A3E"
+ m_AssetType TROOP_TRANSPORT
+ m_bSpawnAtStart 1
+ m_fRespawnTime_s 60
+}

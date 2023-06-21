@@ -15,9 +15,6 @@ modded class SCR_Faction
 	[Attribute(desc: "Dummy character entity to possess when in deploy menu as SL", uiwidget: UIWidgets.ResourcePickerThumbnail, params: "et", category: "Entity Spawn Info")]
 	protected ResourceName m_sRadioDummyPrefab;
 	
-	[Attribute("0 0 0", UIWidgets.Coords, desc: "Position where Dummy character will spawn")]
-	protected vector m_vFactionSpawnPosition;
-	
 	//------------------------------------------------------------------------------------------------
 	/*!
 	Get the asset list assigned to this faction
@@ -62,7 +59,9 @@ modded class SCR_Faction
 	
 	vector GetFactionDummySpawnPosition()
 	{
-		return m_vFactionSpawnPosition;
+		float id = GetId();
+		vector offset = id * Vector(100, 0, 0);
+		return offset;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -71,5 +70,12 @@ modded class SCR_Faction
 	{
 		FactionManager fm = GetGame().GetFactionManager();
 		return fm.GetFactionIndex(this);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Otherwise SCR_RespawnSystemComponent.CanSetFaction doesn't allow us to select faction
+	override bool IsPlayable()
+	{
+		return true;
 	}
 }

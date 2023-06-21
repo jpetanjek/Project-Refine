@@ -44,7 +44,7 @@ class PR_BaseSpawnPoint : ScriptComponent
 	// Respawn timer
 	[RplProp()]
 	protected float m_fNextRespawnWaveTime_ms; // Replication.Time()
-	protected float m_fRespawnWaveInterval_ms = 7000.0;
+	protected float m_fRespawnWaveInterval_ms = 15000.0;
 
 	protected float m_fNextEnemyEvaluationTime_ms; // World time
 		

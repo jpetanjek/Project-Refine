@@ -1,7 +1,7 @@
 typedef func OnAssetSpawnedDelegate;
 void OnAssetSpawnedDelegate(PR_AssetSpawner spawner, IEntity asset, int factionId);
 
-[EntityEditorProps(category: "GameScripted/GameMode", description: "Runtime vehicle spawner", visible: false)]
+[EntityEditorProps(category: "GameScripted/GameMode", description: "Runtime vehicle spawner", visible: false, dynamicBox: true)]
 class PR_AssetSpawnerClass : GenericEntityClass
 {
 };
@@ -20,12 +20,15 @@ class PR_AssetSpawner : GenericEntity
 	[Attribute("false", UIWidgets.CheckBox, desc: "Spawn at round start?")]
 	protected bool m_bSpawnAtStart;
 	
+	[Attribute("30", UIWidgets.EditBox, desc: "Respawn time in seconds")]
+	protected float m_fRespawnTime_s;
+	
 	protected float m_fDeltaTime = 0;		// Timer for periodic updates
 	
 	protected PR_CaptureArea m_CaptureArea;	// Assigned Capture Area
 	protected bool m_bDestroyed = false;	// True when asset was destroyed
 	protected IEntity m_Target;				// Spawned asset
-	protected float m_fTimer = 0;			// Timer for respawning
+	protected float m_fTimer_s = 0;			// Timer for respawning
 	
 	// Events
 	ref ScriptInvokerBase<OnAssetSpawnedDelegate> m_OnAssetSpawned = new ScriptInvokerBase<OnAssetSpawnedDelegate>();
@@ -63,13 +66,13 @@ class PR_AssetSpawner : GenericEntity
 		if (!m_CaptureArea)
 			return;
 		
-		if(!m_Target && (m_bSpawnAtStart || m_AssetType == PR_EAssetType.TRANSPORT || m_AssetType == PR_EAssetType.TROOP_TRANSPORT || m_AssetType == PR_EAssetType.SUPPLY))
+		if(!m_Target && m_bSpawnAtStart)
 		{
 			if (TrySpawnAsset())
 				m_bDestroyed = false;
 		}
 			
-		if((m_bDestroyed || !m_Target) && m_fTimer >= GetAssetTypeRespawnTime(m_AssetType))
+		if((m_bDestroyed || !m_Target) && m_fTimer_s >= m_fRespawnTime_s)
 		{
 			if (TrySpawnAsset())
 				m_bDestroyed = false;
@@ -77,66 +80,11 @@ class PR_AssetSpawner : GenericEntity
 		
 		if(m_bDestroyed || !m_Target)
 		{
-			m_fTimer += m_fDeltaTime;
+			m_fTimer_s += m_fDeltaTime;
 		}
 		
 		// At the end of logic reset the low frequency update timer
 		m_fDeltaTime -= UPDATE_PERIOD_S;
-	}
-	
-	float GetAssetTypeRespawnTime(PR_EAssetType assetType)
-	{		
-		
-		switch(assetType)
-		{
-			case PR_EAssetType.SUPPLY:
-			case PR_EAssetType.TRANSPORT:
-			case PR_EAssetType.ARMORED_TRANSPORT:
-			case PR_EAssetType.TROOP_TRANSPORT:
-			{
-				return 60;
-			}
-			
-			case PR_EAssetType.BOAT:
-			case PR_EAssetType.ARMED_TRANSPORT:
-			case PR_EAssetType.MEDIC:
-			case PR_EAssetType.FUEL:
-			{
-				return 90;
-			}
-			
-			case PR_EAssetType.COMMAND:
-			case PR_EAssetType.ARMORED_PERSONEL_CARRIER:
-			{
-				return 180;
-			}
-			
-			case PR_EAssetType.LIGHT_TRANSPORT_HELICOPTER:
-			case PR_EAssetType.INFANTRY_FIGHTING_VEHICLE:
-			case PR_EAssetType.LIGHT_TANK:
-			{
-				return 360;
-			}
-			
-			case PR_EAssetType.HEAVY_TRANSPORT_HELICOPTER:
-			case PR_EAssetType.MEDIUM_TANK:
-			case PR_EAssetType.HEAVY_TANK:
-			{
-				return 480;
-			}
-			
-			case PR_EAssetType.ARMED_HELICOPTER:
-			{
-				return 540;
-			}
-			
-			default:
-			{
-				return 60;
-			}
-		}
-		
-		return 60;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -144,7 +92,7 @@ class PR_AssetSpawner : GenericEntity
 	{
 		if (state == EDamageState.DESTROYED)
 		{
-			m_fTimer = 0;
+			m_fTimer_s = 0;
 			m_bDestroyed = true;
 		}
 	}
@@ -228,9 +176,10 @@ class PR_AssetSpawner : GenericEntity
 		 	const int COLOR_BACKGROUND = Color.BLACK;
 			
 			string s;
+			s = s + string.Format("Type:        %1\n", typename.EnumToString(PR_EAssetType, m_AssetType));
 			s = s + string.Format("Destroyed:   %1\n", m_bDestroyed);
 			s = s + string.Format("Target:		%1\n", m_Target);
-			s = s + string.Format("Timer:       %1 / %2\n", m_fTimer.ToString(5, 1), GetAssetTypeRespawnTime(m_AssetType));
+			s = s + string.Format("Timer:       %1 / %2\n", m_fTimer_s.ToString(5, 1), m_fRespawnTime_s);
 			
 			vector pos = owner.GetOrigin() + Vector(0, 3, 0);
 			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
@@ -242,6 +191,19 @@ class PR_AssetSpawner : GenericEntity
 	//------------------------------------------------------------------------------------------------
 	override void _WB_AfterWorldUpdate(float timeSlice)
 	{
+		// Draw debug text
+		const int COLOR_TEXT = Color.WHITE;
+	 	const int COLOR_BACKGROUND = Color.BLACK;
+		
+		string s;
+		s = s + string.Format("Type:         %1\n", typename.EnumToString(PR_EAssetType, m_AssetType));
+		s = s + string.Format("Respawn Time: %1", m_fRespawnTime_s);
+		if (m_bSpawnAtStart)
+		s = s + string.Format("\nSpawn at start");
+		
+		vector pos = GetOrigin() + Vector(0, 3, 0);
+		DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+		
 		DrawDebugLines();
 	}
 	

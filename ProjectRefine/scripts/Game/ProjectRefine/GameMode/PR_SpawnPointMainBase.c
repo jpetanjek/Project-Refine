@@ -12,6 +12,8 @@ class PR_SpawnPointMainBase : PR_BaseSpawnPoint
 	{
 		super.OnPostInit(owner);
 		
+		m_fRespawnWaveInterval_ms = 7000.0;
+		
 		m_CaptureArea = PR_CaptureArea.Cast(owner.FindComponent(PR_CaptureArea));
 	}
 	

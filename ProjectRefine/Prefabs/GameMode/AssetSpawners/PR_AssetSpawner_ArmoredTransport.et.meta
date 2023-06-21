@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{0D7AB611821B1781}Prefabs/GameMode/AssetSpawners/PR_AssetSpawner_ArmoredTransport.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

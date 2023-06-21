@@ -121,43 +121,6 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                 }
                }
               }
-              ButtonWidgetClass "{5CFED445BCD852D5}" : "{51A47649B4BDA716}UI/FactionSelectionMenu/FactionSelectionButton.layout" {
-               Name "m_FactionButton2"
-               Slot LayoutSlot "{5CFEC731D60F6996}" {
-               }
-               components {
-                SCR_WidgetExportRule "{5CFED447B10FEDE1}" {
-                 ExportChildWidgets 0
-                }
-               }
-               {
-                SizeLayoutWidgetClass "{5CFEC731DE4A0128}" {
-                 Prefab "{5CFEC731DE4A0128}"
-                 {
-                  OverlayWidgetClass "{5CFEC73128C364EC}" {
-                   Prefab "{5CFEC73128C364EC}"
-                   {
-                    VerticalLayoutWidgetClass "{5CFEC7311CE50294}" {
-                     Prefab "{5CFEC7311CE50294}"
-                     {
-                      HorizontalLayoutWidgetClass "{5CFEC73501D51A2D}" {
-                       Prefab "{5CFEC73501D51A2D}"
-                       {
-                        TextWidgetClass "{5CFEC7316D2643D8}" {
-                         Prefab "{5CFEC7316D2643D8}"
-                         "Font Size" 25
-                         "Min Font Size" 25
-                        }
-                       }
-                      }
-                     }
-                    }
-                   }
-                  }
-                 }
-                }
-               }
-              }
              }
             }
            }
@@ -214,6 +177,7 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                Name "m_GameModeName"
                Slot LayoutSlot "{5CFEC730D0C4B12D}" {
                }
+               "Is Visible" 0
                Clipping False
                Text "Invasion"
                "Font Size" 36
@@ -229,16 +193,20 @@ OverlayWidgetClass : "{F9150C6BAB374AB0}UI/DeploymentMenu/PR_MenuBase.layout" {
                 Padding 0 25 0 0
                }
                Clipping False
-               Text "Game mode"\
-               "- Team vs team"\
+               Text "- Team vs team"\
                "- Teamwork-oriented game mode"\
                "- Squad based organization with specialized roles"\
                ""\
-               "Invasion"\
+               "Invasion Game Mode"\
                "- Invaders can capture flags, defenders cannot. Preparation phase for defenders to deploy."\
                "- Game is won when the enemy team runs out of tickets or the invader captures all flags."\
                "- Capturing flags gains tickets. Destroying assets or incapacitating soldiers depletes tickets."\
-               ""
+               ""\
+               "Advance and Secure Game Mode"\
+               "- Both factions can capture flags. Preparation phase works for both factions."\
+               "- Game is won when the enemy team runs out of tickets."\
+               "- Capturing flags gains tickets. Destroying assets or incapacitating soldiers depletes tickets."\
+               "- The faction which has less flags than enemy loses tickets every minute."
                "Min Font Size" 24
                Wrap 1
                FontProperties FontProperties "{5CFEC73020DCA989}" {

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F6ACD6E9872C8334}Worlds/Eden/Invasion_NorthernEveron/Eden_Invasion_NorthernEveron.ent"
+ Configurations {
+  ENTResourceClass PC {
+  }
+  ENTResourceClass XBOX_ONE : PC {
+  }
+  ENTResourceClass XBOX_SERIES : PC {
+  }
+  ENTResourceClass PS4 : PC {
+  }
+  ENTResourceClass HEADLESS : PC {
+  }
+ }
+}

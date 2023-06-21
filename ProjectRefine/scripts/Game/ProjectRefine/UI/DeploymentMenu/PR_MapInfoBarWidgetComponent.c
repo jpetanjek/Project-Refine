@@ -38,7 +38,15 @@ class PR_MapInfoBarWidgetComponent : ScriptedWidgetComponent
 		
 		// Faction score
 		int factionId = fm.GetFactionIndex(playerFaction);
-		float factionScore = gm.GetFactionScore(factionId);
-		widgets.m_FactionPointsText.SetText(Math.Ceil(factionScore).ToString());
+		int factionScore = gm.GetFactionScore(factionId);
+		int factionScoreIncRate = gm.GetFactionScoreIncRate(factionId);
+		
+		string scoreText;
+		if (factionScoreIncRate == 0)
+			scoreText = factionScore.ToString();
+		else
+			scoreText = string.Format("%1 (%2/min.)", factionScore.ToString(), factionScoreIncRate.ToString());	
+			
+		widgets.m_FactionPointsText.SetText(scoreText);
 	}
 }

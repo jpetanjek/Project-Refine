@@ -13,7 +13,7 @@ enum PR_EAreaState
 
 class PR_CaptureArea : ScriptComponent
 {
-	const float POINTS_MAX = 100.0; // How many points it needs to have to be captured	
+	const float POINTS_MAX = 60.0; // How many points it needs to have to be captured	
 	const float CAPTURE_RATE_PER_CHARACTER = 1.0; // How many points are addded per second per each character
 	
 	[Attribute("10", UIWidgets.EditBox, desc: "Radius of capture zone")]
@@ -22,11 +22,14 @@ class PR_CaptureArea : ScriptComponent
 	[Attribute("", UIWidgets.EditBox, desc: "Name of the area")]
 	protected string m_sName;
 	
-	[Attribute("-1", UIWidgets.EditBox, desc: "Owner faction at game start")]
-	protected int m_iInitialOwnerFaction;
-	
 	[Attribute("true", UIWidgets.CheckBox, desc: "True if area is capturable by soldier occupation, false if not."), RplProp(onRplName: "OnRplPropChanged")]
 	protected bool m_bCapturable;
+	
+	[Attribute("0", UIWidgets.EditBox, desc: "Determines linkage order")]
+	int m_iOrder;
+	
+	// All capture areas
+	protected static ref array<PR_CaptureArea> s_aAll = {};
 	
 	// Called whenever any of state variables changes. It's not associated to m_eState only!
 	ref ScriptInvoker<PR_CaptureArea> m_OnAnyPropertyChanged = new ScriptInvoker<PR_CaptureArea>();
@@ -61,6 +64,12 @@ class PR_CaptureArea : ScriptComponent
 	protected float m_fPoints = 0.0;							// Amount of points (capture progress)
 	[RplProp(onRplName: "OnRplPropChanged")]
 	protected int m_iPointsOwnerFaction;						// Faction which owns those points now
+	
+	//------------------------------------------------------------------------------------------------
+	static void GetAll(notnull array<PR_CaptureArea> outAreas)
+	{
+		outAreas.Copy(s_aAll);
+	}
 	
 	//------------------------------------------------------------------------------------------------
 	void OnUpdateGameMode(float timeSlice, array<SCR_ChimeraCharacter> charactersInArea)
@@ -134,12 +143,6 @@ class PR_CaptureArea : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	int GetInitialOwnerFactionId()
-	{
-		return m_iInitialOwnerFaction;
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	int GetPointsOwnerFactionId()
 	{
 		return m_iPointsOwnerFaction;
@@ -181,8 +184,12 @@ class PR_CaptureArea : ScriptComponent
 		if (!m_bCapturable)
 			return;
 		
-		int winnersExcess = m_iDominatingCharacters - m_iLosingCharacters; // How many attackers over defenders
-
+		float winnersExcess = 1;
+		if(m_iLosingCharacters)
+			winnersExcess = m_iDominatingCharacters / m_iLosingCharacters; // How many attackers over SCR_EnableDefendersAction
+		else
+			winnersExcess = m_iDominatingCharacters;
+		
 		switch (m_eState)
 		{
 			case PR_EAreaState.NEUTRAL:
@@ -199,7 +206,7 @@ class PR_CaptureArea : ScriptComponent
 			
 			case PR_EAreaState.CONTESTING:
 			{				
-				float captureRate = winnersExcess * timeSlice * CAPTURE_RATE_PER_CHARACTER;
+				float captureRate = Math.Log2(Math.Max(2, winnersExcess)) * timeSlice * CAPTURE_RATE_PER_CHARACTER;
 				
 				// If the dominant faction is not the one which owns the points, remove points
 				if (m_iPointsOwnerFaction != m_iDominatingFaction)
@@ -213,7 +220,7 @@ class PR_CaptureArea : ScriptComponent
 					m_iOwnerFaction = m_iPointsOwnerFaction; // New owner is the faction which has been capturing
 					m_eState = PR_EAreaState.CAPTURED;
 					PR_GameMode gm = PR_GameMode.Cast(GetGame().GetGameMode());
-					if(gm.GetArchetype() == PR_EGameModeArchetype.INVASION &&  m_iOwnerFaction == gm.GetInvadingFaction())
+					if(gm.GetArchetype() == PR_EGameModeArchetype.INVASION &&  m_iOwnerFaction == gm.GetInvadingFactionId())
 					{
 						m_bCapturable = false;
 					}
@@ -287,43 +294,51 @@ class PR_CaptureArea : ScriptComponent
 	
 	//------------------------------------------------------------------------------------------------
 	// Called by game mode
-	void Init(array<PR_CaptureArea> neighbourAreas, int ownerFactionId)
+	void InitMaster(notnull array<PR_CaptureArea> neighbourAreas, int ownerFactionId)
 	{
-		RplComponent rpl = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
-		
-		FactionManager fm = GetGame().GetFactionManager();
-		
-		// Init linked areas
+		InitNeighbourAreas(neighbourAreas);
+		InitOwnerFaction(ownerFactionId);
+		InitAssetSpawners();
+	}
+	void InitProxy(notnull array<PR_CaptureArea> neighbourAreas)
+	{
+		InitNeighbourAreas(neighbourAreas);
+		InitAssetSpawners();
+	}
+	
+	void InitNeighbourAreas(notnull array<PR_CaptureArea> neighbourAreas)
+	{
 		m_aLinkedAreas.Copy(neighbourAreas);
 		
 		foreach (PR_CaptureArea area : neighbourAreas)
 		{
 			m_OnLinkAdded.Invoke(this, area);
 		}
-		
-		// Init owner faction - only for Master
-		// If it's a proxy, owner faction is initialized from replication
-		if (rpl.IsMaster())
-		{
-			m_iOwnerFaction = ownerFactionId;
+	}
+	
+	void InitOwnerFaction(int ownerFactionId)
+	{
+		m_iOwnerFaction = ownerFactionId;
 			
-			m_iPointsOwnerFaction = m_iOwnerFaction;
-			if (m_iOwnerFaction != -1)
-			{
-				m_fPoints = POINTS_MAX;
-				m_eState = PR_EAreaState.CAPTURED;
-				
-				m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction); 
-			}
-			else
-			{
-				m_fPoints = 0;
-				m_eState = PR_EAreaState.NEUTRAL;
-			}
-			m_OnAnyPropertyChanged.Invoke(this);
+		m_iPointsOwnerFaction = m_iOwnerFaction;
+		if (m_iOwnerFaction != -1)
+		{
+			m_fPoints = POINTS_MAX;
+			m_eState = PR_EAreaState.CAPTURED;
+			
+			m_OnOwnerFactionChanged.Invoke(this, -1, m_iOwnerFaction); 
 		}
-		
-		// Init asset spawners
+		else
+		{
+			m_fPoints = 0;
+			m_eState = PR_EAreaState.NEUTRAL;
+		}
+		m_OnAnyPropertyChanged.Invoke(this);
+		Replication.BumpMe();
+	}
+	
+	void InitAssetSpawners()
+	{
 		IEntity childEntity = GetOwner().GetChildren();
 		while (childEntity)
 		{
@@ -343,13 +358,13 @@ class PR_CaptureArea : ScriptComponent
 	
 	
 	//------------------------------------------------------------------------------------------------
+	const int DEBUG_COLOR_TEXT = 0xff800080;
+	const int DEBUG_COLOR_BACKGROUND = Color.BLACK;
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
 		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_SHOW_CAPTURE_AREA_STATE))
 		{
 			// Draw debug text
-			const int COLOR_TEXT = Color.WHITE;
-		 	const int COLOR_BACKGROUND = Color.BLACK;
 			
 			FactionManager fm = GetGame().GetFactionManager();
 			
@@ -367,7 +382,7 @@ class PR_CaptureArea : ScriptComponent
 			s = s + string.Format("Characters (dom./lose): %1/%2", m_iDominatingCharacters, m_iLosingCharacters);
 			
 			vector pos = owner.GetOrigin() + Vector(0, 10, 0);
-			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: COLOR_TEXT, bgColor: COLOR_BACKGROUND);
+			DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 13.0, color: DEBUG_COLOR_TEXT, bgColor: DEBUG_COLOR_BACKGROUND);
 			
 			DrawDebugCylinder();
 		}
@@ -383,6 +398,15 @@ class PR_CaptureArea : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override void _WB_AfterWorldUpdate(IEntity owner, float timeSlice)
 	{
+		// Draw debug text
+		
+		string s;
+		s = s + string.Format("Order: %1\n", m_iOrder.ToString());
+		s = s + string.Format("Name:  %1", m_sName);
+		
+		vector pos = owner.GetOrigin() + Vector(0, 20, 0);
+		DebugTextWorldSpace.Create(GetGame().GetWorld(), s, DebugTextFlags.ONCE, pos[0], pos[1], pos[2], size: 16.0, color: DEBUG_COLOR_TEXT, bgColor: DEBUG_COLOR_BACKGROUND);
+		
 		DrawDebugCylinder();
 	}
 
@@ -399,7 +423,23 @@ class PR_CaptureArea : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	//void PR_CaptureArea(IEntityComponentSource src, IEntity ent, IEntity parent)
-	//{
-	//}
+	void PR_CaptureArea(IEntityComponentSource src, IEntity ent, IEntity parent)
+	{
+		if (!s_aAll.Contains(this))
+			s_aAll.Insert(this);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void ~PR_CaptureArea()
+	{
+		s_aAll.RemoveItem(this);
+	}
+};
+
+class PR_CaptureArea_CompareOrder : SCR_SortCompare<PR_CaptureArea>
+{
+	override static int Compare(PR_CaptureArea left, PR_CaptureArea right)
+	{
+		return left.m_iOrder < right.m_iOrder;
+	}
 };

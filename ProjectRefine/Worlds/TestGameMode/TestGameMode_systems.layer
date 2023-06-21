@@ -1,10 +1,3 @@
-PR_FactionManager PR_FactionManager_USxUSSR1 : "{1D93362B44F48351}Prefabs/Managers/Factions/PR_FactionManager_USxUSSR.et" {
- coords 9.15 79.397 517.651
-}
-TagManager : "{2FA9E172CAB1857A}Prefabs/MP/Managers/TagManager.et" {
-}
-SCR_CameraManager SCR_CameraManager1 : "{33F9FD881E3700CC}Prefabs/World/Game/SCR_CameraManager.et" {
-}
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  components {
   SCR_GroupsManagerComponent "{5706EC99934496F5}" {
@@ -12,54 +5,10 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
   }
  }
  coords 146.67 65.489 364.823
- m_aAreaEntities {
-  PR_EntityLink "{5C5EDD58F2E5EF81}" {
-   m_sEntityName "MainBase0"
-  }
-  PR_EntityLink "{5C5EDD58F170C427}" {
-   m_sEntityName "Area0"
-  }
-  PR_EntityLink "{5C5EDD58F0A3553B}" {
-   m_sEntityName "Area1"
-  }
-  PR_EntityLink "{5C5EDD58F0C73F5B}" {
-   m_sEntityName "MainBase1"
-  }
- }
- m_bGameModeArchetype INVASION
- m_iInvadingFaction 0
- m_iDefendingFaction 1
- m_MainBaseEntity0 PR_EntityLink "{5C5EDD58EA01F250}" {
-  m_sEntityName "MainBase0"
- }
- m_MainBaseEntity1 PR_EntityLink "{5C5EDD58EE718DE1}" {
-  m_sEntityName "MainBase1"
+ m_TestMissionHeader PR_MissionHeader "{5D9B4A4284F89FFF}" {
+  m_sRefineFaction_0 "USSR"
+  m_sRefineFaction_1 "US"
  }
 }
-RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
-}
-ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
- coords 0 0 0
-}
-HitRegistrationManager HitRegManager1 : "{0EDA3D48791120DD}Prefabs/MP/HitRegManager.et" {
-}
-SCR_GarbageManager : "{7C54ABF41F356688}Prefabs/MP/Managers/PR_GarbageManager.et" {
-}
-SCR_LoadoutManager : "{97EF4C1A41F63DDB}Prefabs/MP/Managers/Loadouts/LoadoutManager_USxUSSR.et" {
- m_aPlayerLoadouts {
-  SCR_FactionPlayerLoadout "{5CA333AAB46A3E48}" {
-   m_sLoadoutName "US RTO"
-   m_sLoadoutResource "{3726077BE60962FF}Prefabs/Characters/Factions/BLUFOR/US_Army/Character_US_RTO.et"
-   m_sLoadoutImage "{099045EADC8BD971}UI/Textures/EditorPreviews/Characters/BLUFOR/US_Army/Character_US_RTO.edds"
-   m_sAffiliatedFaction "US"
-  }
-  SCR_FactionPlayerLoadout "{5CA333AACE5A6BAB}" {
-   m_sLoadoutName "USSR RTO"
-   m_sLoadoutResource "{612F43A4D5AE765F}Prefabs/Characters/Factions/OPFOR/USSR_Army/Character_USSR_RTO.et"
-   m_sLoadoutImage "{50D62F5BEA9007CB}UI/Textures/EditorPreviews/Characters/OPFOR/USSR_Army/Character_USSR_RTO.edds"
-   m_sAffiliatedFaction "USSR"
-  }
- }
-}
-SCR_MPDestructionManager : "{9BB369F2803C6F71}Prefabs/MP/MPDestructionManager.et" {
+GenericEntity : "{387E0BFDFD125FAE}Prefabs/GameMode/PR_Systems.et" {
 }

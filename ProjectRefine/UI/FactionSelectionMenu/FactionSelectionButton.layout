@@ -91,7 +91,7 @@ ButtonWidgetClass {
           Padding 0 0 0 10
          }
          Clipping False
-         Text "Players: 12"
+         Text "Players:"
          "Min Font Size" 24
          FontProperties FontProperties "{5CFEC73020DCA989}" {
           Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
