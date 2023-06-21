@@ -5,7 +5,7 @@ enum PR_ERoleLimitation
 	FIRE_TEAM_LEAD_ONLY,
 }
 
-[BaseContainerProps(configRoot: true)]
+[BaseContainerProps(configRoot: true), PR_RoleCustomTitleAttribute()]
 class PR_Role : PR_SandboxTool
 {
 	[Attribute(desc: "Name of Role", category: "Role Info")]
@@ -68,3 +68,21 @@ class PR_Role : PR_SandboxTool
 		return m_sRoleSecondary;
 	}
 }
+
+class PR_RoleCustomTitleAttribute : BaseContainerCustomTitle
+{	
+	override bool _WB_GetCustomTitle(BaseContainer source, out string title)
+	{
+		PR_EPhase phase;
+		string roleName;
+		ResourceName prefab;
+		
+		source.Get("m_ePhase", phase);
+		source.Get("m_sRoleName", roleName);
+		source.Get("m_sPrefab", prefab);
+		
+		title = string.Format("%1  -  %2  -  %3", typename.EnumToString(PR_EPhase, phase), roleName, prefab);
+		
+		return true;
+	}
+} 

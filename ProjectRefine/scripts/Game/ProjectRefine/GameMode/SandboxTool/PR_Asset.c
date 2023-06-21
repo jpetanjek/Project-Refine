@@ -1,4 +1,4 @@
-[BaseContainerProps(configRoot: true)]
+[BaseContainerProps(configRoot: true), PR_AssetAssetCustomTitleAttribute()]
 class PR_Asset : PR_SandboxTool
 {
 	[Attribute("", UIWidgets.ComboBox, "", enums: ParamEnumArray.FromEnum(PR_EAssetType))]
@@ -13,6 +13,24 @@ class PR_Asset : PR_SandboxTool
 		return m_eAssetType;
 	}
 }
+
+class PR_AssetAssetCustomTitleAttribute : BaseContainerCustomTitle
+{	
+	override bool _WB_GetCustomTitle(BaseContainer source, out string title)
+	{
+		PR_EPhase phase;
+		PR_EAssetType assetType;
+		ResourceName prefab;
+		
+		source.Get("m_ePhase", phase);
+		source.Get("m_eAssetType", assetType);
+		source.Get("m_sPrefab", prefab);
+		
+		title = string.Format("%1  -  %2  -  %3", typename.EnumToString(PR_EPhase, phase), typename.EnumToString(PR_EAssetType, assetType), prefab);
+		
+		return true;
+	}
+} 
 
 enum PR_EAssetType
 {
