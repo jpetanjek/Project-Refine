@@ -9,7 +9,7 @@ GenericEntity {
   $grp GenericEntity : "{B61FF09403D35399}Prefabs/TutorialSigns/TutorialSign_Base.et" {
    {
     ID "5D948B2100939DC9"
-    coords -4.2 0 0
+    coords -6.326 0 0
     scale 1.44
     {
      GenericEntity {
@@ -29,7 +29,7 @@ GenericEntity {
    }
    {
     ID "5D948B211269E629"
-    coords -6.3 0 0.27
+    coords -8.426 0 0.27
     angleY 15
     scale 1.44
     {
@@ -56,7 +56,7 @@ GenericEntity {
    }
    {
     ID "5D948B2131AA8939"
-    coords -2.1 0 0
+    coords -4.226 0 0
     scale 1.44
     {
      GenericEntity {
@@ -67,6 +67,26 @@ GenericEntity {
          MaterialAssignClass "{5D948B219B743957}" {
           SourceMaterial "DefaultGeneratedMaterial"
           AssignedMaterial "{CE3B693CBD233D8B}UI/Tutorial/tutorial_1.emat"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+   {
+    ID "5DAB3BB088F2FD74"
+    coords -2.106 0 0
+    scale 1.44
+    {
+     GenericEntity {
+      ID "5D948B21BCF71177"
+      components {
+       MeshObject "{5D948B2197241137}" {
+        Materials {
+         MaterialAssignClass "{5D948B219B743957}" {
+          SourceMaterial "DefaultGeneratedMaterial"
+          AssignedMaterial "{2D0312F87DB5AF9A}UI/Tutorial/tutorial_4.emat"
          }
         }
        }
