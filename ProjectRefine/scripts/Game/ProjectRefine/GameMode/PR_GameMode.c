@@ -168,7 +168,7 @@ class PR_GameMode : SCR_BaseGameMode
 			Faction faction = fm.GetFactionByKey(factionKey);
 			if (!faction)
 			{
-				_print(string.Format("Fatal error: faction %1 with key \'%2\' was not found", i, factionKey));
+				_print(string.Format("Fatal error: faction %1 with key \'%2\' was not found", i, factionKey), LogLevel.ERROR);
 				return;
 			}
 			

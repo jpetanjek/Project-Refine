@@ -38,5 +38,4 @@ PR_GameMode : "{0F307326459A1395}Prefabs/MP/Modes/GameMode_Base.et" {
   }
  }
  PlayerControllerPrefab "{D3FB68341A3988E2}Prefabs/Characters/Core/DefaultPlayerControllerMP_PRGameMode.et"
- m_fAutoReloadTime 10
 }
