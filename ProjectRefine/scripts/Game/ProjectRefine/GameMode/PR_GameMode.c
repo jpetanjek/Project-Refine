@@ -297,7 +297,22 @@ class PR_GameMode : SCR_BaseGameMode
 		// Initialize game mode stage
 		m_eGameModeStage = PR_EGameModeStage.PREPARATION;
 		
+		
+		// Test end game mode?
+		if (header.m_bRefineTestEndGame)
+		{
+			_print("m_bRefineTestEndGameMode is set to true, game mode will end after 5 seconds");
+			GetGame().GetCallqueue().CallLater(TestEndGameMode, 5000, false);
+		}
+		
 		Replication.BumpMe();
+	}
+	protected void TestEndGameMode()
+	{
+		_print("TestEndGameMode() called, game will end soon");
+		RequestNextGameModeStage();
+		m_iFactionScore0 = -1;
+		m_iFactionScore1 = 100;
 	}
 	
 	// Returns true on success
