@@ -137,9 +137,7 @@ class PR_GameMode : SCR_BaseGameMode
 		//--------------------------------------------------------
 		// Resolve mission config
 		
-		PR_MissionHeader header = PR_MissionHeader.Cast(GetGame().GetMissionHeader());
-		if (!header)
-			header = m_TestMissionHeader;
+		PR_MissionHeader header = GetMissionHeader();
 		
 		// At this point it's a complete failure, since we require the values from mission header
 		if (!header)
@@ -623,23 +621,36 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 	}
 	
+	protected bool m_bDebriefHasRun = false;
 	void TickGameModeDebrief(float timeSlice)
 	{
+		if (m_bDebriefHasRun)
+			return;
+		
+		
 		array<int> winnerFactions = {};
 		if (m_iFactionScore0 > m_iFactionScore1)
 			winnerFactions.Insert(m_iFaction0);
 		else if (m_iFactionScore1 > m_iFactionScore0)
 			winnerFactions.Insert(m_iFaction1);
 		
-		// TODO: Delete all assets and players, move all cameras to some position?
+		// Show game end menu
+		SCR_GameModeEndData gameModeEndData = SCR_GameModeEndData.Create(SCR_GameModeEndData.ENDREASON_SCORELIMIT, winnerIds: null, winnerFactionIds: winnerFactions);
+		EndGameMode(gameModeEndData);
 		
-		// TODO: Display score board?
-		
-		// TODO: Some timer logic?
+		if (GetMissionHeader().m_bRefineTerminateServerOnGameEnd)
 		{
-			SCR_GameModeEndData gameModeEndData = SCR_GameModeEndData.Create(SCR_GameModeEndData.ENDREASON_SCORELIMIT, winnerIds: null, winnerFactionIds: winnerFactions);
-			EndGameMode(gameModeEndData);
+			_print("m_bRefineTerminateServerOnGameEnd is true, process will be terminated soon");
+			GetGame().GetCallqueue().CallLater(TerminateServer, 5000);
 		}
+			
+		m_bDebriefHasRun = true;
+	}
+	
+	protected void TerminateServer()
+	{
+		_print("TerminateServer()");
+		GetGame().RequestClose();
 	}
 	
 	// Recalculates score increase rate of each faction
@@ -1022,6 +1033,16 @@ class PR_GameMode : SCR_BaseGameMode
 	protected static void _print(string str, LogLevel logLevel = LogLevel.NORMAL)
 	{
 		Print(string.Format("[PR_GameMode] %1", str), logLevel);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Returns mission header, and if not found, returns the one from property of game mode
+	protected PR_MissionHeader GetMissionHeader()
+	{
+		PR_MissionHeader header = PR_MissionHeader.Cast(GetGame().GetMissionHeader());
+		if (!header)
+			header = m_TestMissionHeader;
+		return header;
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------

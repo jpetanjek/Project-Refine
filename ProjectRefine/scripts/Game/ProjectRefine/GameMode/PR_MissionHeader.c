@@ -12,6 +12,9 @@ class PR_MissionHeader : SCR_MissionHeader
 	[Attribute("0", UIWidgets.ComboBox, desc: "Archetype of Game Mode", enums: ParamEnumArray.FromEnum(PR_EGameModeArchetype))]
 	PR_EGameModeArchetype m_eRefineGameModeArchetype;
 	
+	[Attribute("0", UIWidgets.CheckBox, desc: "When true, server process will be terminated when game mode ends.")]
+	bool m_bRefineTerminateServerOnGameEnd;
+	
 	[Attribute("0", UIWidgets.CheckBox, desc: "Used for testing. When true, game mode will end 5 seconds after start")]
 	bool m_bRefineTestEndGame;
 	
