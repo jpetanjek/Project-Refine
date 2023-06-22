@@ -427,13 +427,16 @@ class PR_GameMode : SCR_BaseGameMode
 	//-------------------------------------------------------------------------------------------------------------------------------
 	void OnGroupPlayerRemoved(SCR_AIGroup group, int playerID)
 	{
-		GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerID, false);
+		if (GetMissionHeader().m_bRefineKickIfNoGroup)
+			GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerID, false);
 	}
 	
 	override void OnPlayerConnected(int playerId)
 	{
 		super.OnPlayerConnected(playerId);
-		GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerId, false);
+		
+		if (GetMissionHeader().m_bRefineKickIfNoGroup)
+			GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerId, false);
 	}
 	
 	void OnElapsedNoGroupTime(int playerID, bool kick)
