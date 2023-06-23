@@ -63,10 +63,10 @@ Find `PR_CaptureArea` component on every main base and capture area, specify fol
 
 `Name` - the name shown in UI and on the map
 
-Now you should have Main Bases and Capture Areas properly visualized in World Editor according to the order you have specified.
+Now you should have Main Bases and Capture Areas properly linked with arrows in World Editor according to the order you have specified.
 
-**Image**
+![CaptureAreas](Images/CaptureAreas.jpg)
 
-## Asset Spawners
-## Infantry Spawn Points
-## Tutorial Signs
+## Add Asset Spawners
+## Add Infantry Spawn Points
+## Add Tutorial Signs
