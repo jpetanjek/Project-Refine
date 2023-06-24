@@ -1,3 +1,6 @@
+# Game Mode Configuration
+This page explains how to configure Escalation maps and factions.
+
 # Mission Headers and Worlds
 Configuration of maps is achieved by both world and mission header which launches that world.
 
@@ -99,3 +102,10 @@ Appearence and content will change later, but please place them somewhere at mai
 You can place them anywhere, they don't have to be within main base hierarchy.
 
 ![TutorialSigns](Images/TutorialSigns.jpg)
+
+## Test It
+Hit the 'Play' button and see how it works.
+
+You can also use PeerTool to test clients.
+
+You might find some [Diag Menu Options](DiagMenu.md) useful for testing your world.
