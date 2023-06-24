@@ -78,7 +78,24 @@ Now you should have Main Bases and Capture Areas properly linked with arrows in 
 ## Add Asset Spawners
 Asset Spawners must be added to Main Bases as **child entities**.
 
-Use `PR_AssetSpawner_XXX.et` prefabs instead of manually placing plain Asset Spawner entities, or at least create own prefabs inherited from `PR_AssetSpawner.et`.
+Use `PR_AssetSpawner_XXX.et` prefabs. Don't place plain PR_AssetSpawner entities, at least create own prefabs inherited from `PR_AssetSpawner.et`.
+
+![AssetSpawners](Images/AssetSpawners.jpg)
 
 ## Add Infantry Spawn Points
+Character spawn points must be added to Main Bases as **child entities**.
+
+Use `PR_CharacterSpawnPosition.et` prefab. You should add multiple spawn points to each main base, they will be selected randomly.
+
+![CharacterSpawnPositions](Images/CharacterSpawnPositions.jpg)
+
 ## Add Tutorial Signs
+Tutorial signs have the official in-game documentation for Escalation.
+
+Use `TutorialSigns.et` prefab.
+
+Appearence and content will change later, but please place them somewhere at main bases for future compatibility.
+
+You can place them anywhere, they don't have to be within main base hierarchy.
+
+![TutorialSigns](Images/TutorialSigns.jpg)
