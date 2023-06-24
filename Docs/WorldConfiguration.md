@@ -24,6 +24,14 @@ If you want to use own faction in Escalation, it must satisfy following criteria
   - `PR_RoleList` - specifies list of player roles
   - `PR_BuildingList` - specifies list of assets for Building Mode
 
+Full description of PR_AssetList, PR_RoleList, PR_BuildingList will be done later, for now refere to existing factions
+## PR_AssetList
+TBD
+## PR_RoleList
+TBD
+## PR_BuildingList
+TBD
+
 # World Configuration
 
 ## Create a SubScene
@@ -63,10 +71,14 @@ Find `PR_CaptureArea` component on every main base and capture area, specify fol
 
 `Name` - the name shown in UI and on the map
 
-Now you should have Main Bases and Capture Areas properly visualized in World Editor according to the order you have specified.
+Now you should have Main Bases and Capture Areas properly linked with arrows in World Editor according to the order you have specified.
 
-**Image**
+![CaptureAreas](Images/CaptureAreas.jpg)
 
-## Asset Spawners
-## Infantry Spawn Points
-## Tutorial Signs
+## Add Asset Spawners
+Asset Spawners must be added to Main Bases as **child entities**.
+
+Use `PR_AssetSpawner_XXX.et` prefabs instead of manually placing plain Asset Spawner entities, or at least create own prefabs inherited from `PR_AssetSpawner.et`.
+
+## Add Infantry Spawn Points
+## Add Tutorial Signs
