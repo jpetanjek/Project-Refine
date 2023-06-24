@@ -1,3 +1,6 @@
+# Game Mode Configuration
+This page explains how to configure Escalation maps and factions.
+
 # Mission Headers and Worlds
 Configuration of maps is achieved by both world and mission header which launches that world.
 
