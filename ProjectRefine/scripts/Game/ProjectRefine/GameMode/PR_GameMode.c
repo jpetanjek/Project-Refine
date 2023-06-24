@@ -137,9 +137,7 @@ class PR_GameMode : SCR_BaseGameMode
 		//--------------------------------------------------------
 		// Resolve mission config
 		
-		PR_MissionHeader header = PR_MissionHeader.Cast(GetGame().GetMissionHeader());
-		if (!header)
-			header = m_TestMissionHeader;
+		PR_MissionHeader header = GetMissionHeader();
 		
 		// At this point it's a complete failure, since we require the values from mission header
 		if (!header)
@@ -168,7 +166,7 @@ class PR_GameMode : SCR_BaseGameMode
 			Faction faction = fm.GetFactionByKey(factionKey);
 			if (!faction)
 			{
-				_print(string.Format("Fatal error: faction %1 with key \'%2\' was not found", i, factionKey));
+				_print(string.Format("Fatal error: faction %1 with key \'%2\' was not found", i, factionKey), LogLevel.ERROR);
 				return;
 			}
 			
@@ -297,7 +295,22 @@ class PR_GameMode : SCR_BaseGameMode
 		// Initialize game mode stage
 		m_eGameModeStage = PR_EGameModeStage.PREPARATION;
 		
+		
+		// Test end game mode?
+		if (header.m_bRefineTestEndGame)
+		{
+			_print("m_bRefineTestEndGameMode is set to true, game mode will end after 5 seconds");
+			GetGame().GetCallqueue().CallLater(TestEndGameMode, 5000, false);
+		}
+		
 		Replication.BumpMe();
+	}
+	protected void TestEndGameMode()
+	{
+		_print("TestEndGameMode() called, game will end soon");
+		RequestNextGameModeStage();
+		m_iFactionScore0 = -1;
+		m_iFactionScore1 = 100;
 	}
 	
 	// Returns true on success
@@ -414,13 +427,16 @@ class PR_GameMode : SCR_BaseGameMode
 	//-------------------------------------------------------------------------------------------------------------------------------
 	void OnGroupPlayerRemoved(SCR_AIGroup group, int playerID)
 	{
-		GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerID, false);
+		if (GetMissionHeader().m_bRefineKickIfNoGroup)
+			GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerID, false);
 	}
 	
 	override void OnPlayerConnected(int playerId)
 	{
 		super.OnPlayerConnected(playerId);
-		GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerId, false);
+		
+		if (GetMissionHeader().m_bRefineKickIfNoGroup)
+			GetGame().GetCallqueue().CallLater(OnElapsedNoGroupTime, 90000, false, playerId, false);
 	}
 	
 	void OnElapsedNoGroupTime(int playerID, bool kick)
@@ -608,23 +624,36 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 	}
 	
+	protected bool m_bDebriefHasRun = false;
 	void TickGameModeDebrief(float timeSlice)
 	{
+		if (m_bDebriefHasRun)
+			return;
+		
+		
 		array<int> winnerFactions = {};
 		if (m_iFactionScore0 > m_iFactionScore1)
 			winnerFactions.Insert(m_iFaction0);
 		else if (m_iFactionScore1 > m_iFactionScore0)
 			winnerFactions.Insert(m_iFaction1);
 		
-		// TODO: Delete all assets and players, move all cameras to some position?
+		// Show game end menu
+		SCR_GameModeEndData gameModeEndData = SCR_GameModeEndData.Create(SCR_GameModeEndData.ENDREASON_SCORELIMIT, winnerIds: null, winnerFactionIds: winnerFactions);
+		EndGameMode(gameModeEndData);
 		
-		// TODO: Display score board?
-		
-		// TODO: Some timer logic?
+		if (GetMissionHeader().m_bRefineTerminateServerOnGameEnd)
 		{
-			SCR_GameModeEndData gameModeEndData = SCR_GameModeEndData.Create(SCR_GameModeEndData.ENDREASON_SCORELIMIT, winnerIds: null, winnerFactionIds: winnerFactions);
-			EndGameMode(gameModeEndData);
+			_print("m_bRefineTerminateServerOnGameEnd is true, process will be terminated soon");
+			GetGame().GetCallqueue().CallLater(TerminateServer, 5000);
 		}
+			
+		m_bDebriefHasRun = true;
+	}
+	
+	protected void TerminateServer()
+	{
+		_print("TerminateServer()");
+		GetGame().RequestClose();
 	}
 	
 	// Recalculates score increase rate of each faction
@@ -1007,6 +1036,16 @@ class PR_GameMode : SCR_BaseGameMode
 	protected static void _print(string str, LogLevel logLevel = LogLevel.NORMAL)
 	{
 		Print(string.Format("[PR_GameMode] %1", str), logLevel);
+	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
+	// Returns mission header, and if not found, returns the one from property of game mode
+	protected PR_MissionHeader GetMissionHeader()
+	{
+		PR_MissionHeader header = PR_MissionHeader.Cast(GetGame().GetMissionHeader());
+		if (!header)
+			header = m_TestMissionHeader;
+		return header;
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------
