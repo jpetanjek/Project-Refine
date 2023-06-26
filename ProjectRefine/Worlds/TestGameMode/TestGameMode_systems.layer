@@ -5,9 +5,7 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
   }
  }
  coords 146.67 65.489 364.823
- m_TestMissionHeader PR_MissionHeader "{5D9B4A4284F89FFF}" {
-  m_sRefineFaction_0 "USSR"
-  m_sRefineFaction_1 "US"
+ m_TestMissionHeader PR_MissionHeader "{5DB56D9FA2B15B06}" : "{FD3C617813516CB8}Configs/GameMode/PR_MissionHeaderTest.conf" {
  }
 }
 GenericEntity : "{387E0BFDFD125FAE}Prefabs/GameMode/PR_Systems.et" {
