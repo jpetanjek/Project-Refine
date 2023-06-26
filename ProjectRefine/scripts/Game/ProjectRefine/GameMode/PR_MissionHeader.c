@@ -1,3 +1,10 @@
+[BaseContainerProps()]
+class PR_FactionKeyArray
+{
+	[Attribute()]
+	ref array<string> factions;
+}
+
 class PR_MissionHeader : SCR_MissionHeader
 {
 	[Attribute("1", UIWidgets.CheckBox, "Factions will be shuffled with random chance")]
@@ -8,6 +15,8 @@ class PR_MissionHeader : SCR_MissionHeader
 	
 	[Attribute("", UIWidgets.EditBox, "Faction key from Faction Manager entity. Defender faction if faction randomization is disabled.")]
 	string m_sRefineFaction_1;
+	
+	
 	
 	[Attribute("0", UIWidgets.ComboBox, desc: "Archetype of Game Mode", enums: ParamEnumArray.FromEnum(PR_EGameModeArchetype))]
 	PR_EGameModeArchetype m_eRefineGameModeArchetype;
@@ -23,4 +32,7 @@ class PR_MissionHeader : SCR_MissionHeader
 	
 	//[Attribute("300", UIWidgets.EditBox, "Duration of preparation phase in seconds")]
 	//int m_iRefinePreparationPhaseDuration_s;
+	
+	[Attribute("", UIWidgets.Object)]
+	ref array<ref PR_FactionKeyArray> m_aRefineFactions;
 }

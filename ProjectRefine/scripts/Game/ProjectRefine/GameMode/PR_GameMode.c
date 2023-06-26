@@ -184,6 +184,10 @@ class PR_GameMode : SCR_BaseGameMode
 		// Randomize factions - if enabled
 		if (IsMaster())
 		{
+			int __a;
+			int __b;
+			//FindFactions(header.m_aRefineFactions, __a, __b);
+			
 			if (randomizeFactions)
 			{
 				_print("Randomizing factions...");
@@ -311,6 +315,116 @@ class PR_GameMode : SCR_BaseGameMode
 		RequestNextGameModeStage();
 		m_iFactionScore0 = -1;
 		m_iFactionScore1 = 100;
+	}
+	
+	protected bool FindFactions(array<ref array<string>> inFactionsArrayArray, out int outFaction0, out int outFaction1)
+	{
+		_print("--------------------------------------------------------------");
+		_print("Initializing factions...");
+		
+		// List factions in Faction Manager
+		FactionManager fm = GetGame().GetFactionManager();
+		_print(string.Format("Found %1 factions in Faction Manager:", fm.GetFactionsCount()));
+		for (int i = 0; i < fm.GetFactionsCount(); i++)
+		{
+			Faction faction = fm.GetFactionByIndex(i);
+			
+			if (VerifyFaction(faction))
+				_print(string.Format("%1: %2 - OK", i, faction.GetFactionKey()));
+			else
+				_print(string.Format("%1: %2 - Faction might be incompatible with Game Mode, check Faction Manager prefab!", i, faction.GetFactionKey()), LogLevel.WARNING);
+		}
+		
+		// Make copy of provided data
+		array<ref array<string>> factionsArrayArray = {};
+		foreach (int i, array<string> factionsArray : factionsArrayArray)
+		{
+			array<string> factionsArrayCopy = {};
+			factionsArrayCopy.Copy(factionsArray);
+			factionsArrayArray.Insert(factionsArrayCopy);
+		}
+		
+		if (factionsArrayArray.IsEmpty())
+		{
+			_print("Fatal error: m_aRefineFactions array is empty!", LogLevel.ERROR);
+			return false;
+		}
+		
+		// Verify that all faction keys are valid
+		_print("Verifying factions in Mission Header ...");
+		foreach (int i, array<string> factionsArray : factionsArrayArray)
+		{
+			_print(string.Format("  Faction array %1:", i));
+			
+			if (factionsArray.IsEmpty())
+			{
+				_print(string.Format("Fatal error: child array of m_aRefineFactions in Mission Header is empty!"), LogLevel.ERROR);
+				return false;
+			}	
+			
+			foreach (string factionKey : factionsArray)
+			{
+				if (!fm.GetFactionByKey(factionKey))
+				{
+					_print(string.Format("Fatal error: Faction with key '%1' was not found in FactionManager!", factionKey), LogLevel.ERROR);
+					return false;
+				}
+				else
+					_print(string.Format("    %1 - OK", factionKey));
+			}
+		}
+		
+		string factionKey0;
+		string factionKey1;
+		
+		if (factionsArrayArray.Count() == 1)
+		{
+			// One subarray, select two elements from here
+			array<string> factionsArray = factionsArrayArray[0];
+			if (factionsArray.Count() < 2)
+			{
+				_print("Fatal error: Not enough factions provided in m_aRefineFactions in Mission Header");
+				return false;
+			}
+			
+			int randId = factionsArray.GetRandomIndex();
+			factionKey0 = factionsArray[randId];
+			factionsArray.Remove(randId);
+			factionKey1 = factionsArray[factionsArray.GetRandomIndex()];
+		}
+		else
+		{
+			// Multiple subarrays
+			int randId = factionsArrayArray.GetRandomIndex();
+			array<string> factionsArray0 = factionsArrayArray[randId];
+			factionsArrayArray.Remove(randId);
+			array<string> factionsArray1 = factionsArrayArray[factionsArrayArray.GetRandomIndex()];
+			
+			factionKey0 = factionsArray0.GetRandomElement();
+			factionKey1 = factionsArray1.GetRandomElement();
+		}
+		
+		_print(string.Format("Selected factions from Mission Header: '%1', '%2'", factionKey0, factionKey1));
+		
+		return true;
+	}
+	// Verifies if faction is compatible with the game mode
+	bool VerifyFaction(Faction faction)
+	{
+		SCR_Faction scrFaction = SCR_Faction.Cast(faction);
+		if (!scrFaction)
+			return false;
+		
+		if (!scrFaction.GetAssetList() || scrFaction.GetAssetList().GetEntryCount() == 0)
+			return false;
+		
+		if (!scrFaction.GetRoleList() || scrFaction.GetRoleList().GetEntryCount() == 0)
+			return false;
+		
+		if (!scrFaction.GetBuildingList() || scrFaction.GetBuildingList().m_aEntries.IsEmpty())
+			return false;
+		
+		return true;
 	}
 	
 	// Returns true on success
