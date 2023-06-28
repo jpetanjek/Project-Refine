@@ -165,7 +165,7 @@ class PR_GameMode : SCR_BaseGameMode
 			
 			int factionId0 = -1;
 			int factionId1 = -1;
-			bool factionInitSuccess = InitFactions(header.m_aRefineFactions, header.m_bRefineShuffleFactionArrays, header.m_bRefineFinalShuffleFactions, factionId0, factionId1);
+			bool factionInitSuccess = InitFactions(header, factionId0, factionId1);
 			
 			if (!factionInitSuccess)
 			{
@@ -288,8 +288,11 @@ class PR_GameMode : SCR_BaseGameMode
 	}
 	
 	protected bool InitFactions(array<ref PR_FactionKeyArray> inFactionsArrayArray, bool shuffleFactionArrays, bool shuffleFactions, out int outFaction0, out int outFaction1)
+	protected bool InitFactions(PR_MissionHeader missionHeader, out int outFaction0, out int outFaction1)
 	{
 		_print("Initializing factions...");
+		
+		_print(string.Format("m_bRefineRandomFactionArrays: %1", missionHeader.m_bRefineRandomFactionArrays));
 		
 		// List factions in Faction Manager
 		FactionManager fm = GetGame().GetFactionManager();
@@ -305,34 +308,37 @@ class PR_GameMode : SCR_BaseGameMode
 		}
 		
 		// Make copy of provided data
-		array<ref PR_FactionKeyArray> factionsArrayArray = {};
-		foreach (int i, PR_FactionKeyArray factionsArray : inFactionsArrayArray)
+		array<ref array<string>> factionsFromHeader = {
+			missionHeader.m_aRefineFactions_0,
+			missionHeader.m_aRefineFactions_1,
+			missionHeader.m_aRefineFactions_2,
+			missionHeader.m_aRefineFactions_3
+		};
+		array<ref array<string>> factionsArrayArray = {};
+		foreach (int i, array<string> factionsArray : factionsFromHeader)
 		{
-			PR_FactionKeyArray factionsArrayCopy = new PR_FactionKeyArray();
-			factionsArrayCopy.factions = {};
-			factionsArrayCopy.factions.Copy(factionsArray.factions);
+			if (!factionsArray || factionsArray.IsEmpty())
+				continue;
+			
+			array<string> factionsArrayCopy = {};
+			
+			factionsArrayCopy.Copy(factionsArray);
 			factionsArrayArray.Insert(factionsArrayCopy);
 		}
 		
-		if (factionsArrayArray.Count() < 2)
+		if ((factionsArrayArray.Count() < 2))
 		{
-			_print("Fatal error: m_aRefineFactions array in Mission Header must have at least 2 objects!", LogLevel.ERROR);
+			_print("Fatal error: no factions provided through Mission Header!", LogLevel.ERROR);
 			return false;
 		}
 		
 		// Verify that all faction keys are valid
 		_print("Verifying factions in Mission Header ...");
-		foreach (int i, PR_FactionKeyArray factionsArray : factionsArrayArray)
+		foreach (int i, array<string> factionsArray : factionsArrayArray)
 		{
 			_print(string.Format("  Faction array %1:", i));
 			
-			if (!factionsArray.factions || factionsArray.factions.IsEmpty())
-			{
-				_print(string.Format("Fatal error: child array of m_aRefineFactions in Mission Header is empty!"), LogLevel.ERROR);
-				return false;
-			}	
-			
-			foreach (string factionKey : factionsArray.factions)
+			foreach (string factionKey : factionsArray)
 			{
 				if (!fm.GetFactionByKey(factionKey))
 				{
@@ -352,42 +358,34 @@ class PR_GameMode : SCR_BaseGameMode
 		array<string> factionsArray0;
 		array<string> factionsArray1;
 		
-		if (shuffleFactionArrays)
+		RandomGenerator generator = new RandomGenerator();
+		int generatorSeed = System.GetUnixTime();
+		_print(string.Format("Random generator seed: %1", generatorSeed));
+		generator.SetSeed(generatorSeed);
+		generator.RandInt(0, 3); // Otherwise first generated integer is not so random, I don't know how it's possible
+		generator.RandInt(0, 3);
+		generator.RandInt(0, 3);
+		
+		if (missionHeader.m_bRefineRandomFactionArrays)
 		{
-			int randId = factionsArrayArray.GetRandomIndex();
-			factionsArray0 = factionsArrayArray[randId].factions;
+			_print("Shuffling faction arrays");
+			
+			int randId = generator.RandInt(0, factionsArrayArray.Count());
+			factionsArray0 = factionsArrayArray[randId];
 			factionsArrayArray.Remove(randId);
-			factionsArray1 = factionsArrayArray[factionsArrayArray.GetRandomIndex()].factions;
+			randId = generator.RandInt(0, factionsArrayArray.Count());
+			factionsArray1 = factionsArrayArray[randId];
 		}
 		else
 		{
-			factionsArray0 = factionsArrayArray[0].factions;
-			factionsArray1 = factionsArrayArray[1].factions;
+			factionsArray0 = factionsArrayArray[0];
+			factionsArray1 = factionsArrayArray[1];
 		}
 		
-		factionKey0 = factionsArray0.GetRandomElement();
-		factionKey1 = factionsArray1.GetRandomElement();
+		factionKey0 = factionsArray0[generator.RandInt(0, factionsArray0.Count())];
+		factionKey1 = factionsArray1[generator.RandInt(0, factionsArray1.Count())];
 		
 		_print(string.Format("Selected factions from Mission Header: '%1', '%2'", factionKey0, factionKey1));
-		
-		if (shuffleFactions)
-		{
-			_print("Shuffling factions after selection...");
-			RandomGenerator generator = new RandomGenerator();
-			generator.SetSeed(System.GetUnixTime());
-			int randInt = generator.RandInt(0, 2048);
-			bool swapFactions = (randInt % 2) == 1;
-			_print(string.Format("  Random int: %1, factions will be swapped: %2", randInt, swapFactions));
-				
-			if (swapFactions)
-			{
-				string temp = factionKey0;
-				factionKey0 = factionKey1;
-				factionKey1 = temp;
-			}
-		}
-		
-		_print(string.Format("Final factions to be used: '%1', '%2'", factionKey0, factionKey1));
 		
 		outFaction0 = fm.GetFactionIndex(fm.GetFactionByKey(factionKey0));
 		outFaction1 = fm.GetFactionIndex(fm.GetFactionByKey(factionKey1));

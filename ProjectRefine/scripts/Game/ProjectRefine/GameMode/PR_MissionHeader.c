@@ -1,10 +1,3 @@
-[BaseContainerProps()]
-class PR_FactionKeyArray
-{
-	[Attribute()]
-	ref array<string> factions;
-}
-
 class PR_MissionHeader : SCR_MissionHeader
 {	
 	[Attribute("0", UIWidgets.ComboBox, desc: "Archetype of Game Mode", enums: ParamEnumArray.FromEnum(PR_EGameModeArchetype))]
@@ -23,11 +16,20 @@ class PR_MissionHeader : SCR_MissionHeader
 	//int m_iRefinePreparationPhaseDuration_s;
 	
 	[Attribute("0", UIWidgets.CheckBox)]
-	bool m_bRefineShuffleFactionArrays;
+	bool m_bRefineRandomFactionArrays;
 	
-	[Attribute("0", UIWidgets.CheckBox)]
-	bool m_bRefineFinalShuffleFactions;
+	//[Attribute("0", UIWidgets.CheckBox)]
+	//bool m_bRefineFinalShuffleFactions;
 	
-	[Attribute("", UIWidgets.Object)]
-	ref array<ref PR_FactionKeyArray> m_aRefineFactions;
+	[Attribute()]
+	ref array<string> m_aRefineFactions_0;
+	
+	[Attribute()]
+	ref array<string> m_aRefineFactions_1;
+	
+	[Attribute()]
+	ref array<string> m_aRefineFactions_2;
+	
+	[Attribute()]
+	ref array<string> m_aRefineFactions_3;
 }
