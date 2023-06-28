@@ -287,7 +287,6 @@ class PR_GameMode : SCR_BaseGameMode
 		m_iFactionScore1 = 100;
 	}
 	
-	protected bool InitFactions(array<ref PR_FactionKeyArray> inFactionsArrayArray, bool shuffleFactionArrays, bool shuffleFactions, out int outFaction0, out int outFaction1)
 	protected bool InitFactions(PR_MissionHeader missionHeader, out int outFaction0, out int outFaction1)
 	{
 		_print("Initializing factions...");
