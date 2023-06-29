@@ -13,11 +13,19 @@ Therefore same world can be reused with different factions or game mode types, a
 # Mission Header Configuration
 Those values are relevant for game mode configuration:
 
-`m_sRefineFaction_0`, `m_sRefineFaction_1` - these values specify keys of factions which will be used. (example: `US`, `USSR`, etc). Note that those factions must be specially configured (modded) to contain Escalation-specific data for Escalation to work properly. You can't simply use any faction until it has those values!
-
 `m_eRefineGameModeArchetype` - specifies the game mode type (Invasion or Advance and Secure)
 
-`m_bRefineRandomizeFactions` - when true, selected factions will be swapped with 50% chance.
+`m_bRefineRandomFactionArrays`, `m_aRefineFactions_0`, `...1`, `...2`, `...3` - these values control faction selection.
+
+You can specify up to 4 arrays with faction keys.
+
+If `m_bRefineRandomFactionArrays` is `0`, at start the game mode will select a random faction from first and second array.
+
+if `m_bRefineRandomFactionArrays` is '1', at start the game mode will select random factions from two random arrays. Factions from same array can not fight each other, but they will fight factions from other arrays.
+
+these values these arrays specify keys of factions which will be used. (example: `US`, `USSR`, etc). Note that those factions must be specially configured (modded) to contain Escalation-specific data for Escalation to work properly. You can't simply use any faction until it has those values!
+
+
 
 # Faction Configuration
 If you want to use own faction in Escalation, it must satisfy following criteria:
