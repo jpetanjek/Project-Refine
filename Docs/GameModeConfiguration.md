@@ -22,7 +22,7 @@ You can specify up to 4 arrays with faction keys.
 
 If `m_bRefineRandomFactionArrays` is `0`, at start the game mode will select a random faction from first and second array.
 
-If `m_bRefineRandomFactionArrays` is '1', at start the game mode will select random factions from two random arrays. Factions from same array can not fight each other, but they will fight factions from other arrays.
+If `m_bRefineRandomFactionArrays` is `1`, at start the game mode will select random factions from two random arrays. Factions from same array can not fight each other, but they will fight factions from other arrays.
 
 For example if you have arrays:
 - Array 0: `US`, `USMC`
@@ -37,9 +37,9 @@ If you have three arrays:
 
 Then following combinations will happen if `m_bRefineRandomFactionArrays` is `1`: `US`-`USSR`, `US`-`FIA`, `USSR`-`FIA`.
 
-But If `m_bRefineRandomFactionArrays` is '0', then only one combination is possible: `US`-`USSR`
+But If `m_bRefineRandomFactionArrays` is `0`, then only one combination is possible: `US`-`USSR`
 
-If `m_bRefineRandomFactionArrays` is `0`, then, even though game mode will select a random faction fr0m first and second array, the factions from first array will always occupy the first Main Base on the map. We recommend to set `m_bRefineRandomFactionArrays` to `1` for better variety, although you can set it to `0` if you want a specific faction to always be at same main base.
+If `m_bRefineRandomFactionArrays` is `0`, then, even though game mode will select a random faction from first and second array, the factions from first array will always occupy the first Main Base on the map. We recommend to set `m_bRefineRandomFactionArrays` to `1` for better variety, although you can set it to `0` if you want a specific faction to always be at same main base.
 
 You can also override the values via config.json:
 ```
