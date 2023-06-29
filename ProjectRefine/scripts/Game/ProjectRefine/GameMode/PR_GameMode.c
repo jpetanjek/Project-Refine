@@ -152,58 +152,32 @@ class PR_GameMode : SCR_BaseGameMode
 		
 		//--------------------------------------------------------
 		// Resolve factions
-		
-		array<int> factionIds = {};
-		FactionManager fm = GetGame().GetFactionManager();
-		if (!fm)
+		if (IsMaster())
 		{
-			_print("Fatal error: Faction Manager was not found.", LogLevel.ERROR);
-			return;
-		}
-		array<string> factionKeys = {header.m_sRefineFaction_0, header.m_sRefineFaction_1};
-		foreach (int i, string factionKey : factionKeys)
-		{
-			Faction faction = fm.GetFactionByKey(factionKey);
-			if (!faction)
+			FactionManager fm = GetGame().GetFactionManager();
+			if (!fm)
 			{
-				_print(string.Format("Fatal error: faction %1 with key \'%2\' was not found", i, factionKey), LogLevel.ERROR);
+				_print("Fatal error: Faction Manager was not found.", LogLevel.ERROR);
 				return;
 			}
 			
-			int factionId = fm.GetFactionIndex(faction);
-			_print(string.Format("Using faction %1: key \'%2\', ID: %3", i, factionKey, factionId));
-			factionIds.Insert(factionId);
-		}
-		
-		
-		//--------------------------------------------------------
-		// Randomize factions
-		
-		bool randomizeFactions = header.m_bRefineRandomizeFactions;
-		
-		// Randomize factions - if enabled
-		if (IsMaster())
-		{
-			if (randomizeFactions)
+			//array<ref PR_FactionKeyArray> inFactionsArrayArray, bool shuffleFactionArrays, bool shuffleFactions, out int outFaction0, out int outFaction1
+			
+			int factionId0 = -1;
+			int factionId1 = -1;
+			bool factionInitSuccess = InitFactions(header, factionId0, factionId1);
+			
+			if (!factionInitSuccess)
 			{
-				_print("Randomizing factions...");
-				RandomGenerator generator = new RandomGenerator();
-				generator.SetSeed(System.GetUnixTime());
-				int randInt = generator.RandInt(0, 2048);
-				bool shuffleFactions = (randInt % 2) == 0;
-				_print(string.Format("  Random int: %1, shuffle factions: %2", randInt, shuffleFactions));
-				
-				if (shuffleFactions)
-				{
-					int temp = factionIds[0];
-					factionIds[0] = factionIds[1];
-					factionIds[1] = temp;
-				}
+				_print("Fatal error: Failed to initialize factions", LogLevel.ERROR);
+				return;
 			}
 			
-			m_iFaction0 = factionIds[0];
-			m_iFaction1 = factionIds[1];
+			m_iFaction0 = factionId0;
+			m_iFaction1 = factionId1;
 			Replication.BumpMe();
+			
+			_print("Factions initialized successfully!", LogLevel.NORMAL);
 		}
 		
 		
@@ -313,6 +287,129 @@ class PR_GameMode : SCR_BaseGameMode
 		m_iFactionScore1 = 100;
 	}
 	
+	protected bool InitFactions(PR_MissionHeader missionHeader, out int outFaction0, out int outFaction1)
+	{
+		_print("Initializing factions...");
+		
+		_print(string.Format("m_bRefineRandomFactionArrays: %1", missionHeader.m_bRefineRandomFactionArrays));
+		
+		// List factions in Faction Manager
+		FactionManager fm = GetGame().GetFactionManager();
+		_print(string.Format("Found %1 factions in Faction Manager:", fm.GetFactionsCount()));
+		for (int i = 0; i < fm.GetFactionsCount(); i++)
+		{
+			Faction faction = fm.GetFactionByIndex(i);
+			
+			if (VerifyFaction(faction))
+				_print(string.Format("%1: %2 - OK", i, faction.GetFactionKey()));
+			else
+				_print(string.Format("%1: %2 - Faction might be incompatible with Game Mode, check Faction Manager prefab!", i, faction.GetFactionKey()), LogLevel.WARNING);
+		}
+		
+		// Make copy of provided data
+		array<ref array<string>> factionsFromHeader = {
+			missionHeader.m_aRefineFactions_0,
+			missionHeader.m_aRefineFactions_1,
+			missionHeader.m_aRefineFactions_2,
+			missionHeader.m_aRefineFactions_3
+		};
+		array<ref array<string>> factionsArrayArray = {};
+		foreach (int i, array<string> factionsArray : factionsFromHeader)
+		{
+			if (!factionsArray || factionsArray.IsEmpty())
+				continue;
+			
+			array<string> factionsArrayCopy = {};
+			
+			factionsArrayCopy.Copy(factionsArray);
+			factionsArrayArray.Insert(factionsArrayCopy);
+		}
+		
+		if ((factionsArrayArray.Count() < 2))
+		{
+			_print("Fatal error: no factions provided through Mission Header!", LogLevel.ERROR);
+			return false;
+		}
+		
+		// Verify that all faction keys are valid
+		_print("Verifying factions in Mission Header ...");
+		foreach (int i, array<string> factionsArray : factionsArrayArray)
+		{
+			_print(string.Format("  Faction array %1:", i));
+			
+			foreach (string factionKey : factionsArray)
+			{
+				if (!fm.GetFactionByKey(factionKey))
+				{
+					_print(string.Format("    Fatal error: Faction with key '%1' was not found in FactionManager!", factionKey), LogLevel.ERROR);
+					//return false;
+				}
+				else
+					_print(string.Format("    %1 - OK", factionKey));
+			}
+		}
+		
+		string factionKey0;
+		string factionKey1;
+		
+
+		// Multiple subarrays
+		array<string> factionsArray0;
+		array<string> factionsArray1;
+		
+		RandomGenerator generator = new RandomGenerator();
+		int generatorSeed = System.GetUnixTime();
+		_print(string.Format("Random generator seed: %1", generatorSeed));
+		generator.SetSeed(generatorSeed);
+		generator.RandInt(0, 3); // Otherwise first generated integer is not so random, I don't know how it's possible
+		generator.RandInt(0, 3);
+		generator.RandInt(0, 3);
+		
+		if (missionHeader.m_bRefineRandomFactionArrays)
+		{
+			_print("Shuffling faction arrays");
+			
+			int randId = generator.RandInt(0, factionsArrayArray.Count());
+			factionsArray0 = factionsArrayArray[randId];
+			factionsArrayArray.Remove(randId);
+			randId = generator.RandInt(0, factionsArrayArray.Count());
+			factionsArray1 = factionsArrayArray[randId];
+		}
+		else
+		{
+			factionsArray0 = factionsArrayArray[0];
+			factionsArray1 = factionsArrayArray[1];
+		}
+		
+		factionKey0 = factionsArray0[generator.RandInt(0, factionsArray0.Count())];
+		factionKey1 = factionsArray1[generator.RandInt(0, factionsArray1.Count())];
+		
+		_print(string.Format("Selected factions from Mission Header: '%1', '%2'", factionKey0, factionKey1));
+		
+		outFaction0 = fm.GetFactionIndex(fm.GetFactionByKey(factionKey0));
+		outFaction1 = fm.GetFactionIndex(fm.GetFactionByKey(factionKey1));
+		
+		return true;
+	}
+	// Verifies if faction is compatible with the game mode
+	bool VerifyFaction(Faction faction)
+	{
+		SCR_Faction scrFaction = SCR_Faction.Cast(faction);
+		if (!scrFaction)
+			return false;
+		
+		if (!scrFaction.GetAssetList() || scrFaction.GetAssetList().GetEntryCount() == 0)
+			return false;
+		
+		if (!scrFaction.GetRoleList() || scrFaction.GetRoleList().GetEntryCount() == 0)
+			return false;
+		
+		if (!scrFaction.GetBuildingList() || scrFaction.GetBuildingList().m_aEntries.IsEmpty())
+			return false;
+		
+		return true;
+	}
+	
 	// Returns true on success
 	protected bool FindCaptureAreas(notnull array<PR_CaptureArea> outAreas, bool enableLogging)
 	{
@@ -345,8 +442,8 @@ class PR_GameMode : SCR_BaseGameMode
 		if (enableLogging)
 		{
 			_print(string.Format("Found %1 capture areas:", areas.Count()));
-		foreach (int i, PR_CaptureArea a : m_aAreas)
-			_print(string.Format("%1: order: %2, entity: %3, name: %4", i, a.m_iOrder, a.GetOwner().GetName(), a.GetName()));
+			foreach (int i, PR_CaptureArea a : areas)
+				_print(string.Format("%1: order: %2, entity: %3, name: %4", i, a.m_iOrder, a.GetOwner().GetName(), a.GetName()));
 		}
 			
 		if (areas.Count() < 2)

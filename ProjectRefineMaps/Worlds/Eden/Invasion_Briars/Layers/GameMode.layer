@@ -1,7 +1,6 @@
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 4573.045 124.659 6603.706
- m_TestMissionHeader PR_MissionHeader "{5DA52457219DCEDF}" : "{FD3C617813516CB8}Configs/GameMode/PR_MissionHeaderTest.conf" {
-  m_eRefineGameModeArchetype INVASION
+ m_TestMissionHeader PR_MissionHeader "{5DB9511A098251B1}" : "{03AE5E3745ADC166}Missions/Eden_Invasion_Briars_64_US_USSR.conf" {
  }
 }
 GenericEntity : "{387E0BFDFD125FAE}Prefabs/GameMode/PR_Systems.et" {
