@@ -186,7 +186,7 @@ SizeLayoutWidgetClass {
               Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
              }
             }
-            OverlayWidgetClass "{5C6331A36DEFFCAC}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
+            OverlayWidgetClass "{5C6331A36DEFFCAC}" : "{5B539C4A95415691}UI/layouts/ListBox/ListBox.layout" {
              Name "m_VisibilityListbox"
              Slot LayoutSlot "{5C6331A36DEFFC8C}" {
              }

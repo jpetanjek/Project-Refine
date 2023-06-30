@@ -1,0 +1,28 @@
+OverlayWidgetClass {
+ Name "ListBox"
+ components {
+  SCR_ListBoxComponent "{566C9415BAA54E1B}" {
+   m_sElementLayout "{3121BDD71C35E46D}UI/layouts/ListBox/ListBoxElement_Text.layout"
+   m_sVerticalLayoutWidgetName "ListVerticalLayout"
+  }
+ }
+ {
+  ScrollLayoutWidgetClass "{5DBD5115AEF63514}" {
+   Name "ScrollLayout0"
+   Slot OverlayWidgetSlot "{56691148E692437F}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   Color 0.761 0.386 0.08 1
+   {
+    VerticalLayoutWidgetClass "{5DBD5115AEF63515}" {
+     Name "ListVerticalLayout"
+     Slot AlignableSlot "{56691148E013D9A9}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+    }
+   }
+  }
+ }
+}
