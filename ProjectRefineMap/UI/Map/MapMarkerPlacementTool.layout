@@ -11,7 +11,6 @@ SizeLayoutWidgetClass {
   PR_MapMarkerPlacementToolComponent "{5AE7758D8B9C9404}" {
   }
  }
- AllowWidthOverride 1
  WidthOverride 300
  HeightOverride 400
  {

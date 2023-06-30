@@ -39,6 +39,7 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 	
 	protected static int s_iSelectedVisibilityId = -1;
 	
+	protected ResourceName BUTTON_ROW_LAYOUT = "{24E28AA151F2E474}UI/Map/MapMarkerPlacementTool_ButtonsRow.layout";
 	
 	override void HandlerAttached(Widget w)
 	{
@@ -77,8 +78,7 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		int rowId = 0;
 		int colId = 0;
 		int widgetFlags = WidgetFlags.VISIBLE;
-		Widget rowWidget = GetGame().GetWorkspace().CreateWidget(
-			WidgetType.HorizontalLayoutWidgetTypeID, widgetFlags, Color.White, 0, widgets.m_IconSelectionVerticalLayout);
+		Widget rowWidget = GetGame().GetWorkspace().CreateWidgets(BUTTON_ROW_LAYOUT, widgets.m_IconSelectionVerticalLayout);
 		
 		for (int iconId = 0; iconId < nIcons; iconId++)
 		{
@@ -94,8 +94,7 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 			colId++;
 			if (colId == nCols)
 			{
-				rowWidget = GetGame().GetWorkspace().CreateWidget(
-					WidgetType.HorizontalLayoutWidgetTypeID, widgetFlags, Color.White, 0, widgets.m_IconSelectionVerticalLayout);
+				rowWidget = GetGame().GetWorkspace().CreateWidgets(BUTTON_ROW_LAYOUT, widgets.m_IconSelectionVerticalLayout);
 								
 				colId = 0;
 				rowId++;
@@ -121,8 +120,8 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 		int rowId = 0;
 		int colId = 0;
 		int widgetFlags = WidgetFlags.VISIBLE;
-		Widget rowWidget = GetGame().GetWorkspace().CreateWidget(
-			WidgetType.HorizontalLayoutWidgetTypeID, widgetFlags, Color.White, 0, widgets.m_ColorSelectionVerticalLayout);
+		
+		Widget rowWidget = GetGame().GetWorkspace().CreateWidgets(BUTTON_ROW_LAYOUT, widgets.m_ColorSelectionVerticalLayout);
 		
 		for (int i = 0; i < nItems; i++)
 		{
@@ -139,9 +138,8 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 			colId++;
 			if (colId == nCols)
 			{
-				rowWidget = GetGame().GetWorkspace().CreateWidget(
-					WidgetType.HorizontalLayoutWidgetTypeID, widgetFlags, Color.White, 0, widgets.m_ColorSelectionVerticalLayout);
-								
+				rowWidget = GetGame().GetWorkspace().CreateWidgets(BUTTON_ROW_LAYOUT, widgets.m_ColorSelectionVerticalLayout);
+							
 				colId = 0;
 				rowId++;
 			}
