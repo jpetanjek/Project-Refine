@@ -176,12 +176,9 @@ class PR_MapMarkerPlacementToolComponent : ScriptedWidgetComponent
 			haveOwnFaction = pc.GetControlledEntity() != null;
 			if (!haveOwnFaction)
 			{
-				SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-				SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(pc.GetPlayerId());
-				if (playerRespawnInfo)
-					haveOwnFaction = playerRespawnInfo.GetPlayerFactionIndex() >= 0;
+				haveOwnFaction = SCR_FactionManager.SGetPlayerFaction(pc.GetPlayerId());
 			}
-		}	
+		}
 		
 		int defaultSelection = 0;
 		bool myFactionOptionEnabled = true;
