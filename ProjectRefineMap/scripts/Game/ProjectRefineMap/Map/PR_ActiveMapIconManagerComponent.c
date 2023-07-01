@@ -137,62 +137,68 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		return a;
 	}
 	
-	// Server -> Player changed faction, execute streaming logic - stream in things he needs, stream out things he doesn't
-	override void HandleOnFactionAssigned(int playerID, Faction assignedFaction)
+	// Invoked on server when player has changed faction
+	// execute streaming logic - stream in things he needs, stream out things he doesn't
+	void OnPlayerFactionChanged_Server(SCR_PlayerFactionAffiliationComponent component, int factionIndex, bool response)
 	{
-		PlayerController localPC =  GetGame().GetPlayerManager().GetPlayerController(playerID);
-		if(localPC == null)
+		// Ignore if player failed to change faction
+		if (!response)
 			return;
 		
-		RplIdentity identity = localPC.GetRplIdentity();
+		PlayerController pc =  PlayerController.Cast(component.GetOwner());
+		if(!pc)
+			return;
+		
+		RplIdentity identity = pc.GetRplIdentity();
 		if(!identity.IsValid())
 			return;
 		
-		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		if (respawnSystem == null)
-			return;
+		int playerID = pc.GetPlayerId();
 		
-		if(Replication.IsServer())
-		{	
-			for(int i = 0; i < m_AllMarkers.Count(); i++)
+		for(int i = 0; i < m_AllMarkers.Count(); i++)
+		{
+			PR_ActiveMapIcon localMarker = m_AllMarkers.Get(i);
+			
+			if(localMarker)
 			{
-				PR_ActiveMapIcon localMarker = m_AllMarkers.Get(i);
-				
-				if(localMarker != null)
+				// Order its stream in to this player
+				RplComponent rpl = RplComponent.Cast(localMarker.FindComponent(RplComponent));
+				if(rpl != null)
 				{
-					// Order its stream in to this player
-					RplComponent rpl = RplComponent.Cast(localMarker.FindComponent(RplComponent));
-					if(rpl != null)
+					if (CanStream(playerID, localMarker))
 					{
-						if (CanStream(playerID, localMarker))
-						{
-							rpl.EnableStreamingConNode(identity, false);
-						}
-						else
-						{
-							rpl.EnableStreamingConNode(identity, true);
-						}
+						rpl.EnableStreamingConNode(identity, false);
+					}
+					else
+					{
+						rpl.EnableStreamingConNode(identity, true);
 					}
 				}
 			}
 		}
-		else 
-		{
-			// Client
-			FactionManager factionManager = GetGame().GetFactionManager();
-			if (factionManager == null)
-				return;
+	}
+	
+	void OnPlayerFactionChanged_Client(SCR_PlayerFactionAffiliationComponent component, int factionIndex, bool response)
+	{
+		// Ignore if we failed to change faction
+		if (!response)
+			return;
 		
-			int playerFaction = factionManager.GetFactionIndex(respawnSystem.GetPlayerFaction(localPC.GetPlayerId()));
+		// Client
+		Faction faction = SCR_FactionManager.SGetLocalPlayerFaction();
+		FactionManager fm = GetGame().GetFactionManager();
+		PlayerController pc = GetGame().GetPlayerController();
+		int playerId = pc.GetPlayerId();
+		
+		int playerFaction = fm.GetFactionIndex(faction);
+		
+		for(int i = 0; i < m_AllMarkers.Count(); i++)
+		{
+			PR_ActiveMapIcon localMarker = m_AllMarkers.Get(i);
 			
-			for(int i = 0; i < m_AllMarkers.Count(); i++)
+			if(localMarker != null)
 			{
-				PR_ActiveMapIcon localMarker = m_AllMarkers.Get(i);
-				
-				if(localMarker != null)
-				{
-					localMarker.OnPlayerFactionChanged(playerID, playerFaction);
-				}
+				localMarker.OnPlayerFactionChanged(playerId, playerFaction);
 			}
 		}
 	}
@@ -344,15 +350,25 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 		}
 	}
 	
-	override void OnPlayerConnected(int playerId)
+	/*!
+		Called on every machine after a player is registered (identity, name etc.). Always called after OnPlayerConnected.
+		\param playerId PlayerId of registered player.
+	*/
+	override void OnPlayerRegistered(int playerId)
 	{
+		// Client side
+		PlayerController localPc = GetGame().GetPlayerController();
+		if (localPc && localPc.GetPlayerId() == playerId)
+		{
+			SCR_PlayerFactionAffiliationComponent playerFactionAff = SCR_PlayerFactionAffiliationComponent.Cast(localPc.FindComponent(SCR_PlayerFactionAffiliationComponent));
+			playerFactionAff.GetOnPlayerFactionResponseInvoker_O().Insert(OnPlayerFactionChanged_Client);
+		}
+	
+		// !!! The rest is only for server
+		if (!Replication.IsServer())
+			return;
+		
 		// Server side streaming calls
-		if(Replication.IsClient())
-			return;
-		
-		if(m_AllMarkers == null)
-			return;
-		
 		array<int> indiciesToRemove = {};
 		
 		for(int i = 0; i < m_AllMarkers.Count(); i++)
@@ -385,10 +401,25 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 			}
 		}
 		
+		// Why is it needed here??
 		for(int j = 0; j < indiciesToRemove.Count(); j++)
 		{
 			m_AllMarkers.Remove(indiciesToRemove[j]);
 		}
+		
+		// Subscribe to faction change events
+		SCR_PlayerController playerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerId));
+
+		if (playerController)
+		{
+			SCR_PlayerFactionAffiliationComponent playerFactionAff = SCR_PlayerFactionAffiliationComponent.Cast(playerController.FindComponent(SCR_PlayerFactionAffiliationComponent));
+
+			if (playerFactionAff)
+			{
+				playerFactionAff.GetOnPlayerFactionResponseInvoker_S().Insert(OnPlayerFactionChanged_Server);
+			}
+		}
+		
 	}
 	
 	// Public inteface to add a map marker
