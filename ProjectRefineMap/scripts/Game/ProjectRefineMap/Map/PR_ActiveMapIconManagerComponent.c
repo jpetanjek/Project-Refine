@@ -116,16 +116,12 @@ class PR_ActiveMapIconManagerComponent: SCR_BaseGameModeComponent
 	}
 	
 	bool CanStream(int playerId, PR_ActiveMapIcon icon)
-	{
-		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		if (respawnSystem == null)
-			return false;
-		
+	{	
 		FactionManager factionManager = GetGame().GetFactionManager();
 		if (factionManager == null)
 			return false;
 		
-		int playerFaction = factionManager.GetFactionIndex(respawnSystem.GetPlayerFaction(playerId));
+		int playerFaction = factionManager.GetFactionIndex(SCR_FactionManager.SGetPlayerFaction(playerId));
 		
 		return playerFaction == icon.m_iFactionId || icon.m_iFactionId == -1 || (m_EditorManager && m_EditorManager.HasMode(EEditorMode.EDIT));
 	}
