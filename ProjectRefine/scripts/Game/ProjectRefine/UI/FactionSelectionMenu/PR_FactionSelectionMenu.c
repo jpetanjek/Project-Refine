@@ -75,8 +75,10 @@ class PR_FactionSelecitonMenu : ChimeraMenuBase
 		PR_FactionSelectionButtonComponent comp = PR_FactionSelectionButtonComponent.Cast(button.GetRootWidget().FindHandler(PR_FactionSelectionButtonComponent));
 		SCR_Faction faction = comp.GetFaction();
 		
-		SCR_RespawnComponent respawnComp = SCR_RespawnComponent.GetInstance();
-		respawnComp.RequestPlayerFaction(faction);
+		PlayerController pc = GetGame().GetPlayerController();
+		SCR_PlayerFactionAffiliationComponent factionComp = SCR_PlayerFactionAffiliationComponent.Cast(pc.FindComponent(SCR_PlayerFactionAffiliationComponent));
+		
+		factionComp.RequestFaction(faction);
 	}
 	
 	void OnGiveFactionButton()
