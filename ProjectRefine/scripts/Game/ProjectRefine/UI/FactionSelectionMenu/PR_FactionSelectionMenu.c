@@ -87,10 +87,4 @@ class PR_FactionSelecitonMenu : ChimeraMenuBase
 		fm.GetFactionsList(factions);
 		respawnComp.RequestPlayerFaction(factions[0]);
 	}
-	
-	void OnSpawnCharacterButton()
-	{
-		SCR_RespawnComponent respawnComp = SCR_RespawnComponent.GetInstance();
-		respawnComp.TempRequestSpawnPlayer();
-	}
 }
