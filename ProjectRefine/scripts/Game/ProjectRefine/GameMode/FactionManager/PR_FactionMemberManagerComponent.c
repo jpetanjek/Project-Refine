@@ -6,7 +6,7 @@ typedef func OnPlayerChangedFaction;
 void OnPlayerChangedFaction(int playerID, int newFactionIdx);
 
 typedef func OnFactionMembersChanged;
-void OnFactionMembersChanged(PR_FactionManager manager);
+void OnFactionMembersChanged(PR_FactionMemberManager manager);
 
 class PR_FactionMemberManager : PR_BaseGameModeComponent
 {
