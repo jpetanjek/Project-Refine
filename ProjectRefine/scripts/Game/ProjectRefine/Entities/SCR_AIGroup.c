@@ -39,7 +39,12 @@ modded class SCR_AIGroup
 		s_OnCustomDescChanged.Invoke();
 		reader.ReadString(m_sCustomName);
 		s_OnCustomNameChanged.Invoke();
-		reader.ReadString(m_sGroupFlag);
+		
+		if (!m_UiInfo)
+		 m_UiInfo = new SCR_AIGroupUIInfo();
+		
+		string flag = m_UiInfo.GetGroupFlag();
+		reader.ReadString(flag);
 		
 		RplId groupID;
 		reader.ReadRplId(groupID);
@@ -49,6 +54,7 @@ modded class SCR_AIGroup
 		
 		reader.ReadInt(m_iDescriptionAuthorID);
 		reader.ReadInt(m_iNameAuthorID);
+		reader.ReadInt(m_iMaxMembers);
 		
 		return true;
     }	
