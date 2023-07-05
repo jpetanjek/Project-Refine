@@ -132,7 +132,8 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 			m_GroupsMgr.GetOnPlayableGroupCreated().Insert(Event_OnPlayableGroupCreated);
 			m_GroupsMgr.GetOnPlayableGroupRemoved().Insert(Event_OnPlayableGroupRemoved);
 			
-			array<SCR_AIGroup> groups = m_GroupsMgr.GetAllPlayableGroups();
+			array<SCR_AIGroup> groups = {};
+			m_GroupsMgr.GetAllPlayableGroups(groups);
 			for(int i = 0; i < groups.Count(); i++)
 			{
 				groups[i].GetOnPlayerLeaderChanged().Insert(OnPlayerLeaderChanged);
