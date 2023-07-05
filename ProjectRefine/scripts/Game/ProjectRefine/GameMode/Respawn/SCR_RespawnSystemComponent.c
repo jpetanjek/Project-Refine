@@ -33,16 +33,4 @@ modded class SCR_RespawnSystemComponent
 		return factionMemberManager.GetPlayerFaction(playerId);
 	}
 	
-	override void SetPlayerFaction(int playerId, int factionIndex)
-	{
-		PR_FactionMemberManager factionMemberManager = PR_FactionMemberManager.GetInstance();
-		if(!factionMemberManager)
-			return;
-		
-		factionMemberManager.SetPlayerFaction(factionIndex, playerId);
-		
-		if (m_pGameMode)
-			m_pGameMode.HandleOnFactionAssigned(playerId, factionMemberManager.GetPlayerFaction(playerId));
-	}
-	
 }
