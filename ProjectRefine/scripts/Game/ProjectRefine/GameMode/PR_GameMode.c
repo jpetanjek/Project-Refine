@@ -1117,15 +1117,7 @@ class PR_GameMode : SCR_BaseGameMode
 			DrawGameModePanel();
 		
 		if (DiagMenu.GetBool(SCR_DebugMenuID.REFINE_OPEN_DEPLOYMENT_MENU))
-		{
-			// Assign faction to all players
-			array<int>  allPlayers = {};
-			GetGame().GetPlayerManager().GetAllPlayers(allPlayers);
-			foreach (int playerId : allPlayers)
-			{
-				SCR_RespawnSystemComponent.GetInstance().SetPlayerFaction(playerId, 0);
-			}
-			
+		{	
 			RpcDo_DiagOpenMenu(ChimeraMenuPreset.RefineDeploymentMenu);
 			Rpc(RpcDo_DiagOpenMenu, ChimeraMenuPreset.RefineDeploymentMenu);
 			
