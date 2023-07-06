@@ -322,7 +322,15 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		else	
 			dummyPrefab = faction.GetDummyPrefab();
 
-		IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(dummyPrefab, faction.GetFactionDummySpawnPosition());
+		EntitySpawnParams sp = new EntitySpawnParams();
+		sp.TransformMode = ETransformMode.WORLD;
+		sp.Transform[0] = Vector(1, 0, 0);
+		sp.Transform[1] = Vector(0, 1, 0);
+		sp.Transform[2] = Vector(0, 0, 1);
+		sp.Transform[3] = faction.GetFactionDummySpawnPosition();
+		IEntity ent = GetGame().SpawnEntityPrefab(Resource.Load(dummyPrefab), params: sp);
+		
+		//IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(dummyPrefab, faction.GetFactionDummySpawnPosition());
 		
 		// Verify that prefab name matches,
 		// If not then the whole logic fails and we will end up with entities being infinitely created

@@ -318,7 +318,15 @@ class PR_BaseSpawnPoint : ScriptComponent
 								PR_Role role = roleManager.GetPlayerRole(playerID);
 								if(role && CanPlayerSpawn(playerID) == PR_ESpawnCondition.SPAWN_AVAILABLE)
 								{
-									GenericEntity spawnedEntity = SCR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
+									EntitySpawnParams sp = new EntitySpawnParams();
+									sp.TransformMode = ETransformMode.WORLD;
+									sp.Transform[0] = Vector(1, 0, 0);
+									sp.Transform[1] = Vector(0, 1, 0);
+									sp.Transform[2] = Vector(0, 0, 1);
+									sp.Transform[3] = GetRandomSpawnPosition();
+									IEntity spawnedEntity = GetGame().SpawnEntityPrefab(Resource.Load(role.GetPrefab()), params: sp);
+									
+									//GenericEntity spawnedEntity = SCR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
 									
 									PR_PC_PossessionManagerComponent.GetPlayerInstance(playerID).PossessMainEntity(spawnedEntity);
 																	
