@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{1919612E04B4EF10}Prefabs/Characters/Factions/BLUFOR/US_Army/PR_Character_US_BaseLoadout.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
