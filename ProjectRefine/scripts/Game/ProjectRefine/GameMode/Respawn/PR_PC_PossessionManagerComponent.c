@@ -280,6 +280,9 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		// Editor UI will open itself.
 		// This is triggered by GameMode.OnControllableDeleted and whatever is subscribed to it.
 		
+		if (m_PlayerController.GetControlledEntity())
+			m_PlayerController.SetPossessedEntity(null);
+		
 		m_PlayerController.SetPossessedEntity(mainEntity);
 		
 		DeleteDummyEntity();
@@ -351,6 +354,9 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		
 		if (m_DummyEntity)
 		{
+			if (m_PlayerController.GetControlledEntity() == m_DummyEntity)
+				m_PlayerController.SetPossessedEntity(null);
+			
 			RplComponent.DeleteRplEntity(m_DummyEntity, false);
 			_print("...Deleted");
 		}
