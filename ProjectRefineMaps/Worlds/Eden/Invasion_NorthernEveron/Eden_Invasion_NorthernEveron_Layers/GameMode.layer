@@ -2,7 +2,9 @@ SCR_AIWorld : "{70CCCF16487C927F}Prefabs/AI/SCR_AIWorld_Eden.et" {
 }
 PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
  coords 4477.996 138.202 9461.423
- m_TestMissionHeader PR_MissionHeader "{5DA2B2C55530D4C3}" : "{705B92B1E6AC096C}Missions/Eden_Lamentin_Harbour_Invasion.conf" {
+ m_TestMissionHeader PR_MissionHeader "{5DA2B2C55530D4C3}" {
+  m_sRefineFaction_0 "US"
+  m_sRefineFaction_1 "USSR"
   m_eRefineGameModeArchetype INVASION
  }
 }
