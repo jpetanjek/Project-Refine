@@ -11,9 +11,9 @@ modded class SCR_FactionAffiliationComponent: FactionAffiliationComponent
 	}
 	
 	//--------------------------------------------------------------------------------------------------------------------------
-	override protected void OnFactionChanged()
+	override protected void OnFactionChanged(Faction previous, Faction current)
 	{	
-		super.OnFactionChanged(); // Here the events are invoked
+		super.OnFactionChanged(previous, current); // Here the events are invoked
 		
 		m_PrevFaction = GetAffiliatedFaction();
 	}
