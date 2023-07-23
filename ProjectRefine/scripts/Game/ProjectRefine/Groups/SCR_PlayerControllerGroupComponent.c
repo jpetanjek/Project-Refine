@@ -193,8 +193,8 @@ modded class SCR_PlayerControllerGroupComponent
 		else
 			squadRadioFrequency = groupsManager.GetSquadlessRadioFrequency(myFaction);	// Not in a group
 		
-		
-		TuneRadioTransceivers(squadRadio, true, squadRadioFrequency);
+		if (squadRadio)
+			TuneRadioTransceivers(squadRadio, true, squadRadioFrequency);
 		
 		// Commander radio - frequency depends on faction
 		if (commanderRadio)

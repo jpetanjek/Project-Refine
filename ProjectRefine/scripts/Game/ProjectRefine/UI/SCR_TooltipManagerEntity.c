@@ -7,21 +7,21 @@ modded class SCR_TooltipManagerEntity : GenericEntity
 		m_bCheckWidgetUnderCursor = newValue;
 	}
 	
-	static Widget CreateTooltipEx(ResourceName rsc, notnull Widget hoverWidget, bool followCursor = true, vector offset = "15 15 0", bool checkWidgetUnderCursor = true)
+	static Widget CreateTooltipEx(ResourceName rsc, notnull Widget hoverWidget, bool followCursor, vector offset, SCR_ETooltipAlignmentHorizontal horizontalAlignment, SCR_ETooltipAlignmentVertical verticalAlignment, bool checkWidgetUnderCursor = true)
 	{	
 		SCR_TooltipManagerEntity ent = GetInstance();
 		
 		if (!ent)
 			return null;
 		
-		Widget w = ent.Internal_CreateTooltip(rsc, hoverWidget, followCursor, offset);
+		Widget w = ent.Internal_CreateTooltip(rsc, hoverWidget, followCursor, offset, horizontalAlignment, verticalAlignment);
 		ent.SetCheckWidgetUnderCursor(checkWidgetUnderCursor);
 		return w;
 	}
 	
-	override protected Widget Internal_CreateTooltip(ResourceName rsc, Widget hoverWidget, bool followCursor, vector offset)
+	override protected Widget Internal_CreateTooltip(ResourceName rsc, Widget hoverWidget, bool followCursor, vector offset, SCR_ETooltipAlignmentHorizontal horizontalAlignment, SCR_ETooltipAlignmentVertical verticalAlignment)
 	{
-		Widget w = super.Internal_CreateTooltip(rsc, hoverWidget, followCursor, offset);
+		Widget w = super.Internal_CreateTooltip(rsc, hoverWidget, followCursor, offset, horizontalAlignment, verticalAlignment);
 		SetCheckWidgetUnderCursor(true); // For all default usage we want to keep that
 		
 		return w;

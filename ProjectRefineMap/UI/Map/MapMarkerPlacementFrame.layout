@@ -10,23 +10,6 @@ FrameWidgetClass {
     OffsetBottom -30
     SizeToContent 1
    }
-   AllowWidthOverride 0
-   {
-    OverlayWidgetClass "{5ACB13D7D5EEC67E}" {
-     Prefab "{5ACB13D7D5EEC67E}"
-     {
-      VerticalLayoutWidgetClass "{5ACB13D706CA8B45}" {
-       Prefab "{5ACB13D706CA8B45}"
-       {
-        HorizontalLayoutWidgetClass "{5AE8C92A22D09821}" {
-         Prefab "{5AE8C92A22D09821}"
-         Clipping Inherit
-        }
-       }
-      }
-     }
-    }
-   }
   }
  }
 }

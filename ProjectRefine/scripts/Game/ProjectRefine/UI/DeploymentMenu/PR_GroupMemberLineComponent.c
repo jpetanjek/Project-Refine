@@ -93,7 +93,9 @@ class PR_GroupMemberLineComponent : ScriptedWidgetComponent
 			widgets.m_ActionButton,
 			followCursor: false,
 			checkWidgetUnderCursor: false,
-			offset: "-5 10 0");
+			offset: "-5 10 0",
+			horizontalAlignment: SCR_ETooltipAlignmentHorizontal.CURSOR,
+			verticalAlignment: SCR_ETooltipAlignmentVertical.CURSOR);
 		
 		PR_GroupMemberTooltipComponent tooltipComp = PR_GroupMemberTooltipComponent.Cast(wTooltip.FindHandler(PR_GroupMemberTooltipComponent));
 		tooltipComp.Init(m_Group, m_iPlayerId);

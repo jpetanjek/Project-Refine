@@ -1,9 +1,9 @@
 GameProject {
  ID "ProjectRefineMaps"
- GUID "5DA518C5BE1B958A"
- TITLE "Escalation - Maps"
+ GUID "5DAB6E93AA04DBCB"
+ TITLE "Escalation - Maps (Dev)"
  Dependencies {
-  "5ACAD731DF897924" "58D0FB3206B6F859"
+  "5DAB6E93A9B5410A" "58D0FB3206B6F859"
  }
  Configurations {
   GameProjectConfig PC {

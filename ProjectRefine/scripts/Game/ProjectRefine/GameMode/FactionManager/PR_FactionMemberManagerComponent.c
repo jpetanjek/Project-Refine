@@ -6,7 +6,7 @@ typedef func OnPlayerChangedFaction;
 void OnPlayerChangedFaction(int playerID, int newFactionIdx);
 
 typedef func OnFactionMembersChanged;
-void OnFactionMembersChanged(PR_FactionManager manager);
+void OnFactionMembersChanged(PR_FactionMemberManager manager);
 
 class PR_FactionMemberManager : PR_BaseGameModeComponent
 {
@@ -101,7 +101,6 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 						if(newFactionIdx != oldFactionIdx)
 						{
 							m_OnPlayerChangedFaction.Invoke(playerID, newFactionIdx);
-							SCR_BaseGameMode.Cast(GetGame().GetGameMode()).HandleOnFactionAssigned(playerID, m_FactionManager.GetFactionByIndex(newFactionIdx));
 						}
 					}
 				}
@@ -114,7 +113,6 @@ class PR_FactionMemberManager : PR_BaseGameModeComponent
 					{
 						int playerID = m_aFactionMembers[i].m_aPlayers[j];
 						m_OnPlayerChangedFaction.Invoke(playerID, i);
-						SCR_BaseGameMode.Cast(GetGame().GetGameMode()).HandleOnFactionAssigned(playerID, m_FactionManager.GetFactionByIndex(i));
 					}
 				}
 			}
