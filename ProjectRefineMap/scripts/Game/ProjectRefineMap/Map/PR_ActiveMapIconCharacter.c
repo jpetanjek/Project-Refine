@@ -1,3 +1,9 @@
+enum PR_ECharacterIconFlags
+{
+	LEADER		= 1<<0,	// True when this character is leader of its group
+	UNCONSCIOUS = 1<<1	// True when unconscious
+}
+
 class PR_ActiveMapIconCharacterClass : PR_ActiveMapIconClass
 {
 }
@@ -8,15 +14,15 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 	[RplProp(onRplName: "UpdateFromReplicatedState")]
 	protected int m_iPlayerId;
 	
-	// True when this character is leader of its group
 	[RplProp(onRplName: "UpdateFromReplicatedState")]
-	protected bool m_bIsLeader;
+	protected PR_ECharacterIconFlags m_Flags;
 	
 	// Id of parent group of this character
 	[RplProp(onRplName: "UpdateFromReplicatedState")]
 	protected int m_iParentGroupId;
 	
 	protected AIAgent m_AIAgent;
+	protected CharacterControllerComponent m_CharacterController;
 	
 	// Map descriptor which makes an icon to highlight current player
 	protected MapDescriptorComponent m_MapDescriptorPlayerHighlight;
@@ -43,6 +49,7 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 	{
 		AIControlComponent aiControlComponent = AIControlComponent.Cast(target.FindComponent(AIControlComponent));
 		m_AIAgent = aiControlComponent.GetAIAgent();
+		m_CharacterController = CharacterControllerComponent.Cast(target.FindComponent(CharacterControllerComponent));
 	}
 	
 	override protected void UpdatePropsFromTarget()
@@ -65,7 +72,20 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 				m_iParentGroupId = aiGroup.GetGroupID();
 			}
 		}
-		m_bIsLeader = isLeader;
+		
+		if (isLeader)
+			m_Flags |= PR_ECharacterIconFlags.LEADER;
+		else
+			m_Flags &= ~(PR_ECharacterIconFlags.UNCONSCIOUS);
+		
+		// Check if we are unconscious
+		if (m_CharacterController)
+		{
+			if (m_CharacterController.IsUnconscious())
+				m_Flags |= PR_ECharacterIconFlags.UNCONSCIOUS;
+			else
+				m_Flags &= ~(PR_ECharacterIconFlags.UNCONSCIOUS);
+		}
 	}
 	
 	override protected void UpdateFromReplicatedState()
@@ -102,16 +122,21 @@ class PR_ActiveMapIconCharacter : PR_ActiveMapIcon
 		
 		// Icon image
 		string imageDef;
-		if (myGroupId == m_iParentGroupId && myGroupId != -1)
+		if (m_Flags & PR_ECharacterIconFlags.UNCONSCIOUS)
 		{
-			if (m_bIsLeader)
+			imageDef = "unconscious";
+			mapItem.SetAngle(0); // OVerride angle, set it back to 0
+		}
+		else if (myGroupId == m_iParentGroupId && myGroupId != -1)
+		{
+			if (m_Flags & PR_ECharacterIconFlags.LEADER)
 				imageDef = "character_leader_same_group";
 			else
 				imageDef = "character_same_group";
 		}
 		else
 		{
-			if (m_bIsLeader)
+			if (m_Flags & PR_ECharacterIconFlags.LEADER)
 				imageDef = "character_leader";
 			else
 				imageDef = "character";

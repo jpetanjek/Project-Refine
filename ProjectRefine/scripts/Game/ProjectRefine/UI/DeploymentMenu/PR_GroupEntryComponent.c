@@ -226,7 +226,9 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 			widgets.m_ActionButton,
 			followCursor: false,
 			checkWidgetUnderCursor: false,
-			offset: "-5 10 0");
+			offset: "-5 10 0",
+			horizontalAlignment: SCR_ETooltipAlignmentHorizontal.CURSOR,
+			verticalAlignment: SCR_ETooltipAlignmentVertical.CURSOR);
 		
 		PR_GroupTooltipComponent groupTooltipComp = PR_GroupTooltipComponent.Cast(wTooltip.FindHandler(PR_GroupTooltipComponent));
 		groupTooltipComp.Init(m_Group);

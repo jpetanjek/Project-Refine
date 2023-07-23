@@ -67,7 +67,9 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	int GetMarkerFactionId(PR_EMarkerVisibility markerVisibility)
+	// When placing marker, we must resolve to which faction it will be visible,
+	// based on visibility settings or entity we control
+	int ResolveMarkerFactionId(PR_EMarkerVisibility markerVisibility)
 	{
 		if (markerVisibility == PR_EMarkerVisibility.EVERYONE)
 			return -1; // Visible for every faction
@@ -89,16 +91,8 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 		}
 		
 		// Try get faction from respawn system
-		SCR_RespawnSystemComponent respawnSystem = SCR_RespawnSystemComponent.GetInstance();
-		SCR_PlayerRespawnInfo playerRespawnInfo = respawnSystem.FindPlayerRespawnInfo(pc.GetPlayerId());
-		if (playerRespawnInfo)
-		{
-			int factionId = playerRespawnInfo.GetPlayerFactionIndex();
-			if (factionId != -1)
-				return factionId;
-		} 
-		
-		return -1;
+		int factionId = SCR_FactionManager.SGetPlayerFaction(pc.GetPlayerId());
+		return factionId;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -110,7 +104,7 @@ class PR_ActiveMapIconPlayerControllerComponent : ScriptComponent
 		
 		int fromPlayerId = pc.GetPlayerId();
 		
-		int factionId = GetMarkerFactionId(markerVisibility);
+		int factionId = ResolveMarkerFactionId(markerVisibility);
 		
 		mgr.AddMapMarker(fromPlayerId, factionId, markerPos, markerText, markerIconName, markerColor);
 	}

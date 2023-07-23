@@ -132,7 +132,8 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 			m_GroupsMgr.GetOnPlayableGroupCreated().Insert(Event_OnPlayableGroupCreated);
 			m_GroupsMgr.GetOnPlayableGroupRemoved().Insert(Event_OnPlayableGroupRemoved);
 			
-			array<SCR_AIGroup> groups = m_GroupsMgr.GetAllPlayableGroups();
+			array<SCR_AIGroup> groups = {};
+			m_GroupsMgr.GetAllPlayableGroups(groups);
 			for(int i = 0; i < groups.Count(); i++)
 			{
 				groups[i].GetOnPlayerLeaderChanged().Insert(OnPlayerLeaderChanged);
@@ -279,6 +280,9 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		// Editor UI will open itself.
 		// This is triggered by GameMode.OnControllableDeleted and whatever is subscribed to it.
 		
+		if (m_PlayerController.GetControlledEntity())
+			m_PlayerController.SetPossessedEntity(null);
+		
 		m_PlayerController.SetPossessedEntity(mainEntity);
 		
 		DeleteDummyEntity();
@@ -321,7 +325,15 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		else	
 			dummyPrefab = faction.GetDummyPrefab();
 
-		IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(dummyPrefab, faction.GetFactionDummySpawnPosition());
+		EntitySpawnParams sp = new EntitySpawnParams();
+		sp.TransformMode = ETransformMode.WORLD;
+		sp.Transform[0] = Vector(1, 0, 0);
+		sp.Transform[1] = Vector(0, 1, 0);
+		sp.Transform[2] = Vector(0, 0, 1);
+		sp.Transform[3] = faction.GetFactionDummySpawnPosition();
+		IEntity ent = GetGame().SpawnEntityPrefab(Resource.Load(dummyPrefab), params: sp);
+		
+		//IEntity ent = SCR_RespawnSystemComponent.GetInstance().DoSpawn(dummyPrefab, faction.GetFactionDummySpawnPosition());
 		
 		// Verify that prefab name matches,
 		// If not then the whole logic fails and we will end up with entities being infinitely created
@@ -342,6 +354,9 @@ class PR_PC_PossessionManagerComponent : ScriptComponent
 		
 		if (m_DummyEntity)
 		{
+			if (m_PlayerController.GetControlledEntity() == m_DummyEntity)
+				m_PlayerController.SetPossessedEntity(null);
+			
 			RplComponent.DeleteRplEntity(m_DummyEntity, false);
 			_print("...Deleted");
 		}

@@ -50,18 +50,40 @@ modded class SCR_GroupsManagerComponent
 	//------------------------------------------------------------------------------------------------
 	//! Is called only on the server (authority)
 	//! The original method also creates a new group for no reason, we don't need this here
-	override void OnPlayerFactionChanged(int playerID, int factionIndex)
+	override void OnPlayerFactionChanged(notnull FactionAffiliationComponent owner, Faction previousFaction, Faction newFaction)
 	{
-		FactionManager factionManager = GetGame().GetFactionManager();
-		if (!factionManager)
+		if (!newFaction)
 			return;
 		
-		Faction faction = factionManager.GetFactionByIndex(factionIndex);
-		if (!faction)
+		SCR_Faction scrFaction = SCR_Faction.Cast(newFaction);
+		if (!scrFaction)
 			return;
-		//SCR_AIGroup newPlayerGroup = GetFirstNotFullForFaction(faction);
-		//if (!newPlayerGroup)
-		//	newPlayerGroup = CreateNewPlayableGroup(faction);
+		/*
+		if (scrFaction.GetCanCreateOnlyPredefinedGroups())
+			return;
+
+		SCR_AIGroup newPlayerGroup = GetFirstNotFullForFaction(newFaction);
+		if (!newPlayerGroup)
+			newPlayerGroup = CreateNewPlayableGroup(newFaction);
+		
+		//group creation can fail
+		if (!newPlayerGroup || !owner)
+			return;
+		
+		*/
+		PlayerController controller = PlayerController.Cast(owner.GetOwner());
+		if (!controller)
+			return;
+		
+		SCR_PlayerControllerGroupComponent groupComp = SCR_PlayerControllerGroupComponent.Cast(controller.FindComponent(SCR_PlayerControllerGroupComponent));
+		if (!groupComp)
+			return;
+
+		SCR_AIGroup oldGroup = FindGroup(groupComp.GetGroupID());
+		if (!oldGroup)
+			return;
+
+		oldGroup.RemovePlayer(controller.GetPlayerId());
 	}
 	
 	//------------------------------------------------------------------------------------------------

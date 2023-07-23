@@ -1,9 +1,9 @@
 ImageSetClass {
- RefSize 264 1564
+ RefSize 264 1568
  Textures {
   ImageSetTextureClass {
    screenSize FHD
-   size 264 1564
+   size 264 1568
    path "{B8C205DFA5E72995}UI/Map/Icons/MapIcons_atlas.edds"
   }
  }
@@ -16,7 +16,7 @@ ImageSetClass {
   }
   ImageSetDefClass arrow_left {
    Name "arrow_left"
-   Pos 2 783
+   Pos 2 1043
    Size 128 128
    Flags 0
   }
@@ -34,7 +34,7 @@ ImageSetClass {
   }
   ImageSetDefClass barrack {
    Name "barrack"
-   Pos 132 1432
+   Pos 2 913
    Size 128 128
    Flags 0
   }
@@ -58,7 +58,7 @@ ImageSetClass {
   }
   ImageSetDefClass character {
    Name "character"
-   Pos 2 913
+   Pos 2 1433
    Size 128 128
    Flags 0
   }
@@ -70,19 +70,19 @@ ImageSetClass {
   }
   ImageSetDefClass character_leader_same_group {
    Name "character_leader_same_group"
-   Pos 132 1042
+   Pos 2 1173
    Size 128 128
    Flags 0
   }
   ImageSetDefClass character_same_group {
    Name "character_same_group"
-   Pos 132 132
+   Pos 2 783
    Size 128 128
    Flags 0
   }
   ImageSetDefClass circle {
    Name "circle"
-   Pos 2 1043
+   Pos 132 132
    Size 128 128
    Flags 0
   }
@@ -124,7 +124,7 @@ ImageSetClass {
   }
   ImageSetDefClass small_dot {
    Name "small_dot"
-   Pos 2 1173
+   Pos 132 1042
    Size 128 128
    Flags 0
   }
@@ -134,9 +134,15 @@ ImageSetClass {
    Size 128 128
    Flags 0
   }
+  ImageSetDefClass unconscious {
+   Name "unconscious"
+   Pos 2 1303
+   Size 128 128
+   Flags 0
+  }
   ImageSetDefClass vehicle {
    Name "vehicle"
-   Pos 2 1303
+   Pos 132 1432
    Size 128 128
    Flags 0
   }
