@@ -38,7 +38,7 @@ class PR_AssetSpawner : GenericEntity
 	{
 		SetFlags(EntityFlags.ACTIVE, true);
 	
-		EntityEvent mask = EntityEvent.DIAG;
+		EntityEvent mask = 0; //EntityEvent.DIAG;
 		if(!Replication.IsClient())
 		{
 			mask |= EntityEvent.FRAME;

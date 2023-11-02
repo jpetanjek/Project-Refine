@@ -89,6 +89,7 @@ class PR_GroupMemberLineComponent : ScriptedWidgetComponent
 	
 	void OnActionButton()
 	{
+		/*
 		Widget wTooltip = SCR_TooltipManagerEntity.CreateTooltipEx("{8C2232C8A9444731}UI/DeploymentMenu/GroupMemberTooltip.layout",
 			widgets.m_ActionButton,
 			followCursor: false,
@@ -99,6 +100,7 @@ class PR_GroupMemberLineComponent : ScriptedWidgetComponent
 		
 		PR_GroupMemberTooltipComponent tooltipComp = PR_GroupMemberTooltipComponent.Cast(wTooltip.FindHandler(PR_GroupMemberTooltipComponent));
 		tooltipComp.Init(m_Group, m_iPlayerId);
+		*/
 	}
 	
 	protected void Event_OnRoleClaimsChanged(PR_GroupRoleManagerComponent groupRoleManagerComponent)

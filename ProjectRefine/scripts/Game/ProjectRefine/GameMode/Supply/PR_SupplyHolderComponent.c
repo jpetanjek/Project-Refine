@@ -51,7 +51,7 @@ class PR_SupplyHolderComponent : ScriptComponent
 	
 	override void EOnInit(IEntity owner)
 	{
-		SetEventMask(owner, EntityEvent.DIAG);
+		//SetEventMask(owner, EntityEvent.DIAG);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 		
 		if(m_RplComponent && !m_RplComponent.IsProxy())

@@ -114,9 +114,9 @@ class PR_BaseSpawnPoint : ScriptComponent
 	override void OnPostInit(IEntity owner)
 	{
 		if(Replication.IsServer())
-			SetEventMask(owner, EntityEvent.INIT | EntityEvent.DIAG | EntityEvent.FRAME);
+			SetEventMask(owner, EntityEvent.INIT /*| EntityEvent.DIAG*/ | EntityEvent.FRAME);
 		else
-			SetEventMask(owner, EntityEvent.INIT | EntityEvent.DIAG);
+			SetEventMask(owner, EntityEvent.INIT /*| EntityEvent.DIAG*/);
 		
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
@@ -291,7 +291,7 @@ class PR_BaseSpawnPoint : ScriptComponent
 	// Maybe better FixedFrame?
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
-		float currentTime_ms = Replication.Time();
+		float currentTime_ms = owner.GetWorld().GetWorldTime();
 		
 		// If respawn timer has ticked down
 		bool disableDeploymentChecks = DiagMenu.GetBool(SCR_DebugMenuID.REFINE_DISABLE_DEPLOYMENT_COUNTDOWN);
@@ -422,7 +422,7 @@ class PR_BaseSpawnPoint : ScriptComponent
 			
 			string s;
 			
-			float timeTilSpawnWave_ms = m_fNextRespawnWaveTime_ms - Replication.Time();
+			float timeTilSpawnWave_ms = m_fNextRespawnWaveTime_ms - owner.GetWorld().GetWorldTime();
 			float timeTillSpawnWave_s = timeTilSpawnWave_ms / 1000.0;
 			s = s + string.Format("Spawn Wave: %1\n", timeTillSpawnWave_s.ToString(4, 1));
 			

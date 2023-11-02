@@ -222,6 +222,7 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 	
 	protected void OnActionButton()
 	{
+		/*
 		Widget wTooltip = SCR_TooltipManagerEntity.CreateTooltipEx("{9EEDAB4F4D223D45}UI/DeploymentMenu/GroupTooltip.layout",
 			widgets.m_ActionButton,
 			followCursor: false,
@@ -232,6 +233,7 @@ class PR_GroupEntryComponent : ScriptedWidgetComponent
 		
 		PR_GroupTooltipComponent groupTooltipComp = PR_GroupTooltipComponent.Cast(wTooltip.FindHandler(PR_GroupTooltipComponent));
 		groupTooltipComp.Init(m_Group);
+		*/
 	}
 	
 	//--------------------------------------------------------------------------------

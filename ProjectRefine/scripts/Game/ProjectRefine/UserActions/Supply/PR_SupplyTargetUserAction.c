@@ -116,7 +116,7 @@ class PR_SupplyTargetUserAction : ScriptedUserAction
 			m_SupplyHolder.UpdateAvailableHolders();
 		}
 		
-		if (Replication.Time() >= m_fNextConditionCheck)
+		if (GetGame().GetWorld().GetWorldTime() >= m_fNextConditionCheck)
 		{
 			m_iCanTargetSupplyResult = CanTargetSupplies(user);
 			m_fNextConditionCheck += 250;

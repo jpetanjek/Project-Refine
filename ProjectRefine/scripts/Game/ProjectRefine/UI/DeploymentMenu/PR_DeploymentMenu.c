@@ -23,8 +23,9 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		
 		SCR_MapEntity.GetOnMapOpen().Insert(OnMapOpen);
 		
-		SCR_NavigationButtonComponent navBack = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Back", GetRootWidget());
-		navBack.m_OnActivated.Insert(OnBackButton);
+		// todo fix broken nav button
+		//SCR_NavigationButtonComponent navBack = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Back", GetRootWidget());
+		//navBack.m_OnActivated.Insert(OnBackButton);
 		
 		GetGame().GetInputManager().AddActionListener("ChatToggle", EActionTrigger.DOWN, OnChatToggleButton); 
 		
@@ -227,7 +228,7 @@ class PR_DeploymentMenu : ChimeraMenuBase
 		else
 		{
 			string name = m_SelectedSpawnPoint.m_SpawnPoint.GetName();
-			float timeLeft_ms = m_SelectedSpawnPoint.m_SpawnPoint.GetNextRespawnWaveTime() - Replication.Time();
+			float timeLeft_ms = m_SelectedSpawnPoint.m_SpawnPoint.GetNextRespawnWaveTime() - GetGame().GetWorld().GetWorldTime();
 			timeLeft_ms = Math.Clamp(timeLeft_ms, 0, timeLeft_ms);
 			spawnPointNameText = string.Format("%1 (%2 s)", name, Math.Floor(timeLeft_ms/1000.0));
 		}
@@ -259,7 +260,7 @@ class PR_DeploymentMenu : ChimeraMenuBase
 					if (m_SelectedSpawnPoint.m_SpawnPoint.IsPlayerEnqueued(GetGame().GetPlayerController().GetPlayerId()) )
 					{
 						buttonToggled = true; // Button is toggled only when we are enqueued at selected spawn point
-						deploymentTimeLeft = m_SelectedSpawnPoint.m_SpawnPoint.GetNextRespawnWaveTime() - Replication.Time();
+						deploymentTimeLeft = m_SelectedSpawnPoint.m_SpawnPoint.GetNextRespawnWaveTime() - GetGame().GetWorld().GetWorldTime();
 						showDeploymentCountdown = true;
 					}
 					

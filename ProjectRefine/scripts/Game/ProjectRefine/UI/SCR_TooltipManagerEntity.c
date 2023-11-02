@@ -7,6 +7,8 @@ modded class SCR_TooltipManagerEntity : GenericEntity
 		m_bCheckWidgetUnderCursor = newValue;
 	}
 	
+	/*
+	TODO fix broken tooltips FFS
 	static Widget CreateTooltipEx(ResourceName rsc, notnull Widget hoverWidget, bool followCursor, vector offset, SCR_ETooltipAlignmentHorizontal horizontalAlignment, SCR_ETooltipAlignmentVertical verticalAlignment, bool checkWidgetUnderCursor = true)
 	{	
 		SCR_TooltipManagerEntity ent = GetInstance();
@@ -18,7 +20,10 @@ modded class SCR_TooltipManagerEntity : GenericEntity
 		ent.SetCheckWidgetUnderCursor(checkWidgetUnderCursor);
 		return w;
 	}
+	*/
 	
+	/*
+	// todo fix tooltips potentially broken
 	override protected Widget Internal_CreateTooltip(ResourceName rsc, Widget hoverWidget, bool followCursor, vector offset, SCR_ETooltipAlignmentHorizontal horizontalAlignment, SCR_ETooltipAlignmentVertical verticalAlignment)
 	{
 		Widget w = super.Internal_CreateTooltip(rsc, hoverWidget, followCursor, offset, horizontalAlignment, verticalAlignment);
@@ -26,6 +31,7 @@ modded class SCR_TooltipManagerEntity : GenericEntity
 		
 		return w;
 	}
+	*/
 	
 	// Here we disable functionality that deletes tooltip if the widget under cursor stops is not m_wHoverWidget
 	override protected void EOnFrame(IEntity owner, float timeSlice)

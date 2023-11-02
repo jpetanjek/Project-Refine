@@ -10,8 +10,8 @@ class PR_FactionSelecitonMenu : ChimeraMenuBase
 		widgets.Init(GetRootWidget());
 		
 		// Back button
-		SCR_NavigationButtonComponent navBack = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Back", GetRootWidget());
-		navBack.m_OnActivated.Insert(OnBackButton);
+		//SCR_NavigationButtonComponent navBack = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Back", GetRootWidget());
+		//navBack.m_OnActivated.Insert(OnBackButton);
 		
 		InitFactionButtons();
 	}

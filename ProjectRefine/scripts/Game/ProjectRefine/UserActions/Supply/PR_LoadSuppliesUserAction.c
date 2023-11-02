@@ -103,7 +103,7 @@ class PR_LoadSuppliesUserAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
 	{
-		if (Replication.Time() >= m_fNextConditionCheck)
+		if (GetGame().GetWorld().GetWorldTime() >= m_fNextConditionCheck)
 		{
 			m_iCanLoadSuppliesResult = CanLoadSupplies(user);
 			m_fNextConditionCheck += 250;

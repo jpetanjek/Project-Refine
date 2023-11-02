@@ -58,10 +58,12 @@ class PR_BuildingProviderBaseComponent : ScriptComponent
 		return nearestProvider;
 	}
 	
+	/*
 	override void OnPostInit(IEntity owner)
 	{
 		SetEventMask(owner, EntityEvent.DIAG);
 	}
+	*/
 	
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{

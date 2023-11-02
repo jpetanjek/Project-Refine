@@ -130,7 +130,7 @@ class PR_CaptureAreaMapIconComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void OnMapOpen()
+	void OnMapOpen(MapConfiguration config)
 	{
 		// When map is opened, refresh the icon too, in case player's faction has changed
 		UpdateMapIcon();

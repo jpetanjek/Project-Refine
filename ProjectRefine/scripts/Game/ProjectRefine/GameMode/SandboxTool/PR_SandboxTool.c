@@ -45,8 +45,8 @@ class PR_SandboxTool
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void PR_SandboxTool()
-	{}
+	//void PR_SandboxTool()
+	//{}
 	
 	//------------------------------------------------------------------------------------------------
 	void PR_SandboxTool(ResourceName prefab, bool enabled = true)
