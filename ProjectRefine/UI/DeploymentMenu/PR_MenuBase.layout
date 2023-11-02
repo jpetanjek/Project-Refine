@@ -27,6 +27,22 @@ OverlayWidgetClass : "{BBD087BFC198428A}UI/layouts/WidgetLibrary/BaseElements/WL
        Slot LayoutSlot "{589F0497E391442C}" {
        }
        HeightOverride 60
+       {
+        HorizontalLayoutWidgetClass "{589F049780D13CD1}" {
+         Prefab "{589F049780D13CD1}"
+         {
+          ButtonWidgetClass "{589F049780D13CDF}" {
+           Prefab "{589F049780D13CDF}"
+           components {
+            SCR_WidgetExportRule "{5EC559ED8F011677}" {
+             ExportThisWidget 0
+             ExportChildWidgets 0
+            }
+           }
+          }
+         }
+        }
+       }
       }
      }
     }

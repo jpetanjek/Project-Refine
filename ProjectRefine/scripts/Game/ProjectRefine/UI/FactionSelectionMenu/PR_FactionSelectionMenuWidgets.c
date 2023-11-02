@@ -18,15 +18,15 @@ class PR_FactionSelectionMenuWidgets
 
 	bool Init(Widget root)
 	{
-		m_FactionButton0 = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.FactionSelection.Buttons.m_FactionButton0"));
+		m_FactionButton0 = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlayMain.HorizontalLayout.FactionSelection.Buttons.m_FactionButton0"));
 		m_FactionButton0Component0 = SCR_ModularButtonComponent.Cast(m_FactionButton0.FindHandler(SCR_ModularButtonComponent));
 		m_FactionButton0Component1 = PR_FactionSelectionButtonComponent.Cast(m_FactionButton0.FindHandler(PR_FactionSelectionButtonComponent));
 
-		m_FactionButton1 = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.FactionSelection.Buttons.m_FactionButton1"));
+		m_FactionButton1 = ButtonWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlayMain.HorizontalLayout.FactionSelection.Buttons.m_FactionButton1"));
 		m_FactionButton1Component0 = SCR_ModularButtonComponent.Cast(m_FactionButton1.FindHandler(SCR_ModularButtonComponent));
 		m_FactionButton1Component1 = PR_FactionSelectionButtonComponent.Cast(m_FactionButton1.FindHandler(PR_FactionSelectionButtonComponent));
 
-		m_GameModeName = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlay.HorizontalLayout.Overlay0.Tutorial.m_GameModeName"));
+		m_GameModeName = TextWidget.Cast(root.FindWidget("SizeBase.VerticalLayout0.ContentOverlayMain.HorizontalLayout.Overlay0.Tutorial.m_GameModeName"));
 
 		return true;
 	}
