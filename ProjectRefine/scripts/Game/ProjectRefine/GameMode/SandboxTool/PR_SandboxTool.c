@@ -43,18 +43,6 @@ class PR_SandboxTool
 	{
 		return m_ePhase;
 	}
-	
-	//------------------------------------------------------------------------------------------------
-	//void PR_SandboxTool()
-	//{}
-	
-	//------------------------------------------------------------------------------------------------
-	void PR_SandboxTool(ResourceName prefab, bool enabled = true)
-	{
-		m_sPrefab = prefab;
-		m_bEnabled = enabled;
-	}
-
 }
 
 enum PR_EPhase

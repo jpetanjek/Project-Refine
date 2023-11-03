@@ -324,7 +324,9 @@ class PR_BaseSpawnPoint : ScriptComponent
 									sp.Transform[1] = Vector(0, 1, 0);
 									sp.Transform[2] = Vector(0, 0, 1);
 									sp.Transform[3] = GetRandomSpawnPosition();
-									IEntity spawnedEntity = GetGame().SpawnEntityPrefab(Resource.Load(role.GetPrefab()), params: sp);
+									ResourceName prefabResourceName = role.GetPrefab();
+									Resource resource = Resource.Load(prefabResourceName);
+									IEntity spawnedEntity = GetGame().SpawnEntityPrefab(resource, params: sp);
 									
 									//GenericEntity spawnedEntity = SCR_RespawnSystemComponent.GetInstance().DoSpawn(role.GetPrefab(), GetRandomSpawnPosition());
 									
