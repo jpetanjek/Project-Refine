@@ -11,7 +11,7 @@ PR_GameMode PR_GameMode1 : "{6A8EDF43F16EBC73}Prefabs/GameMode/PR_GameMode.et" {
    "US"
   }
   m_aRefineFactions_1 {
-   "USSR" "FIA"
+   "USSR"
   }
  }
 }
