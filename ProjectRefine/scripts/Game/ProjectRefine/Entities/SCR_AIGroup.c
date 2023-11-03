@@ -45,6 +45,11 @@ modded class SCR_AIGroup
 		
 		string flag = m_UiInfo.GetGroupFlag();
 		reader.ReadString(flag);
+		m_UiInfo.SetGroupFlag(flag);
+		
+		bool isFromImageSet;
+		reader.ReadBool(isFromImageSet);
+		m_UiInfo.SetFlagIsFromImageSet(isFromImageSet);
 		
 		RplId groupID;
 		reader.ReadRplId(groupID);
@@ -57,5 +62,5 @@ modded class SCR_AIGroup
 		reader.ReadInt(m_iMaxMembers);
 		
 		return true;
-    }	
+    }
 }
