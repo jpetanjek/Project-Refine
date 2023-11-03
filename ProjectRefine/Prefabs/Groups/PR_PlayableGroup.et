@@ -6,6 +6,7 @@ SCR_AIGroup {
   PR_GroupRoleManagerComponent "{5CC53727566C1ADD}" {
   }
   SCR_CallsignGroupComponent "{5CC53723846E977D}" {
+   Enabled 0
   }
   RplComponent "{5CC53723846E977E}" {
    Streamable Disabled
