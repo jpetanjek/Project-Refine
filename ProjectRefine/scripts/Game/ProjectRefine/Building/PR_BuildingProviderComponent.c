@@ -58,12 +58,10 @@ class PR_BuildingProviderBaseComponent : ScriptComponent
 		return nearestProvider;
 	}
 	
-	/*
 	override void OnPostInit(IEntity owner)
 	{
-		SetEventMask(owner, EntityEvent.DIAG);
+		ConnectToDiagSystem(owner);
 	}
-	*/
 	
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
@@ -76,7 +74,7 @@ class PR_BuildingProviderBaseComponent : ScriptComponent
 			FactionManager fm = GetGame().GetFactionManager();
 			
 			string s;
-			s = s + string.Format("%1\n", this);
+			s = s + string.Format("%1\n", PR_Utils.GetObjectStringClassPointer(this));
 			s = s + string.Format("Enabled: %1, Order: %2, Range: %3\n", IsEnabled(), m_iOrder, GetRange().ToString(3, 0));
 			s = s + string.Format("Supply: %1, Faction: %2\n", GetSupply().ToString(4), GetOwnerFactionId());
 			

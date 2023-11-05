@@ -42,6 +42,8 @@ class PR_SupplyHolderComponent : ScriptComponent
 		
 		SetEventMask(owner, EntityEvent.INIT);
 		
+		ConnectToDiagSystem(owner);
+		
 		s_aAllHolders.Insert(this);
 		
 		m_physComponent = owner.GetPhysics();
@@ -51,7 +53,6 @@ class PR_SupplyHolderComponent : ScriptComponent
 	
 	override void EOnInit(IEntity owner)
 	{
-		//SetEventMask(owner, EntityEvent.DIAG);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 		
 		if(m_RplComponent && !m_RplComponent.IsProxy())

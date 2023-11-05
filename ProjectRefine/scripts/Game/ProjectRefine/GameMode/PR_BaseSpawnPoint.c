@@ -114,11 +114,13 @@ class PR_BaseSpawnPoint : ScriptComponent
 	override void OnPostInit(IEntity owner)
 	{
 		if(Replication.IsServer())
-			SetEventMask(owner, EntityEvent.INIT /*| EntityEvent.DIAG*/ | EntityEvent.FRAME);
+			SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
 		else
-			SetEventMask(owner, EntityEvent.INIT /*| EntityEvent.DIAG*/);
+			SetEventMask(owner, EntityEvent.INIT);
 		
 		owner.SetFlags(EntityFlags.ACTIVE, true);
+		
+		ConnectToDiagSystem(owner);
 	}
 	
 	//------------------------------------------------------------------------------------------------

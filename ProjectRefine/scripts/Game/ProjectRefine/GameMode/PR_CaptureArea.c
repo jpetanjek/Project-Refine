@@ -288,7 +288,8 @@ class PR_CaptureArea : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override void OnPostInit(IEntity owner)
 	{
-		SetEventMask(owner, EntityEvent.INIT /*| EntityEvent.DIAG*/);
+		SetEventMask(owner, EntityEvent.INIT);
+		ConnectToDiagSystem(owner);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
 	

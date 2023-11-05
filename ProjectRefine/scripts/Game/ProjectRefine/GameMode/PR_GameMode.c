@@ -122,8 +122,9 @@ class PR_GameMode : SCR_BaseGameMode
 	//-------------------------------------------------------------------------------------------------------------------------------
 	void PR_GameMode(IEntitySource src, IEntity parent)
 	{
-		int mask = EntityEvent.INIT | EntityEvent.FRAME /*| EntityEvent.DIAG*/;
+		int mask = EntityEvent.INIT | EntityEvent.FRAME;
 		SetEventMask(mask);
+		ConnectToDiagSystem();
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------------------

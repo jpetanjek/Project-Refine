@@ -38,13 +38,12 @@ class PR_AssetSpawner : GenericEntity
 	{
 		SetFlags(EntityFlags.ACTIVE, true);
 	
-		EntityEvent mask = 0; //EntityEvent.DIAG;
+		EntityEvent mask = 0;
 		if(!Replication.IsClient())
-		{
 			mask |= EntityEvent.FRAME;
-		}
 		
 		SetEventMask(mask);
+		ConnectToDiagSystem();
 	}
 	
 	//------------------------------------------------------------------------------------------------	
@@ -178,7 +177,7 @@ class PR_AssetSpawner : GenericEntity
 			string s;
 			s = s + string.Format("Type:        %1\n", typename.EnumToString(PR_EAssetType, m_AssetType));
 			s = s + string.Format("Destroyed:   %1\n", m_bDestroyed);
-			s = s + string.Format("Target:		%1\n", m_Target);
+			s = s + string.Format("Target:		%1\n", PR_Utils.GetEntityStringClassPointerPrefab(m_Target));
 			s = s + string.Format("Timer:       %1 / %2\n", m_fTimer_s.ToString(5, 1), m_fRespawnTime_s);
 			
 			vector pos = owner.GetOrigin() + Vector(0, 3, 0);
