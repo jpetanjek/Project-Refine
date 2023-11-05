@@ -20,7 +20,7 @@ modded class PauseMenuUI
 		//GetGame().GetWorkspace().AddModal(GetRootWidget(), GetRootWidget());
 		
 		// Change Faction
-		m_ChangeFactionButton = SCR_ButtonTextComponent.GetButtonText("ChangeFaction", m_wRoot);
+		m_ChangeFactionButton = SCR_ButtonTextComponent.GetButtonText("LeaveFaction", m_wRoot);
 		if (m_ChangeFactionButton)
 		{
 			m_ChangeFactionButton.m_OnClicked.Insert(OnChangeFaction);

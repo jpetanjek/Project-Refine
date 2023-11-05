@@ -13,7 +13,7 @@ modded class SCR_FactionManager
 		
 		// Modded in bull*** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		PR_FactionMemberManager memberManager = PR_FactionMemberManager.GetInstance();
-		memberManager.SetPlayerFaction(targetFaction.GetFactionKey(), targetPlayerId);
+		memberManager.SetPlayerFaction(targetFaction, targetPlayerId);
 
 		// See if we have a record of player in the map
 		SCR_PlayerFactionInfo foundInfo;
